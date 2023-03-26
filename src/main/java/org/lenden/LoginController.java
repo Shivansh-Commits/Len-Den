@@ -1,32 +1,28 @@
 package org.lenden;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import org.lenden.dao.daoImpl;
-
 import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
 
-public class LoginController implements Initializable
+
+public class LoginController
 {
-
-    public TextField username;
-    public PasswordField password;
     @FXML
-    private ComboBox userChoice;
+    private TextField username;
+    @FXML
+    private PasswordField password;
+    @FXML
+    private Button signInButton;
 
     @FXML
-    public void onSignIn(ActionEvent event) throws IOException {
+    public void onSignIn(ActionEvent event) throws IOException
+    {
         String user = username.getText();
         String pass = password.getText();
 
@@ -35,31 +31,41 @@ public class LoginController implements Initializable
         if( obj.login(user,pass) )
         {
             System.out.println("LOGIN SUCCESS");
-            App.setRoot("home");
+
+            //Opening up new Window (Home Screen)
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("home.fxml"));
+
+            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+            Stage stage = new Stage();
+            stage.setTitle("LenDen Home");
+            stage.setScene(scene);
+            stage.setMaximized(true);
+            stage.show();
         }
         else
         {
             System.out.println("LOGIN FAILURE");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong username or password.", ButtonType.OK);
+            alert.setHeaderText("Login Error");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+            username.clear();
+            password.clear();
         }
     }
 
-    public static String toRGBCode(Color color) {
-        return String.format("#%02X%02X%02X",
-                (int) (color.getRed() * 255),
-                (int) (color.getGreen() * 255),
-                (int) (color.getBlue() * 255));
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle)
+    @FXML
+    public void onMouseEnteredSignInButton(MouseEvent e)
     {
-        Color promptTextColor = Color.web("#B0B0B0");
-        String css = "-fx-prompt-text-fill: " + toRGBCode(promptTextColor) + ";";
-        userChoice.setStyle(css);
-
-        userChoice.setStyle(css);
-        userChoice.getItems().add("Admin");
-        userChoice.getItems().add("Staff");
+        signInButton.setStyle("-fx-background-color:white; -fx-text-fill:black;-fx-border-color:black; -fx-border-width:0.5;");
     }
+    @FXML
+    public void onMouseExitedSignInButton(MouseEvent e)
+    {
+        signInButton.setStyle("-fx-background-color:black; -fx-text-fill:white;");
+    }
+
 
 }
