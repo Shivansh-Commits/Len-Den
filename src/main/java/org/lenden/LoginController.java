@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.lenden.dao.daoImpl;
+import org.lenden.dao.DaoImpl;
+import org.lenden.model.Tenants;
+
 import java.io.IOException;
 
 
@@ -20,15 +22,17 @@ public class LoginController
     @FXML
     private Button signInButton;
 
+    Tenants tenant = new Tenants();
+
     @FXML
     public void onSignIn(ActionEvent event) throws IOException
     {
-        String user = username.getText();
-        String pass = password.getText();
+        tenant.setUsername(username.getText());
+        tenant.setPassword(password.getText().toCharArray());
 
-        daoImpl obj = new daoImpl();
+        DaoImpl daoimpl = new DaoImpl();
 
-        if( obj.login(user,pass) )
+        if( daoimpl.login(tenant) )
         {
             System.out.println("LOGIN SUCCESS");
 

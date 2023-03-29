@@ -1,27 +1,31 @@
 package org.lenden.dao;
 
+import org.lenden.model.Tenants;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Arrays;
 
 
-public class daoImpl
+public class DaoImpl
 {
-    org.lenden.dao.dao dao = new dao();
+    Dao dao = new Dao();
 
-    public boolean login(String username, String password)
+    public boolean login(Tenants tenant)
     {
         Connection c = dao.getConnection();
         Statement stmt;
 
         try {
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM users;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM tenants;");
             rs.next();
             String name = rs.getString("username");
-            String pass = rs.getString("password");
+            String passStr = rs.getString("password");
+            char[] pass = passStr.toCharArray();
 
-            if(pass.equals(password) && name.equals(username))
+            if(Arrays.equals(pass,tenant.getPassword()) && name.equals(tenant.getUsername()))
             {
                 return true;
             }
@@ -37,4 +41,6 @@ public class daoImpl
 
         return false;
     }
+
+
 }
