@@ -47,7 +47,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-         
+
       </AnchorPane>
    </right>
 </BorderPane>

@@ -7,7 +7,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import org.lenden.dao.daoImpl;
+import org.lenden.dao.DaoImpl;
+import org.lenden.model.Tenants;
+
 import java.io.IOException;
 
 
@@ -20,15 +22,18 @@ public class LoginController
     @FXML
     private Button signInButton;
 
+    Tenants tenant = new Tenants();
+
     @FXML
     public void onSignIn(ActionEvent event) throws IOException
     {
-        String user = username.getText();
-        String pass = password.getText();
 
-        daoImpl obj = new daoImpl();
+        tenant.setUsername(username.getText());
+        tenant.setPassword(password.getText());
 
-        if( obj.login(user,pass) )
+        DaoImpl daoimpl = new DaoImpl();
+
+        if( daoimpl.login(tenant) )
         {
             System.out.println("LOGIN SUCCESS");
 
@@ -42,6 +47,9 @@ public class LoginController
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.show();
+
+            Stage loginStage = (Stage) signInButton.getScene().getWindow();
+            loginStage.close();
         }
         else
         {
@@ -65,6 +73,11 @@ public class LoginController
     public void onMouseExitedSignInButton(MouseEvent e)
     {
         signInButton.setStyle("-fx-background-color:black; -fx-text-fill:white;");
+    }
+
+    public Tenants getTenant()
+    {
+        return tenant;
     }
 
 
