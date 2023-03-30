@@ -3,8 +3,16 @@ package org.lenden.model;
 public class Tenants
 {
 
-    private char[] password;
-    private String username;
+    public String password;
+    public String username;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getUsername() {
         return username;
@@ -14,14 +22,11 @@ public class Tenants
         this.username = username;
     }
 
-    public char[] getPassword() {
-        return password;
+    @Override
+    public String toString() {
+        return "Tenants{" +
+                "password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                '}';
     }
-
-    public void setPassword(char[] password) {
-        this.password = password;
-    }
-
-
-
 }

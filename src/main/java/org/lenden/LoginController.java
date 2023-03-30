@@ -27,8 +27,9 @@ public class LoginController
     @FXML
     public void onSignIn(ActionEvent event) throws IOException
     {
+
         tenant.setUsername(username.getText());
-        tenant.setPassword(password.getText().toCharArray());
+        tenant.setPassword(password.getText());
 
         DaoImpl daoimpl = new DaoImpl();
 
@@ -46,6 +47,9 @@ public class LoginController
             stage.setScene(scene);
             stage.setMaximized(true);
             stage.show();
+
+            Stage loginStage = (Stage) signInButton.getScene().getWindow();
+            loginStage.close();
         }
         else
         {
@@ -69,6 +73,11 @@ public class LoginController
     public void onMouseExitedSignInButton(MouseEvent e)
     {
         signInButton.setStyle("-fx-background-color:black; -fx-text-fill:white;");
+    }
+
+    public Tenants getTenant()
+    {
+        return tenant;
     }
 
 

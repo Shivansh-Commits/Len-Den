@@ -5,7 +5,6 @@ import org.lenden.model.Tenants;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.Arrays;
 
 
 public class DaoImpl
@@ -22,11 +21,14 @@ public class DaoImpl
             ResultSet rs = stmt.executeQuery("SELECT * FROM tenants;");
             rs.next();
             String name = rs.getString("username");
-            String passStr = rs.getString("password");
-            char[] pass = passStr.toCharArray();
+            String pass = rs.getString("password");
+            pass=pass.trim(); //to remove "\n" at the end of string
 
-            if(Arrays.equals(pass,tenant.getPassword()) && name.equals(tenant.getUsername()))
+            if(pass.equals(tenant.getPassword()) && name.equals(tenant.getUsername()))
             {
+                rs.close();
+                stmt.close();
+                c.close();
                 return true;
             }
 
