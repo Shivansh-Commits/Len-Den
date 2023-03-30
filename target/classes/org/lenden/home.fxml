@@ -7,14 +7,14 @@
 <BorderPane fx:id="homeScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
    <left>
       <VBox prefHeight="750.0" prefWidth="170.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
-         <children>
+
             <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="178.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="178.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="178.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="178.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="178.0" text="Button" />
             <Button mnemonicParsing="false" prefHeight="64.0" prefWidth="178.0" text="Button" />
-         </children>
+
       </VBox>
    </left>
 </BorderPane>
