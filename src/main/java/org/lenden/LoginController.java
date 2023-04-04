@@ -63,7 +63,6 @@ public class LoginController
             password.clear();
         }
     }
-
     @FXML
     public void onMouseEnteredSignInButton(MouseEvent e)
     {
