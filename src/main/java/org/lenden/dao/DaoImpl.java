@@ -20,9 +20,8 @@ public class DaoImpl
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tenants;");
             rs.next();
-            String name = rs.getString("username");
-            String pass = rs.getString("password");
-            pass=pass.trim(); //to remove "\n" at the end of string
+            String name = rs.getString("username").trim();
+            String pass = rs.getString("password").trim();  // .trim() is used to remove "\n" at the end of string
 
             if(pass.equals(tenant.getPassword()) && name.equals(tenant.getUsername()))
             {
