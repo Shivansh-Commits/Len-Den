@@ -39,7 +39,7 @@
             <Separator layoutX="53.0" layoutY="59.0" prefHeight="3.0" prefWidth="231.0" />
             <TextField fx:id="username" layoutX="53.0" layoutY="83.0" prefHeight="36.0" prefWidth="231.0" promptText="Enter Username" />
             <PasswordField fx:id="password" layoutX="53.0" layoutY="141.0" prefHeight="36.0" prefWidth="231.0" promptText="Enter Password" />
-            <Button fx:id="signInButton" defaultButton="true" layoutX="52.0" layoutY="207.0" mnemonicParsing="false" onAction="#onSignIn" onMouseEntered="#onMouseEnteredSignInButton" onMouseExited="#onMouseExitedSignInButton" prefHeight="36.0" prefWidth="231.0" style="-fx-background-color: black; -fx-border-width: 0.5; -fx-border-color: black;" text="Sign In" textFill="WHITE">
+            <Button fx:id="signInButton" defaultButton="true" layoutX="52.0" layoutY="207.0" mnemonicParsing="false" onAction="#onSignIn" prefHeight="36.0" prefWidth="231.0" styleClass="signInButton" stylesheets="@../../stylesheets/loginStyleSheet.css" text="Sign In" textFill="WHITE">
                <font>
                   <Font name="Segoe UI Semilight" size="14.0" />
                </font>

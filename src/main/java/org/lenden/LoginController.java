@@ -63,16 +63,6 @@ public class LoginController
             password.clear();
         }
     }
-    @FXML
-    public void onMouseEnteredSignInButton(MouseEvent e)
-    {
-        signInButton.setStyle("-fx-background-color:white; -fx-text-fill:black;-fx-border-color:black; -fx-border-width:0.5;");
-    }
-    @FXML
-    public void onMouseExitedSignInButton(MouseEvent e)
-    {
-        signInButton.setStyle("-fx-background-color:black; -fx-text-fill:white;");
-    }
 
     public Tenants getTenant()
     {

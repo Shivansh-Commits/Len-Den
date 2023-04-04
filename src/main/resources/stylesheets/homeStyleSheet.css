@@ -1,0 +1,8 @@
+.homeMenuItem {
+   -fx-background-color: black; /* default color */
+}
+
+.homeMenuItem:hover {
+   -fx-background-color: white; /* hover color */
+   -fx-text-fill: black;
+}
