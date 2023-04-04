@@ -11,7 +11,7 @@
 
 <BorderPane fx:id="homeScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
    <top>
-      <BorderPane prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+      <BorderPane fx:id="toolBar" prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
          <left>
             <AnchorPane prefHeight="50.0" prefWidth="47.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                <children>
@@ -28,7 +28,7 @@
    <left>
       <AnchorPane BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="699.0" prefWidth="48.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.7999999999999545" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="navBar" prefHeight="699.0" prefWidth="48.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.7999999999999545" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -80,11 +80,19 @@
                   </ImageView>
                </children>
             </VBox>
-            <AnchorPane layoutX="48.0" prefHeight="699.0" prefWidth="198.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane layoutX="48.0" prefHeight="699.0" prefWidth="161.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox prefHeight="701.0" prefWidth="198.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="navMenu" prefHeight="701.0" prefWidth="170.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Home" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Home" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Segoe UI Semilight" size="17.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Sales" textFill="#f4f4f4">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -92,7 +100,7 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Sales" textFill="#f4f4f4">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Menu" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -100,7 +108,15 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Menu" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Billing" textFill="WHITE">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <font>
+                              <Font name="Segoe UI Semilight" size="17.0" />
+                           </font>
+                        </Button>
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Settings" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -108,23 +124,7 @@
                               <Font size="17.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Billing" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Settings" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font size="17.0" />
-                           </font>
-                        </Button>
-                        <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Log-Out" textFill="WHITE">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Log-Out" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
