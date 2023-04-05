@@ -1,10 +1,13 @@
 package org.lenden;
 
-import javafx.animation.TranslateTransition;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
@@ -17,31 +20,30 @@ public class HomeController implements Initializable
     @FXML
     AnchorPane navMenu;
     @FXML
-    ImageView menuOpenButton;
+    Button openMenuButton;
     @FXML
-    ImageView menuCloseButton;
-
+    Button closeMenuButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         navMenu.setVisible(false);
-        menuCloseButton.setVisible(false);
-        menuOpenButton.setVisible(true);
-
+        closeMenuButton.setVisible(false);
     }
 
-    public void menuOpenButtonClicked(MouseEvent e)
+    @FXML
+    public void openMenuBar(MouseEvent e)
     {
         navMenu.setVisible(true);
-        menuCloseButton.setVisible(true);
-        menuOpenButton.setVisible(false);
+        closeMenuButton.setVisible(true);
+        openMenuButton.setVisible(false);
     }
 
-    public void menuCloseButtonClicked(MouseEvent e)
+    @FXML
+    public void closeMenuBar(MouseEvent e)
     {
         navMenu.setVisible(false);
-        menuCloseButton.setVisible(false);
-        menuOpenButton.setVisible(true);
+        closeMenuButton.setVisible(false);
+        openMenuButton.setVisible(true);
     }
 
 
