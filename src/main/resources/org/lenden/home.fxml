@@ -117,7 +117,7 @@
                <children>
                   <VBox prefHeight="701.0" prefWidth="154.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Home" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Home" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -128,7 +128,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Sales" textFill="#f4f4f4">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Sales" textFill="#f4f4f4">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -139,7 +139,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Menu" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Menu" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -150,7 +150,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Billing" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -161,7 +161,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Settings" textFill="WHITE">
+                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Settings" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
@@ -172,7 +172,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: black;" text="Log-Out" textFill="WHITE">
+                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="175.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Log-Out" textFill="WHITE">
                            <VBox.margin>
                               <Insets top="20.0" />
                            </VBox.margin>
