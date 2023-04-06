@@ -3,6 +3,7 @@ package org.lenden;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,16 +25,22 @@ public class HomeController implements Initializable
     @FXML
     Button closeMenuButton;
 
+    private Timeline timeline;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        navMenu.setVisible(false);
+        navMenu.setTranslateX(-200);
         closeMenuButton.setVisible(false);
+        openMenuButton.setVisible(true);
     }
 
     @FXML
     public void openMenuBar(MouseEvent e)
     {
         navMenu.setVisible(true);
+        TranslateTransition openNav=new TranslateTransition(new Duration(200),navMenu);
+        openNav.setToX(0);
+        openNav.play();
         closeMenuButton.setVisible(true);
         openMenuButton.setVisible(false);
     }
@@ -41,7 +48,16 @@ public class HomeController implements Initializable
     @FXML
     public void closeMenuBar(MouseEvent e)
     {
-        navMenu.setVisible(false);
+        TranslateTransition closeNav=new TranslateTransition(new Duration(200),navMenu);
+        closeNav.setToX(-(navMenu.getWidth()));
+        closeNav.play();
+        closeNav.setOnFinished(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent event) {
+                navMenu.setVisible(false);
+            }
+        });
         closeMenuButton.setVisible(false);
         openMenuButton.setVisible(true);
     }

@@ -49,79 +49,9 @@
       </BorderPane>
    </top>
    <left>
-      <AnchorPane fx:id="navBar" prefHeight="700.0" prefWidth="162.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="navBar" prefHeight="700.0" prefWidth="146.0" BorderPane.alignment="CENTER">
          <children>
-            <VBox prefHeight="699.0" prefWidth="47.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="7.0" right="7.0" top="15.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-            </VBox>
-            <AnchorPane fx:id="navMenu" layoutX="48.0" prefHeight="699.0" prefWidth="86.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="navMenu" layoutX="48.0" prefHeight="699.0" prefWidth="103.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
                <children>
                   <VBox prefHeight="701.0" prefWidth="103.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
@@ -198,7 +128,80 @@
                   </VBox>
                </children>
             </AnchorPane>
+            <VBox prefHeight="699.0" prefWidth="47.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="7.0" right="7.0" top="15.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+                  <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                     <VBox.margin>
+                        <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                     </VBox.margin>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </VBox>
          </children>
       </AnchorPane>
    </left>
+   <center>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: grey;" BorderPane.alignment="CENTER" />
+   </center>
 </BorderPane>
