@@ -29,11 +29,11 @@
       </BorderPane>
       <AnchorPane fx:id="navBar" layoutY="51.0" prefHeight="700.0" prefWidth="46.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
          <children>
-            <AnchorPane fx:id="navMenu" layoutX="48.0" prefHeight="699.0" prefWidth="103.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="navMenu" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox prefHeight="782.0" prefWidth="103.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="-48.0" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="103.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Home" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Home" textFill="WHITE">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -46,8 +46,15 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Sales" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Sales" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -57,8 +64,15 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Menu" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Menu" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -68,8 +82,15 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -79,8 +100,15 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Settings" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Settings" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -90,8 +118,15 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Log-Out" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Log-Out" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -101,81 +136,14 @@
                            <opaqueInsets>
                               <Insets />
                            </opaqueInsets>
+                           <graphic>
+                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </Button>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-            <AnchorPane AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <VBox prefHeight="699.0" prefWidth="47.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="7.0" right="7.0" top="15.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
-                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
-                           </image>
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
-                           </VBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ImageView>
                      </children>
                   </VBox>
                </children>
