@@ -14,3 +14,7 @@
     -fx-background-color : white;
 }
 
+.table {
+    -fx-background-color : balck;
+    -fx-border-color : white;
+}
