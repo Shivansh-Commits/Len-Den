@@ -14,3 +14,12 @@
     -fx-background-color : white;
 }
 
+.table {
+    -fx-background-color : black;
+    -fx-border-color : white;
+}
+
+.table:hover {
+    -fx-background-color : magenta;
+    -fx-border-color  : yellow;
+}
