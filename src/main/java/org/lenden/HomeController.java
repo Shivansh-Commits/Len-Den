@@ -22,25 +22,31 @@ public class HomeController implements Initializable
     @FXML
     AnchorPane navMenu;
     @FXML
-    Button openMenuButton;
-    @FXML
-    Button closeMenuButton;
-    @FXML
     AnchorPane centerContainer;
 
+    //Button openMenuButton;
+
+    //Button closeMenuButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        /*
 
         centerContainer.setTranslateX(-100);
 
         navMenu.setTranslateX(-200);
+
         closeMenuButton.setVisible(false);
         openMenuButton.setVisible(true);
+
+        */
     }
 
     @FXML
     public void openMenuBar(MouseEvent e)
     {
+        /*
+
         navMenu.setVisible(true);
 
         //Sliding side menu towards right
@@ -55,11 +61,15 @@ public class HomeController implements Initializable
 
         closeMenuButton.setVisible(true);
         openMenuButton.setVisible(false);
+
+        */
     }
 
     @FXML
     public void closeMenuBar(MouseEvent e)
     {
+        /*
+
         //Sliding nav Menu back in toward left
         TranslateTransition closeNav=new TranslateTransition(new Duration(200),navMenu);
         closeNav.setToX(-(navMenu.getWidth()));
@@ -80,6 +90,8 @@ public class HomeController implements Initializable
 
         closeMenuButton.setVisible(false);
         openMenuButton.setVisible(true);
+
+        */
     }
 
 }
