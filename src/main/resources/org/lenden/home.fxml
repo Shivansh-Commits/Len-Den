@@ -33,7 +33,7 @@
                <children>
                   <VBox layoutX="-48.0" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Home" textFill="WHITE">
+                        <Button fx:id="homeMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeHomeIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Home" textFill="WHITE">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -47,14 +47,14 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="homeIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../icons/black/home_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Sales" textFill="WHITE">
+                        <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Sales" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -65,14 +65,14 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="salesIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../icons/black/outline_sales_black_24.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Menu" textFill="WHITE">
+                        <Button fx:id="menuMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeMenuIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Menu" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -83,14 +83,14 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="menuIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../icons/black/outline_restaurant_menu_black_24.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
+                        <Button fx:id="currencyMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeCurrencyIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -101,14 +101,14 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="currencyIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../icons/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Settings" textFill="WHITE">
+                        <Button fx:id="settingsMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSettingsIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Settings" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -119,14 +119,14 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="settingsIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../icons/black/outline_settings_black_24.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Log-Out" textFill="WHITE">
+                        <Button fx:id="logoutMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeLogoutIcon" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Log-Out" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -137,9 +137,9 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="logoutIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../icons/black/logout_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -172,7 +172,7 @@
                <center>
                   <Accordion prefHeight="770.0" prefWidth="495.0" BorderPane.alignment="CENTER">
                     <panes>
-                      <TitledPane animated="false" prefHeight="718.0" prefWidth="983.0" text="Area - 1">
+                      <TitledPane prefHeight="718.0" prefWidth="983.0" text="Area - 1">
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                                  <children>
@@ -276,7 +276,7 @@
                               </AnchorPane>
                         </content>
                       </TitledPane>
-                      <TitledPane animated="false" text="Area - 2">
+                      <TitledPane text="Area - 2">
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                                  <children>

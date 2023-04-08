@@ -10,10 +10,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Duration;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.Properties;
 import java.util.ResourceBundle;
 
 
@@ -22,76 +29,132 @@ public class HomeController implements Initializable
     @FXML
     AnchorPane navMenu;
     @FXML
-    AnchorPane centerContainer;
+    Button homeMenuButton;
+    @FXML
+    ImageView homeIcon;
+    @FXML
+    Button salesMenuButton;
+    @FXML
+    ImageView salesIcon;
+    @FXML
+    Button menuMenuButton;
+    @FXML
+    ImageView menuIcon;
+    @FXML
+    Button currencyMenuButton;
+    @FXML
+    ImageView currencyIcon;
+    @FXML
+    Button settingsMenuButton;
+    @FXML
+    ImageView settingsIcon;
+    @FXML
+    Button logoutMenuButton;
+    @FXML
+    ImageView logoutIcon;
 
-    //Button openMenuButton;
-
-    //Button closeMenuButton;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        /*
 
-        centerContainer.setTranslateX(-100);
-
-        navMenu.setTranslateX(-200);
-
-        closeMenuButton.setVisible(false);
-        openMenuButton.setVisible(true);
-
-        */
     }
 
     @FXML
-    public void openMenuBar(MouseEvent e)
-    {
-        /*
+    public void changeHomeIcon(MouseEvent e) throws IOException {
+        Properties props = new Properties();
+        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+        props.load(inputStream);
 
-        navMenu.setVisible(true);
+        String white_home_icon = props.getProperty("white-home-icon");
+        String black_home_icon = props.getProperty("black-home-icon");
 
-        //Sliding side menu towards right
-        TranslateTransition openNav=new TranslateTransition(new Duration(200),navMenu);
-        openNav.setToX(0);
-        openNav.play();
+        homeIcon.setImage(new Image(white_home_icon));
 
-        //Sliding the center container towards right
-        TranslateTransition slideCenterContainer = new TranslateTransition(Duration.seconds(0.2), centerContainer);
-        slideCenterContainer.setToX(0);
-        slideCenterContainer.play();
-
-        closeMenuButton.setVisible(true);
-        openMenuButton.setVisible(false);
-
-        */
-    }
-
-    @FXML
-    public void closeMenuBar(MouseEvent e)
-    {
-        /*
-
-        //Sliding nav Menu back in toward left
-        TranslateTransition closeNav=new TranslateTransition(new Duration(200),navMenu);
-        closeNav.setToX(-(navMenu.getWidth()));
-        closeNav.play();
-
-        //Sliding the center container back in towards left
-        TranslateTransition slideCenterContainer = new TranslateTransition(Duration.seconds(0.2), centerContainer);
-        slideCenterContainer.setToX(-100);
-        slideCenterContainer.play();
-
-        closeNav.setOnFinished(new EventHandler<ActionEvent>()
-        {
-            @Override
-            public void handle(ActionEvent event) {
-                navMenu.setVisible(false);
-            }
+        homeMenuButton.setOnMouseExited(event -> {
+            homeIcon.setImage(new Image(black_home_icon));
         });
-
-        closeMenuButton.setVisible(false);
-        openMenuButton.setVisible(true);
-
-        */
     }
+
+    @FXML
+    public void changeSalesIcon(MouseEvent e) throws IOException {
+        Properties props = new Properties();
+        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+        props.load(inputStream);
+
+        String white_sales_icon = props.getProperty("white-sales-icon");
+        String black_sales_icon = props.getProperty("black-sales-icon");
+
+        salesIcon.setImage(new Image(white_sales_icon));
+
+        salesMenuButton.setOnMouseExited(event -> {
+            salesIcon.setImage(new Image(black_sales_icon));
+        });
+    }
+
+    @FXML
+    public void changeMenuIcon(MouseEvent e) throws IOException {
+        Properties props = new Properties();
+        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+        props.load(inputStream);
+
+        String white_menu_icon = props.getProperty("white-menu-icon");
+        String black_menu_icon = props.getProperty("black-menu-icon");
+
+        menuIcon.setImage(new Image(white_menu_icon));
+
+        menuMenuButton.setOnMouseExited(event -> {
+            menuIcon.setImage(new Image(black_menu_icon));
+        });
+    }
+
+    @FXML
+    public void changeCurrencyIcon(MouseEvent e) throws IOException {
+        Properties props = new Properties();
+        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+        props.load(inputStream);
+
+        String white_currency_icon = props.getProperty("white-currency-icon");
+        String black_currency_icon = props.getProperty("black-currency-icon");
+
+        currencyIcon.setImage(new Image(white_currency_icon));
+
+        currencyMenuButton.setOnMouseExited(event -> {
+            currencyIcon.setImage(new Image(black_currency_icon));
+        });
+    }
+
+    @FXML
+    public void changeSettingsIcon(MouseEvent e) throws IOException {
+        Properties props = new Properties();
+        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+        props.load(inputStream);
+
+        String white_settings_icon = props.getProperty("white-settings-icon");
+        String black_settings_icon = props.getProperty("black-settings-icon");
+
+        settingsIcon.setImage(new Image(white_settings_icon));
+
+        settingsMenuButton.setOnMouseExited(event -> {
+            settingsIcon.setImage(new Image(black_settings_icon));
+        });
+    }
+
+    @FXML
+    public void changeLogoutIcon(MouseEvent e) throws IOException {
+        Properties props = new Properties();
+        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+        props.load(inputStream);
+
+        String white_logout_icon = props.getProperty("white-logout-icon");
+        String black_logout_icon = props.getProperty("black-logout-icon");
+
+        logoutIcon.setImage(new Image(white_logout_icon));
+
+        logoutMenuButton.setOnMouseExited(event -> {
+            logoutIcon.setImage(new Image(black_logout_icon));
+        });
+    }
+
+
 
 }
