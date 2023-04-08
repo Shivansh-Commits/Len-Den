@@ -1,0 +1,13 @@
+.signInButton {
+   -fx-background-color: black; /* default color */
+   -fx-border-color: black;
+   -fx-border-width : 0.5;
+   -fx-text-fill: white;
+}
+
+.signInButton:hover {
+   -fx-background-color: white; /* default color */
+      -fx-border-color: black;
+      -fx-border-width : 0.5;
+      -fx-text-fill: black;
+}

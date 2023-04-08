@@ -2,192 +2,525 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="homeScreen" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="750.0" prefWidth="1125.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
-   <top>
-      <BorderPane fx:id="toolBar" prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
-         <left>
-            <AnchorPane prefHeight="50.0" prefWidth="47.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-               <children>
-                  <ImageView fx:id="menuOpenButton" fitHeight="51.0" fitWidth="34.0" layoutX="7.0" layoutY="8.0" onMouseClicked="#menuOpenButtonClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0">
-                     <image>
-                        <Image url="@../../icons/menu_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fx:id="menuCloseButton" fitHeight="34.0" fitWidth="40.0" layoutX="5.0" layoutY="8.0" onMouseClicked="#menuCloseButtonClicked" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="7.0">
-                     <image>
-                        <Image url="@../../icons/remove_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-               <cursor>
-                  <Cursor fx:constant="DEFAULT" />
-               </cursor>
-            </AnchorPane>
-         </left>
+<AnchorPane prefHeight="814.0" prefWidth="1516.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
+   <children>
+      <BorderPane prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="142.0" text="₹ LenDen" textFill="WHITE" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="32.0" />
+               </font>
+            </Label>
+         </center>
       </BorderPane>
-   </top>
-   <left>
-      <AnchorPane fx:id="navBar" prefHeight="700.0" prefWidth="162.0" BorderPane.alignment="CENTER">
+      <AnchorPane fx:id="navBar" layoutY="51.0" prefHeight="700.0" prefWidth="46.0" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="51.0">
          <children>
-            <VBox prefHeight="699.0" prefWidth="47.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="navMenu" layoutX="48.0" prefHeight="699.0" prefWidth="103.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
-                     </image>
-                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="20.0" />
-                     </VBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ImageView>
-               </children>
-            </VBox>
-            <AnchorPane fx:id="navMenu" layoutX="48.0" prefHeight="699.0" prefWidth="153.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="48.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <VBox prefHeight="701.0" prefWidth="154.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox prefHeight="782.0" prefWidth="103.0" styleClass="menuBar" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Home" textFill="WHITE">
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="103.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Home" textFill="WHITE">
                            <VBox.margin>
-                              <Insets top="20.0" />
+                              <Insets />
                            </VBox.margin>
                            <font>
-                              <Font name="Segoe UI Semilight" size="17.0" />
+                              <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Sales" textFill="#f4f4f4">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Sales" textFill="WHITE">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Menu" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Menu" textFill="WHITE">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Billing" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
                            <font>
-                              <Font name="Segoe UI Semilight" size="17.0" />
+                              <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
-                        <Button alignment="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="199.0" style="-fx-background-color: black;" text="Settings" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Settings" textFill="WHITE">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
-                        <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="40.0" prefWidth="175.0" style="-fx-background-color: black;" text="Log-Out" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets top="20.0" />
-                           </VBox.margin>
+                        <Button accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" mnemonicParsing="false" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Log-Out" textFill="WHITE">
                            <font>
-                              <Font size="17.0" />
+                              <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
                            <cursor>
                               <Cursor fx:constant="HAND" />
                            </cursor>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
                         </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <AnchorPane AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox prefHeight="699.0" prefWidth="47.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/home_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="7.0" right="7.0" top="15.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/monitoring_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/add_shopping_cart_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/settings_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
+                        <ImageView fitHeight="33.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../icons/logout_FILL0_wght400_GRAD0_opsz48.png" />
+                           </image>
+                           <VBox.margin>
+                              <Insets bottom="5.0" left="7.0" right="7.0" top="20.0" />
+                           </VBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ImageView>
                      </children>
                   </VBox>
                </children>
             </AnchorPane>
          </children>
       </AnchorPane>
-   </left>
-</BorderPane>
+      <AnchorPane layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="151.20000000000005" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.60000000000002">
+         <children>
+            <BorderPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <right>
+                  <TabPane prefHeight="770.0" prefWidth="661.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                      <Tab text="Table BIlling">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                      <Tab text="Single Bill">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+               </right>
+               <center>
+                  <Accordion prefHeight="770.0" prefWidth="495.0" BorderPane.alignment="CENTER">
+                    <panes>
+                      <TitledPane animated="false" prefHeight="718.0" prefWidth="983.0" text="Area - 1">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Area - 2">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                      </TitledPane>
+                      <TitledPane animated="false" text="Area - 3">
+                           <content>
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
+                                 <children>
+                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                                       <children>
+                                          <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
+                                             <font>
+                                                <Font name="System Bold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Pane>
+                                 </children>
+                              </AnchorPane>
+                           </content>
+                      </TitledPane>
+                    </panes>
+                  </Accordion>
+               </center>
+            </BorderPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

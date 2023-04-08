@@ -1,0 +1,25 @@
+.homeMenuItem {
+   -fx-background-color: white; /* default color */
+   -fx-text-fill: black;
+   -fx-border-radius:0px;
+}
+
+.homeMenuItem:hover {
+   -fx-background-color: black; /* hover color */
+   -fx-text-fill: white;
+   -fx-border-radius:0px;
+}
+
+.menuBar {
+    -fx-background-color : white;
+}
+
+.table {
+    -fx-background-color : black;
+    -fx-border-color : white;
+}
+
+.table:hover {
+    -fx-background-color : magenta;
+    -fx-border-color  : yellow;
+}
