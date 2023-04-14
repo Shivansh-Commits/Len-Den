@@ -5,6 +5,8 @@
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -17,7 +19,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="814.0" prefWidth="1516.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
+<AnchorPane prefHeight="813.0" prefWidth="1485.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
    <children>
       <BorderPane prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -153,9 +155,46 @@
       </AnchorPane>
       <AnchorPane layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="151.20000000000005" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.60000000000002">
          <children>
-            <SplitPane dividerPositions="0.5" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.4772656974945871" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <items>
-                  <Accordion prefHeight="770.0" prefWidth="495.0">
+                  <TabPane prefHeight="763.0" prefWidth="511.0" style="-fx-background-color: black;" tabClosingPolicy="UNAVAILABLE">
+                    <tabs>
+                      <Tab closable="false" text="Single Bill">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="735.0" prefWidth="511.0">
+                                 <children>
+                                    <ScrollPane layoutX="33.0" layoutY="33.0" prefHeight="109.0" prefWidth="614.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="621.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                      <content>
+                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="110.0" prefWidth="859.6">
+                                             <children>
+                                                <Button layoutX="9.0" layoutY="2.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Favourites" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutX="128.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Main Course" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="122.8" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutX="288.0" layoutY="-3.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Breads" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="245.6" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutX="298.0" layoutY="7.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Dessert" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="368.4" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutX="308.0" layoutY="17.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Bevereges" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="491.2" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutX="318.0" layoutY="27.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Snacks" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="614.0" AnchorPane.topAnchor="0.0" />
+                                                <Button layoutX="318.0" layoutY="27.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Extras" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="736.8" AnchorPane.topAnchor="0.0" />
+                                             </children>
+                                          </AnchorPane>
+                                      </content>
+                                    </ScrollPane>
+                                    <SplitPane layoutY="112.0" prefHeight="200.0" prefWidth="583.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="112.0">
+                                       <items>
+                                          <ListView fx:id="menuItemsList" prefHeight="200.0" prefWidth="566.0" />
+                                       </items>
+                                    </SplitPane>
+                                 </children>
+                              </AnchorPane>
+                        </content>
+                      </Tab>
+                      <Tab closable="false" text="Table BIlling">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                    </tabs>
+                  </TabPane>
+                  <Accordion prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: black;">
                     <panes>
                       <TitledPane prefHeight="718.0" prefWidth="983.0" text="Area - 1">
                         <content>
@@ -263,7 +302,7 @@
                       </TitledPane>
                       <TitledPane text="Area - 2">
                            <content>
-                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
+                              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="109.0" prefWidth="843.0" style="-fx-background-color: black;">
                                  <children>
                                     <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                        <children>
@@ -471,20 +510,6 @@
                       </TitledPane>
                     </panes>
                   </Accordion>
-                  <TabPane prefHeight="770.0" prefWidth="661.0" tabClosingPolicy="UNAVAILABLE">
-                    <tabs>
-                      <Tab text="Table BIlling">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </Tab>
-                      <Tab text="Single Bill">
-                        <content>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                        </content>
-                      </Tab>
-                    </tabs>
-                  </TabPane>
                </items>
             </SplitPane>
          </children>
