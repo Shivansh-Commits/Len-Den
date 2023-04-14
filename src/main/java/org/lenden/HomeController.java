@@ -1,13 +1,18 @@
 package org.lenden;
 
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import org.lenden.dao.DaoImpl;
+import org.lenden.model.MenuItems;
+
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,9 +50,19 @@ public class HomeController implements Initializable
     @FXML
     ImageView logoutIcon;
 
+    @FXML
+    ObservableList<MenuItems> items;
+
+    @FXML
+    ListView<MenuItems> menuItemsList;
+
+
+    DaoImpl daoimpl = new DaoImpl();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        items = daoimpl.getMenuItems("Main Course");
+        menuItemsList.setItems(items);
 
     }
 

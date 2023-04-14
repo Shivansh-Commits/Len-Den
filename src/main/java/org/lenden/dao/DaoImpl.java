@@ -1,30 +1,40 @@
 package org.lenden.dao;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.List;
 
 
 public class DaoImpl
 {
     Dao dao = new Dao();
 
-    public boolean login(Tenants tenant)
+    Tenants tenantName = new Tenants();
+
+
+    public boolean login(Tenants tenantInfo)
     {
-        Connection c = dao.getConnection();
+
         Statement stmt;
 
         try {
+            Connection c = dao.getConnection();
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM tenants;");
             rs.next();
             String name = rs.getString("username").trim();
             String pass = rs.getString("password").trim();  // .trim() is used to remove "\n" at the end of string
 
-            if(pass.equals(tenant.getPassword()) && name.equals(tenant.getUsername()))
+            if(pass.equals(tenantInfo.getPassword()) && name.equals(tenantInfo.getUsername()))
             {
+                tenantName.setUsername(name);
                 rs.close();
                 stmt.close();
                 c.close();
@@ -41,6 +51,46 @@ public class DaoImpl
         }
 
         return false;
+    }
+
+
+    public ObservableList<MenuItems> getMenuItems(String category)
+    {
+        ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
+        Statement stmt;
+
+        try {
+            Connection c = dao.getConnection();
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM tenant1.menu;");
+
+            while(rs.next())
+            {
+                MenuItems temp = new MenuItems();
+                temp.setFoodItem(rs.getString("foodItemName"));
+                temp.setPrice(rs.getString("price"));
+                temp.setAvailability(rs.getBoolean("availability"));
+                menuItemList.add(temp);
+            }
+
+            if(menuItemList != null)
+            {
+                rs.close();
+                stmt.close();
+                c.close();
+                return menuItemList;
+            }
+
+            rs.close();
+            stmt.close();
+            c.close();
+        }
+        catch(Exception e)
+        {
+            e.getMessage();
+        }
+
+        return null;
     }
 
 
