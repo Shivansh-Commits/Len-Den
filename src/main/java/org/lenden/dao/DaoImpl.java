@@ -6,10 +6,8 @@ import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.List;
 
 
 public class DaoImpl
@@ -54,7 +52,7 @@ public class DaoImpl
     }
 
 
-    public ObservableList<MenuItems> getMenuItems(String category)
+    public ObservableList<MenuItems> getCategoryItems(String category)
     {
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
         Statement stmt;

@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -50,19 +51,32 @@ public class HomeController implements Initializable
     @FXML
     ImageView logoutIcon;
 
-    @FXML
     ObservableList<MenuItems> items;
 
     @FXML
-    ListView<MenuItems> menuItemsList;
-
+    TableView<MenuItems> menuItemsTable;
 
     DaoImpl daoimpl = new DaoImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        items = daoimpl.getMenuItems("Main Course");
-        menuItemsList.setItems(items);
+        items = daoimpl.getCategoryItems("Main Course");
+
+        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItem"));
+
+        // Create a cell value factory for the Price column
+        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        // Create a cell value factory for the Availability column
+        TableColumn<MenuItems, Boolean> availCol = new TableColumn<>("Availability");
+        availCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+
+        // Set the cell value factories for the table columns
+        menuItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
+
+        menuItemsTable.setItems(items);
 
     }
 
@@ -96,6 +110,7 @@ public class HomeController implements Initializable
         salesMenuButton.setOnMouseExited(event -> {
             salesIcon.setImage(new Image(black_sales_icon));
         });
+        inputStream.close();
     }
 
     @FXML
