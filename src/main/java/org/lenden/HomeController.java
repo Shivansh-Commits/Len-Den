@@ -50,17 +50,28 @@ public class HomeController implements Initializable
     Button logoutMenuButton;
     @FXML
     ImageView logoutIcon;
-
-    ObservableList<MenuItems> items;
-
     @FXML
     TableView<MenuItems> menuItemsTable;
+    @FXML
+    Button mainCourseCategoryButton;
+    @FXML
+    Button beveregesCategoryButton;
+    @FXML
+    Button breadsCategoryButton;
+    @FXML
+    Button dessertCategoryButton;
+    @FXML
+    Button snackCategoryButton;
+    @FXML
+    Button extraCategoryButton;
+
+    ObservableList<MenuItems> items;
 
     DaoImpl daoimpl = new DaoImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        items = daoimpl.getCategoryItems("Main Course");
+        items = daoimpl.getCategoryItems("Bevereges");
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItem"));
@@ -77,6 +88,33 @@ public class HomeController implements Initializable
         menuItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
 
         menuItemsTable.setItems(items);
+
+    }
+
+    @FXML
+    public void displayMenuItems(MouseEvent e)
+    {
+        Button clickedButton = (Button) e.getSource();
+        String category = clickedButton.getText();
+
+        items = daoimpl.getCategoryItems(category);
+
+        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItem"));
+
+        // Create a cell value factory for the Price column
+        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        // Create a cell value factory for the Availability column
+        TableColumn<MenuItems, Boolean> availCol = new TableColumn<>("Availability");
+        availCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+
+        // Set the cell value factories for the table columns
+        menuItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
+
+        menuItemsTable.setItems(items);
+
 
     }
 

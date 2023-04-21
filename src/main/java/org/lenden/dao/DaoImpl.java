@@ -6,6 +6,7 @@ import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -55,12 +56,14 @@ public class DaoImpl
     public ObservableList<MenuItems> getCategoryItems(String category)
     {
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
-        Statement stmt;
+        PreparedStatement stmt;
 
         try {
             Connection c = dao.getConnection();
-            stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM tenant1.menu;");
+
+            stmt  = c.prepareStatement("SELECT * FROM tenant1.menu WHERE category = ?");
+            stmt.setString(1,category);
+            ResultSet rs = stmt.executeQuery();
 
             while(rs.next())
             {
