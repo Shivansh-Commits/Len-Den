@@ -183,9 +183,9 @@
                                        <items>
                                           <TableView fx:id="menuItemsTable" prefHeight="200.0" prefWidth="200.0">
                                             <columns>
-                                              <TableColumn maxWidth="350.0" minWidth="200.0" prefWidth="398.4000366806986" text="Name" />
-                                              <TableColumn maxWidth="150.0" minWidth="100.0" prefWidth="153.60000610351562" text="Price" />
-                                                <TableColumn maxWidth="150.0" minWidth="100.0" prefWidth="128.800048828125" text="Availability" />
+                                              <TableColumn maxWidth="350.0" minWidth="350.0" prefWidth="398.4000366806986" text="Name" />
+                                              <TableColumn maxWidth="150.0" minWidth="200.0" prefWidth="153.60000610351562" text="Price" />
+                                                <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="128.800048828125" text="Availability" />
                                             </columns>
                                           </TableView>
                                        </items>
