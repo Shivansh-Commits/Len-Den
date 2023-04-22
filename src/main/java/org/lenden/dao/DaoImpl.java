@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
+import static org.lenden.LoginController.getTenant;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,11 +12,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 
+
+
 public class DaoImpl
 {
     Dao dao = new Dao();
 
-    Tenants tenantName = new Tenants();
+    public String tenantId = getTenant() ;
 
 
     public boolean login(Tenants tenantInfo)
@@ -26,14 +29,14 @@ public class DaoImpl
         try {
             Connection c = dao.getConnection();
             stmt = c.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM tenants;");
+            ResultSet rs = stmt.executeQuery("SELECT * FROM public.tenants where username = '"+tenantInfo.getUsername()+"' AND password='"+tenantInfo.getPassword()+"';");
             rs.next();
             String name = rs.getString("username").trim();
-            String pass = rs.getString("password").trim();  // .trim() is used to remove "\n" at the end of string
+            String pass = rs.getString("password").trim();  // .trim() is used to remove "\n" or " " at the end of string
 
             if(pass.equals(tenantInfo.getPassword()) && name.equals(tenantInfo.getUsername()))
             {
-                tenantName.setUsername(name);
+
                 rs.close();
                 stmt.close();
                 c.close();
@@ -52,16 +55,16 @@ public class DaoImpl
         return false;
     }
 
-
     public ObservableList<MenuItems> getCategoryItems(String category)
     {
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
+
         try {
             Connection c = dao.getConnection();
 
-            stmt  = c.prepareStatement("SELECT * FROM tenant1.menu WHERE category = ?");
+            stmt  = c.prepareStatement("SELECT * FROM "+tenantId+".menu WHERE category = ?");
             stmt.setString(1,category);
             ResultSet rs = stmt.executeQuery();
 
@@ -74,7 +77,7 @@ public class DaoImpl
                 menuItemList.add(temp);
             }
 
-            if(menuItemList != null)
+            if(menuItemList.size()!=0)
             {
                 rs.close();
                 stmt.close();
