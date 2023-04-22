@@ -28,7 +28,7 @@ public class LoginController
     @FXML
     private Button signInButton;
 
-    Tenants tenant = new Tenants();
+    static Tenants tenant = new Tenants();
 
     @FXML
     public void onSignIn(ActionEvent event) throws IOException
@@ -78,9 +78,9 @@ public class LoginController
         }
     }
 
-    public Tenants getTenant()
+    public static String getTenant()
     {
-        return tenant;
+        return tenant.getUsername();
     }
 
 
