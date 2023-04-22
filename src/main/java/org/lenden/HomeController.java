@@ -18,6 +18,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
@@ -39,9 +41,9 @@ public class HomeController implements Initializable
     @FXML
     ImageView menuIcon;
     @FXML
-    Button currencyMenuButton;
+    Button billingMenuButton;
     @FXML
-    ImageView currencyIcon;
+    ImageView billingIcon;
     @FXML
     Button settingsMenuButton;
     @FXML
@@ -120,98 +122,98 @@ public class HomeController implements Initializable
 
     @FXML
     public void changeHomeIcon(MouseEvent e) throws IOException {
-        Properties props = new Properties();
-        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
-        props.load(inputStream);
 
-        String white_home_icon = props.getProperty("white-home-icon");
-        String black_home_icon = props.getProperty("black-home-icon");
+        //getting white logo and setting white logo
+        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_home_white_24.png");
+        homeIcon.setImage(new Image(logoPath.toUri().toString()));
 
-        homeIcon.setImage(new Image(white_home_icon));
-
+        //getting black logo
+        logoPath = Paths.get("src","main", "resources","icons","black", "home_FILL0_wght400_GRAD0_opsz48.png");
+        Image black_home_icon = new Image(logoPath.toUri().toString());
+        //setting black logo on mouse exit
         homeMenuButton.setOnMouseExited(event -> {
-            homeIcon.setImage(new Image(black_home_icon));
+            homeIcon.setImage(black_home_icon);
         });
     }
 
     @FXML
     public void changeSalesIcon(MouseEvent e) throws IOException {
-        Properties props = new Properties();
-        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
-        props.load(inputStream);
 
-        String white_sales_icon = props.getProperty("white-sales-icon");
-        String black_sales_icon = props.getProperty("black-sales-icon");
+        //getting white logo and setting white logo
+        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_sales_white_24.png");
+        salesIcon.setImage(new Image(logoPath.toUri().toString()));
 
-        salesIcon.setImage(new Image(white_sales_icon));
-
+        //getting black logo
+        logoPath = Paths.get("src","main", "resources","icons","black", "outline_sales_black_24.png");
+        Image black_sales_icon = new Image(logoPath.toUri().toString());
+        //setting black logo on mouse exit
         salesMenuButton.setOnMouseExited(event -> {
-            salesIcon.setImage(new Image(black_sales_icon));
+            salesIcon.setImage(black_sales_icon);
         });
-        inputStream.close();
+
     }
 
     @FXML
     public void changeMenuIcon(MouseEvent e) throws IOException {
-        Properties props = new Properties();
-        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
-        props.load(inputStream);
 
-        String white_menu_icon = props.getProperty("white-menu-icon");
-        String black_menu_icon = props.getProperty("black-menu-icon");
+        //getting white logo and setting white logo
+        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_restaurant_menu_white_24.png");
+        menuIcon.setImage(new Image(logoPath.toUri().toString()));
 
-        menuIcon.setImage(new Image(white_menu_icon));
-
+        //getting black logo
+        logoPath = Paths.get("src","main", "resources","icons","black", "outline_restaurant_menu_black_24.png");
+        Image black_menu_icon = new Image(logoPath.toUri().toString());
+        //setting black logo on mouse exit
         menuMenuButton.setOnMouseExited(event -> {
-            menuIcon.setImage(new Image(black_menu_icon));
+            menuIcon.setImage(black_menu_icon);
         });
     }
 
     @FXML
-    public void changeCurrencyIcon(MouseEvent e) throws IOException {
-        Properties props = new Properties();
-        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
-        props.load(inputStream);
+    public void changeBillingIcon(MouseEvent e) throws IOException {
 
-        String white_currency_icon = props.getProperty("white-currency-icon");
-        String black_currency_icon = props.getProperty("black-currency-icon");
+        //getting white logo and setting white logo
+        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_currency_rupee_white_24.png");
+        billingIcon.setImage(new Image(logoPath.toUri().toString()));
 
-        currencyIcon.setImage(new Image(white_currency_icon));
-
-        currencyMenuButton.setOnMouseExited(event -> {
-            currencyIcon.setImage(new Image(black_currency_icon));
+        //getting black logo
+        logoPath = Paths.get("src","main", "resources","icons","black", "currency_rupee_FILL0_wght400_GRAD0_opsz48.png");
+        Image black_currency_icon = new Image(logoPath.toUri().toString());
+        //setting black logo on mouse exit
+        billingMenuButton.setOnMouseExited(event -> {
+            billingIcon.setImage(black_currency_icon);
         });
     }
 
     @FXML
     public void changeSettingsIcon(MouseEvent e) throws IOException {
-        Properties props = new Properties();
-        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
-        props.load(inputStream);
 
-        String white_settings_icon = props.getProperty("white-settings-icon");
-        String black_settings_icon = props.getProperty("black-settings-icon");
+        //getting white logo and setting white logo
+        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_settings_white_24.png");
+        settingsIcon.setImage(new Image(logoPath.toUri().toString()));
 
-        settingsIcon.setImage(new Image(white_settings_icon));
-
+        //getting black logo
+        logoPath = Paths.get("src","main", "resources","icons","black", "outline_settings_black_24.png");
+        Image black_setting_icon = new Image(logoPath.toUri().toString());
+        //setting black logo on mouse exit
         settingsMenuButton.setOnMouseExited(event -> {
-            settingsIcon.setImage(new Image(black_settings_icon));
+            settingsIcon.setImage(black_setting_icon);
         });
     }
 
     @FXML
     public void changeLogoutIcon(MouseEvent e) throws IOException {
-        Properties props = new Properties();
-        InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
-        props.load(inputStream);
 
-        String white_logout_icon = props.getProperty("white-logout-icon");
-        String black_logout_icon = props.getProperty("black-logout-icon");
+        //getting white logo and setting white logo
+        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_logout_white_24.png");
+        logoutIcon.setImage(new Image(logoPath.toUri().toString()));
 
-        logoutIcon.setImage(new Image(white_logout_icon));
-
+        //getting black logo
+        logoPath = Paths.get("src","main", "resources","icons","black", "logout_FILL0_wght400_GRAD0_opsz48.png");
+        Image black_logout_icon = new Image(logoPath.toUri().toString());
+        //setting black logo on mouse exit
         logoutMenuButton.setOnMouseExited(event -> {
-            logoutIcon.setImage(new Image(black_logout_icon));
+            logoutIcon.setImage(black_logout_icon);
         });
     }
 

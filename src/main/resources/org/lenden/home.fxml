@@ -94,7 +94,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="currencyMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeCurrencyIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
+                        <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/homeStyleSheet.css" text="Billing" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -105,7 +105,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="currencyIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="billingIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../icons/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
@@ -181,7 +181,7 @@
                                     </ScrollPane>
                                     <SplitPane layoutY="112.0" prefHeight="200.0" prefWidth="583.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="112.0">
                                        <items>
-                                          <TableView fx:id="menuItemsTable" prefHeight="200.0" prefWidth="200.0">
+                                          <TableView fx:id="menuItemsTable" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
                                             <columns>
                                               <TableColumn maxWidth="350.0" minWidth="350.0" prefWidth="398.4000366806986" text="Name" />
                                               <TableColumn maxWidth="150.0" minWidth="200.0" prefWidth="153.60000610351562" text="Price" />
