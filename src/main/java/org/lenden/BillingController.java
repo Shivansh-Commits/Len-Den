@@ -11,20 +11,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.lenden.dao.DaoImpl;
-import org.lenden.model.MenuItems;
+import org.lenden.model.FoodItems;
 
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 
-public class HomeController implements Initializable
+public class BillingController implements Initializable
 {
     @FXML
     AnchorPane navMenu;
@@ -53,7 +50,7 @@ public class HomeController implements Initializable
     @FXML
     ImageView logoutIcon;
     @FXML
-    TableView<MenuItems> menuItemsTable;
+    TableView<FoodItems> foodItemsTable;
     @FXML
     Button mainCourseCategoryButton;
     @FXML
@@ -66,30 +63,35 @@ public class HomeController implements Initializable
     Button snackCategoryButton;
     @FXML
     Button extraCategoryButton;
+    @FXML
+    AnchorPane categoryAnchorPane;
+    @FXML
+    ScrollPane categoryScrollPane;
 
-    ObservableList<MenuItems> items;
+    ObservableList<FoodItems> items;
 
     DaoImpl daoimpl = new DaoImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        items = daoimpl.getCategoryItems("Bevereges");
 
-        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItem"));
+        items = daoimpl.getCategoryItems("Main Course");
+
+        TableColumn<FoodItems, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        TableColumn<FoodItems, String> priceCol = new TableColumn<>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
 
         // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, Boolean> availCol = new TableColumn<>("Availability");
-        availCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+        TableColumn<FoodItems, String> availCol = new TableColumn<>("Availability");
+        availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
 
         // Set the cell value factories for the table columns
-        menuItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
+        foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
 
-        menuItemsTable.setItems(items);
+        foodItemsTable.setItems(items);
 
     }
 
@@ -101,23 +103,34 @@ public class HomeController implements Initializable
 
         items = daoimpl.getCategoryItems(category);
 
-        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
-        nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItem"));
+        TableColumn<FoodItems, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
-        priceCol.setCellValueFactory(new PropertyValueFactory<>("price"));
+        TableColumn<FoodItems, String> priceCol = new TableColumn<>("Price");
+        priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
 
         // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, Boolean> availCol = new TableColumn<>("Availability");
-        availCol.setCellValueFactory(new PropertyValueFactory<>("availability"));
+        TableColumn<FoodItems, String> availCol = new TableColumn<>("Availability");
+        availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
 
         // Set the cell value factories for the table columns
-        menuItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
+        foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
 
-        menuItemsTable.setItems(items);
+        foodItemsTable.setItems(items);
+    }
 
 
+    public void addMenuItemtoBill(MouseEvent e)
+    {
+        FoodItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        String foodItemName = selectedFoodItem.getFoodItemName();
+        int foodItemprice = selectedFoodItem.getFoodItemPrice();
+
+        Alert alert = new Alert(Alert.AlertType.ERROR, selectedFoodItem.toString(), ButtonType.CLOSE);
+        alert.setHeaderText("FOOD ITEM SELECTED");
+        alert.setTitle("Alert!");
+        alert.showAndWait();
     }
 
     @FXML
