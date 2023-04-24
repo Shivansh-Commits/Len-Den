@@ -45,7 +45,7 @@ public class LoginController
 
             //Opening up new Window (Home Screen)
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("home.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("billing.fxml"));
 
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage stage = new Stage();

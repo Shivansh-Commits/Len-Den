@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="813.0" prefWidth="1485.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
+<AnchorPane prefHeight="841.0" prefWidth="1485.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.BillingController">
    <children>
       <BorderPane prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -164,9 +164,16 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="735.0" prefWidth="511.0">
                                  <children>
-                                    <ScrollPane hbarPolicy="ALWAYS" layoutX="33.0" layoutY="33.0" prefHeight="109.0" prefWidth="614.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="621.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                    <TableView fx:id="foodItemsTable" layoutY="77.0" onMouseClicked="#addMenuItemtoBill" prefHeight="200.0" prefWidth="634.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="456.6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="77.0">
+                                      <columns>
+                                        <TableColumn maxWidth="-1.0" minWidth="211.0" prefWidth="211.0" text="Name" />
+                                        <TableColumn maxWidth="-1.0" minWidth="211.0" prefWidth="211.0" text="Price" />
+                                          <TableColumn maxWidth="-1.0" minWidth="211.0" prefWidth="211.0" text="Availability" />
+                                      </columns>
+                                    </TableView>
+                                    <ScrollPane fx:id="categoryScrollPane" hbarPolicy="ALWAYS" prefHeight="79.0" prefWidth="634.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="683.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                       <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="110.0" prefWidth="859.6">
+                                        <AnchorPane fx:id="categoryAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="63.0" prefWidth="860.0">
                                              <children>
                                                 <Button layoutX="9.0" layoutY="2.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" text="Favourites" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                                                 <Button fx:id="mainCourseCategoryButton" layoutX="128.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" text="Main Course" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="122.8" AnchorPane.topAnchor="0.0" />
@@ -179,17 +186,6 @@
                                           </AnchorPane>
                                       </content>
                                     </ScrollPane>
-                                    <SplitPane layoutY="112.0" prefHeight="200.0" prefWidth="583.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="112.0">
-                                       <items>
-                                          <TableView fx:id="menuItemsTable" prefHeight="200.0" prefWidth="200.0" tableMenuButtonVisible="true">
-                                            <columns>
-                                              <TableColumn maxWidth="350.0" minWidth="350.0" prefWidth="398.4000366806986" text="Name" />
-                                              <TableColumn maxWidth="150.0" minWidth="200.0" prefWidth="153.60000610351562" text="Price" />
-                                                <TableColumn maxWidth="100.0" minWidth="100.0" prefWidth="128.800048828125" text="Availability" />
-                                            </columns>
-                                          </TableView>
-                                       </items>
-                                    </SplitPane>
                                  </children>
                               </AnchorPane>
                         </content>
@@ -207,7 +203,7 @@
                         <content>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                                  <children>
-                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                              <font>
@@ -219,7 +215,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                              <font>
@@ -231,7 +227,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                              <font>
@@ -243,7 +239,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                              <font>
@@ -255,7 +251,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                              <font>
@@ -267,7 +263,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                              <font>
@@ -279,7 +275,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                              <font>
@@ -291,7 +287,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                              <font>
@@ -311,7 +307,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="109.0" prefWidth="843.0" style="-fx-background-color: black;">
                                  <children>
-                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                              <font>
@@ -323,7 +319,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                              <font>
@@ -335,7 +331,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                              <font>
@@ -347,7 +343,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                              <font>
@@ -359,7 +355,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                              <font>
@@ -371,7 +367,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                              <font>
@@ -383,7 +379,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                              <font>
@@ -395,7 +391,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                              <font>
@@ -415,7 +411,7 @@
                            <content>
                               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                                  <children>
-                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                              <font>
@@ -427,7 +423,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                              <font>
@@ -439,7 +435,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                              <font>
@@ -451,7 +447,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                                    <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                              <font>
@@ -463,7 +459,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                              <font>
@@ -475,7 +471,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                              <font>
@@ -487,7 +483,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                              <font>
@@ -499,7 +495,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/homeStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                                    <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                        <children>
                                           <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                              <font>

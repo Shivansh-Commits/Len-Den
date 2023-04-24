@@ -2,7 +2,7 @@ package org.lenden.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.lenden.model.MenuItems;
+import org.lenden.model.FoodItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 
@@ -18,7 +18,7 @@ public class DaoImpl
 {
     Dao dao = new Dao();
 
-    public String tenantId = getTenant() ;
+    public String tenantId = getTenant();
 
 
     public boolean login(Tenants tenantInfo)
@@ -55,25 +55,29 @@ public class DaoImpl
         return false;
     }
 
-    public ObservableList<MenuItems> getCategoryItems(String category)
+    public ObservableList<FoodItems> getCategoryItems(String category)
     {
-        ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
+        ObservableList<FoodItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
 
         try {
             Connection c = dao.getConnection();
 
-            stmt  = c.prepareStatement("SELECT * FROM "+tenantId+".menu WHERE category = ?");
+            stmt  = c.prepareStatement("SELECT * FROM "+tenantId+".menu WHERE fooditemcategory = ?");
             stmt.setString(1,category);
             ResultSet rs = stmt.executeQuery();
 
             while(rs.next())
             {
-                MenuItems temp = new MenuItems();
-                temp.setFoodItem(rs.getString("foodItemName"));
-                temp.setPrice(rs.getString("price"));
-                temp.setAvailability(rs.getBoolean("availability"));
+                FoodItems temp = new FoodItems();
+                temp.setFoodItemName(rs.getString("fooditemname"));
+                temp.setFoodItemPrice(rs.getInt("fooditemprice"));
+                if(rs.getBoolean("fooditemavailability") == true)
+                    temp.setFoodItemAvailability("Available");
+                else
+                    temp.setFoodItemAvailability("NOT AVAIlABLE");
+
                 menuItemList.add(temp);
             }
 
