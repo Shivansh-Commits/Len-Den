@@ -1,6 +1,7 @@
 package org.lenden;
 
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -11,6 +12,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import org.lenden.dao.DaoImpl;
+import org.lenden.model.BillItems;
 import org.lenden.model.FoodItems;
 
 
@@ -50,8 +52,6 @@ public class BillingController implements Initializable
     @FXML
     ImageView logoutIcon;
     @FXML
-    TableView<FoodItems> foodItemsTable;
-    @FXML
     Button mainCourseCategoryButton;
     @FXML
     Button beveregesCategoryButton;
@@ -68,14 +68,20 @@ public class BillingController implements Initializable
     @FXML
     ScrollPane categoryScrollPane;
 
-    ObservableList<FoodItems> items;
+    ObservableList<FoodItems> menuTableItems;
+    ObservableList<BillItems> billTableItems = FXCollections.observableArrayList();
+    @FXML
+    TableView<FoodItems> foodItemsTable;
+    @FXML
+    TableView billTable;
 
     DaoImpl daoimpl = new DaoImpl();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        items = daoimpl.getCategoryItems("Main Course");
+        //FOR MENU TABLE
+        menuTableItems = daoimpl.getCategoryItems("Main Course");
 
         TableColumn<FoodItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
@@ -91,7 +97,29 @@ public class BillingController implements Initializable
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
 
-        foodItemsTable.setItems(items);
+        foodItemsTable.setItems(menuTableItems);
+
+        // Set the background color of the "Availability" cell based on its content
+        availCol.setCellFactory(column -> new TableCell<FoodItems, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setText("");
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("Available")) {
+                        // Set the background color of the cell to green if the food item is available
+                        setStyle("-fx-background-color: green;");
+                    } else {
+                        // Set the background color of the cell to red if the food item is not available
+                        setStyle("-fx-background-color: red;");
+                    }
+                }
+            }
+        });
 
     }
 
@@ -101,7 +129,7 @@ public class BillingController implements Initializable
         Button clickedButton = (Button) e.getSource();
         String category = clickedButton.getText();
 
-        items = daoimpl.getCategoryItems(category);
+        menuTableItems = daoimpl.getCategoryItems(category);
 
         TableColumn<FoodItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
@@ -117,20 +145,71 @@ public class BillingController implements Initializable
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
 
-        foodItemsTable.setItems(items);
-    }
+        foodItemsTable.setItems(menuTableItems);
 
+        // Set the background color of the "Availability" cell based on its content
+        availCol.setCellFactory(column -> new TableCell<FoodItems, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setText("");
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("Available")) {
+                        // Set the background color of the cell to green if the food item is available
+                        setStyle("-fx-background-color: green;");
+                    } else {
+                        // Set the background color of the cell to red if the food item is not available
+                        setStyle("-fx-background-color: red;");
+                    }
+                }
+            }
+        });
+    }
 
     public void addMenuItemtoBill(MouseEvent e)
     {
+        TableColumn<FoodItems, String> nameColB = new TableColumn<>("Name");
+        nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+
+        // Create a cell value factory for the Price column
+        TableColumn<FoodItems, String> priceColB = new TableColumn<>("Price");
+        priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+
+        // Create a cell value factory for the Availability column
+        TableColumn<FoodItems, String> quantColB = new TableColumn<>("Quantity");
+        quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+
         FoodItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
         String foodItemName = selectedFoodItem.getFoodItemName();
         int foodItemprice = selectedFoodItem.getFoodItemPrice();
+        String foodItemAvailability = selectedFoodItem.getFoodItemAvailability();
 
-        Alert alert = new Alert(Alert.AlertType.ERROR, selectedFoodItem.toString(), ButtonType.CLOSE);
-        alert.setHeaderText("FOOD ITEM SELECTED");
-        alert.setTitle("Alert!");
-        alert.showAndWait();
+        BillItems billItems = new BillItems();
+
+        if(foodItemAvailability.equals("NOT AVAILABLE"))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Selected Item Not Available", ButtonType.OK);
+            alert.setHeaderText("Item Not Available");
+            alert.setTitle("Sorry!");
+            alert.showAndWait();
+        }
+        else
+        {
+            billItems.setFoodItemName(foodItemName);
+            billItems.setFoodItemPrice(foodItemprice);
+            billItems.setFoodItemQuantity("1");
+
+            billTableItems.add(billItems);
+            billTable.getColumns().setAll(nameColB, priceColB, quantColB);
+            billTable.setItems(billTableItems);
+        }
+
+
+
     }
 
     @FXML
