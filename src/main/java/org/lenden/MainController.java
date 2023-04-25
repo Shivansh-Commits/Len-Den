@@ -2,6 +2,7 @@ package org.lenden;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -12,10 +13,12 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ResourceBundle;
 
-public class MainController {
+public class MainController implements Initializable {
 
     @FXML
     Button homeMenuButton;
@@ -46,29 +49,52 @@ public class MainController {
 
     Boolean openHomePageFlag=true;
     Boolean openBillPageFlag=true;
+    Boolean openSalesPageFlag=true;
+    Boolean openMenuPageFlag=true;
+    Boolean openSettingsPageFlag=true;
+
+
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources)
+    {
+        AnchorPane home = null;
+        try {
+            home = FXMLLoader.load(getClass().getResource("home.fxml"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        mainPane.setCenter(home);
+    }
 
     @FXML
-    public void openBillingPage(MouseEvent e) throws IOException {
-
+    public void openBillingPage(MouseEvent e) throws IOException
+    {
         openHomePageFlag=true;
+        openSalesPageFlag=true;
+        openMenuPageFlag=true;
+        openSettingsPageFlag=true;
         if(openBillPageFlag == true)
         {
             AnchorPane billing = FXMLLoader.load(getClass().getResource("billing.fxml"));
             mainPane.setCenter(billing);
-            openBillPageFlag=false;
 
+            openBillPageFlag=false;
         }
 
     }
-
     @FXML
     public void openHomePage(MouseEvent e) throws IOException
     {
         openBillPageFlag=true;
+        openSalesPageFlag=true;
+        openMenuPageFlag=true;
+        openSettingsPageFlag=true;
         if(openHomePageFlag == true)
         {
             AnchorPane home = FXMLLoader.load(getClass().getResource("home.fxml"));
             mainPane.setCenter(home);
+
             openHomePageFlag=false;
         }
 
@@ -81,6 +107,8 @@ public class MainController {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
+
 
     @FXML
     public void changeHomeIcon(MouseEvent e)
