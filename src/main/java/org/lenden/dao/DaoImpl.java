@@ -76,7 +76,7 @@ public class DaoImpl
                 if(rs.getBoolean("fooditemavailability") == true)
                     temp.setFoodItemAvailability("Available");
                 else
-                    temp.setFoodItemAvailability("NOT AVAIlABLE");
+                    temp.setFoodItemAvailability("NOT AVAILABLE");
 
                 menuItemList.add(temp);
             }
