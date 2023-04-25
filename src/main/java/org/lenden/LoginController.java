@@ -6,18 +6,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Tenants;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
-
 
 public class LoginController
 {
@@ -45,7 +40,7 @@ public class LoginController
 
             //Opening up new Window (Home Screen)
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("billing.fxml"));
+            fxmlLoader.setLocation(getClass().getResource("Main.fxml"));
 
             Scene scene = new Scene(fxmlLoader.load(), 600, 400);
             Stage stage = new Stage();
