@@ -44,11 +44,13 @@ public class MainController {
     @FXML
     BorderPane mainPane;
 
+
     Boolean openHomePageFlag=true;
     Boolean openBillPageFlag=true;
 
     @FXML
-    public void openBillingPage(MouseEvent e) throws IOException {
+    public void openBillingPage(MouseEvent e) throws IOException
+    {
 
         openHomePageFlag=true;
         if(openBillPageFlag == true)
@@ -81,6 +83,9 @@ public class MainController {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
+
+
 
     @FXML
     public void changeHomeIcon(MouseEvent e)
@@ -183,7 +188,6 @@ public class MainController {
             logoutIcon.setImage(black_logout_icon);
         });
     }
-
 
 
 }
