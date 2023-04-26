@@ -7,11 +7,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import org.lenden.dao.DaoImpl;
+import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.FoodItems;
 import java.net.URL;
@@ -37,15 +39,28 @@ public class BillingController implements Initializable
     AnchorPane categoryAnchorPane;
     @FXML
     ScrollPane categoryScrollPane;
-
     ObservableList<FoodItems> menuTableItems;
     ObservableList<BillItems> billTableItems = FXCollections.observableArrayList();
     @FXML
     TableView<FoodItems> foodItemsTable;
     @FXML
     TableView billTable;
+    @FXML
+    Label grandTotalLabel;
+    @FXML
+    Label cgstLabel;
+    @FXML
+    Label sgstLabel;
+    @FXML
+    Label serviceChargeLabel;
+    @FXML
+    Label totalLabel;
+    @FXML
+    TextField discountField;
 
+    Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
+
 
 
     @Override
@@ -83,10 +98,10 @@ public class BillingController implements Initializable
                     setText(item);
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: green;");
+                        setStyle("-fx-background-color: #caffba;");
                     } else {
                         // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: red;");
+                        setStyle("-fx-background-color: #ffbaba;");
                     }
                 }
             }
@@ -131,10 +146,10 @@ public class BillingController implements Initializable
                     setText(item);
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: green;");
+                        setStyle("-fx-background-color: #caffba;");
                     } else {
                         // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: red;");
+                        setStyle("-fx-background-color: #ffbaba;");
                     }
                 }
             }
@@ -143,6 +158,13 @@ public class BillingController implements Initializable
 
     public void addMenuItemtoBill(MouseEvent e)
     {
+        //Getting Selected Food Items
+        FoodItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        String selectedFoodItemName = selectedFoodItem.getFoodItemName();
+        int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
+        String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
+
+        // Create a cell value factory for the Name column
         TableColumn<FoodItems, String> nameColB = new TableColumn<>("Name");
         nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
@@ -170,7 +192,9 @@ public class BillingController implements Initializable
                         Text txtQuantity = new Text(quantity.toString());
                         Button btnMinus = new Button("-");
                         Button btnPlus = new Button("+");
+
                         btnMinus.setOnAction(event -> {
+
                             BillItems item = getTableView().getItems().get(getIndex());
                             int currentQuantity = item.getFoodItemQuantity();
                             if (currentQuantity > 1) {
@@ -182,14 +206,23 @@ public class BillingController implements Initializable
                                 billTableItems.remove(item);
                                 billTable.setItems(billTableItems);
                             }
+
+                            //update Grand Total
+                            updateGrandTotal(billTableItems);
+
                         });
+
                         btnPlus.setOnAction(event -> {
+
                             BillItems item = getTableView().getItems().get(getIndex());
                             int currentQuantity = item.getFoodItemQuantity();
                             item.setFoodItemQuantity(currentQuantity + 1);
                             txtQuantity.setText(String.valueOf(currentQuantity + 1));
                             int index = billTableItems.indexOf(item);
                             billTableItems.set(index, item);
+
+                            //update Grand Total
+                            updateGrandTotal(billTableItems);
                         });
                         hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
                         setGraphic(hbox);
@@ -203,14 +236,8 @@ public class BillingController implements Initializable
 
 //----------------------------------------------------------------------------------------------------------------------
 
-        //Getting Selected Food Items
-        FoodItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
-            String selectedFoodItemName = selectedFoodItem.getFoodItemName();
-            int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
-            String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
-
         //Adding only if the Item in available in Menu
-        if(selectedFoodItemAvailability.equals("NOT AVAILABLE"))
+        if(selectedFoodItemAvailability.equals("NOT Available"))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Selected Item Not Available", ButtonType.OK);
             alert.setHeaderText("Item Not Available");
@@ -223,16 +250,32 @@ public class BillingController implements Initializable
             for (BillItems item : billTableItems) {
                 if (item.getFoodItemName().equals(selectedFoodItemName))
                 {
-                    item.setFoodItemQuantity(item.getFoodItemQuantity() + 1); //updating quantity in object
-                    int index = billTableItems.indexOf(item);  //finding index of item in list
-                    billTableItems.set(index, item);  //updating updated quantity object in list
+                    //updating quantity in object
+                    item.setFoodItemQuantity(item.getFoodItemQuantity() + 1);
+
+                    //update Grand Total
+                    updateGrandTotal(billTableItems);
+
+                    //finding index of item in list
+                    int index = billTableItems.indexOf(item);
+
+                    //updating updated quantity object in list
+                    billTableItems.set(index, item);
+
                     itemFound = true;
                     break;
                 }
             }
             if (!itemFound) {
                 BillItems newItem = new BillItems(selectedFoodItemName,selectedFoodItemprice,1 );
+
+                //add the item to the bill items list
                 billTableItems.add(newItem);
+
+                //update Grand Total
+                updateGrandTotal(billTableItems);
+
+                //set columns and display list items
                 billTable.getColumns().setAll(nameColB, priceColB, quantColB);
                 billTable.setItems(billTableItems);
             }
@@ -241,7 +284,65 @@ public class BillingController implements Initializable
 
     }
 
+    public void computeDiscount(KeyEvent e)
+    {
+        if(discountField.getText().isEmpty())
+        {
+            discountField.setText("");
+            bill.setDiscount(0);
+            updateGrandTotal(billTableItems);
+        }
+        else
+        {
+            //checking if the discount value is more than 0 and less than 35
+            if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < 35)
+            {
+                double newDiscount = Double.parseDouble(discountField.getText());
+                bill.setDiscount(newDiscount);
+                updateGrandTotal(billTableItems);
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Discount Out of Limits", ButtonType.OK);
+                alert.setHeaderText("Discount should be more than 0 & less than 35");
+                alert.setTitle("Attention!");
+                alert.showAndWait();
 
+                discountField.setText("");
+                bill.setDiscount(0);
+
+                updateGrandTotal(billTableItems);
+            }
+        }
+    }
+
+    public void updateGrandTotal(ObservableList<BillItems> billTableItems)
+    {
+
+        double total = 0 ;
+        double discount = bill.getDiscount();
+
+        for(BillItems item : billTableItems)
+        {
+            total += item.getFoodItemPrice() * item.getFoodItemQuantity();
+        }
+
+        //discounted Total
+        total = total - (total*((discount)/100));
+
+        double cgst = bill.getCgst();
+        double sgst = bill.getSgst();
+        double servicecharge = bill.getServiceCharge();
+        double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
+        double grandTotal = total + tax;
+
+        cgstLabel.setText(Double.toString(cgst));
+        sgstLabel.setText(Double.toString(sgst));
+        serviceChargeLabel.setText(Double.toString(servicecharge));
+        totalLabel.setText(Double.toString(total));
+        grandTotalLabel.setText(Double.toString(grandTotal));
+
+    }
 
 
 

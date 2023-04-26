@@ -1,3 +1,14 @@
+.categoryButtons {
+    -fx-background-color: white;
+    -fx-text-fill : black ;
+}
+
+.categoryButtons:hover {
+    -fx-background-color : black;
+    -fx-text-fill : white
+
+}
+
 .table {
     -fx-background-color : black;
     -fx-border-color : white;
@@ -9,5 +20,23 @@
 }
 
 .billGridPane {
--fx-background-color : grey
+    -fx-background-color : white
+}
+
+.discountTextField {
+    -fx-background-color : lightgrey
+}
+
+.billngButtons {
+    -fx-background-color: black;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill : white ;
+}
+
+.billngButtons:hover {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill : black ;
 }
