@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.BillItems;
 import org.lenden.model.FoodItems;
@@ -148,8 +150,55 @@ public class BillingController implements Initializable
         TableColumn<FoodItems, String> priceColB = new TableColumn<>("Price");
         priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
 
-        // Create a cell value factory for the Availability column
-        TableColumn<FoodItems, String> quantColB = new TableColumn<>("Quantity");
+        // Create a cell value factory for the Quantity column
+        TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
+        quantColB.setMinWidth(100);
+        quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+        quantColB.setCellFactory(col -> {
+            TableCell<BillItems, Integer> cell = new TableCell<>() {
+                @Override
+                public void updateItem(Integer quantity, boolean empty) {
+                    super.updateItem(quantity, empty);
+                    if (empty)
+                    {
+                        setGraphic(null);
+                        setText(null);
+                    }
+                    else
+                    {
+                        HBox hbox = new HBox(20);
+                        Text txtQuantity = new Text(quantity.toString());
+                        Button btnMinus = new Button("-");
+                        Button btnPlus = new Button("+");
+                        btnMinus.setOnAction(event -> {
+                            BillItems item = getTableView().getItems().get(getIndex());
+                            int currentQuantity = item.getFoodItemQuantity();
+                            if (currentQuantity > 1) {
+                                item.setFoodItemQuantity(currentQuantity - 1);
+                                txtQuantity.setText(String.valueOf(currentQuantity - 1));
+                                int index = billTableItems.indexOf(item);
+                                billTableItems.set(index, item);
+                            } else {
+                                billTableItems.remove(item);
+                                billTable.setItems(billTableItems);
+                            }
+                        });
+                        btnPlus.setOnAction(event -> {
+                            BillItems item = getTableView().getItems().get(getIndex());
+                            int currentQuantity = item.getFoodItemQuantity();
+                            item.setFoodItemQuantity(currentQuantity + 1);
+                            txtQuantity.setText(String.valueOf(currentQuantity + 1));
+                            int index = billTableItems.indexOf(item);
+                            billTableItems.set(index, item);
+                        });
+                        hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
+                        setGraphic(hbox);
+                        setText(null);
+                    }
+                }
+            };
+            return cell;
+        });
         quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
 
 //----------------------------------------------------------------------------------------------------------------------
