@@ -152,14 +152,16 @@ public class BillingController implements Initializable
         TableColumn<FoodItems, String> quantColB = new TableColumn<>("Quantity");
         quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
 
+//----------------------------------------------------------------------------------------------------------------------
+
+        //Getting Selected Food Items
         FoodItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
-        String foodItemName = selectedFoodItem.getFoodItemName();
-        int foodItemprice = selectedFoodItem.getFoodItemPrice();
-        String foodItemAvailability = selectedFoodItem.getFoodItemAvailability();
+            String selectedFoodItemName = selectedFoodItem.getFoodItemName();
+            int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
+            String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
 
-        BillItems billItems = new BillItems();
-
-        if(foodItemAvailability.equals("NOT AVAILABLE"))
+        //Adding only if the Item in available in Menu
+        if(selectedFoodItemAvailability.equals("NOT AVAILABLE"))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Selected Item Not Available", ButtonType.OK);
             alert.setHeaderText("Item Not Available");
@@ -168,13 +170,24 @@ public class BillingController implements Initializable
         }
         else
         {
-            billItems.setFoodItemName(foodItemName);
-            billItems.setFoodItemPrice(foodItemprice);
-            billItems.setFoodItemQuantity("1");
+            boolean itemFound = false;
+            for (BillItems item : billTableItems) {
+                if (item.getFoodItemName().equals(selectedFoodItemName))
+                {
+                    item.setFoodItemQuantity(item.getFoodItemQuantity() + 1); //updating quantity in object
+                    int index = billTableItems.indexOf(item);  //finding index of item in list
+                    billTableItems.set(index, item);  //updating updated quantity object in list
+                    itemFound = true;
+                    break;
+                }
+            }
+            if (!itemFound) {
+                BillItems newItem = new BillItems(selectedFoodItemName,selectedFoodItemprice,1 );
+                billTableItems.add(newItem);
+                billTable.getColumns().setAll(nameColB, priceColB, quantColB);
+                billTable.setItems(billTableItems);
+            }
 
-            billTableItems.add(billItems);
-            billTable.getColumns().setAll(nameColB, priceColB, quantColB);
-            billTable.setItems(billTableItems);
         }
 
     }
