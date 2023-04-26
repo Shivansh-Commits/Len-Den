@@ -344,6 +344,15 @@ public class BillingController implements Initializable
 
     }
 
+    public void clearBill(MouseEvent e)
+    {
+
+    }
+
+    public void generateBill(MouseEvent e)
+    {
+
+    }
 
 
 
