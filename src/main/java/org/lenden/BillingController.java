@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
@@ -45,7 +46,18 @@ public class BillingController implements Initializable
     @FXML
     TableView billTable;
     @FXML
-    Label grandTotal;
+    Label grandTotalLabel;
+    @FXML
+    Label cgstLabel;
+    @FXML
+    Label sgstLabel;
+    @FXML
+    Label serviceChargeLabel;
+    @FXML
+    Label totalLabel;
+    @FXML
+    TextField discountField;
+
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
 
@@ -152,7 +164,7 @@ public class BillingController implements Initializable
         int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
         String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
 
-
+        // Create a cell value factory for the Name column
         TableColumn<FoodItems, String> nameColB = new TableColumn<>("Name");
         nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
@@ -272,14 +284,64 @@ public class BillingController implements Initializable
 
     }
 
+    public void computeDiscount(KeyEvent e)
+    {
+        if(discountField.getText().isEmpty())
+        {
+            discountField.setText("");
+            bill.setDiscount(0);
+            updateGrandTotal(billTableItems);
+        }
+        else
+        {
+            //checking if the discount value is more than 0 and less than 35
+            if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < 35)
+            {
+                double newDiscount = Double.parseDouble(discountField.getText());
+                bill.setDiscount(newDiscount);
+                updateGrandTotal(billTableItems);
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Discount Out of Limits", ButtonType.OK);
+                alert.setHeaderText("Discount should be more than 0 & less than 35");
+                alert.setTitle("Attention!");
+                alert.showAndWait();
+
+                discountField.setText("");
+                bill.setDiscount(0);
+
+                updateGrandTotal(billTableItems);
+            }
+        }
+    }
+
     public void updateGrandTotal(ObservableList<BillItems> billTableItems)
     {
-        int total = 0 ;
+
+        double total = 0 ;
+        double discount = bill.getDiscount();
+
         for(BillItems item : billTableItems)
         {
             total += item.getFoodItemPrice() * item.getFoodItemQuantity();
         }
-        grandTotal.setText(Integer.toString(total));
+
+        //discounted Total
+        total = total - (total*((discount)/100));
+
+        double cgst = bill.getCgst();
+        double sgst = bill.getSgst();
+        double servicecharge = bill.getServiceCharge();
+        double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
+        double grandTotal = total + tax;
+
+        cgstLabel.setText(Double.toString(cgst));
+        sgstLabel.setText(Double.toString(sgst));
+        serviceChargeLabel.setText(Double.toString(servicecharge));
+        totalLabel.setText(Double.toString(total));
+        grandTotalLabel.setText(Double.toString(grandTotal));
+
     }
 
 

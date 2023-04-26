@@ -6,12 +6,7 @@ import org.lenden.model.FoodItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-
+import java.sql.*;
 
 
 public class DaoImpl
@@ -60,7 +55,6 @@ public class DaoImpl
         ObservableList<FoodItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
-
         try {
             Connection c = dao.getConnection();
 
@@ -93,12 +87,62 @@ public class DaoImpl
             stmt.close();
             c.close();
         }
-        catch(Exception e)
+        catch(SQLException e)
         {
             e.getMessage();
         }
 
         return null;
+    }
+
+    public double getTax(String tax) throws SQLException
+    {
+        try {
+            Connection c = dao.getConnection();
+
+            PreparedStatement stmt;
+            stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".taxes");
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            if (tax.equals("cgst")) {
+                double cgst = rs.getDouble("cgst");
+
+                rs.close();
+                c.close();
+                stmt.close();
+                return cgst;
+            } else if (tax.equals("sgst")) {
+                double sgst = rs.getDouble("sgst");
+
+                rs.close();
+                c.close();
+                stmt.close();
+                return sgst;
+            } else if (tax.equals("vat")) {
+                double vat = rs.getDouble("vat");
+
+                rs.close();
+                c.close();
+                stmt.close();
+                return vat;
+            }
+            else if (tax.equals("servicecharge"))
+            {
+                double servicecharge = rs.getDouble("servicecharge");
+
+                rs.close();
+                c.close();
+                stmt.close();
+                return servicecharge;
+            }
+
+        }
+        catch(SQLException e)
+        {
+
+            e.getMessage();
+        }
+        return 0;
     }
 
 
