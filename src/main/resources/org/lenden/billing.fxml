@@ -153,16 +153,17 @@
                                        </children></AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                        <children>
-                                          <Label layoutX="11.0" layoutY="14.0" text="Grand Total : ">
+                                          <Label layoutX="10.0" layoutY="10.0" text="Grand Total (₹): ">
                                              <font>
                                                 <Font name="Segoe UI Semibold" size="20.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="grandTotalLabel" layoutX="142.0" layoutY="11.0" text="_ _ : _ _">
+                                          <Label fx:id="grandTotalLabel" layoutX="166.0" layoutY="10.0" text="_ _ : _ _">
                                              <font>
                                                 <Font name="Segoe UI Semibold" size="20.0" />
                                              </font>
                                           </Label>
+                                          <Separator layoutX="-22.0" layoutY="-6.0" prefHeight="12.0" prefWidth="669.0" />
                                        </children>
                                     </AnchorPane>
                                  </children>
