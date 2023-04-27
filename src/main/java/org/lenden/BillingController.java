@@ -98,10 +98,10 @@ public class BillingController implements Initializable
                     setText(item);
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #caffba;");
+                        setStyle("-fx-background-color: #c9f5c9;");
                     } else {
                         // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #ffbaba;");
+                        setStyle("-fx-background-color: #f5c9c9;");
                     }
                 }
             }
@@ -146,10 +146,10 @@ public class BillingController implements Initializable
                     setText(item);
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #caffba;");
+                        setStyle("-fx-background-color: #c9f5c9;");
                     } else {
                         // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #ffbaba;");
+                        setStyle("-fx-background-color: #f5c9c9;");
                     }
                 }
             }
@@ -191,7 +191,9 @@ public class BillingController implements Initializable
                         HBox hbox = new HBox(20);
                         Text txtQuantity = new Text(quantity.toString());
                         Button btnMinus = new Button("-");
+                        btnMinus.setStyle("-fx-background-color: #fa8484; -fx-text-fill: white;");
                         Button btnPlus = new Button("+");
+                        btnPlus.setStyle("-fx-background-color: #96fa84; -fx-text-fill: white;");
 
                         btnMinus.setOnAction(event -> {
 
@@ -347,6 +349,8 @@ public class BillingController implements Initializable
     public void clearBill(MouseEvent e)
     {
         billTableItems.clear();
+        discountField.setText("");
+        bill.setDiscount(0);
         updateGrandTotal(billTableItems);
     }
 
