@@ -11,12 +11,14 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="791.0" prefWidth="1401.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.BillingController">
@@ -90,15 +92,73 @@
                                           <TableColumn minWidth="5.60003662109375" prefWidth="89.60003662109375" text="Quantity" />
                                       </columns>
                                     </TableView>
-                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                                    <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
+                                       <children>
+                                          <VBox layoutX="11.0" layoutY="8.0" prefHeight="134.0" prefWidth="131.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                                             <children>
+                                                <Label prefHeight="26.0" prefWidth="83.0" text="Discount %:">
+                                                   <font>
+                                                      <Font name="Segoe UI Semilight" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label prefHeight="21.0" prefWidth="46.0" text="Total :">
+                                                   <font>
+                                                      <Font name="Segoe UI Semibold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="CGST % :">
+                                                   <font>
+                                                      <Font name="Segoe UI Semilight" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="SGST % : ">
+                                                   <font>
+                                                      <Font name="Segoe UI Semilight" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label text="Service Charge % :">
+                                                   <font>
+                                                      <Font name="Segoe UI Semilight" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <VBox layoutX="148.0" layoutY="12.0" AnchorPane.bottomAnchor="8.0" AnchorPane.topAnchor="12.0">
+                                             <children>
+                                                <TextField fx:id="discountField" onKeyTyped="#computeDiscount" prefHeight="26.0" prefWidth="46.0" promptText="_ _ : _ _" styleClass="discountTextField" stylesheets="@../../stylesheets/billingStyleSheet.css" />
+                                                <Label fx:id="totalLabel" text="_ _ : _ _">
+                                                   <font>
+                                                      <Font name="Segoe UI Semibold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="cgstLabel" text="_ _ : _ _">
+                                                   <font>
+                                                      <Font name="Segoe UI Semibold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="sgstLabel" text="_ _ : _ _">
+                                                   <font>
+                                                      <Font name="Segoe UI Semibold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                                <Label fx:id="serviceChargeLabel" text="_ _ : _ _">
+                                                   <font>
+                                                      <Font name="Segoe UI Semibold" size="16.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </VBox>
+                                          <Button layoutX="398.0" layoutY="14.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Clear Bill" AnchorPane.topAnchor="20.0" />
+                                          <Button layoutX="398.0" layoutY="92.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Generate Invoice" AnchorPane.bottomAnchor="20.0" />
+                                       </children></AnchorPane>
                                     <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                                        <children>
-                                          <Label layoutX="7.0" layoutY="13.0" text="Grand Total : ">
+                                          <Label layoutX="11.0" layoutY="14.0" text="Grand Total : ">
                                              <font>
                                                 <Font name="Segoe UI Semibold" size="20.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="grandTotal" layoutX="134.0" layoutY="11.0" text="_ _ : _ _">
+                                          <Label fx:id="grandTotalLabel" layoutX="142.0" layoutY="11.0" text="_ _ : _ _">
                                              <font>
                                                 <Font name="Segoe UI Semibold" size="20.0" />
                                              </font>

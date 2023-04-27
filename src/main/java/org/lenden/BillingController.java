@@ -344,6 +344,16 @@ public class BillingController implements Initializable
 
     }
 
+    public void clearBill(MouseEvent e)
+    {
+        billTableItems.clear();
+        updateGrandTotal(billTableItems);
+    }
+
+    public void generateBill(MouseEvent e)
+    {
+
+    }
 
 
 
