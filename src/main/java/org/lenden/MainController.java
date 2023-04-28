@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -46,6 +48,8 @@ public class MainController implements Initializable {
     ImageView logoutIcon;
     @FXML
     BorderPane mainPane;
+    @FXML
+    AnchorPane home = null;
 
     Boolean openHomePageFlag=true;
     Boolean openBillPageFlag=true;
@@ -54,11 +58,9 @@ public class MainController implements Initializable {
     Boolean openSettingsPageFlag=true;
 
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        AnchorPane home = null;
         try {
             home = FXMLLoader.load(getClass().getResource("home.fxml"));
         } catch (IOException e) {
@@ -74,6 +76,7 @@ public class MainController implements Initializable {
         openSalesPageFlag=true;
         openMenuPageFlag=true;
         openSettingsPageFlag=true;
+
         if(openBillPageFlag == true)
         {
             AnchorPane billing = FXMLLoader.load(getClass().getResource("billing.fxml"));
@@ -99,7 +102,6 @@ public class MainController implements Initializable {
         }
 
     }
-
     @FXML
     public void logout(MouseEvent e)
     {

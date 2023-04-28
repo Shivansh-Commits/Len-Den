@@ -2,7 +2,7 @@ package org.lenden.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.lenden.model.FoodItems;
+import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 
@@ -50,9 +50,9 @@ public class DaoImpl
         return false;
     }
 
-    public ObservableList<FoodItems> getCategoryItems(String category)
+    public ObservableList<MenuItems> getCategoryItems(String category)
     {
-        ObservableList<FoodItems> menuItemList = FXCollections.observableArrayList();
+        ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
         try {
@@ -64,7 +64,7 @@ public class DaoImpl
 
             while(rs.next())
             {
-                FoodItems temp = new FoodItems();
+                MenuItems temp = new MenuItems();
                 temp.setFoodItemName(rs.getString("fooditemname"));
                 temp.setFoodItemPrice(rs.getInt("fooditemprice"));
                 if(rs.getBoolean("fooditemavailability") == true)

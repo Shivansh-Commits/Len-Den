@@ -4,7 +4,10 @@ package org.lenden;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
@@ -12,10 +15,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
-import org.lenden.model.FoodItems;
+import org.lenden.model.MenuItems;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -39,10 +44,10 @@ public class BillingController implements Initializable
     AnchorPane categoryAnchorPane;
     @FXML
     ScrollPane categoryScrollPane;
-    ObservableList<FoodItems> menuTableItems;
+    ObservableList<MenuItems> menuTableItems;
     ObservableList<BillItems> billTableItems = FXCollections.observableArrayList();
     @FXML
-    TableView<FoodItems> foodItemsTable;
+    TableView<MenuItems> foodItemsTable;
     @FXML
     TableView billTable;
     @FXML
@@ -56,11 +61,14 @@ public class BillingController implements Initializable
     @FXML
     Label totalLabel;
     @FXML
+    Label subTotalLabel;
+    @FXML
     TextField discountField;
+    @FXML
+    Button generateBillButton;
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
-
 
 
     @Override
@@ -69,15 +77,15 @@ public class BillingController implements Initializable
         //FOR MENU TABLE
         menuTableItems = daoimpl.getCategoryItems("Main Course");
 
-        TableColumn<FoodItems, String> nameCol = new TableColumn<>("Name");
+        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
         // Create a cell value factory for the Price column
-        TableColumn<FoodItems, String> priceCol = new TableColumn<>("Price");
+        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
 
         // Create a cell value factory for the Availability column
-        TableColumn<FoodItems, String> availCol = new TableColumn<>("Availability");
+        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
 
         // Set the cell value factories for the table columns
@@ -86,7 +94,7 @@ public class BillingController implements Initializable
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<FoodItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -117,15 +125,15 @@ public class BillingController implements Initializable
 
         menuTableItems = daoimpl.getCategoryItems(category);
 
-        TableColumn<FoodItems, String> nameCol = new TableColumn<>("Name");
+        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
         // Create a cell value factory for the Price column
-        TableColumn<FoodItems, String> priceCol = new TableColumn<>("Price");
+        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
 
         // Create a cell value factory for the Availability column
-        TableColumn<FoodItems, String> availCol = new TableColumn<>("Availability");
+        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
 
         // Set the cell value factories for the table columns
@@ -134,7 +142,7 @@ public class BillingController implements Initializable
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<FoodItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -159,17 +167,22 @@ public class BillingController implements Initializable
     public void addMenuItemtoBill(MouseEvent e)
     {
         //Getting Selected Food Items
-        FoodItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        if(selectedFoodItem == null)
+        {
+            return;
+        }
+
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
         int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
         String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
 
         // Create a cell value factory for the Name column
-        TableColumn<FoodItems, String> nameColB = new TableColumn<>("Name");
+        TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
         nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
 
         // Create a cell value factory for the Price column
-        TableColumn<FoodItems, String> priceColB = new TableColumn<>("Price");
+        TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
         priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
 
         // Create a cell value factory for the Quantity column
@@ -321,16 +334,22 @@ public class BillingController implements Initializable
     public void updateGrandTotal(ObservableList<BillItems> billTableItems)
     {
 
-        double total = 0 ;
+        double subTotal = 0 ;
         double discount = bill.getDiscount();
 
         for(BillItems item : billTableItems)
         {
-            total += item.getFoodItemPrice() * item.getFoodItemQuantity();
+            subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
         }
 
-        //discounted Total
-        total = total - (total*((discount)/100));
+        //Setting SubTotal
+        bill.setSubTotal(subTotal);
+        subTotalLabel.setText(Double.toString(subTotal));
+        
+        //Setting Discounted Total
+        double total = subTotal - (subTotal*((discount)/100));
+        bill.setTotal(total);
+        totalLabel.setText(Double.toString(total));
 
         double cgst = bill.getCgst();
         double sgst = bill.getSgst();
@@ -338,11 +357,15 @@ public class BillingController implements Initializable
         double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
         double grandTotal = total + tax;
 
+        //setting Grand Total
+        bill.setGrandTotal(grandTotal);
+        grandTotalLabel.setText(Double.toString(grandTotal));
+
         cgstLabel.setText(Double.toString(cgst));
         sgstLabel.setText(Double.toString(sgst));
         serviceChargeLabel.setText(Double.toString(servicecharge));
-        totalLabel.setText(Double.toString(total));
-        grandTotalLabel.setText(Double.toString(grandTotal));
+
+
 
     }
 
@@ -354,11 +377,27 @@ public class BillingController implements Initializable
         updateGrandTotal(billTableItems);
     }
 
-    public void generateBill(MouseEvent e)
+    public void generateBill(MouseEvent e) throws IOException
     {
+        bill.setBillItems(billTableItems);
 
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("bill_preview.fxml"));
+        Parent root = loader.load();
+
+        // Get the controller of the preview window
+        BillPrintController controller = loader.getController();
+
+        // Set the bill details in the controller
+        controller.setBillValues(bill);
+
+        // Create a new stage for the preview window
+        Stage stage = new Stage();
+        stage.setTitle("Preview");
+        stage.setScene(new Scene(root));
+
+        // Show the preview window
+        stage.show();
     }
-
 
 
 }
