@@ -1,6 +1,6 @@
 package org.lenden.model;
 
-public class FoodItems {
+public class MenuItems {
 
     @Override
     public String toString() {
