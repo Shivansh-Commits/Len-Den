@@ -18,14 +18,15 @@ public class BillPrintController{
     Label billLabel;
     @FXML
     Button close;
-    public void setBillValues(Bill bill)
+    public void setPreviewBillValues(Bill bill)
     {
         StringBuilder billText = new StringBuilder();
 
         // Add header
-        billText.append(String.format("%50s", "Restaurant Name")).append("\n");
-        billText.append(String.format("%55s", "Address")).append("\n");
-        billText.append(String.format("%60s", "Phone Number")).append("\n");
+        billText.append(String.format("%20s", "Restaurant Name")).append("\n");
+        billText.append(String.format("%20s", "10th Avenue, Saint Pauls Street")).append("\n");
+        billText.append(String.format("%20s", "Phone : +91-1234432126")).append("\n");
+        billText.append(String.format("%20s", bill.getBillnumber())).append("\n");
         billText.append("\n");
 
         // Add bill details
@@ -69,6 +70,7 @@ public class BillPrintController{
         Stage temp = (Stage) close.getScene().getWindow();
         temp.close();
     }
+
 
 
 }
