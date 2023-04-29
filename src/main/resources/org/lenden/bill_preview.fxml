@@ -15,7 +15,7 @@
       </Label>
       <Label fx:id="billLabel" contentDisplay="CENTER" text="Label" wrapText="true">
          <font>
-            <Font size="15.0" />
+            <Font name="Segoe UI Symbol" size="15.0" />
          </font>
       </Label>
       <Button fx:id="close" mnemonicParsing="false" onMouseClicked="#closePreviewWindow" prefHeight="34.0" prefWidth="109.0" text="Close">

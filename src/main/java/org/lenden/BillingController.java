@@ -369,16 +369,29 @@ public class BillingController implements Initializable
 
     }
 
+    @FXML
     public void clearBill(MouseEvent e)
     {
         billTableItems.clear();
+
         discountField.setText("");
         bill.setDiscount(0);
+
         updateGrandTotal(billTableItems);
     }
 
-    public void generateBill(MouseEvent e) throws IOException
+    @FXML
+    public void generateInvoice(MouseEvent e) throws IOException
     {
+        if(billTableItems.isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
+            alert.setHeaderText("Can't Generate Invoice");
+            alert.setTitle("Sorry!");
+            alert.showAndWait();
+            return;
+        }
+
         bill.setBillItems(billTableItems);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("bill_preview.fxml"));
@@ -388,7 +401,7 @@ public class BillingController implements Initializable
         BillPrintController controller = loader.getController();
 
         // Set the bill details in the controller
-        controller.setBillValues(bill);
+        controller.setPreviewBillValues(bill);
 
         // Create a new stage for the preview window
         Stage stage = new Stage();
@@ -397,6 +410,50 @@ public class BillingController implements Initializable
 
         // Show the preview window
         stage.show();
+
+    }
+
+    @FXML
+    private void saveInvoice(MouseEvent e)
+    {
+        if(billTableItems.isEmpty())
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
+            alert.setHeaderText("Can't Generate Invoice");
+            alert.setTitle("Sorry!");
+            alert.showAndWait();
+            return;
+        }
+
+        bill.setBillItems(billTableItems);
+
+        //ADD BILL Details to DB
+        DaoImpl daoimpl = new DaoImpl();
+        int rowsUpdated = daoimpl.addBillToDB(bill);
+
+        if(rowsUpdated>0)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Bill Added Successfully", ButtonType.OK);
+            alert.setHeaderText("Saved");
+            alert.setTitle("Success!");
+            alert.showAndWait();
+
+            billTableItems.clear(); //Clearing the bill table
+
+            Bill newBill = new Bill(); //Generating new bill after bill is saved
+            bill=newBill;
+
+            discountField.setText(""); //Setting Discount field to blank
+
+            updateGrandTotal(billTableItems);// Updating total labels back to 0
+        }
+        else
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Bill Not Added", ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
     }
 
 

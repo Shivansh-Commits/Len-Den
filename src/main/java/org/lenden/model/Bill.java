@@ -12,7 +12,11 @@ import java.util.ResourceBundle;
 
 public class Bill {
 
+    String outletName;
+    String outletAddress;
+    String gstNumber;
     String tableNumber;
+    int billnumber;
     double grandTotal;
     double total;
     double subTotal;
@@ -30,17 +34,55 @@ public class Bill {
          try
          {
              DaoImpl daoimpl = new DaoImpl();
+
              this.cgst = daoimpl.getTax("cgst");
              this.sgst = daoimpl.getTax("sgst");
              this.vat = daoimpl.getTax("vat");
              this.serviceCharge = daoimpl.getTax("servicecharge");
+             this.billnumber = daoimpl.getNextBillNumber();
+             this.outletName = daoimpl.getOutletDetails("name");
+             this.outletAddress = daoimpl.getOutletDetails("address");
+             this.gstNumber = daoimpl.getOutletDetails("gstnumber");
              this.discount = 0;
              this.date = (new Date()).toString();
+
          }
          catch(SQLException e)
          {
              e.getMessage();
          }
+    }
+
+    public int getBillnumber() {
+        return billnumber;
+    }
+
+    public void setBillnumber(int billnumber) {
+        this.billnumber = billnumber;
+    }
+
+    public String getOutletName() {
+        return outletName;
+    }
+
+    public void setOutletName(String outletName) {
+        this.outletName = outletName;
+    }
+
+    public String getOutletAddress() {
+        return outletAddress;
+    }
+
+    public void setOutletAddress(String outletAddress) {
+        this.outletAddress = outletAddress;
+    }
+
+    public String getGstNumber() {
+        return gstNumber;
+    }
+
+    public void setGstNumber(String gstNumber) {
+        this.gstNumber = gstNumber;
     }
 
     public double getSubTotal() {
