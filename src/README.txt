@@ -34,44 +34,52 @@ STUCTURE DESCRIPTION -
 
 TABLES -
     1)bills
-        billnumber (Primary Key)
-        billdate
-        tablenumber
-        outletname
-        outletaddress
-        gstnumber
-        servicecharge
-        sgst
-        cgst
-        discount
-        subtotal
-        total
-        grandtotal
-        pax
+        billnumber [integer] (Primary Key)
+        billdate [text]
+        tablenumber [text]
+        outletname [text]
+        outletaddress [text]
+        gstnumber [text]
+        servicecharge [integer]
+        sgst [numeric]
+        cgst [numeric]
+        discount [numeric]
+        subtotal [numeric]
+        total [numeric]
+        grandtotal [numeric]
+        pax [integer]
+        nextbillnumber [integer] (is incremented from code)
+
+        ---NOTE--- : One row in bills table should have all fields blank and "billnumber" field as 0 and "nextbillnumber"
+        field as the starting number for generating bill numbers.
 
     2)billdetails
-        billnumber (Primary Key)
-        tablenumber
-        fooditemname
-        fooditemquantity
-        fooditemprice
+        id [bigserial] (i.e autoincrementing) (Primary Key) // because billnumber will repeat and cannot be set as Pkey
+        billnumber [integer]
+        tablenumber [text]
+        fooditemname [text]
+        fooditemquantity [integer]
+        fooditemprice [integer]
 
     3)menu
-        fooditemname (Primary Key)
-        fooditemcateogry
-        fooditemprice
-        fooditemavaiability
+        fooditemname [text] (Primary Key)
+        fooditemcateogry [text]
+        fooditemprice [integer]
+        fooditemavaiability [boolean]
 
     4)outletdetails
-        outletname
-        outletaddress
-        gstnumber
+        id [bigserial] (i.e autoincrementing) (Primary Key)
+        outletname [text]
+        outletaddress [text]
+        gstnumber [text]
+        phone [text]
 
-    5)taxex
-        cgst
-        sgst
-        vat
-        servicecharge
+    5)taxes
+        id  [bigserial] (Primary Key)
+        cgst [numeric]
+        sgst [numeric]
+        vat [numeric]
+        servicecharge [numeric]
 
 
 

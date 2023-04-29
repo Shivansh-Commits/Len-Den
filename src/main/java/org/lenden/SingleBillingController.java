@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -20,14 +21,19 @@ import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 
-public class BillingController implements Initializable
+public class SingleBillingController implements Initializable
 {
 
+    @FXML
+    Tab singleBillTab;
+    @FXML
+    Tab tableBillTab;
     @FXML
     Button mainCourseCategoryButton;
     @FXML
@@ -69,7 +75,7 @@ public class BillingController implements Initializable
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
-
+    MainController mainController = new MainController();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -116,7 +122,10 @@ public class BillingController implements Initializable
         });
 
     }
-
+    public void setMainController(MainController mainController)
+    {
+       this.mainController = mainController;
+    }
     @FXML
     public void displayMenuItems(MouseEvent e)
     {
@@ -163,7 +172,6 @@ public class BillingController implements Initializable
             }
         });
     }
-
     public void addMenuItemtoBill(MouseEvent e)
     {
         //Getting Selected Food Items
@@ -298,7 +306,6 @@ public class BillingController implements Initializable
         }
 
     }
-
     public void computeDiscount(KeyEvent e)
     {
         if(discountField.getText().isEmpty())
@@ -330,7 +337,6 @@ public class BillingController implements Initializable
             }
         }
     }
-
     public void updateGrandTotal(ObservableList<BillItems> billTableItems)
     {
 
@@ -368,7 +374,6 @@ public class BillingController implements Initializable
 
 
     }
-
     @FXML
     public void clearBill(MouseEvent e)
     {
@@ -379,7 +384,6 @@ public class BillingController implements Initializable
 
         updateGrandTotal(billTableItems);
     }
-
     @FXML
     public void generateInvoice(MouseEvent e) throws IOException
     {
@@ -412,7 +416,6 @@ public class BillingController implements Initializable
         stage.show();
 
     }
-
     @FXML
     private void saveInvoice(MouseEvent e)
     {
@@ -433,7 +436,7 @@ public class BillingController implements Initializable
 
         if(rowsUpdated>0)
         {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Bill Added Successfully", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bill Added Successfully", ButtonType.OK);
             alert.setHeaderText("Saved");
             alert.setTitle("Success!");
             alert.showAndWait();
@@ -455,6 +458,12 @@ public class BillingController implements Initializable
             alert.showAndWait();
         }
     }
-
+    public void openTableBillingPage(MouseEvent e) throws IOException
+    {
+        mainController.openSingleBillPageFlag=true;
+        mainController.openTableBillingPage(e);
+    }
 
 }
+
+

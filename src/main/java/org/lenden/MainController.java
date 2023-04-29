@@ -5,8 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -52,7 +51,8 @@ public class MainController implements Initializable {
     AnchorPane home = null;
 
     Boolean openHomePageFlag=true;
-    Boolean openBillPageFlag=true;
+    Boolean openSingleBillPageFlag=true;
+    Boolean openTableBillPageFlag=true;
     Boolean openSalesPageFlag=true;
     Boolean openMenuPageFlag=true;
     Boolean openSettingsPageFlag=true;
@@ -68,34 +68,62 @@ public class MainController implements Initializable {
         }
         mainPane.setCenter(home);
     }
-
     @FXML
-    public void openBillingPage(MouseEvent e) throws IOException
+    public void openSingleBillingPage(MouseEvent e) throws IOException
     {
         openHomePageFlag=true;
         openSalesPageFlag=true;
         openMenuPageFlag=true;
         openSettingsPageFlag=true;
+        openTableBillPageFlag=true;
 
-        if(openBillPageFlag == true)
+        if(openSingleBillPageFlag == true)
         {
-            AnchorPane billing = FXMLLoader.load(getClass().getResource("billing.fxml"));
-            mainPane.setCenter(billing);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("single_billing.fxml"));
+            AnchorPane Singlebilling = loader.load();
+            mainPane.setCenter(Singlebilling);
 
-            openBillPageFlag=false;
+            SingleBillingController singleBillingController = loader.getController();
+            singleBillingController.setMainController(this);
+
+            openSingleBillPageFlag=false;
+        }
+
+    }
+    @FXML
+    public void openTableBillingPage(MouseEvent e) throws IOException
+    {
+        openHomePageFlag=true;
+        openSalesPageFlag=true;
+        openMenuPageFlag=true;
+        openSettingsPageFlag=true;
+        openSingleBillPageFlag=true;
+
+        if(openTableBillPageFlag == true)
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("table_billing.fxml"));
+            AnchorPane Tablebilling = loader.load();
+            mainPane.setCenter(Tablebilling);
+
+            TableBillingController tableBillingController = loader.getController();
+            tableBillingController.setMainController(this);
+
+            openTableBillPageFlag=false;
         }
 
     }
     @FXML
     public void openHomePage(MouseEvent e) throws IOException
     {
-        openBillPageFlag=true;
+        openTableBillPageFlag=true;
+        openSingleBillPageFlag=true;
         openSalesPageFlag=true;
         openMenuPageFlag=true;
         openSettingsPageFlag=true;
         if(openHomePageFlag == true)
         {
-            AnchorPane home = FXMLLoader.load(getClass().getResource("home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+            AnchorPane home = loader.load();
             mainPane.setCenter(home);
 
             openHomePageFlag=false;

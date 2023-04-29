@@ -3,6 +3,7 @@ package org.lenden.dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.lenden.model.Bill;
+import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
@@ -159,7 +160,7 @@ public class DaoImpl
             int billnumber = rs.getInt("nextbillnumber");
 
             //SAVING THE VALUE OF NEXT BILL NUMBER
-             int nextbillnumber = billnumber + 1;
+            int nextbillnumber = billnumber + 1;
             stmt  = c.prepareStatement("UPDATE "+tenantId+".bills SET nextbillnumber = "+nextbillnumber+" where billnumber = 0");
             stmt.executeUpdate();
 
@@ -197,6 +198,18 @@ public class DaoImpl
 
             int rowsAffected = stmt.executeUpdate();
 
+            stmt = c.prepareStatement("INSERT INTO "+tenantId+".billdetails (fooditemname,fooditemquantity,fooditemprice,billnumber) VALUES (?,?,?,?)");
+
+            for(BillItems item: bill.getBillItems())
+            {
+                stmt.setString(1, item.getFoodItemName());
+                stmt.setInt(2, item.getFoodItemQuantity());
+                stmt.setInt(3, item.getFoodItemPrice());
+                stmt.setInt(4, bill.getBillnumber());
+
+                stmt.executeUpdate();
+            }
+
             stmt.close();
             c.close();
 
@@ -231,7 +244,11 @@ public class DaoImpl
             }
             if(detail.equals("gstnumber") )
             {
-                return rs.getString("outletaddress");
+                return rs.getString("gstnumber");
+            }
+            if(detail.equals("phone"))
+            {
+                return rs.getString("phone");
             }
 
             stmt.close();
