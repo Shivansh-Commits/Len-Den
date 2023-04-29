@@ -23,10 +23,10 @@ public class BillPrintController{
         StringBuilder billText = new StringBuilder();
 
         // Add header
-        billText.append(String.format("%20s", "Restaurant Name")).append("\n");
-        billText.append(String.format("%20s", "10th Avenue, Saint Pauls Street")).append("\n");
-        billText.append(String.format("%20s", "Phone : +91-1234432126")).append("\n");
-        billText.append(String.format("%20s", bill.getBillnumber())).append("\n");
+        billText.append(String.format("%40s", bill.getOutletName())).append("\n");
+        billText.append(String.format("%40s", bill.getOutletAddress())).append("\n");
+        billText.append(String.format("%40s", bill.getPhone())).append("\n");
+        billText.append(String.format("%35s %2s", "Bill No:" ,bill.getBillnumber())).append("\n");
         billText.append("\n");
 
         // Add bill details

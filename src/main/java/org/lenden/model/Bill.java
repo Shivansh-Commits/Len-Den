@@ -15,6 +15,7 @@ public class Bill {
     String outletName;
     String outletAddress;
     String gstNumber;
+    String phone;
     String tableNumber;
     int billnumber;
     double grandTotal;
@@ -27,7 +28,6 @@ public class Bill {
     double vat;
     String date;
     ObservableList<BillItems> billItems;
-
 
      public Bill()
      {
@@ -42,10 +42,10 @@ public class Bill {
              this.billnumber = daoimpl.getNextBillNumber();
              this.outletName = daoimpl.getOutletDetails("name");
              this.outletAddress = daoimpl.getOutletDetails("address");
+             this.phone = daoimpl.getOutletDetails("phone");
              this.gstNumber = daoimpl.getOutletDetails("gstnumber");
              this.discount = 0;
              this.date = (new Date()).toString();
-
          }
          catch(SQLException e)
          {
@@ -83,6 +83,14 @@ public class Bill {
 
     public void setGstNumber(String gstNumber) {
         this.gstNumber = gstNumber;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public double getSubTotal() {
