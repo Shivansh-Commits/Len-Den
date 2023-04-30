@@ -13,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -231,7 +230,7 @@ public class SingleBillingController implements Initializable
                             }
 
                             //update Grand Total
-                            updateGrandTotal(billTableItems);
+                            updateTotals(billTableItems);
 
                         });
 
@@ -245,7 +244,7 @@ public class SingleBillingController implements Initializable
                             billTableItems.set(index, item);
 
                             //update Grand Total
-                            updateGrandTotal(billTableItems);
+                            updateTotals(billTableItems);
                         });
                         hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
                         setGraphic(hbox);
@@ -277,7 +276,7 @@ public class SingleBillingController implements Initializable
                     item.setFoodItemQuantity(item.getFoodItemQuantity() + 1);
 
                     //update Grand Total
-                    updateGrandTotal(billTableItems);
+                    updateTotals(billTableItems);
 
                     //finding index of item in list
                     int index = billTableItems.indexOf(item);
@@ -296,7 +295,7 @@ public class SingleBillingController implements Initializable
                 billTableItems.add(newItem);
 
                 //update Grand Total
-                updateGrandTotal(billTableItems);
+                updateTotals(billTableItems);
 
                 //set columns and display list items
                 billTable.getColumns().setAll(nameColB, priceColB, quantColB);
@@ -312,7 +311,7 @@ public class SingleBillingController implements Initializable
         {
             discountField.setText("");
             bill.setDiscount(0);
-            updateGrandTotal(billTableItems);
+            updateTotals(billTableItems);
         }
         else
         {
@@ -321,7 +320,7 @@ public class SingleBillingController implements Initializable
             {
                 double newDiscount = Double.parseDouble(discountField.getText());
                 bill.setDiscount(newDiscount);
-                updateGrandTotal(billTableItems);
+                updateTotals(billTableItems);
             }
             else
             {
@@ -333,11 +332,11 @@ public class SingleBillingController implements Initializable
                 discountField.setText("");
                 bill.setDiscount(0);
 
-                updateGrandTotal(billTableItems);
+                updateTotals(billTableItems);
             }
         }
     }
-    public void updateGrandTotal(ObservableList<BillItems> billTableItems)
+    public void updateTotals(ObservableList<BillItems> billTableItems)
     {
 
         double subTotal = 0 ;
@@ -382,7 +381,7 @@ public class SingleBillingController implements Initializable
         discountField.setText("");
         bill.setDiscount(0);
 
-        updateGrandTotal(billTableItems);
+        updateTotals(billTableItems);
     }
     @FXML
     public void generateInvoice(MouseEvent e) throws IOException
@@ -448,7 +447,7 @@ public class SingleBillingController implements Initializable
 
             discountField.setText(""); //Setting Discount field to blank
 
-            updateGrandTotal(billTableItems);// Updating total labels back to 0
+            updateTotals(billTableItems);// Updating total labels back to 0
         }
         else
         {

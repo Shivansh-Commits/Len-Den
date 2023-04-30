@@ -13,6 +13,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
@@ -22,6 +23,7 @@ import org.lenden.model.MenuItems;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 
 public class TableBillingController implements Initializable {
@@ -50,6 +52,8 @@ public class TableBillingController implements Initializable {
     @FXML
     TableView<MenuItems> foodItemsTable;
     @FXML
+    Label tableNumberLabel;
+    @FXML
     TableView billTable;
     @FXML
     Label grandTotalLabel;
@@ -68,14 +72,17 @@ public class TableBillingController implements Initializable {
     @FXML
     Button generateBillButton;
 
+    @FXML
+    Label tableGrandTotalLabel;
+
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
-
+    HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
     MainController mainController = new MainController();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //FOR MENU TABLE
+        //Getting Menu Items FOR MENU TABLE
         menuTableItems = daoimpl.getCategoryItems("Main Course");
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
@@ -227,7 +234,7 @@ public class TableBillingController implements Initializable {
                             }
 
                             //update Grand Total
-                            updateGrandTotal(billTableItems);
+                            updateTotals(billTableItems);
 
                         });
 
@@ -241,7 +248,7 @@ public class TableBillingController implements Initializable {
                             billTableItems.set(index, item);
 
                             //update Grand Total
-                            updateGrandTotal(billTableItems);
+                            updateTotals(billTableItems);
                         });
                         hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
                         setGraphic(hbox);
@@ -273,7 +280,7 @@ public class TableBillingController implements Initializable {
                     item.setFoodItemQuantity(item.getFoodItemQuantity() + 1);
 
                     //update Grand Total
-                    updateGrandTotal(billTableItems);
+                    updateTotals(billTableItems);
 
                     //finding index of item in list
                     int index = billTableItems.indexOf(item);
@@ -292,7 +299,7 @@ public class TableBillingController implements Initializable {
                 billTableItems.add(newItem);
 
                 //update Grand Total
-                updateGrandTotal(billTableItems);
+                updateTotals(billTableItems);
 
                 //set columns and display list items
                 billTable.getColumns().setAll(nameColB, priceColB, quantColB);
@@ -309,7 +316,7 @@ public class TableBillingController implements Initializable {
         {
             discountField.setText("");
             bill.setDiscount(0);
-            updateGrandTotal(billTableItems);
+            updateTotals(billTableItems);
         }
         else
         {
@@ -318,7 +325,7 @@ public class TableBillingController implements Initializable {
             {
                 double newDiscount = Double.parseDouble(discountField.getText());
                 bill.setDiscount(newDiscount);
-                updateGrandTotal(billTableItems);
+                updateTotals(billTableItems);
             }
             else
             {
@@ -330,12 +337,12 @@ public class TableBillingController implements Initializable {
                 discountField.setText("");
                 bill.setDiscount(0);
 
-                updateGrandTotal(billTableItems);
+                updateTotals(billTableItems);
             }
         }
     }
 
-    public void updateGrandTotal(ObservableList<BillItems> billTableItems)
+    public void updateTotals(ObservableList<BillItems> billTableItems)
     {
 
         double subTotal = 0 ;
@@ -364,6 +371,7 @@ public class TableBillingController implements Initializable {
         //setting Grand Total
         bill.setGrandTotal(grandTotal);
         grandTotalLabel.setText(Double.toString(grandTotal));
+        tableGrandTotalLabel.setText(Double.toString(grandTotal));
 
         cgstLabel.setText(Double.toString(cgst));
         sgstLabel.setText(Double.toString(sgst));
@@ -381,7 +389,7 @@ public class TableBillingController implements Initializable {
         discountField.setText("");
         bill.setDiscount(0);
 
-        updateGrandTotal(billTableItems);
+        updateTotals(billTableItems);
     }
 
     @FXML
@@ -449,7 +457,7 @@ public class TableBillingController implements Initializable {
 
             discountField.setText(""); //Setting Discount field to blank
 
-            updateGrandTotal(billTableItems);// Updating total labels back to 0
+            updateTotals(billTableItems);// Updating total labels back to 0
         }
         else
         {
@@ -459,10 +467,79 @@ public class TableBillingController implements Initializable {
             alert.showAndWait();
         }
     }
+
     @FXML
     public void openSingleBillingPage(MouseEvent e) throws IOException
     {
         mainController.openSingleBillPageFlag=true;
         mainController.openSingleBillingPage(e);
+    }
+
+    @FXML
+    public void viewTableBillItems(MouseEvent e)
+    {
+        Pane clickedTable = (Pane) e.getSource();
+
+        Label clickedTableLabel = (Label) clickedTable.lookup("#tableNumber");
+        String tableNumber = clickedTableLabel.getText();
+
+        Label selectedTableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel"); // Assumes the second child node is the second Label
+        tableGrandTotalLabel = selectedTableGrandTotalLabel;
+
+        if(openTables.containsKey(tableNumber))
+        {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "Table Already Open", ButtonType.OK);
+//            alert.setHeaderText("Opened Table");
+//            alert.setTitle("");
+//            alert.showAndWait();
+
+            //Getting Table Bill items
+            billTableItems = openTables.get(tableNumber);
+
+            //Setting Table Bill items in Bill Table
+            billTable.setItems(billTableItems);
+
+            //Updating Total labels
+            updateTotals(billTableItems);
+
+            //Updating Table no. in bill
+            bill.setTableNumber(tableNumber);
+
+            //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
+            tableNumberLabel.setText(tableNumber);
+
+            //Setting Table Grand Total Label
+            tableGrandTotalLabel.setText(Double.toString(bill.getGrandTotal()) );
+
+        }
+        else
+        {
+//            Alert alert = new Alert(Alert.AlertType.ERROR, "Closed Table, Opening it Now", ButtonType.OK);
+//            alert.setHeaderText("Closed Table");
+//            alert.setTitle("");
+//            alert.showAndWait();
+
+            //Creating a blank list of bill items
+            ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();
+            openTables.put(tableNumber,newBillTableItems);
+
+            //Setting the empty bill item list
+            billTableItems = newBillTableItems;
+
+            //Setting Table Bill items in Bill Table
+            billTable.setItems(billTableItems);
+
+            //Updating Total labels
+            updateTotals(billTableItems);
+
+            //Updating Table no. in bill
+            bill.setTableNumber(tableNumber);
+
+            //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
+            tableNumberLabel.setText(tableNumber);
+
+            //Setting Table Grand Total Label
+            tableGrandTotalLabel.setText(Double.toString(bill.getGrandTotal()) );
+        }
     }
 }

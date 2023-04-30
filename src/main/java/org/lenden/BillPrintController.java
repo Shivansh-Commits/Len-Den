@@ -27,6 +27,7 @@ public class BillPrintController{
         billText.append(String.format("%40s", bill.getOutletAddress())).append("\n");
         billText.append(String.format("%40s", bill.getPhone())).append("\n");
         billText.append(String.format("%35s %2s", "Bill No:" ,bill.getBillnumber())).append("\n");
+        billText.append(String.format("%35s %2s", "Table No.:" ,bill.getTableNumber())).append("\n");
         billText.append("\n");
 
         // Add bill details

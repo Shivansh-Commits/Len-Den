@@ -14,3 +14,16 @@
     -fx-background-color : white;
 }
 
+.contextmenu{
+    -fx-background-color: white; /* default color */
+   -fx-text-fill: black;
+   -fx-border-radius:0px;
+    -fx-font-size: 18px;
+}
+
+.contextmenu:hover{
+    -fx-background-color: black; /* hover color */
+   -fx-text-fill: white;
+   -fx-border-radius:0px;
+   -fx-font-size: 18px;
+}
