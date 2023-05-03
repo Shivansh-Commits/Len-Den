@@ -41,3 +41,16 @@
     -fx-text-fill : black ;
 }
 
+.clearbill {
+    -fx-background-color: #eb5454;
+        -fx-border-color: white;
+        -fx-border-width : 0.5;
+        -fx-text-fill : white ;
+}
+
+.clearbill:hover {
+    -fx-background-color: white;
+        -fx-border-color: black;
+        -fx-border-width : 0.5;
+        -fx-text-fill : black ;
+}

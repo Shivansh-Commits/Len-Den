@@ -8,6 +8,9 @@ import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class DaoImpl
@@ -198,17 +201,8 @@ public class DaoImpl
 
             int rowsAffected = stmt.executeUpdate();
 
-            stmt = c.prepareStatement("INSERT INTO "+tenantId+".billdetails (fooditemname,fooditemquantity,fooditemprice,billnumber) VALUES (?,?,?,?)");
-
-            for(BillItems item: bill.getBillItems())
-            {
-                stmt.setString(1, item.getFoodItemName());
-                stmt.setInt(2, item.getFoodItemQuantity());
-                stmt.setInt(3, item.getFoodItemPrice());
-                stmt.setInt(4, bill.getBillnumber());
-
-                stmt.executeUpdate();
-            }
+            //Add bill details (food items) to "billdetails" table
+            addBillDetails(bill);
 
             stmt.close();
             c.close();
@@ -221,6 +215,33 @@ public class DaoImpl
         }
         return -1;
 
+    }
+
+    public void addBillDetails(Bill bill) throws SQLException
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try {
+            stmt = c.prepareStatement("INSERT INTO " + tenantId + ".billdetails (fooditemname,fooditemquantity,fooditemprice,billnumber,tablenumber) VALUES (?,?,?,?,?)");
+
+            for (BillItems item : bill.getBillItems()) {
+                stmt.setString(1, item.getFoodItemName());
+                stmt.setInt(2, item.getFoodItemQuantity());
+                stmt.setInt(3, item.getFoodItemPrice());
+                stmt.setInt(4, bill.getBillnumber());
+                stmt.setString(5,bill.getTableNumber());
+
+                stmt.executeUpdate();
+            }
+
+            stmt.close();
+            c.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public String getOutletDetails(String detail)
@@ -262,5 +283,137 @@ public class DaoImpl
         return null;
     }
 
+    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
 
+        try
+        {
+            stmt = c.prepareStatement("INSERT INTO " + tenantId + ".opentabledetails (fooditemname,fooditemquantity,fooditemprice,tablenumber) VALUES (?,?,?,?) ON CONFLICT (fooditemname, tablenumber) DO UPDATE SET fooditemquantity = excluded.fooditemquantity, fooditemprice = excluded.fooditemprice");
+
+            for (Map.Entry<String, ObservableList<BillItems>> entry : openTables.entrySet())
+            {
+                String tablenumber = entry.getKey();
+                stmt.setString(4,tablenumber);
+
+                ObservableList<BillItems> billdetails = entry.getValue();
+
+                for(BillItems item: billdetails)
+                {
+                    stmt.setString(1,item.getFoodItemName());
+                    stmt.setInt(2,item.getFoodItemQuantity());
+                    stmt.setInt(3,item.getFoodItemPrice());
+
+                    stmt.executeUpdate();
+                }
+
+            }
+
+            stmt.close();
+            c.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails()
+    {
+        HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<String,ObservableList<BillItems>>();
+
+        Connection c = dao.getConnection();
+        PreparedStatement stmt;
+
+        try
+        {
+            stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".opentabledetails",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+            {
+                String tableNumber = rs.getString("tablenumber");
+                if(!openTableDetails.containsKey(tableNumber))
+                {
+                    ObservableList<BillItems> billitems = FXCollections.observableArrayList();
+                    openTableDetails.put(tableNumber,billitems);
+                }
+            }
+
+            for (Map.Entry<String, ObservableList<BillItems>> opentables : openTableDetails.entrySet())
+            {
+                String tableNumber = opentables.getKey();
+                rs.beforeFirst();
+
+                ObservableList<BillItems> billitems = FXCollections.observableArrayList();
+                while(rs.next())
+                {
+                    if(rs.getString("tablenumber").equals(tableNumber))
+                    {
+                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getInt("fooditemprice"),rs.getInt("fooditemquantity"));
+                        billitems.add(billItem);
+                    }
+                }
+
+                openTableDetails.put(tableNumber,billitems);
+            }
+
+            stmt.close();
+            c.close();
+
+            return openTableDetails;
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return new HashMap<String,ObservableList<BillItems>>();
+    }
+
+    public void deleteOpenTableDetails(String tableNumber,String foodItemName)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try
+        {
+            stmt = c.prepareStatement("DELETE FROM "+tenantId+".opentabledetails WHERE fooditemname = ? AND tablenumber = ? ");
+            stmt.setString(1,foodItemName);
+            stmt.setString(2,tableNumber);
+
+            int affectedRows = stmt.executeUpdate();
+
+            stmt.close();
+            c.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void closeTable(String openTable)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try
+        {
+            stmt = c.prepareStatement("DELETE FROM "+tenantId+".opentabledetails WHERE tablenumber = ?");
+            stmt.setString(1,openTable);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+            c.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+    }
 }
