@@ -87,7 +87,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Billing" textFill="WHITE">
+                        <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Billing" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>

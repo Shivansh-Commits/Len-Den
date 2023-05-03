@@ -23,8 +23,11 @@ import org.lenden.model.MenuItems;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 public class TableBillingController implements Initializable {
     @FXML
@@ -122,6 +125,20 @@ public class TableBillingController implements Initializable {
                 }
             }
         });
+
+
+        //-------------------------------
+        //Setting Open Table Details
+        //-------------------------------
+        openTables = daoimpl.fetchOpenTableDetails();
+        //updateTotals(openTables.get("Table 1"));
+        //billTable.setItems(openTables.get("Table 1"));
+//        for(Map.Entry<String, ObservableList<BillItems>> opentables : openTables.entrySet())
+//        {
+//            updateTotals(opentables.getValue());
+//            billTable.setItems(opentables.getValue());
+//        }
+
 
     }
     public void setMainController(MainController mainController)
@@ -348,11 +365,12 @@ public class TableBillingController implements Initializable {
         double subTotal = 0 ;
         double discount = bill.getDiscount();
 
-        for(BillItems item : billTableItems)
-        {
-            subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
-        }
+        if(billTableItems==null)
+            billTableItems = FXCollections.observableArrayList();
 
+        for (BillItems item : billTableItems) {
+                subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
+            }
         //Setting SubTotal
         bill.setSubTotal(subTotal);
         subTotalLabel.setText(Double.toString(subTotal));
@@ -377,13 +395,14 @@ public class TableBillingController implements Initializable {
         sgstLabel.setText(Double.toString(sgst));
         serviceChargeLabel.setText(Double.toString(servicecharge));
 
-
-
+        daoimpl.saveOpenTableDetails(openTables);
     }
 
     @FXML
     public void clearBill(MouseEvent e)
     {
+        daoimpl.closeTable(tableNumberLabel.getText());
+
         billTableItems.clear();
 
         discountField.setText("");
@@ -440,7 +459,6 @@ public class TableBillingController implements Initializable {
         bill.setBillItems(billTableItems);
 
         //ADD BILL Details to DB
-        DaoImpl daoimpl = new DaoImpl();
         int rowsUpdated = daoimpl.addBillToDB(bill);
 
         if(rowsUpdated>0)
@@ -469,7 +487,7 @@ public class TableBillingController implements Initializable {
     }
 
     @FXML
-    public void openSingleBillingPage(MouseEvent e) throws IOException
+    public void openSingleBillingPage(MouseEvent e) throws IOException, SQLException
     {
         mainController.openSingleBillPageFlag=true;
         mainController.openSingleBillingPage(e);
@@ -480,23 +498,104 @@ public class TableBillingController implements Initializable {
     {
         Pane clickedTable = (Pane) e.getSource();
 
-        Label clickedTableLabel = (Label) clickedTable.lookup("#tableNumber");
+        Label clickedTableLabel = (Label) clickedTable.lookup("#tableNumber"); // Getting TABLE NUMBER label of Table
         String tableNumber = clickedTableLabel.getText();
 
-        Label selectedTableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel"); // Assumes the second child node is the second Label
+        Label selectedTableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel"); //Getting GRAND TOTAL lablel of Table
         tableGrandTotalLabel = selectedTableGrandTotalLabel;
+
 
         if(openTables.containsKey(tableNumber))
         {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, "Table Already Open", ButtonType.OK);
-//            alert.setHeaderText("Opened Table");
-//            alert.setTitle("");
-//            alert.showAndWait();
+            //----------------------SETTING COLUMNS FOR BILL TABLE, TO DISPLAY OPEN TABLE BILL ITEMS--------------------
+
+            // Create a cell value factory for the Name column
+            TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
+            nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+
+            // Create a cell value factory for the Price column
+            TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
+            priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+
+            // Create a cell value factory for the Quantity column
+            TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
+            quantColB.setMinWidth(100);
+            quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+            quantColB.setCellFactory(col -> {
+                TableCell<BillItems, Integer> cell = new TableCell<>() {
+                    @Override
+                    public void updateItem(Integer quantity, boolean empty) {
+                        super.updateItem(quantity, empty);
+                        if (empty)
+                        {
+                            setGraphic(null);
+                            setText(null);
+                        }
+                        else
+                        {
+                            HBox hbox = new HBox(20);
+                            Text txtQuantity = new Text(quantity.toString());
+                            Button btnMinus = new Button("-");
+                            btnMinus.setStyle("-fx-background-color: #fa8484; -fx-text-fill: white;");
+                            Button btnPlus = new Button("+");
+                            btnPlus.setStyle("-fx-background-color: #96fa84; -fx-text-fill: white;");
+
+                            btnMinus.setOnAction(event -> {
+
+                                BillItems item = getTableView().getItems().get(getIndex());
+                                int currentQuantity = item.getFoodItemQuantity();
+                                if (currentQuantity > 1) {
+                                    item.setFoodItemQuantity(currentQuantity - 1);
+                                    txtQuantity.setText(String.valueOf(currentQuantity - 1));
+                                    int index = billTableItems.indexOf(item);
+                                    billTableItems.set(index, item);
+                                } else {
+                                    daoimpl.deleteOpenTableDetails(tableNumber,item.getFoodItemName());
+                                    billTableItems.remove(item);
+                                    billTable.setItems(billTableItems);
+                                }
+
+                                //Updating Open tables data
+                                openTables.put(tableNumber,billTableItems);
+
+                                //update Grand Total
+                                updateTotals(billTableItems);
+
+                            });
+
+                            btnPlus.setOnAction(event -> {
+
+                                BillItems item = getTableView().getItems().get(getIndex());
+                                int currentQuantity = item.getFoodItemQuantity();
+                                item.setFoodItemQuantity(currentQuantity + 1);
+                                txtQuantity.setText(String.valueOf(currentQuantity + 1));
+                                int index = billTableItems.indexOf(item);
+                                billTableItems.set(index, item);
+
+                                //Updating Open tables data
+                                openTables.put(tableNumber,billTableItems);
+
+                                //update Grand Total
+                                updateTotals(billTableItems);
+                            });
+                            hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
+                            setGraphic(hbox);
+                            setText(null);
+                        }
+                    }
+                };
+                return cell;
+            });
+            quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+            //----------------------------------------------------------------------------------------------------------
+
+
 
             //Getting Table Bill items
             billTableItems = openTables.get(tableNumber);
 
             //Setting Table Bill items in Bill Table
+            billTable.getColumns().setAll(nameColB, priceColB, quantColB);
             billTable.setItems(billTableItems);
 
             //Updating Total labels
@@ -508,16 +607,9 @@ public class TableBillingController implements Initializable {
             //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
             tableNumberLabel.setText(tableNumber);
 
-            //Setting Table Grand Total Label
-            tableGrandTotalLabel.setText(Double.toString(bill.getGrandTotal()) );
-
         }
         else
         {
-//            Alert alert = new Alert(Alert.AlertType.ERROR, "Closed Table, Opening it Now", ButtonType.OK);
-//            alert.setHeaderText("Closed Table");
-//            alert.setTitle("");
-//            alert.showAndWait();
 
             //Creating a blank list of bill items
             ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();
@@ -538,8 +630,6 @@ public class TableBillingController implements Initializable {
             //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
             tableNumberLabel.setText(tableNumber);
 
-            //Setting Table Grand Total Label
-            tableGrandTotalLabel.setText(Double.toString(bill.getGrandTotal()) );
         }
     }
 }

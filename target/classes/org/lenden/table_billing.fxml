@@ -165,8 +165,14 @@
                               </VBox>
                               <VBox layoutX="396.0" layoutY="24.0" spacing="20.0" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="20.80000000000004" AnchorPane.topAnchor="24.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Clear Bill" />
-                                    <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Generate Invoice" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Single Bill">
+                                       <font>
+                                          <Font name="Segoe UI Symbol" size="12.0" />
+                                       </font></Button>
+                                    <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Generate Invoice">
+                                       <font>
+                                          <Font name="Segoe UI Symbol" size="12.0" />
+                                       </font></Button>
                                     <Button fx:id="saveInvoiceButton" mnemonicParsing="false" onMouseClicked="#saveInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Save Invoice" />
                                  </children>
                               </VBox>
@@ -189,13 +195,18 @@
                         </AnchorPane>
                      </children>
                   </GridPane>
-                  <Label layoutX="14.0" layoutY="362.0" prefHeight="30.0" prefWidth="77.0" text="Invoice" AnchorPane.bottomAnchor="398.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="523.0" AnchorPane.topAnchor="362.0">
+                  <Label layoutX="14.0" layoutY="358.0" prefHeight="30.0" prefWidth="77.0" text="Invoice" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="523.0" AnchorPane.topAnchor="358.0">
                      <font>
                         <Font name="Segoe UI Semilight" size="23.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="14.0" layoutY="393.0" prefHeight="4.0" prefWidth="600.0" AnchorPane.bottomAnchor="393.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="393.0" />
-                  <Button layoutX="462.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="30.0" prefWidth="138.0" text="OPEN SINGLE BILLING" />
+                  <Separator layoutX="14.0" layoutY="386.0" prefHeight="2.0" prefWidth="580.0" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="386.0" />
+                  <Button layoutX="462.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="30.0" prefWidth="90.0" styleClass="clearbill" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Clear Bill" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="503.80000000000007" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="358.0" />
+                  <Label fx:id="tableNumberLabel" layoutX="423.0" layoutY="358.0" prefHeight="30.0" prefWidth="78.0" text="_ : _" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="423.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="358.0">
+                     <font>
+                        <Font name="Segoe UI Semilight" size="20.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <Accordion prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: black;">
@@ -204,97 +215,105 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                            <children>
-                              <Pane fx:id="T2" layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T2" layoutX="188.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                  <children>
-                                    <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="43.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T3" layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T3" layoutX="351.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                  <children>
-                                    <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="46.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T4" layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T4" layoutX="516.0" layoutY="90.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                  <children>
-                                    <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="47.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T1" layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T1" layoutX="25.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                  <children>
-                                    <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="47.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T6" layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T6" layoutX="220.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                  <children>
-                                    <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="43.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T7" layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T7" layoutX="383.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                  <children>
-                                    <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="47.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T8" layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T8" layoutX="542.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                  <children>
-                                    <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="45.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T5" layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T5" layoutX="57.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                  <children>
-                                    <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
+                                    <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" onMouseClicked="#viewTableBillItems" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                        <font>
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
+                                    <Label fx:id="tableGrandTotalLabel" layoutX="47.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="HAND" />

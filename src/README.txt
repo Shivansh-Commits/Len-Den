@@ -61,20 +61,28 @@ TABLES -
         fooditemquantity [integer]
         fooditemprice [integer]
 
-    3)menu
+    3)opentabledetails
+        tablenumber [text]---|
+                             |---> (COMPOSITE PRIMARY KEY)
+        fooditemname [text]--|
+        fooditemquantity [integer]
+        fooditemprice[integer]
+
+
+    4)menu
         fooditemname [text] (Primary Key)
         fooditemcateogry [text]
         fooditemprice [integer]
         fooditemavaiability [boolean]
 
-    4)outletdetails
+    5)outletdetails
         id [bigserial] (i.e autoincrementing) (Primary Key)
         outletname [text]
         outletaddress [text]
         gstnumber [text]
         phone [text]
 
-    5)taxes
+    6)taxes
         id  [bigserial] (Primary Key)
         cgst [numeric]
         sgst [numeric]
