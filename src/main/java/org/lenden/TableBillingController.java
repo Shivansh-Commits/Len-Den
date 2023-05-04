@@ -101,7 +101,6 @@ public class TableBillingController implements Initializable {
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
-
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
