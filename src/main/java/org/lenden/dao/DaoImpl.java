@@ -8,6 +8,7 @@ import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -394,6 +395,34 @@ public class DaoImpl
         {
             e.printStackTrace();
         }
+    }
+
+    public List<String> getCategories()
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try {
+
+            stmt  = c.prepareStatement("SELECT DISTINCT fooditemcategory FROM "+tenantId+".menu");
+            ResultSet rs = stmt.executeQuery();
+            List<String> categories = new ArrayList<>();
+            while(rs.next())
+            {
+                categories.add(rs.getString("fooditemcategory"));
+            }
+
+            stmt.close();
+            c.close();
+
+            return categories;
+        }
+        catch(SQLException e)
+        {
+            e.getMessage();
+        }
+
+        return null;
     }
 
     public void closeTable(String openTable)

@@ -74,7 +74,8 @@ public class TableBillingController implements Initializable {
     TextField discountField;
     @FXML
     Button generateBillButton;
-
+    @FXML
+    HBox hBox;
     @FXML
     Label tableGrandTotalLabel;
 
@@ -84,6 +85,8 @@ public class TableBillingController implements Initializable {
     MainController mainController = new MainController();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //Setting Category Buttons
 
         //Getting Menu Items FOR MENU TABLE
         menuTableItems = daoimpl.getCategoryItems("Main Course");
@@ -360,7 +363,6 @@ public class TableBillingController implements Initializable {
 
     public void updateTotals(ObservableList<BillItems> billTableItems)
     {
-
         double subTotal = 0 ;
         double discount = bill.getDiscount();
 
@@ -372,11 +374,13 @@ public class TableBillingController implements Initializable {
             }
         //Setting SubTotal
         bill.setSubTotal(subTotal);
+        //Displaying Subtotal
         subTotalLabel.setText(Double.toString(subTotal));
 
         //Setting Discounted Total
         double total = subTotal - (subTotal*((discount)/100));
         bill.setTotal(total);
+        //Displaying subtotal
         totalLabel.setText(Double.toString(total));
 
         double cgst = bill.getCgst();
@@ -385,15 +389,19 @@ public class TableBillingController implements Initializable {
         double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
         double grandTotal = total + tax;
 
-        //setting Grand Total
+        //Setting Grand Total in bill
         bill.setGrandTotal(grandTotal);
+
+        //Diplaying Grandtotal
         grandTotalLabel.setText(Double.toString(grandTotal));
         tableGrandTotalLabel.setText(Double.toString(grandTotal));
 
+        //Displaying taxes
         cgstLabel.setText(Double.toString(cgst));
         sgstLabel.setText(Double.toString(sgst));
         serviceChargeLabel.setText(Double.toString(servicecharge));
 
+        //Saving open table Details
         daoimpl.saveOpenTableDetails(openTables);
     }
 
@@ -630,5 +638,22 @@ public class TableBillingController implements Initializable {
             tableNumberLabel.setText(tableNumber);
 
         }
+    }
+
+    public void createTable(MouseEvent ev)
+    {
+        Button button = new Button("Add Pane with Labels");
+        button.setOnAction(e -> {
+            // Create a Pane with two Labels
+            Pane pane = new Pane();
+            Label label1 = new Label("Label 1");
+            Label label2 = new Label("Label 2");
+
+            pane.getChildren().addAll(label1, label2);
+
+            // Get the HBox by ID and add the Pane to it
+            HBox hboxById = (HBox) button.getScene().lookup("#hBox");
+            hboxById.getChildren().add(pane);
+        });
     }
 }

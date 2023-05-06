@@ -26,11 +26,11 @@
    <left>
       <AnchorPane fx:id="navBar" prefHeight="700.0" prefWidth="46.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="navMenu" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../stylesheets/mainStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="navMenu" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../mainStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <VBox layoutX="-48.0" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../stylesheets/mainStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox layoutX="-48.0" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../mainStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
-                        <Button fx:id="homeMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openHomePage" onMouseEntered="#changeHomeIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Home" textFill="WHITE">
+                        <Button fx:id="homeMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openHomePage" onMouseEntered="#changeHomeIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Home" textFill="WHITE">
                            <VBox.margin>
                               <Insets />
                            </VBox.margin>
@@ -51,7 +51,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Sales" textFill="WHITE">
+                        <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Sales" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -69,7 +69,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="menuMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeMenuIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Menu" textFill="WHITE">
+                        <Button fx:id="menuMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openMenuPage" onMouseEntered="#changeMenuIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Menu" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -87,7 +87,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Billing" textFill="WHITE">
+                        <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Billing" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -105,7 +105,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="settingsMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSettingsIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Settings" textFill="WHITE">
+                        <Button fx:id="settingsMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSettingsIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Settings" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>
@@ -123,7 +123,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="logoutMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#logout" onMouseEntered="#changeLogoutIcon" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../stylesheets/mainStyleSheet.css" text="Log-Out" textFill="WHITE">
+                        <Button fx:id="logoutMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#logout" onMouseEntered="#changeLogoutIcon" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Log-Out" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>

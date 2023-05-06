@@ -1,0 +1,16 @@
+.menu-page-category-button {
+    -fx-background-color: black;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill : white ;
+    -fx-border-color : white;
+    -fx-font-size : 15px;
+}
+
+.menu-page-category-button:hover {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill : black ;
+    -fx-font-size : 17px;
+}
