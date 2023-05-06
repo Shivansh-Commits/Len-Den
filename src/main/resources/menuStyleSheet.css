@@ -3,8 +3,9 @@
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill : white ;
-    -fx-border-color : white;
+    -fx-border-color : black;
     -fx-font-size : 15px;
+    -fx-font-family : "Segoe UI Symbol";
 }
 
 .menu-page-category-button:hover {
@@ -13,4 +14,11 @@
     -fx-border-width : 0.5;
     -fx-text-fill : black ;
     -fx-font-size : 17px;
+    -fx-font-family : "Segoe UI Symbol";
+}
+
+.table-items {
+
+     -fx-font-size : 15px;
+     -fx-font-family : "Segoe UI Symbol";
 }

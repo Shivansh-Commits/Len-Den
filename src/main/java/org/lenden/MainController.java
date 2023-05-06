@@ -102,6 +102,9 @@ public class MainController implements Initializable {
             AnchorPane Singlebilling = loader.load();
             mainPane.setCenter(Singlebilling);
 
+            Scene scene = homeMenuButton.getScene();
+            scene.getStylesheets().add("billingStyleSheet.css");
+
             SingleBillingController singleBillingController = loader.getController();
             singleBillingController.setMainController(this);
 

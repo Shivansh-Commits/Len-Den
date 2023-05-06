@@ -23,6 +23,7 @@ import org.lenden.model.MenuItems;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -30,21 +31,7 @@ public class SingleBillingController implements Initializable
 {
 
     @FXML
-    Tab singleBillTab;
-    @FXML
-    Tab tableBillTab;
-    @FXML
-    Button mainCourseCategoryButton;
-    @FXML
-    Button beveregesCategoryButton;
-    @FXML
-    Button breadsCategoryButton;
-    @FXML
-    Button dessertCategoryButton;
-    @FXML
-    Button snackCategoryButton;
-    @FXML
-    Button extraCategoryButton;
+    HBox categoryHbox;
     @FXML
     AnchorPane categoryAnchorPane;
     @FXML
@@ -78,6 +65,20 @@ public class SingleBillingController implements Initializable
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        //Setting Category Buttons
+        List<String> categories = daoimpl.getCategories();
+
+        for(String category:categories)
+        {
+            Button button = new Button(category); // Create a new button
+
+            button.getStyleClass().add("categoryButtons");
+            button.setPrefWidth(122);
+            button.setPrefHeight(109);
+            button.setOnMouseClicked(this::displayMenuItems);
+            categoryHbox.getChildren().add(button);
+        }
 
         //FOR MENU TABLE
         menuTableItems = daoimpl.getCategoryItems("Main Course");
