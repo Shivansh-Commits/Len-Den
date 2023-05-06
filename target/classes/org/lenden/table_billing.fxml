@@ -12,8 +12,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
@@ -36,37 +38,37 @@
                      <content>
                         <AnchorPane fx:id="categoryAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="76.0" prefWidth="860.0">
                            <children>
-                              <Button fx:id="favouriteCategoryButton" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="2.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Favourites" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Button fx:id="favouriteCategoryButton" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0" layoutY="2.0" mnemonicParsing="false" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Favourites" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
                               </Button>
-                              <Button id="categoryButtons" fx:id="mainCourseCategoryButton" layoutX="128.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Main Course" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="122.8" AnchorPane.topAnchor="0.0">
+                              <Button id="categoryButtons" fx:id="mainCourseCategoryButton" layoutX="128.0" layoutY="-1.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Main Course" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="122.8" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
                               </Button>
-                              <Button id="categoryButtons" fx:id="breadsCategoryButton" layoutX="288.0" layoutY="-3.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Breads" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="245.6" AnchorPane.topAnchor="0.0">
+                              <Button id="categoryButtons" fx:id="breadsCategoryButton" layoutX="288.0" layoutY="-3.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Breads" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="245.6" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
                               </Button>
-                              <Button id="categoryButtons" fx:id="dessertCategoryButton" layoutX="298.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Dessert" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="368.4" AnchorPane.topAnchor="0.0">
+                              <Button id="categoryButtons" fx:id="dessertCategoryButton" layoutX="298.0" layoutY="7.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Dessert" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="368.4" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
                               </Button>
-                              <Button id="categoryButtons" fx:id="beveregesCategoryButton" layoutX="308.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Bevereges" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="491.2" AnchorPane.topAnchor="0.0">
+                              <Button id="categoryButtons" fx:id="beveregesCategoryButton" layoutX="308.0" layoutY="17.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Bevereges" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="491.2" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
                               </Button>
-                              <Button id="categoryButtons" fx:id="snackCategoryButton" layoutX="318.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Snacks" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="614.0" AnchorPane.topAnchor="0.0">
+                              <Button id="categoryButtons" fx:id="snackCategoryButton" layoutX="318.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Snacks" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="614.0" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
                               </Button>
-                              <Button id="categoryButtons" fx:id="extraCategoryButton" layoutX="318.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Extras" textFill="#caffba" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="736.8" AnchorPane.topAnchor="0.0">
+                              <Button id="categoryButtons" fx:id="extraCategoryButton" layoutX="318.0" layoutY="27.0" mnemonicParsing="false" onMouseClicked="#displayMenuItems" prefHeight="109.0" prefWidth="122.8" styleClass="categoryButtons" stylesheets="@../../billingStyleSheet.css" text="Extras" textFill="#caffba" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="736.8" AnchorPane.topAnchor="0.0">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="14.0" />
                                  </font>
@@ -75,7 +77,7 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <GridPane layoutY="399.0" prefHeight="391.0" prefWidth="614.0" styleClass="billGridPane" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="399.0">
+                  <GridPane layoutY="399.0" prefHeight="391.0" prefWidth="614.0" styleClass="billGridPane" stylesheets="@../../billingStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="399.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="660.8" minWidth="10.0" prefWidth="615.2" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="313.5999755859375" minWidth="0.0" prefWidth="0.0" />
@@ -136,7 +138,7 @@
                                           <Font name="Segoe UI Semilight" size="14.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="discountField" onKeyTyped="#computeDiscount" prefHeight="21.0" prefWidth="58.0" promptText="_ _ : _ _" styleClass="discountTextField" stylesheets="@../../stylesheets/billingStyleSheet.css">
+                                    <TextField fx:id="discountField" onKeyTyped="#computeDiscount" prefHeight="21.0" prefWidth="58.0" promptText="_ _ : _ _" styleClass="discountTextField" stylesheets="@../../billingStyleSheet.css">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="14.0" />
                                        </font>
@@ -165,15 +167,24 @@
                               </VBox>
                               <VBox layoutX="396.0" layoutY="24.0" spacing="20.0" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="20.80000000000004" AnchorPane.topAnchor="24.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Single Bill">
+                                    <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Single Bill">
                                        <font>
                                           <Font name="Segoe UI Symbol" size="12.0" />
-                                       </font></Button>
-                                    <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Generate Invoice">
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Generate Invoice">
                                        <font>
                                           <Font name="Segoe UI Symbol" size="12.0" />
-                                       </font></Button>
-                                    <Button fx:id="saveInvoiceButton" mnemonicParsing="false" onMouseClicked="#saveInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Save Invoice" />
+                                       </font>
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
+                                    <Button fx:id="saveInvoiceButton" mnemonicParsing="false" onMouseClicked="#saveInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Save Invoice">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor></Button>
                                  </children>
                               </VBox>
                            </children>
@@ -195,27 +206,38 @@
                         </AnchorPane>
                      </children>
                   </GridPane>
-                  <Label layoutX="14.0" layoutY="358.0" prefHeight="30.0" prefWidth="77.0" text="Invoice" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="523.0" AnchorPane.topAnchor="358.0">
+                  <BorderPane layoutX="-6.0" layoutY="351.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <center>
+                        <AnchorPane prefHeight="50.0" prefWidth="622.0" style="-fx-background-color: black;">
+                           <children>
+                              <Button layoutX="335.0" layoutY="13.0" mnemonicParsing="false" onMouseClicked="#createTable" text="Generate" />
+                           </children></AnchorPane>
+                     </center>
+                  </BorderPane>
+                  <Label layoutX="14.0" layoutY="358.0" prefHeight="30.0" prefWidth="77.0" text="Invoice" textFill="WHITE" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="14.600000000000051" AnchorPane.topAnchor="358.0">
                      <font>
                         <Font name="Segoe UI Semilight" size="23.0" />
                      </font>
                   </Label>
-                  <Separator layoutX="14.0" layoutY="386.0" prefHeight="2.0" prefWidth="580.0" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="386.0" />
-                  <Button layoutX="462.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="30.0" prefWidth="90.0" styleClass="clearbill" stylesheets="@../../stylesheets/billingStyleSheet.css" text="Clear Bill" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="503.80000000000007" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="358.0" />
-                  <Label fx:id="tableNumberLabel" layoutX="423.0" layoutY="358.0" prefHeight="30.0" prefWidth="78.0" text="_ : _" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="423.0" AnchorPane.rightAnchor="114.0" AnchorPane.topAnchor="358.0">
+                  <Separator layoutX="14.0" layoutY="386.0" prefHeight="12.0" prefWidth="122.0" AnchorPane.bottomAnchor="392.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="386.0" />
+                  <Button layoutX="462.0" layoutY="362.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="26.0" prefWidth="90.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="503.80000000000007" AnchorPane.topAnchor="362.0">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
+                  <Label fx:id="tableNumberLabel" layoutX="423.0" layoutY="362.0" prefHeight="26.0" prefWidth="78.0" text="_ : _" textFill="WHITE" AnchorPane.bottomAnchor="402.0" AnchorPane.leftAnchor="423.0" AnchorPane.topAnchor="362.0">
                      <font>
                         <Font name="Segoe UI Semilight" size="20.0" />
                      </font>
                   </Label>
                </children>
             </AnchorPane>
-            <Accordion prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: black;">
+            <Accordion fx:id="accordion" prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: black;">
                <panes>
                   <TitledPane prefHeight="718.0" prefWidth="983.0" text="Area - 1">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                            <children>
-                              <Pane fx:id="T2" layoutX="188.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T2" layoutX="188.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                        <font>
@@ -228,7 +250,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T3" layoutX="351.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T3" layoutX="351.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                        <font>
@@ -241,7 +263,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T4" layoutX="516.0" layoutY="90.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T4" layoutX="516.0" layoutY="90.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                        <font>
@@ -254,7 +276,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T1" layoutX="25.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                              <Pane fx:id="T1" layoutX="25.0" layoutY="81.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                        <font>
@@ -267,7 +289,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T6" layoutX="220.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T6" layoutX="220.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                        <font>
@@ -280,7 +302,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T7" layoutX="383.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T7" layoutX="383.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                        <font>
@@ -293,7 +315,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T8" layoutX="542.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T8" layoutX="542.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                        <font>
@@ -306,7 +328,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane fx:id="T5" layoutX="57.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                              <Pane fx:id="T5" layoutX="57.0" layoutY="200.0" onMouseClicked="#viewTableBillItems" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" onMouseClicked="#viewTableBillItems" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                        <font>
@@ -319,6 +341,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
+                              <HBox fx:id="hBox" layoutX="57.0" layoutY="332.0" prefHeight="100.0" prefWidth="200.0" />
                            </children>
                         </AnchorPane>
                      </content>
@@ -327,7 +350,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="109.0" prefWidth="843.0" style="-fx-background-color: black;">
                            <children>
-                              <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                        <font>
@@ -339,7 +362,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                        <font>
@@ -351,7 +374,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                        <font>
@@ -363,7 +386,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                        <font>
@@ -375,7 +398,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                        <font>
@@ -387,7 +410,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                        <font>
@@ -399,7 +422,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                        <font>
@@ -411,7 +434,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                        <font>
@@ -431,7 +454,7 @@
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
                            <children>
-                              <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="188.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                        <font>
@@ -443,7 +466,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="351.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                        <font>
@@ -455,7 +478,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="516.0" layoutY="90.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                        <font>
@@ -467,7 +490,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
+                              <Pane layoutX="25.0" layoutY="81.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="47.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                        <font>
@@ -479,7 +502,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="220.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="207.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                        <font>
@@ -491,7 +514,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="383.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="370.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                        <font>
@@ -503,7 +526,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="542.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="533.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                        <font>
@@ -515,7 +538,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Pane>
-                              <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../stylesheets/billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
+                              <Pane layoutX="57.0" layoutY="200.0" prefHeight="91.0" prefWidth="113.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" AnchorPane.leftAnchor="47.0" AnchorPane.topAnchor="185.0">
                                  <children>
                                     <Label layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                        <font>

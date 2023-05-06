@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
@@ -69,6 +70,24 @@ public class MainController implements Initializable {
         mainPane.setCenter(home);
     }
     @FXML
+    public void openHomePage(MouseEvent e) throws IOException
+    {
+        openTableBillPageFlag=true;
+        openSingleBillPageFlag=true;
+        openSalesPageFlag=true;
+        openMenuPageFlag=true;
+        openSettingsPageFlag=true;
+        if(openHomePageFlag)
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+            AnchorPane home = loader.load();
+            mainPane.setCenter(home);
+
+            openHomePageFlag=false;
+        }
+
+    }
+    @FXML
     public void openSingleBillingPage(MouseEvent e) throws IOException
     {
         openHomePageFlag=true;
@@ -103,6 +122,10 @@ public class MainController implements Initializable {
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("table_billing.fxml"));
             AnchorPane Tablebilling = loader.load();
+
+            Scene scene = homeMenuButton.getScene();
+            scene.getStylesheets().add("billingStyleSheet.css");
+
             mainPane.setCenter(Tablebilling);
 
             TableBillingController tableBillingController = loader.getController();
@@ -112,23 +135,24 @@ public class MainController implements Initializable {
         }
 
     }
-    @FXML
-    public void openHomePage(MouseEvent e) throws IOException
-    {
+
+    public void openMenuPage(MouseEvent e) throws IOException {
         openTableBillPageFlag=true;
         openSingleBillPageFlag=true;
+        openHomePageFlag=true;
         openSalesPageFlag=true;
-        openMenuPageFlag=true;
         openSettingsPageFlag=true;
-        if(openHomePageFlag == true)
+        if(openMenuPageFlag)
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
             AnchorPane home = loader.load();
+
+            Scene scene = homeMenuButton.getScene();
+            scene.getStylesheets().add("menuStyleSheet.css");
+
             mainPane.setCenter(home);
-
-            openHomePageFlag=false;
+            openMenuPageFlag=false;
         }
-
     }
     @FXML
     public void logout(MouseEvent e)
@@ -137,6 +161,7 @@ public class MainController implements Initializable {
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
     }
+
 
 
 
