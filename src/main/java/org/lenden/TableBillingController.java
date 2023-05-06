@@ -24,10 +24,7 @@ import org.lenden.model.MenuItems;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class TableBillingController implements Initializable {
     @FXML
@@ -35,17 +32,7 @@ public class TableBillingController implements Initializable {
     @FXML
     Tab tableBillTab;
     @FXML
-    Button mainCourseCategoryButton;
-    @FXML
-    Button beveregesCategoryButton;
-    @FXML
-    Button breadsCategoryButton;
-    @FXML
-    Button dessertCategoryButton;
-    @FXML
-    Button snackCategoryButton;
-    @FXML
-    Button extraCategoryButton;
+    HBox categoryHbox;
     @FXML
     AnchorPane categoryAnchorPane;
     @FXML
@@ -87,6 +74,18 @@ public class TableBillingController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Setting Category Buttons
+        List<String> categories = daoimpl.getCategories();
+
+        for(String category:categories)
+        {
+            Button button = new Button(category); // Create a new button
+
+            button.getStyleClass().add("categoryButtons");
+            button.setPrefWidth(122);
+            button.setPrefHeight(109);
+            button.setOnMouseClicked(this::displayMenuItems);
+            categoryHbox.getChildren().add(button);
+        }
 
         //Getting Menu Items FOR MENU TABLE
         menuTableItems = daoimpl.getCategoryItems("Main Course");

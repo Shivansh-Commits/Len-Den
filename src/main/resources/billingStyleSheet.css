@@ -1,11 +1,13 @@
 .categoryButtons {
     -fx-background-color: white;
     -fx-text-fill : black ;
+    -fx-font-size : 14px;
 }
 
 .categoryButtons:hover {
     -fx-background-color : black;
-    -fx-text-fill : white
+    -fx-text-fill : white;
+    -fx-font-size : 16px;
 
 }
 
