@@ -1,22 +1,30 @@
 .categoryButtons {
     -fx-background-color: white;
     -fx-text-fill : black ;
+    -fx-font-size : 14px;
 }
 
 .categoryButtons:hover {
     -fx-background-color : black;
-    -fx-text-fill : white
+    -fx-text-fill : white;
+    -fx-font-size : 16px;
+}
 
+.menu-table-items{
+     -fx-font-size : 14px;
+     -fx-font-family : "Segoe UI Symbol";
 }
 
 .table {
     -fx-background-color : black;
     -fx-border-color : white;
+    -fx-font-weight: bold;
 }
 
 .table:hover {
-    -fx-background-color : magenta;
-    -fx-border-color  : yellow;
+    -fx-background-color : #9ae861;
+    -fx-border-color  : green;
+    -fx-font-weight: bold;
 }
 
 .billGridPane {
@@ -32,6 +40,7 @@
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill : white ;
+    -fx-font-family : "Segoe UI Symbol";
 }
 
 .billngButtons:hover {
@@ -39,6 +48,7 @@
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill : black ;
+    -fx-font-family : "Segoe UI Symbol";
 }
 
 .clearbill {
@@ -46,11 +56,13 @@
         -fx-border-color: white;
         -fx-border-width : 0.5;
         -fx-text-fill : white ;
+        -fx-font-family : sans-serif;
 }
 
 .clearbill:hover {
-    -fx-background-color: white;
-        -fx-border-color: black;
+    -fx-background-color: red;
+        -fx-border-color: white;
         -fx-border-width : 0.5;
         -fx-text-fill : black ;
+        -fx-font-family : sans-serif;
 }

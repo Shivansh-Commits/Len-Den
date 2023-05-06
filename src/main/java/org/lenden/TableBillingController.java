@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,8 +13,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
@@ -24,28 +27,12 @@ import org.lenden.model.MenuItems;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ResourceBundle;
-import java.util.Set;
+import java.util.*;
 
 public class TableBillingController implements Initializable {
+
     @FXML
-    Tab singleBillTab;
-    @FXML
-    Tab tableBillTab;
-    @FXML
-    Button mainCourseCategoryButton;
-    @FXML
-    Button beveregesCategoryButton;
-    @FXML
-    Button breadsCategoryButton;
-    @FXML
-    Button dessertCategoryButton;
-    @FXML
-    Button snackCategoryButton;
-    @FXML
-    Button extraCategoryButton;
+    HBox categoryHbox;
     @FXML
     AnchorPane categoryAnchorPane;
     @FXML
@@ -73,12 +60,9 @@ public class TableBillingController implements Initializable {
     @FXML
     TextField discountField;
     @FXML
-    Button generateBillButton;
-    @FXML
-    HBox hBox;
-    @FXML
     Label tableGrandTotalLabel;
-
+    @FXML
+    GridPane tableGrid;
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
     HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
@@ -86,8 +70,25 @@ public class TableBillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //Setting Category Buttons
+        //Setting CSS Classes
+        foodItemsTable.getStyleClass().add("menu-table-items");
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting Category Buttons
+        List<String> categories = daoimpl.getCategories();
+
+        for(String category:categories)
+        {
+            Button button = new Button(category); // Create a new button
+
+            button.getStyleClass().add("categoryButtons");
+            button.setPrefWidth(122);
+            button.setPrefHeight(109);
+            button.setOnMouseClicked(this::displayMenuItems);
+            categoryHbox.getChildren().add(button);
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
         //Getting Menu Items FOR MENU TABLE
         menuTableItems = daoimpl.getCategoryItems("Main Course");
 
@@ -128,10 +129,57 @@ public class TableBillingController implements Initializable {
             }
         });
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Display Tables
+        int totalTables = daoimpl.fetchTotalTables();
+        int row = 1;
+        int col = 1;
+        int temp = 1;
 
-        //-------------------------------
+
+        for(int i=0;i<10;i++)
+        {
+            for(int j=0;j<6;j++)
+            {
+                if(temp>totalTables)
+                    break;
+
+                Pane table = new Pane();
+
+                table.setOnMouseClicked(this::viewTableBillItems);
+                table.getStyleClass().add("table");
+                table.setPrefWidth(90);
+                table.setPrefWidth(90);
+
+                Label name = new Label();
+                name.setText("Table " + temp);
+                name.setTextFill(Color.WHITE);
+                name.setLayoutX(36);
+                name.setLayoutY(14);
+                name.setId("tableNumber");
+
+                Label grandTotal = new Label();
+                grandTotal.setText("_ : _");
+                grandTotal.setTextFill(Color.WHITE);
+                grandTotal.setLayoutX(47);
+                grandTotal.setLayoutY(46);
+                grandTotal.setId("tableGrandTotalLabel");
+
+
+                table.getChildren().add(name);
+                table.getChildren().add(grandTotal);
+
+                tableGrid.add(table,j,i);
+                tableGrid.setHgap(10);
+                tableGrid.setVgap(10);
+
+                temp++;
+            }
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
         //Setting Open Table Details
-        //-------------------------------
+
         openTables = daoimpl.fetchOpenTableDetails();
         //updateTotals(openTables.get("Table 1"));
         //billTable.setItems(openTables.get("Table 1"));
@@ -414,6 +462,9 @@ public class TableBillingController implements Initializable {
 
         discountField.setText("");
         bill.setDiscount(0);
+
+        tableNumberLabel.setText("_:_");
+        tableGrandTotalLabel.setText("_:_");
 
         updateTotals(billTableItems);
     }

@@ -419,7 +419,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.getMessage();
+            e.printStackTrace();
         }
 
         return null;
@@ -444,5 +444,30 @@ public class DaoImpl
         {
             e.printStackTrace();
         }
+    }
+
+    public int fetchTotalTables()
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try {
+
+            stmt  = c.prepareStatement("SELECT tables FROM "+tenantId+".settings");
+            ResultSet rs = stmt.executeQuery();
+            rs.next();
+            int totalTables = rs.getInt("tables");
+
+            stmt.close();
+            c.close();
+
+            return totalTables;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return 0;
     }
 }
