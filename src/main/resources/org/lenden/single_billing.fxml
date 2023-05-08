@@ -130,11 +130,20 @@
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox layoutX="396.0" layoutY="24.0" spacing="20.0" AnchorPane.bottomAnchor="24.0" AnchorPane.rightAnchor="20.80000000000004" AnchorPane.topAnchor="24.0">
+                              <VBox layoutX="396.0" layoutY="11.0" prefHeight="130.0" prefWidth="198.0" spacing="15.0" AnchorPane.bottomAnchor="12.0" AnchorPane.rightAnchor="21.0" AnchorPane.topAnchor="11.0">
                                  <children>
-                                    <Button mnemonicParsing="false" onMouseClicked="#openTableBillingPage" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Table Bill" />
-                                    <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Generate Invoice" />
-                                    <Button fx:id="saveInvoiceButton" mnemonicParsing="false" onMouseClicked="#saveInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Save Invoice" />
+                                    <Button mnemonicParsing="false" onMouseClicked="#openTableBillingPage" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Table Bill">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></Button>
+                                    <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Generate Invoice">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></Button>
+                                    <Button fx:id="saveInvoiceButton" mnemonicParsing="false" onMouseClicked="#saveInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Save Invoice">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></Button>
                                  </children>
                               </VBox>
                            </children>

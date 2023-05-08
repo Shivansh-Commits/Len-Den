@@ -1,24 +1,30 @@
 .menu-page-category-button {
-    -fx-background-color: black;
-    -fx-border-color: black;
+    -fx-background-color: white;
+    -fx-border-color: white;
     -fx-border-width : 0.5;
-    -fx-text-fill : white ;
-    -fx-border-color : black;
+    -fx-text-fill : black ;
     -fx-font-size : 15px;
     -fx-font-family : "Segoe UI Symbol";
 }
 
 .menu-page-category-button:hover {
-    -fx-background-color: white;
+    -fx-background-color: black;
     -fx-border-color: black;
     -fx-border-width : 0.5;
-    -fx-text-fill : black ;
+    -fx-text-fill : white ;
     -fx-font-size : 17px;
     -fx-font-family : "Segoe UI Symbol";
 }
 
 .table-items {
 
-     -fx-font-size : 15px;
-     -fx-font-family : "Segoe UI Symbol";
+    -fx-font-size : 15px;
+    -fx-font-family : "Segoe UI Symbol";
+}
+
+.header-label {
+    -fx-text-fill : white;
+    -fx-font-size : 30px;
+    -fx-font-family : "Segoe UI Symbol";
+
 }
