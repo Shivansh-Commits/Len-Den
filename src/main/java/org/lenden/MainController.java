@@ -138,8 +138,8 @@ public class MainController implements Initializable {
         }
 
     }
-
-    public void openMenuPage(MouseEvent e) throws IOException {
+    public void openMenuPage(MouseEvent e) throws IOException
+    {
         openTableBillPageFlag=true;
         openSingleBillPageFlag=true;
         openHomePageFlag=true;
@@ -155,6 +155,26 @@ public class MainController implements Initializable {
 
             mainPane.setCenter(home);
             openMenuPageFlag=false;
+        }
+    }
+    @FXML
+    public void openSettingsPage(MouseEvent e) throws IOException
+    {
+        openTableBillPageFlag=true;
+        openSingleBillPageFlag=true;
+        openHomePageFlag=true;
+        openSalesPageFlag=true;
+        openMenuPageFlag=true;
+        if(openSettingsPageFlag)
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("settings.fxml"));
+            AnchorPane home = loader.load();
+
+            Scene scene = homeMenuButton.getScene();
+            scene.getStylesheets().add("settingsStyleSheet.css");
+
+            mainPane.setCenter(home);
+            openSettingsPageFlag=false;
         }
     }
     @FXML

@@ -68,7 +68,6 @@ TABLES -
         fooditemquantity [integer]
         fooditemprice[integer]
 
-
     4)menu
         fooditemname [text] (Primary Key)
         fooditemcateogry [text]
@@ -88,6 +87,10 @@ TABLES -
         sgst [numeric]
         vat [numeric]
         servicecharge [numeric]
+
+    7)settings
+        tables [integer] (Primary Key)
+        areas [integer]
 
 
 
