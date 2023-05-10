@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1401.0" style="-fx-background-color: black;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
+<AnchorPane prefHeight="791.0" prefWidth="1401.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <center>
@@ -22,11 +22,11 @@
             </TableView>
          </center>
          <left>
-            <ScrollPane prefHeight="734.0" prefWidth="200.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+            <ScrollPane prefHeight="734.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="188.0">
                      <children>
-                        <VBox fx:id="categoriesVBox" prefHeight="779.0" prefWidth="185.0" style="-fx-background-color: black;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0" />
+                        <VBox fx:id="categoriesVBox" prefHeight="779.0" prefWidth="185.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </content>
@@ -36,7 +36,7 @@
             <AnchorPane prefHeight="81.0" prefWidth="1402.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
                   <Label layoutX="25.0" layoutY="13.0" prefHeight="59.0" prefWidth="118.0" styleClass="header-label" stylesheets="@../../menuStyleSheet.css" text="Menu" />
-                  <Separator layoutY="-3.0" prefHeight="0.0" prefWidth="1402.0" AnchorPane.topAnchor="0.0" />
+                  <Separator layoutY="82.0" prefHeight="0.0" prefWidth="1402.0" AnchorPane.topAnchor="82.0" />
                </children>
             </AnchorPane>
          </top>
