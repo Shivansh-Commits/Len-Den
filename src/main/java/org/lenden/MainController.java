@@ -185,9 +185,6 @@ public class MainController implements Initializable {
         stage.close();
     }
 
-
-
-
     @FXML
     public void changeHomeIcon(MouseEvent e)
     {
