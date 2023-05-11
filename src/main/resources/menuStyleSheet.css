@@ -26,5 +26,43 @@
     -fx-text-fill : white;
     -fx-font-size : 30px;
     -fx-font-family : "Segoe UI Symbol";
+}
 
+.sub-header-label {
+     -fx-text-fill : black;
+     -fx-font-size : 25px;
+     -fx-font-family : "Segoe UI Symbol";
+}
+
+.add-button {
+     -fx-background-color: black;
+     -fx-border-color: black;
+     -fx-border-width : 0.5;
+     -fx-text-fill: white;
+     -fx-font-size : 14px;
+}
+
+.add-button:hover {
+          -fx-background-color: white;
+          -fx-border-color: black;
+          -fx-border-width : 0.5;
+          -fx-text-fill: black;
+          -fx-font-size : 14px;
+}
+
+.menu-button {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-font-size : 12px;
+}
+
+.sub-button {
+        -fx-background-color: white;
+        -fx-border-color: black;
+        -fx-border-width : 0.5;
+        -fx-text-fill : #000000cb;
+        -fx-font-size : 12px;
+
+    }
 }
