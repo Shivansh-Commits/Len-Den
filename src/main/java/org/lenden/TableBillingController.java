@@ -176,7 +176,6 @@ public class TableBillingController implements Initializable {
                 temp++;
             }
         }
-
         //--------------------------------------------------------------------------------------------------------------
         //Setting Open Table Details
 
@@ -188,7 +187,6 @@ public class TableBillingController implements Initializable {
 //            updateTotals(opentables.getValue());
 //            billTable.setItems(opentables.getValue());
 //        }
-
 
     }
     public void setMainController(MainController mainController)
