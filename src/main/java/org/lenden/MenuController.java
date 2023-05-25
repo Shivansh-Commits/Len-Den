@@ -14,7 +14,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.MenuItems;
-
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
