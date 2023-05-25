@@ -58,7 +58,6 @@ public class MainController implements Initializable {
     Boolean openMenuPageFlag=true;
     Boolean openSettingsPageFlag=true;
 
-
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
