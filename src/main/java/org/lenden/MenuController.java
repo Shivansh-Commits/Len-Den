@@ -17,7 +17,6 @@ import org.lenden.model.MenuItems;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
 public class MenuController implements Initializable
 {
     @FXML
