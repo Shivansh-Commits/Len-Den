@@ -20,7 +20,6 @@ public class DaoImpl
 
     public String tenantId = getTenant();
 
-
     public boolean login(Tenants tenantInfo)
     {
 

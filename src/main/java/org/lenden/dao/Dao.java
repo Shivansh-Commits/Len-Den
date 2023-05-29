@@ -13,7 +13,6 @@ public class Dao
     {
         Connection conn;
         try {
-
             Properties props = new Properties();
             InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
             props.load(inputStream);
@@ -33,5 +32,4 @@ public class Dao
         }
         return null;
     }
-
 }
