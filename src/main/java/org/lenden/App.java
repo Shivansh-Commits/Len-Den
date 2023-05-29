@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Properties;
 
 public class App extends Application {
 
@@ -33,12 +32,6 @@ public class App extends Application {
 
         stage.show();
     }
-
-// NOT USED
-//    static void setRoot(String fxml) throws IOException
-//    {
-//        scene.setRoot(loadFXML(fxml));
-//    }
 
     private static Parent loadFXML(String fxml) throws IOException
     {

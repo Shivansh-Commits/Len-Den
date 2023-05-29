@@ -13,11 +13,11 @@ import org.lenden.model.BillItems;
 
 public class BillPrintController{
 
-
     @FXML
     Label billLabel;
     @FXML
     Button close;
+
     public void setPreviewBillValues(Bill bill)
     {
         StringBuilder billText = new StringBuilder();
