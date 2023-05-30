@@ -1,23 +1,18 @@
 package org.lenden;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 
 public class BillPrintController{
-
-
     @FXML
     Label billLabel;
     @FXML
     Button close;
+
     public void setPreviewBillValues(Bill bill)
     {
         StringBuilder billText = new StringBuilder();

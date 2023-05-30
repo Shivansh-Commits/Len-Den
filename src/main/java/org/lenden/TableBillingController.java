@@ -136,7 +136,6 @@ public class TableBillingController implements Initializable {
         int col = 1;
         int temp = 1;
 
-
         for(int i=0;i<10;i++)
         {
             for(int j=0;j<6;j++)
@@ -180,13 +179,6 @@ public class TableBillingController implements Initializable {
         //Setting Open Table Details
 
         openTables = daoimpl.fetchOpenTableDetails();
-        //updateTotals(openTables.get("Table 1"));
-        //billTable.setItems(openTables.get("Table 1"));
-//        for(Map.Entry<String, ObservableList<BillItems>> opentables : openTables.entrySet())
-//        {
-//            updateTotals(opentables.getValue());
-//            billTable.setItems(opentables.getValue());
-//        }
 
     }
     public void setMainController(MainController mainController)
