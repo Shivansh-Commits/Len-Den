@@ -136,7 +136,6 @@ public class TableBillingController implements Initializable {
         int col = 1;
         int temp = 1;
 
-
         for(int i=0;i<10;i++)
         {
             for(int j=0;j<6;j++)
