@@ -8,7 +8,6 @@ import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 
 public class BillPrintController{
-
     @FXML
     Label billLabel;
     @FXML
