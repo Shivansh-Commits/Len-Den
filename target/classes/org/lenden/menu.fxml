@@ -62,24 +62,31 @@
                               <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
                            </bottom>
                         </BorderPane>
-                        <Button layoutX="27.0" layoutY="298.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="491.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu" AnchorPane.leftAnchor="27.0" />
+                        <Button layoutX="27.0" layoutY="298.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="42.0" prefWidth="491.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu" AnchorPane.leftAnchor="27.0" />
                         <VBox layoutX="26.0" layoutY="81.0" prefHeight="200.0" prefWidth="197.0" spacing="15.0" AnchorPane.leftAnchor="26.0">
                            <children>
-                              <TextField prefHeight="46.0" prefWidth="198.0" promptText="Name">
+                              <TextField fx:id="addItemName" prefHeight="46.0" prefWidth="198.0" promptText="Name">
                                  <cursor>
                                     <Cursor fx:constant="TEXT" />
                                  </cursor>
                               </TextField>
-                              <TextField prefHeight="46.0" prefWidth="198.0" promptText="Price">
+                              <TextField fx:id="addItemPrice" prefHeight="46.0" prefWidth="198.0" promptText="Price">
                                  <cursor>
                                     <Cursor fx:constant="TEXT" />
                                  </cursor>
                               </TextField>
-                              <MenuButton mnemonicParsing="false" prefHeight="46.0" prefWidth="206.0" stylesheets="@../../menuStyleSheet.css" text="MenuButton" textFill="#00000090" />
-                              <MenuButton mnemonicParsing="false" prefHeight="46.0" prefWidth="198.0" stylesheets="@../../menuStyleSheet.css" text="Availability" textFill="#0000009e">
+                              <MenuButton fx:id="addItemCategory" mnemonicParsing="false" prefHeight="46.0" prefWidth="206.0" stylesheets="@../../menuStyleSheet.css" text="Category" textFill="#00000090">
+                                 <items>
+                                  <MenuItem mnemonicParsing="false" text="Main Course" />
+                                    <MenuItem mnemonicParsing="false" text="Breads" />
+                                    <MenuItem mnemonicParsing="false" text="Bevereges" />
+                                    <MenuItem mnemonicParsing="false" text="Salads" />
+                                    <MenuItem mnemonicParsing="false" text="Sides" />
+                                 </items></MenuButton>
+                              <MenuButton fx:id="addItemAvailability" mnemonicParsing="false" prefHeight="46.0" prefWidth="198.0" stylesheets="@../../menuStyleSheet.css" text="Availability" textFill="#0000009e">
                                 <items>
-                                  <MenuItem mnemonicParsing="false" text="YES" />
-                                  <MenuItem mnemonicParsing="false" text="NO" />
+                                  <MenuItem mnemonicParsing="false" text="Available" />
+                                    <MenuItem mnemonicParsing="false" text="Not Available" />
                                 </items>
                               </MenuButton>
                            </children>
@@ -115,7 +122,7 @@
                                     <Cursor fx:constant="TEXT" />
                                  </cursor>
                               </TextField>
-                              <MenuButton mnemonicParsing="false" prefHeight="46.0" prefWidth="206.0" stylesheets="@../../menuStyleSheet.css" text="MenuButton" textFill="#00000090" />
+                              <MenuButton mnemonicParsing="false" prefHeight="46.0" prefWidth="206.0" stylesheets="@../../menuStyleSheet.css" text="Category" textFill="#00000090" />
                               <MenuButton mnemonicParsing="false" prefHeight="46.0" prefWidth="198.0" stylesheets="@../../menuStyleSheet.css" text="Availability" textFill="#0000009e">
                                  <items>
                                     <MenuItem mnemonicParsing="false" text="YES" />

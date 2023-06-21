@@ -377,7 +377,7 @@ public class TableBillingController implements Initializable {
         }
         else
         {
-            //checking if the discount value is more than 0 and less than 35
+            //Checking if the discount value is more than 0 and less than 35
             if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < 35)
             {
                 double newDiscount = Double.parseDouble(discountField.getText());
