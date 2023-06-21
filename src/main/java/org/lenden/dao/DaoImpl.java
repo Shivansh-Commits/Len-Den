@@ -6,6 +6,8 @@ import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
+import org.postgresql.util.PSQLException;
+
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
 import java.util.ArrayList;
@@ -468,5 +470,54 @@ public class DaoImpl
         }
 
         return 0;
+    }
+
+    public boolean addItemToMenu(MenuItems item)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try {
+
+            stmt  = c.prepareStatement("INSERT INTO "+ tenantId +".menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability) VALUES (?,?,?,?) ");
+            stmt.setString(1,item.getFoodItemName());
+            stmt.setString(2,"Main Course");
+            stmt.setInt(3,item.getFoodItemPrice());
+
+            String availability = item.getFoodItemAvailability();
+            if(availability.equals("Available"))
+            {
+                stmt.setBoolean(4,true);
+            }
+            else if(availability.equals("Not Available"))
+            {
+                stmt.setBoolean(4,false);
+            }
+            else
+            {
+                stmt.setBoolean(4,false);
+            }
+
+
+            if(stmt.executeUpdate()==1)
+            {
+                stmt.close();
+                c.close();
+                return true;
+            }
+            else
+            {
+                stmt.close();
+                c.close();
+                return false;
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
     }
 }

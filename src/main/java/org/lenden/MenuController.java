@@ -5,15 +5,14 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.MenuItems;
+import org.postgresql.util.PSQLException;
+
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -23,6 +22,16 @@ public class MenuController implements Initializable
     VBox categoriesVBox;
     @FXML
     TableView menuTable;
+    @FXML
+    TextField addItemName;
+    @FXML
+    TextField addItemPrice;
+    @FXML
+    MenuButton addItemCategory;
+    @FXML
+    MenuButton addItemAvailability;
+
+
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
 
@@ -95,5 +104,37 @@ public class MenuController implements Initializable
                 }
             }
         });
+    }
+
+    public void addToMenu(MouseEvent event)
+    {
+        MenuItems item = new MenuItems();
+
+        item.setFoodItemName(   addItemName.getText()   );
+        item.setFoodItemPrice(  Integer.parseInt(   addItemPrice.getText()  )    );
+        item.setFoodItemAvailability(   addItemAvailability.getText()  );
+        item.setFoodItemCategory(   addItemCategory.getText()   );
+
+
+            Boolean isSuccess = daoimpl.addItemToMenu(item);
+
+            if(isSuccess)
+            {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION, "Item added Successfully", ButtonType.OK);
+                alert.setHeaderText("Success");
+                alert.setTitle("Information");
+                alert.showAndWait();
+            }
+            else
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Item Already Exists! If item does not already exist and you are still seeing this error, Contact customer Support!", ButtonType.OK);
+                alert.setHeaderText("Duplicate Item Entry");
+                alert.setTitle("Information");
+                alert.showAndWait();
+            }
+
+
+
+
     }
 }
