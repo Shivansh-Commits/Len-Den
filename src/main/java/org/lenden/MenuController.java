@@ -27,9 +27,9 @@ public class MenuController implements Initializable
     @FXML
     TextField addItemPrice;
     @FXML
-    MenuButton addItemCategory;
+    ComboBox addItemCategory;
     @FXML
-    MenuButton addItemAvailability;
+    ComboBox addItemAvailability;
 
 
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
@@ -42,7 +42,7 @@ public class MenuController implements Initializable
         menuTable.getStyleClass().add("table-items");
 
         //Displaying Categories
-        List<String> categories = daoimpl.getCategories();
+        ObservableList<String> categories = daoimpl.getCategories();
 
         for(String category:categories)
         {
@@ -54,6 +54,12 @@ public class MenuController implements Initializable
             button.setPrefHeight(114);
             categoriesVBox.getChildren().add(button);
         }
+
+        //Populating category drop down menu
+        addItemCategory.setItems(categories);
+
+        //Populating availability drop down menu
+        addItemAvailability.setItems(FXCollections.observableArrayList("Available","NOT Available"));
     }
 
     public void displayMenuItems(MouseEvent e)
@@ -108,17 +114,37 @@ public class MenuController implements Initializable
 
     public void addToMenu(MouseEvent event)
     {
+        if(addItemName.getText().isEmpty() || addItemPrice.getText().isEmpty() || addItemCategory.getSelectionModel().getSelectedItem() == null || addItemAvailability.getSelectionModel().getSelectedItem() == null )
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty", ButtonType.OK);
+            alert.setHeaderText("Warning");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+            return;
+        }
+
+        String itemName = addItemName.getText();
+        int itemPrice = Integer.parseInt(   addItemPrice.getText()  );
+        String itemCategory = addItemCategory.getSelectionModel().getSelectedItem().toString();
+        String itemAvailability = addItemAvailability.getSelectionModel().getSelectedItem().toString();
+
+        ObservableList<String> categories = daoimpl.getCategories();
+
         MenuItems item = new MenuItems();
+        item.setFoodItemName(   itemName   );
+        item.setFoodItemPrice(   itemPrice   );
+        item.setFoodItemAvailability(   itemAvailability    );
+        item.setFoodItemCategory(   itemCategory    );
 
-        item.setFoodItemName(   addItemName.getText()   );
-        item.setFoodItemPrice(  Integer.parseInt(   addItemPrice.getText()  )    );
-        item.setFoodItemAvailability(   addItemAvailability.getText()  );
-        item.setFoodItemCategory(   addItemCategory.getText()   );
 
+        //Checking if user has Entered pre-existing category
+        if(categories.contains(item.getFoodItemCategory()))  //If category already EXISTS
+        {
 
             Boolean isSuccess = daoimpl.addItemToMenu(item);
 
-            if(isSuccess)
+            if (isSuccess)
             {
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Item added Successfully", ButtonType.OK);
                 alert.setHeaderText("Success");
@@ -132,7 +158,36 @@ public class MenuController implements Initializable
                 alert.setTitle("Information");
                 alert.showAndWait();
             }
+        }
+        else //If category DOES NOT already exist asking user ,If they want NEW cateogry to be created
+        {
 
+            Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to add a new Category - "+ item.getFoodItemCategory() +" ?", ButtonType.YES,ButtonType.NO);
+            confirmationAlert.setHeaderText("Alert! ");
+            confirmationAlert.setTitle("Information");
+            confirmationAlert.showAndWait();
+
+            if(confirmationAlert.getResult() == ButtonType.YES)//Checking if user has selected YES or NO
+            {
+                Boolean isSuccess = daoimpl.addItemToMenu(item);
+
+                if (isSuccess)
+                {
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Item added Successfully", ButtonType.OK);
+                    alert.setHeaderText("Success");
+                    alert.setTitle("Information");
+                    alert.showAndWait();
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Item Already Exists! If item does not already exist and you are still seeing this error, Contact customer Support!", ButtonType.OK);
+                    alert.setHeaderText("Duplicate Item Entry");
+                    alert.setTitle("Information");
+                    alert.showAndWait();
+                }
+            }
+
+        }
 
 
 

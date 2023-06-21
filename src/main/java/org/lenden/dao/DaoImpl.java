@@ -398,7 +398,7 @@ public class DaoImpl
         }
     }
 
-    public List<String> getCategories()
+    public ObservableList<String> getCategories()
     {
         PreparedStatement stmt;
         Connection c = dao.getConnection();
@@ -407,7 +407,7 @@ public class DaoImpl
 
             stmt  = c.prepareStatement("SELECT DISTINCT fooditemcategory FROM "+tenantId+".menu");
             ResultSet rs = stmt.executeQuery();
-            List<String> categories = new ArrayList<>();
+            ObservableList<String> categories = FXCollections.observableArrayList();
             while(rs.next())
             {
                 categories.add(rs.getString("fooditemcategory"));
@@ -481,17 +481,13 @@ public class DaoImpl
 
             stmt  = c.prepareStatement("INSERT INTO "+ tenantId +".menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability) VALUES (?,?,?,?) ");
             stmt.setString(1,item.getFoodItemName());
-            stmt.setString(2,"Main Course");
+            stmt.setString(2,item.getFoodItemCategory());
             stmt.setInt(3,item.getFoodItemPrice());
 
             String availability = item.getFoodItemAvailability();
             if(availability.equals("Available"))
             {
                 stmt.setBoolean(4,true);
-            }
-            else if(availability.equals("Not Available"))
-            {
-                stmt.setBoolean(4,false);
             }
             else
             {
