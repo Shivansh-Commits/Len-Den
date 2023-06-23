@@ -1,3 +1,8 @@
+.combo-box {
+    -fx-background-color: white;
+    -fx-border-color: gray;
+}
+
 .menu-page-category-button {
     -fx-background-color: white;
     -fx-border-color: white;

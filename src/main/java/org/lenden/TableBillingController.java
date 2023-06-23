@@ -386,8 +386,8 @@ public class TableBillingController implements Initializable {
             }
             else
             {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "Discount Out of Limits", ButtonType.OK);
-                alert.setHeaderText("Discount should be more than 0 & less than 35");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Discount Value", ButtonType.OK);
+                alert.setHeaderText("Discount should be more than 0 & less than 35 and a number");
                 alert.setTitle("Attention!");
                 alert.showAndWait();
 
