@@ -6,13 +6,9 @@ import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
-import org.postgresql.util.PSQLException;
-
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -73,6 +69,7 @@ public class DaoImpl
                 MenuItems temp = new MenuItems();
                 temp.setFoodItemName(rs.getString("fooditemname"));
                 temp.setFoodItemPrice(rs.getInt("fooditemprice"));
+                temp.setFoodItemCategory(category);
                 if(rs.getBoolean("fooditemavailability") == true)
                     temp.setFoodItemAvailability("Available");
                 else
@@ -508,6 +505,35 @@ public class DaoImpl
                 return false;
             }
 
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean deleteMenuItem(MenuItems item)
+    {
+
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try
+        {
+            stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".menu WHERE fooditemname = ? ");
+            stmt.setString(1,item.getFoodItemName());
+
+            int rowsDeleted = stmt.executeUpdate();
+
+            if (rowsDeleted > 0)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
         }
         catch(Exception e)
         {

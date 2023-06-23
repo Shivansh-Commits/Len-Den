@@ -45,7 +45,7 @@
                <top>
                   <ScrollPane prefHeight="354.0" prefWidth="1259.0" BorderPane.alignment="CENTER">
                      <content>
-                        <TableView fx:id="menuTable" prefHeight="338.0" prefWidth="1237.0">
+                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="338.0" prefWidth="1237.0">
                           <columns>
                             <TableColumn prefWidth="245.60003662109375" text="Name" />
                             <TableColumn prefWidth="209.60003662109375" text="Price" />
@@ -125,7 +125,7 @@
                                           <Cursor fx:constant="TEXT" />
                                        </cursor>
                                     </TextField>
-                                    <ComboBox fx:id="updateItemCategory" editable="true" prefHeight="46.0" prefWidth="324.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
+                                    <ComboBox fx:id="updateItemCategory" prefHeight="46.0" prefWidth="324.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
