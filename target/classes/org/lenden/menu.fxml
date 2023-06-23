@@ -72,8 +72,7 @@
                                     <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
                                  </bottom>
                               </BorderPane>
-                              <Button layoutX="27.0" layoutY="298.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="42.0" prefWidth="198.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu" AnchorPane.leftAnchor="27.0" />
-                              <VBox layoutX="26.0" layoutY="81.0" prefHeight="200.0" prefWidth="197.0" spacing="15.0" AnchorPane.leftAnchor="26.0">
+                              <VBox layoutX="26.0" layoutY="81.0" prefHeight="257.0" prefWidth="204.0" spacing="15.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
                                  <children>
                                     <TextField fx:id="addItemName" prefHeight="46.0" prefWidth="198.0" promptText="Name" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
@@ -95,15 +94,16 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ComboBox>
+                                    <Button mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="46.0" prefWidth="225.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu" />
                                  </children>
                               </VBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefWidth="254.0" style="-fx-background-color: white;">
+                        <AnchorPane prefHeight="358.0" prefWidth="364.0" style="-fx-background-color: white;">
                            <children>
                               <BorderPane layoutX="5.0" prefHeight="60.0" prefWidth="249.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
                                  <left>
-                                    <Label prefHeight="38.0" styleClass="sub-header-label" stylesheets="@../../menuStyleSheet.css" text="Update Item" BorderPane.alignment="CENTER">
+                                    <Label prefHeight="38.0" styleClass="sub-header-label" stylesheets="@../../menuStyleSheet.css" text="Update / Delete Item" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
                                           <Insets left="15.0" />
                                        </BorderPane.margin>
@@ -113,64 +113,46 @@
                                     <Separator prefHeight="3.0" prefWidth="233.0" BorderPane.alignment="CENTER" />
                                  </bottom>
                               </BorderPane>
-                              <Button layoutX="25.0" layoutY="298.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="199.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Update" AnchorPane.leftAnchor="25.0" />
-                              <VBox layoutX="26.0" layoutY="81.0" prefHeight="201.0" prefWidth="198.0" spacing="15.0" AnchorPane.leftAnchor="26.0">
+                              <VBox layoutX="26.0" layoutY="81.0" prefHeight="257.0" prefWidth="314.0" spacing="15.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
                                  <children>
-                                    <TextField disable="true" prefHeight="46.0" prefWidth="198.0" promptText="Name">
+                                    <TextField fx:id="updateItemName" disable="true" prefHeight="46.0" prefWidth="198.0" promptText="Name">
                                        <cursor>
                                           <Cursor fx:constant="NONE" />
                                        </cursor>
                                     </TextField>
-                                    <TextField prefHeight="46.0" prefWidth="198.0" promptText="Price">
+                                    <TextField fx:id="updateItemPrice" prefHeight="46.0" prefWidth="198.0" promptText="Price">
                                        <cursor>
                                           <Cursor fx:constant="TEXT" />
                                        </cursor>
                                     </TextField>
-                                    <ComboBox editable="true" prefHeight="46.0" prefWidth="218.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
+                                    <ComboBox fx:id="updateItemCategory" editable="true" prefHeight="46.0" prefWidth="324.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ComboBox>
-                                    <ComboBox prefHeight="46.0" prefWidth="218.0" promptText="Availability" stylesheets="@../../menuStyleSheet.css">
+                                    <ComboBox fx:id="updateItemAvailability" prefHeight="46.0" prefWidth="327.0" promptText="Availability" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ComboBox>
+                                    <HBox prefHeight="46.0" prefWidth="314.0">
+                                       <children>
+                                          <Button mnemonicParsing="false" onMouseClicked="#updateItem" prefHeight="42.0" prefWidth="157.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Update">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button mnemonicParsing="false" onMouseClicked="#deleteItem" prefHeight="42.0" prefWidth="157.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete">
+                                             <HBox.margin>
+                                                <Insets left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
                                  </children>
                                  <cursor>
                                     <Cursor fx:constant="DEFAULT" />
                                  </cursor>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefWidth="254.0" style="-fx-background-color: white;">
-                           <children>
-                              <BorderPane layoutX="5.0" prefHeight="60.0" prefWidth="249.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
-                                 <left>
-                                    <Label prefHeight="38.0" styleClass="sub-header-label" stylesheets="@../../menuStyleSheet.css" text="Delete Item" BorderPane.alignment="CENTER">
-                                       <BorderPane.margin>
-                                          <Insets left="15.0" />
-                                       </BorderPane.margin>
-                                    </Label>
-                                 </left>
-                                 <bottom>
-                                    <Separator prefHeight="3.0" prefWidth="233.0" BorderPane.alignment="CENTER" />
-                                 </bottom>
-                              </BorderPane>
-                              <Button layoutX="25.0" layoutY="298.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="199.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete" AnchorPane.leftAnchor="25.0" />
-                              <VBox layoutX="26.0" layoutY="81.0" prefHeight="201.0" prefWidth="198.0" spacing="15.0" AnchorPane.leftAnchor="26.0">
-                                 <children>
-                                    <TextField prefHeight="46.0" prefWidth="198.0" promptText="Name">
-                                       <cursor>
-                                          <Cursor fx:constant="TEXT" />
-                                       </cursor>
-                                    </TextField>
-                                    <TextField prefHeight="46.0" prefWidth="198.0" promptText="Price">
-                                       <cursor>
-                                          <Cursor fx:constant="TEXT" />
-                                       </cursor>
-                                    </TextField>
-                                 </children>
                               </VBox>
                            </children>
                         </AnchorPane>

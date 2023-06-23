@@ -31,6 +31,15 @@ public class MenuController implements Initializable
     @FXML
     ComboBox addItemAvailability;
 
+    @FXML
+    TextField updateItemName;
+    @FXML
+    TextField updateItemPrice;
+    @FXML
+    ComboBox updateItemCategory;
+    @FXML
+    ComboBox updateItemAvailability;
+
 
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
@@ -190,6 +199,27 @@ public class MenuController implements Initializable
         }
 
 
+
+    }
+
+    public void updateItem(MouseEvent event)
+    {
+        if(updateItemName.getText().isEmpty() || updateItemPrice.getText().isEmpty() || updateItemCategory.getSelectionModel().getSelectedItem() == null || updateItemAvailability.getSelectionModel().getSelectedItem() == null )
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and Enter items to be updated", ButtonType.OK);
+            alert.setHeaderText("Warning");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+            return;
+        }
+
+        //MenuItems item = menuTable.getSelectionModel().getSelectedItem();
+
+    }
+
+    public void deleteItem(MouseEvent event)
+    {
 
     }
 }
