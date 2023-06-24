@@ -14,6 +14,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="794.0" prefWidth="1399.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
    <children>
@@ -45,7 +46,7 @@
                <top>
                   <ScrollPane prefHeight="354.0" prefWidth="1259.0" BorderPane.alignment="CENTER">
                      <content>
-                        <TableView fx:id="menuTable" prefHeight="338.0" prefWidth="1237.0">
+                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="338.0" prefWidth="1237.0">
                           <columns>
                             <TableColumn prefWidth="245.60003662109375" text="Name" />
                             <TableColumn prefWidth="209.60003662109375" text="Price" />
@@ -78,13 +79,19 @@
                                        <cursor>
                                           <Cursor fx:constant="TEXT" />
                                        </cursor>
+                                       <font>
+                                          <Font name="Segoe UI Black" size="12.0" />
+                                       </font>
                                     </TextField>
                                     <TextField fx:id="addItemPrice" prefHeight="46.0" prefWidth="198.0" promptText="Price" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="TEXT" />
                                        </cursor>
+                                       <font>
+                                          <Font name="Segoe UI Black" size="12.0" />
+                                       </font>
                                     </TextField>
-                                    <ComboBox fx:id="addItemCategory" editable="true" prefHeight="46.0" prefWidth="218.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
+                                    <ComboBox fx:id="addItemCategory" editable="true" prefHeight="46.0" prefWidth="218.0" promptText="Category (Select/Create New)" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -115,17 +122,17 @@
                               </BorderPane>
                               <VBox layoutX="26.0" layoutY="81.0" prefHeight="257.0" prefWidth="314.0" spacing="15.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
                                  <children>
-                                    <TextField fx:id="updateItemName" disable="true" prefHeight="46.0" prefWidth="198.0" promptText="Name">
+                                    <TextField fx:id="updateItemName" disable="true" prefHeight="46.0" prefWidth="198.0" promptText="Name" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="NONE" />
                                        </cursor>
                                     </TextField>
-                                    <TextField fx:id="updateItemPrice" prefHeight="46.0" prefWidth="198.0" promptText="Price">
+                                    <TextField fx:id="updateItemPrice" prefHeight="46.0" prefWidth="198.0" promptText="Price" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="TEXT" />
                                        </cursor>
                                     </TextField>
-                                    <ComboBox fx:id="updateItemCategory" editable="true" prefHeight="46.0" prefWidth="324.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
+                                    <ComboBox fx:id="updateItemCategory" prefHeight="46.0" prefWidth="324.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>

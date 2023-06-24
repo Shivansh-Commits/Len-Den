@@ -1,6 +1,11 @@
+.text-field {
+    -fx-font-family : "Segoe UI Semibold";
+}
+
 .combo-box {
     -fx-background-color: white;
     -fx-border-color: gray;
+    -fx-font-family : "Segoe UI Semibold";
 }
 
 .menu-page-category-button {
@@ -24,7 +29,7 @@
 .table-items {
 
     -fx-font-size : 15px;
-    -fx-font-family : "Segoe UI Symbol";
+    -fx-font-family : "Segoe UI Semibold";
 }
 
 .header-label {

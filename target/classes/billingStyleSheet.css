@@ -12,7 +12,7 @@
 
 .menu-table-items{
      -fx-font-size : 14px;
-     -fx-font-family : "Segoe UI Symbol";
+     -fx-font-family : "Segoe UI Semibold";
 }
 
 .table {
@@ -65,4 +65,18 @@
         -fx-border-width : 0.5;
         -fx-text-fill : black ;
         -fx-font-family : sans-serif;
+}
+
+.single-bill-table-bill-button {
+    -fx-background-color : black;
+    -fx-border-color : white;
+    -fx-border-width : 0.5;
+    -fx-text-fill : white;
+}
+
+.single-bill-table-bill-button:hover {
+    -fx-background-color : white;
+    -fx-border-color : black;
+    -fx-border-width : 0.5;
+    -fx-text-fill : black;
 }

@@ -66,6 +66,9 @@ public class SingleBillingController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        //Setting CSS Classes
+        foodItemsTable.getStyleClass().add("menu-table-items");
+
         //Setting Category Buttons
         List<String> categories = daoimpl.getCategories();
 
@@ -85,14 +88,17 @@ public class SingleBillingController implements Initializable
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        nameCol.setPrefWidth(200);
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        priceCol.setPrefWidth(200);
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
+        availCol.setPrefWidth(200);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);

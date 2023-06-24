@@ -6,13 +6,9 @@ import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
-import org.postgresql.util.PSQLException;
-
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -73,6 +69,7 @@ public class DaoImpl
                 MenuItems temp = new MenuItems();
                 temp.setFoodItemName(rs.getString("fooditemname"));
                 temp.setFoodItemPrice(rs.getInt("fooditemprice"));
+                temp.setFoodItemCategory(category);
                 if(rs.getBoolean("fooditemavailability") == true)
                     temp.setFoodItemAvailability("Available");
                 else
@@ -110,36 +107,35 @@ public class DaoImpl
             stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".taxes");
             ResultSet rs = stmt.executeQuery();
             rs.next();
-            if (tax.equals("cgst")) {
-                double cgst = rs.getDouble("cgst");
+            switch (tax) {
+                case "cgst":
+                    double cgst = rs.getDouble("cgst");
 
-                rs.close();
-                c.close();
-                stmt.close();
-                return cgst;
-            } else if (tax.equals("sgst")) {
-                double sgst = rs.getDouble("sgst");
+                    rs.close();
+                    c.close();
+                    stmt.close();
+                    return cgst;
+                case "sgst":
+                    double sgst = rs.getDouble("sgst");
 
-                rs.close();
-                c.close();
-                stmt.close();
-                return sgst;
-            } else if (tax.equals("vat")) {
-                double vat = rs.getDouble("vat");
+                    rs.close();
+                    c.close();
+                    stmt.close();
+                    return sgst;
+                case "vat":
+                    double vat = rs.getDouble("vat");
 
-                rs.close();
-                c.close();
-                stmt.close();
-                return vat;
-            }
-            else if (tax.equals("servicecharge"))
-            {
-                double servicecharge = rs.getDouble("servicecharge");
+                    rs.close();
+                    c.close();
+                    stmt.close();
+                    return vat;
+                case "servicecharge":
+                    double servicecharge = rs.getDouble("servicecharge");
 
-                rs.close();
-                c.close();
-                stmt.close();
-                return servicecharge;
+                    rs.close();
+                    c.close();
+                    stmt.close();
+                    return servicecharge;
             }
 
         }
@@ -485,14 +481,7 @@ public class DaoImpl
             stmt.setInt(3,item.getFoodItemPrice());
 
             String availability = item.getFoodItemAvailability();
-            if(availability.equals("Available"))
-            {
-                stmt.setBoolean(4,true);
-            }
-            else
-            {
-                stmt.setBoolean(4,false);
-            }
+            stmt.setBoolean(4, availability.equals("Available"));
 
 
             if(stmt.executeUpdate()==1)
@@ -515,5 +504,71 @@ public class DaoImpl
             return false;
         }
 
+    }
+
+    public boolean deleteMenuItem(MenuItems item)
+    {
+
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try
+        {
+            stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".menu WHERE fooditemname = ? ");
+            stmt.setString(1,item.getFoodItemName());
+
+            int rowsDeleted = stmt.executeUpdate();
+
+            if (rowsDeleted > 0)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
+    public boolean updateMenuItem(MenuItems item)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try {
+
+            stmt  = c.prepareStatement("UPDATE "+tenantId+".menu SET fooditemprice = ?, fooditemavailability = ?, fooditemcategory = ? WHERE fooditemname = ?");
+
+            stmt.setInt(1,item.getFoodItemPrice());
+            String availability = item.getFoodItemAvailability();
+            stmt.setBoolean(2, availability.equals("Available"));
+            stmt.setString(3,item.getFoodItemCategory());
+            stmt.setString(4,item.getFoodItemName());
+
+
+            if(stmt.executeUpdate()==1)
+            {
+                stmt.close();
+                c.close();
+                return true;
+            }
+            else
+            {
+                stmt.close();
+                c.close();
+                return false;
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
