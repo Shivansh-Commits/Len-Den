@@ -22,19 +22,19 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1388.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
+<AnchorPane prefHeight="791.0" prefWidth="1401.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
-      <SplitPane dividerPositions="0.5" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.4560525939688438" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <bottom>
-                  <GridPane prefHeight="427.0" prefWidth="690.0" styleClass="billGridPane" stylesheets="@../../billingStyleSheet.css" BorderPane.alignment="CENTER">
+                  <GridPane prefHeight="434.0" prefWidth="635.0" styleClass="billGridPane" stylesheets="@../../billingStyleSheet.css" BorderPane.alignment="CENTER">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="660.8" minWidth="10.0" prefWidth="464.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="313.5999755859375" minWidth="0.0" prefWidth="226.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="464.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="226.0" />
                      </columnConstraints>
                      <rowConstraints>
-                        <RowConstraints maxHeight="199.00006713867188" minHeight="10.0" prefHeight="44.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="199.00006713867188" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="251.0" minHeight="10.0" prefHeight="179.0" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="154.39998779296872" minHeight="10.0" prefHeight="154.39998779296872" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="165.19998779296878" minHeight="10.0" prefHeight="52.80001220703127" vgrow="SOMETIMES" />
@@ -46,6 +46,9 @@
                               <TableColumn prefWidth="103.99993896484375" text="Price" />
                               <TableColumn minWidth="5.60003662109375" prefWidth="89.60003662109375" text="Quantity" />
                            </columns>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
                         </TableView>
                         <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
                            <children>
@@ -136,13 +139,13 @@
                         </AnchorPane>
                         <VBox spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
                            <children>
-                              <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Single Bill">
-                                 <font>
-                                    <Font name="Segoe UI Symbol" size="14.0" />
-                                 </font>
+                              <Button mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="35.0" prefWidth="198.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
+                                 <font>
+                                    <Font name="Segoe UI Symbol" size="14.0" />
+                                 </font>
                               </Button>
                               <Button fx:id="generateInvoiceButton" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Generate Invoice">
                                  <font>
@@ -201,16 +204,6 @@
                            </left>
                         </BorderPane>
                         <BorderPane prefHeight="60.0" prefWidth="251.0" style="-fx-background-color: black;" GridPane.columnIndex="1">
-                           <right>
-                              <Button mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="25.0" prefWidth="76.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill" BorderPane.alignment="CENTER">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                                 <BorderPane.margin>
-                                    <Insets right="15.0" />
-                                 </BorderPane.margin>
-                              </Button>
-                           </right>
                            <center>
                               <Label fx:id="tableNumberLabel" prefHeight="26.0" prefWidth="78.0" text="_ : _" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
@@ -218,12 +211,25 @@
                                  </font>
                               </Label>
                            </center>
+                           <right>
+                              <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="33.0" prefWidth="98.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Single Bill" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Symbol" size="12.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <BorderPane.margin>
+                                    <Insets right="10.0" />
+                                 </BorderPane.margin>
+                              </Button>
+                           </right>
                         </BorderPane>
                      </children>
                   </GridPane>
                </bottom>
                <center>
-                  <TableView fx:id="foodItemsTable" onMouseClicked="#addMenuItemtoBill" prefHeight="265.0" prefWidth="614.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="foodItemsTable" onMouseClicked="#addMenuItemtoBill" prefHeight="265.0" prefWidth="635.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                      <columns>
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
@@ -247,7 +253,7 @@
                <panes>
                   <TitledPane prefHeight="718.0" prefWidth="983.0" text="Area - 1">
                      <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="736.0" style="-fx-background-color: black;">
                            <children>
                               <GridPane fx:id="tableGrid" hgap="5.0" layoutX="15.0" layoutY="21.0" prefHeight="775.0" prefWidth="754.0" vgap="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.200000000000045">
                                  <columnConstraints>
@@ -262,6 +268,7 @@
                                     <RowConstraints maxHeight="90.0" minHeight="80.0" prefHeight="90.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="90.0" minHeight="80.0" prefHeight="90.0" vgrow="SOMETIMES" />
                                     <RowConstraints maxHeight="90.0" minHeight="80.0" prefHeight="90.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="80.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="80.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="80.0" vgrow="SOMETIMES" />
                                     <RowConstraints minHeight="80.0" vgrow="SOMETIMES" />

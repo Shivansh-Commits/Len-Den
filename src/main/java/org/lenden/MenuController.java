@@ -274,6 +274,42 @@ public class MenuController implements Initializable
 
             return;
         }
+
+        Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
+        updateAlert.setHeaderText("Item will be Updated");
+        updateAlert.setTitle("Alert!");
+        updateAlert.showAndWait();
+
+        if(updateAlert.getResult() == ButtonType.YES)
+        {
+            MenuItems selectedItem = menuTable.getSelectionModel().getSelectedItem();
+            if(selectedItem == null)
+                return;
+
+            String itemName = updateItemName.getText();
+            int itemPrice = Integer.parseInt(   updateItemPrice.getText()  );
+            String itemCategory = updateItemCategory.getSelectionModel().getSelectedItem().toString();
+            String itemAvailability = updateItemAvailability.getSelectionModel().getSelectedItem().toString();
+
+            MenuItems item = new MenuItems();
+            item.setFoodItemName(   itemName   );
+            item.setFoodItemPrice(  itemPrice   );
+            item.setFoodItemCategory(   itemCategory    );
+            item.setFoodItemAvailability(   itemAvailability    );
+
+            if(!daoimpl.updateMenuItem(item))
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
+                alert.setHeaderText("Item not Update!");
+                alert.setTitle("Alert!");
+                alert.showAndWait();
+            }
+            else
+            {
+                displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+            }
+        }
+
     }
 
     public void deleteItem(MouseEvent event)

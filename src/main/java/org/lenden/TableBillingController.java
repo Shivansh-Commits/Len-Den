@@ -5,7 +5,6 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -94,14 +93,17 @@ public class TableBillingController implements Initializable {
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        nameCol.setPrefWidth(200);
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        priceCol.setPrefWidth(200);
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
+        availCol.setPrefWidth(200);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -248,10 +250,12 @@ public class TableBillingController implements Initializable {
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
         nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        nameColB.setPrefWidth(150);
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
         priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        priceColB.setPrefWidth(150);
 
         // Create a cell value factory for the Quantity column
         TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
@@ -446,6 +450,17 @@ public class TableBillingController implements Initializable {
     @FXML
     public void clearBill(MouseEvent e)
     {
+        if(billTableItems.isEmpty())
+            return;
+
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
+        deleteAlert.setHeaderText("Items in Invoice will be deleted");
+        deleteAlert.setTitle("Alert!");
+        deleteAlert.showAndWait();
+
+        if(deleteAlert.getResult() != ButtonType.YES)
+            return;
+
         daoimpl.closeTable(tableNumberLabel.getText());
 
         billTableItems.clear();
