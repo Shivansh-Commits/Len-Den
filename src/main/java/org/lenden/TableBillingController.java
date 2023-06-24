@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -66,9 +67,11 @@ public class TableBillingController implements Initializable {
     DaoImpl daoimpl = new DaoImpl();
     HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
     MainController mainController = new MainController();
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        //--------------------------------------------------------------------------------------------------------------
         //Setting CSS Classes
         foodItemsTable.getStyleClass().add("menu-table-items");
 
@@ -132,6 +135,11 @@ public class TableBillingController implements Initializable {
         });
 
         //--------------------------------------------------------------------------------------------------------------
+        //Setting Open Table Details
+
+        openTables = daoimpl.fetchOpenTableDetails();
+
+        //--------------------------------------------------------------------------------------------------------------
         //Display Tables
         int totalTables = daoimpl.fetchTotalTables();
         int row = 1;
@@ -146,29 +154,58 @@ public class TableBillingController implements Initializable {
                     break;
 
                 Pane table = new Pane();
+                table.setCursor(Cursor.HAND); //Setting the cursor to "hand" when hovered on the pane
 
-                table.setOnMouseClicked(this::viewTableBillItems);
-                table.getStyleClass().add("table");
-                table.setPrefWidth(90);
-                table.setPrefWidth(90);
-
-                Label name = new Label();
-                name.setText("Table " + temp);
-                name.setTextFill(Color.WHITE);
-                name.setLayoutX(36);
-                name.setLayoutY(14);
-                name.setId("tableNumber");
-
-                Label grandTotal = new Label();
-                grandTotal.setText("_ : _");
-                grandTotal.setTextFill(Color.WHITE);
-                grandTotal.setLayoutX(47);
-                grandTotal.setLayoutY(46);
-                grandTotal.setId("tableGrandTotalLabel");
+                if(!openTables.isEmpty() && openTables.containsKey("Table "+temp))
+                {
+                    table.setOnMouseClicked(this::viewTableBillItems);
+                    table.getStyleClass().add("open-table");
+                    table.setPrefWidth(90);
+                    table.setPrefWidth(90);
 
 
-                table.getChildren().add(name);
-                table.getChildren().add(grandTotal);
+                    Label name = new Label();
+                    name.setText("Table " + temp);
+                    name.setTextFill(Color.WHITE);
+                    name.setLayoutX(36);
+                    name.setLayoutY(14);
+                    name.setId("tableNumber");
+
+                    Label grandTotal = new Label();
+                    grandTotal.setText("_ : _");
+                    grandTotal.setTextFill(Color.WHITE);
+                    grandTotal.setLayoutX(47);
+                    grandTotal.setLayoutY(46);
+                    grandTotal.setId("tableGrandTotalLabel");
+
+                    table.getChildren().add(name);
+                    table.getChildren().add(grandTotal);
+                }
+                else
+                {
+                    table.setOnMouseClicked(this::viewTableBillItems);
+                    table.getStyleClass().add("close-table");
+                    table.setPrefWidth(90);
+                    table.setPrefWidth(90);
+
+                    Label name = new Label();
+                    name.setText("Table " + temp);
+                    name.setTextFill(Color.WHITE);
+                    name.setLayoutX(36);
+                    name.setLayoutY(14);
+                    name.setId("tableNumber");
+
+                    Label grandTotal = new Label();
+                    grandTotal.setText("_ : _");
+                    grandTotal.setTextFill(Color.WHITE);
+                    grandTotal.setLayoutX(47);
+                    grandTotal.setLayoutY(46);
+                    grandTotal.setId("tableGrandTotalLabel");
+
+                    table.getChildren().add(name);
+                    table.getChildren().add(grandTotal);
+                }
+
 
                 tableGrid.add(table,j,i);
                 tableGrid.setHgap(10);
@@ -177,10 +214,7 @@ public class TableBillingController implements Initializable {
                 temp++;
             }
         }
-        //--------------------------------------------------------------------------------------------------------------
-        //Setting Open Table Details
 
-        openTables = daoimpl.fetchOpenTableDetails();
 
     }
     public void setMainController(MainController mainController)
@@ -276,9 +310,9 @@ public class TableBillingController implements Initializable {
                         HBox hbox = new HBox(20);
                         Text txtQuantity = new Text(quantity.toString());
                         Button btnMinus = new Button("-");
-                        btnMinus.setStyle("-fx-background-color: #fa8484; -fx-text-fill: white;");
+                        btnMinus.getStyleClass().add("minus-button");
                         Button btnPlus = new Button("+");
-                        btnPlus.setStyle("-fx-background-color: #96fa84; -fx-text-fill: white;");
+                        btnPlus.getStyleClass().add("plus-button");
 
                         btnMinus.setOnAction(event -> {
 
@@ -575,10 +609,12 @@ public class TableBillingController implements Initializable {
             // Create a cell value factory for the Name column
             TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
             nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+            nameColB.setPrefWidth(150);
 
             // Create a cell value factory for the Price column
             TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
             priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+            priceColB.setPrefWidth(150);
 
             // Create a cell value factory for the Quantity column
             TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
@@ -598,10 +634,14 @@ public class TableBillingController implements Initializable {
                         {
                             HBox hbox = new HBox(20);
                             Text txtQuantity = new Text(quantity.toString());
+
                             Button btnMinus = new Button("-");
-                            btnMinus.setStyle("-fx-background-color: #fa8484; -fx-text-fill: white;");
+                            btnMinus.setCursor(Cursor.HAND);
+                            btnMinus.getStyleClass().add("minus-button");
+
                             Button btnPlus = new Button("+");
-                            btnPlus.setStyle("-fx-background-color: #96fa84; -fx-text-fill: white;");
+                            btnPlus.setCursor(Cursor.HAND);
+                            btnPlus.getStyleClass().add("plus-button");
 
                             btnMinus.setOnAction(event -> {
 
@@ -650,6 +690,7 @@ public class TableBillingController implements Initializable {
                 return cell;
             });
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+            quantColB.setPrefWidth(150);
             //----------------------------------------------------------------------------------------------------------
 
 
@@ -673,6 +714,9 @@ public class TableBillingController implements Initializable {
         }
         else
         {
+            //Changing the color of table (pane) to green by setting css style to 'open-table'
+            clickedTable.getStyleClass().clear();
+            clickedTable.getStyleClass().add("open-table");
 
             //Creating a blank list of bill items
             ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();

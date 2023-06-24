@@ -15,15 +15,27 @@
      -fx-font-family : "Segoe UI Semibold";
 }
 
-.table {
-    -fx-background-color : black;
+.open-table {
+    -fx-background-color : #59a644;
     -fx-border-color : white;
     -fx-font-weight: bold;
 }
 
-.table:hover {
-    -fx-background-color : #9ae861;
-    -fx-border-color  : green;
+.open-table:hover {
+    -fx-background-color : green;
+    -fx-border-color  : #38f205;
+    -fx-font-weight: bold;
+}
+
+.close-table {
+    -fx-background-color : #eb5454;
+    -fx-border-color : white;
+    -fx-font-weight: bold;
+}
+
+.close-table:hover {
+    -fx-background-color : red;
+    -fx-border-color  : #fa0505;
     -fx-font-weight: bold;
 }
 
@@ -53,18 +65,18 @@
 
 .clearbill {
     -fx-background-color: #eb5454;
-        -fx-border-color: white;
-        -fx-border-width : 0.5;
-        -fx-text-fill : white ;
-        -fx-font-family : sans-serif;
+    -fx-border-color: white;
+    -fx-border-width : 0.5;
+    -fx-text-fill : white ;
+    -fx-font-family : "Segoe UI Symbol";
+    -fx-font-size : 14px;
 }
 
 .clearbill:hover {
     -fx-background-color: red;
-        -fx-border-color: white;
-        -fx-border-width : 0.5;
-        -fx-text-fill : black ;
-        -fx-font-family : sans-serif;
+    -fx-border-width : 2px;
+    -fx-border-color : black;
+    -fx-text-fill : black ;
 }
 
 .single-bill-table-bill-button {
@@ -79,4 +91,16 @@
     -fx-border-color : black;
     -fx-border-width : 0.5;
     -fx-text-fill : black;
+}
+
+.plus-button{
+    -fx-background-color: #96fa84;
+    -fx-text-fill : #026113;
+    -fx-font-size : 12.5px;
+}
+
+.minus-button{
+    -fx-background-color: #fa8484;
+    -fx-text-fill : #570d0d;
+    -fx-font-size : 12.5px;
 }
