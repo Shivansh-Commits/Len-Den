@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -162,7 +163,7 @@ public class TableBillingController implements Initializable {
                     table.getStyleClass().add("open-table");
                     table.setPrefWidth(90);
                     table.setPrefWidth(90);
-
+                    table.setId("Table "+temp);
 
                     Label name = new Label();
                     name.setText("Table " + temp);
@@ -187,6 +188,7 @@ public class TableBillingController implements Initializable {
                     table.getStyleClass().add("close-table");
                     table.setPrefWidth(90);
                     table.setPrefWidth(90);
+                    table.setId("Table "+temp);
 
                     Label name = new Label();
                     name.setText("Table " + temp);
@@ -481,6 +483,23 @@ public class TableBillingController implements Initializable {
         daoimpl.saveOpenTableDetails(openTables);
     }
 
+    private Pane findPaneById(Parent parent, String fxId) //to get the table (pane)
+    {
+        if (parent != null) {
+            for (Node node : parent.getChildrenUnmodifiable()) {
+                if (node instanceof Pane && fxId.equals(node.getId())) {
+                    return (Pane) node;
+                } else if (node instanceof Parent) {
+                    Pane pane = findPaneById((Parent) node, fxId);
+                    if (pane != null) {
+                        return pane;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     @FXML
     public void clearBill(MouseEvent e)
     {
@@ -495,13 +514,26 @@ public class TableBillingController implements Initializable {
         if(deleteAlert.getResult() != ButtonType.YES)
             return;
 
-        daoimpl.closeTable(tableNumberLabel.getText());
+        String tableNumber = tableNumberLabel.getText();
 
+        Pane table = findPaneById(tableGrid, tableNumber);
+        table.getStyleClass().clear();
+        table.getStyleClass().add("close-table");
+
+        //Removing open-tables bill items from DB
+        daoimpl.closeTable(tableNumber);
+
+        //Removing open-table from openTables hashMap
+        openTables.remove(tableNumber);
+
+        //Clearing the items in bill table
         billTableItems.clear();
 
+        //Clearing 'discount' label
         discountField.setText("");
         bill.setDiscount(0);
 
+        //Clearing 'table number' label
         tableNumberLabel.setText("_:_");
         tableGrandTotalLabel.setText("_:_");
 
@@ -740,20 +772,4 @@ public class TableBillingController implements Initializable {
         }
     }
 
-    public void createTable(MouseEvent ev)
-    {
-        Button button = new Button("Add Pane with Labels");
-        button.setOnAction(e -> {
-            // Create a Pane with two Labels
-            Pane pane = new Pane();
-            Label label1 = new Label("Label 1");
-            Label label2 = new Label("Label 2");
-
-            pane.getChildren().addAll(label1, label2);
-
-            // Get the HBox by ID and add the Pane to it
-            HBox hboxById = (HBox) button.getScene().lookup("#hBox");
-            hboxById.getChildren().add(pane);
-        });
-    }
 }
