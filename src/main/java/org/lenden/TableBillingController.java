@@ -68,8 +68,8 @@ public class TableBillingController implements Initializable {
     MainController mainController = new MainController();
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
         //--------------------------------------------------------------------------------------------------------------
         //Setting CSS Classes
         foodItemsTable.getStyleClass().add("menu-table-items");
@@ -170,15 +170,30 @@ public class TableBillingController implements Initializable {
                     name.setLayoutY(14);
                     name.setId("tableNumber");
 
-                    Label grandTotal = new Label();
-                    grandTotal.setText("_ : _");
-                    grandTotal.setTextFill(Color.WHITE);
-                    grandTotal.setLayoutX(42);
-                    grandTotal.setLayoutY(46);
-                    grandTotal.setId("tableGrandTotalLabel");
+                    //Displaying Grand Total on the table pane
+                    ObservableList<BillItems> billTableItems = openTables.get("Table "+temp);
+                    double subTotal = 0 ;
+                    double discount = bill.getDiscount();
+                    for (BillItems item : billTableItems) {
+                        subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
+                    }
+                    double total = subTotal - (subTotal*((discount)/100));
+                    double cgst = bill.getCgst();
+                    double sgst = bill.getSgst();
+                    double servicecharge = bill.getServiceCharge();
+                    double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
+                    double grandTotal = total + tax;
+
+                    Label grandTotalLabel = new Label();
+                    DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+                    grandTotalLabel.setText(    decimalFormat.format(grandTotal)   );
+                    grandTotalLabel.setTextFill(Color.WHITE);
+                    grandTotalLabel.setLayoutX(42);
+                    grandTotalLabel.setLayoutY(46);
+                    grandTotalLabel.setId("tableGrandTotalLabel");
 
                     table.getChildren().add(name);
-                    table.getChildren().add(grandTotal);
+                    table.getChildren().add(grandTotalLabel);
                 }
                 else
                 {
@@ -479,6 +494,7 @@ public class TableBillingController implements Initializable {
         sgstLabel.setText(decimalFormat.format(sgst));
         serviceChargeLabel.setText(decimalFormat.format(servicecharge));
 
+
         //Saving open table Details
         daoimpl.saveOpenTableDetails(openTables);
     }
@@ -723,8 +739,9 @@ public class TableBillingController implements Initializable {
             });
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
             quantColB.setPrefWidth(150);
-            //----------------------------------------------------------------------------------------------------------
 
+
+            //----------------------------------------------------------------------------------------------------------
 
 
             //Getting Table Bill items

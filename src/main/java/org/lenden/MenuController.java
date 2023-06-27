@@ -54,7 +54,7 @@ public class MenuController implements Initializable
             Button button = new Button(category); // Create a new button
 
             button.setOnMouseClicked(this::displayMenuItems);
-            button.getStyleClass().add("menu-page-category-button");
+            button.getStyleClass().add("category-button");
             button.setPrefWidth(218);
             button.setPrefHeight(114);
             categoriesVBox.getChildren().add(button);
