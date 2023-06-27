@@ -13,10 +13,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -28,6 +25,7 @@ import org.lenden.model.MenuItems;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 public class TableBillingController implements Initializable {
@@ -70,8 +68,8 @@ public class TableBillingController implements Initializable {
     MainController mainController = new MainController();
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
+    public void initialize(URL url, ResourceBundle resourceBundle)
+    {
         //--------------------------------------------------------------------------------------------------------------
         //Setting CSS Classes
         foodItemsTable.getStyleClass().add("menu-table-items");
@@ -172,15 +170,30 @@ public class TableBillingController implements Initializable {
                     name.setLayoutY(14);
                     name.setId("tableNumber");
 
-                    Label grandTotal = new Label();
-                    grandTotal.setText("_ : _");
-                    grandTotal.setTextFill(Color.WHITE);
-                    grandTotal.setLayoutX(47);
-                    grandTotal.setLayoutY(46);
-                    grandTotal.setId("tableGrandTotalLabel");
+                    //Displaying Grand Total on the table pane
+                    ObservableList<BillItems> billTableItems = openTables.get("Table "+temp);
+                    double subTotal = 0 ;
+                    double discount = bill.getDiscount();
+                    for (BillItems item : billTableItems) {
+                        subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
+                    }
+                    double total = subTotal - (subTotal*((discount)/100));
+                    double cgst = bill.getCgst();
+                    double sgst = bill.getSgst();
+                    double servicecharge = bill.getServiceCharge();
+                    double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
+                    double grandTotal = total + tax;
+
+                    Label grandTotalLabel = new Label();
+                    DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+                    grandTotalLabel.setText(    decimalFormat.format(grandTotal)   );
+                    grandTotalLabel.setTextFill(Color.WHITE);
+                    grandTotalLabel.setLayoutX(42);
+                    grandTotalLabel.setLayoutY(46);
+                    grandTotalLabel.setId("tableGrandTotalLabel");
 
                     table.getChildren().add(name);
-                    table.getChildren().add(grandTotal);
+                    table.getChildren().add(grandTotalLabel);
                 }
                 else
                 {
@@ -200,7 +213,7 @@ public class TableBillingController implements Initializable {
                     Label grandTotal = new Label();
                     grandTotal.setText("_ : _");
                     grandTotal.setTextFill(Color.WHITE);
-                    grandTotal.setLayoutX(47);
+                    grandTotal.setLayoutX(42);
                     grandTotal.setLayoutY(46);
                     grandTotal.setId("tableGrandTotalLabel");
 
@@ -441,6 +454,8 @@ public class TableBillingController implements Initializable {
 
     public void updateTotals(ObservableList<BillItems> billTableItems)
     {
+        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+
         double subTotal = 0 ;
         double discount = bill.getDiscount();
 
@@ -453,13 +468,13 @@ public class TableBillingController implements Initializable {
         //Setting SubTotal
         bill.setSubTotal(subTotal);
         //Displaying Subtotal
-        subTotalLabel.setText(Double.toString(subTotal));
+        subTotalLabel.setText(decimalFormat.format(subTotal));
 
         //Setting Discounted Total
         double total = subTotal - (subTotal*((discount)/100));
         bill.setTotal(total);
         //Displaying subtotal
-        totalLabel.setText(Double.toString(total));
+        totalLabel.setText(decimalFormat.format(total));
 
         double cgst = bill.getCgst();
         double sgst = bill.getSgst();
@@ -471,13 +486,14 @@ public class TableBillingController implements Initializable {
         bill.setGrandTotal(grandTotal);
 
         //Diplaying Grandtotal
-        grandTotalLabel.setText(Double.toString(grandTotal));
-        tableGrandTotalLabel.setText(Double.toString(grandTotal));
+        grandTotalLabel.setText(decimalFormat.format(grandTotal));
+        tableGrandTotalLabel.setText(decimalFormat.format(grandTotal));
 
         //Displaying taxes
-        cgstLabel.setText(Double.toString(cgst));
-        sgstLabel.setText(Double.toString(sgst));
-        serviceChargeLabel.setText(Double.toString(servicecharge));
+        cgstLabel.setText(decimalFormat.format(cgst));
+        sgstLabel.setText(decimalFormat.format(sgst));
+        serviceChargeLabel.setText(decimalFormat.format(servicecharge));
+
 
         //Saving open table Details
         daoimpl.saveOpenTableDetails(openTables);
@@ -723,8 +739,9 @@ public class TableBillingController implements Initializable {
             });
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
             quantColB.setPrefWidth(150);
-            //----------------------------------------------------------------------------------------------------------
 
+
+            //----------------------------------------------------------------------------------------------------------
 
 
             //Getting Table Bill items

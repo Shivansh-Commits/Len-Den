@@ -4,3 +4,22 @@
     -fx-font-family : "Segoe UI Symbol";
 
 }
+
+.setting-button {
+    -fx-background-color: white;
+    -fx-border-color: white;
+    -fx-border-width : 0.5;
+    -fx-text-fill : black ;
+    -fx-font-size : 15px;
+    -fx-font-family : "Segoe UI Symbol";
+    -fx-background-color: linear-gradient(to bottom, rgba(200, 200, 200, 0.1), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8));
+}
+
+.setting-button:hover {
+    -fx-background-color: black;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill : white ;
+    -fx-font-size : 17px;
+    -fx-font-family : "Segoe UI Symbol";
+}
