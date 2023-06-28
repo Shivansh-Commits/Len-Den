@@ -322,7 +322,7 @@
                                                 <Font name="System Bold" size="12.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="tableGrandTotalLabel" layoutX="47.0" layoutY="46.0" text="_ : _" textFill="WHITE" />
+                                          <Label fx:id="tableGrandTotalLabel" layoutX="47.0" layoutY="43.0" text="_ : _" textFill="WHITE" />
                                        </children>
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
@@ -438,12 +438,12 @@
                         </AnchorPane>
                      </content>
                   </TitledPane>
-                  <TitledPane text="Area - 2">
+                  <TitledPane expanded="false" text="Area - 2">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="109.0" prefWidth="843.0" style="-fx-background-color: black;" />
                      </content>
                   </TitledPane>
-                  <TitledPane animated="false" text="Area - 3">
+                  <TitledPane animated="false" expanded="false" text="Area - 3">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;" />
                      </content>
