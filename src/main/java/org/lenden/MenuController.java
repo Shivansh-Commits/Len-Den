@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
@@ -57,6 +58,7 @@ public class MenuController implements Initializable
             button.getStyleClass().add("category-button");
             button.setPrefWidth(218);
             button.setPrefHeight(114);
+            button.setCursor(Cursor.HAND);
             categoriesVBox.getChildren().add(button);
         }
 

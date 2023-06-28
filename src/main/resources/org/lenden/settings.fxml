@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -17,8 +18,16 @@
                      <children>
                         <VBox prefHeight="1000.0" prefWidth="137.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="110.0" prefWidth="150.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Tables" />
-                              <Button mnemonicParsing="false" prefHeight="110.0" prefWidth="150.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Tax &amp; Billing" />
+                              <Button fx:id="tableSettingsButton" mnemonicParsing="false" onMouseClicked="#openTableSettings" prefHeight="110.0" prefWidth="150.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Tables">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button mnemonicParsing="false" prefHeight="110.0" prefWidth="150.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Tax &amp; Billing">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
                            </children></VBox>
                      </children>
                   </AnchorPane>
@@ -33,7 +42,7 @@
             </AnchorPane>
          </top>
          <center>
-            <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+            <BorderPane fx:id="mainPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>
