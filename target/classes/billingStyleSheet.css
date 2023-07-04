@@ -13,7 +13,11 @@
 
 .menu-table-items{
      -fx-font-size : 14px;
-     -fx-font-family : "Segoe UI Semibold";
+     -fx-font-family : "Segoe UI Symbol";
+}
+
+.menu-table-items:header {
+    -fx-font-weight: bold;
 }
 
 .open-table {
