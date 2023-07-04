@@ -154,6 +154,7 @@ public class TableBillingController implements Initializable {
             // Create Title Pane
             TitledPane titledPane1 = new TitledPane();
             titledPane1.setText(areaName);
+            titledPane1.setMaxSize(1000,1000);
             titledPane1.setExpanded(true);
 
             // Create Anchor Pane
@@ -161,7 +162,7 @@ public class TableBillingController implements Initializable {
             anchorpane.setPrefSize(730, 690);
             anchorpane.setMaxSize(2000,690);
             anchorpane.setMinSize(500,690);
-            anchorpane.setStyle("-fx-background-color: grey;");
+            anchorpane.setStyle("-fx-background-color: black;");
 
             // Create GridPane
             GridPane gridPane = new GridPane();
@@ -173,12 +174,16 @@ public class TableBillingController implements Initializable {
             gridPane.setHgap(5);
             gridPane.setVgap(5);
 
+            AnchorPane.setLeftAnchor(gridPane,15.0);
+            AnchorPane.setRightAnchor(gridPane,15.0);
+
 
             //Adding Panes (tables) in the grid
-
-            for(int i=0;i<10;i++)
+            int row = 10;
+            int col = 6;
+            for(int i=0;i<row;i++)
             {
-                for(int j=0;j<6;j++)
+                for(int j=0;j<col;j++)
                 {
                     if(temp>tablesInArea)
                         break;
@@ -199,9 +204,7 @@ public class TableBillingController implements Initializable {
                         name.setTextFill(Color.WHITE);
                         name.setLayoutX(36);
                         name.setLayoutY(14);
-                        table.widthProperty().addListener((obs, oldWidth, newWidth) ->
-                                name.setLayoutX((newWidth.doubleValue() - name.getWidth()) / 2));
-
+                        name.layoutXProperty().bind(table.widthProperty().subtract(name.widthProperty()).divide(2));
                         name.setId("tableNumber");
 
                         //Displaying Grand Total on the table pane
@@ -224,6 +227,7 @@ public class TableBillingController implements Initializable {
                         grandTotalLabel.setTextFill(Color.WHITE);
                         grandTotalLabel.setLayoutX(42);
                         grandTotalLabel.setLayoutY(46);
+                        grandTotalLabel.layoutXProperty().bind(table.widthProperty().subtract(grandTotalLabel.widthProperty()).divide(2));
                         grandTotalLabel.setId("tableGrandTotalLabel");
 
                         table.getChildren().add(name);
@@ -242,6 +246,7 @@ public class TableBillingController implements Initializable {
                         name.setTextFill(Color.WHITE);
                         name.setLayoutX(36);
                         name.setLayoutY(14);
+                        name.layoutXProperty().bind(table.widthProperty().subtract(name.widthProperty()).divide(2));
                         name.setId("tableNumber");
 
                         Label grandTotal = new Label();
@@ -264,8 +269,6 @@ public class TableBillingController implements Initializable {
             }
 
             anchorpane.getChildren().add(gridPane);
-            AnchorPane.setLeftAnchor(gridPane,15.0);
-            AnchorPane.setRightAnchor(gridPane,15.0);
             titledPane1.setContent(anchorpane);
             accordion.getPanes().add(titledPane1);
         }
