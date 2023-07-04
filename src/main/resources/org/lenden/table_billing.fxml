@@ -30,8 +30,8 @@
                <bottom>
                   <GridPane prefHeight="434.0" prefWidth="635.0" styleClass="billGridPane" stylesheets="@../../billingStyleSheet.css" BorderPane.alignment="CENTER">
                      <columnConstraints>
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="464.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="226.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="416.000048828125" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="0.0" prefWidth="219.19995117187506" />
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="199.00006713867188" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
@@ -168,7 +168,7 @@
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </GridPane.margin>
                         </VBox>
-                        <VBox spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <VBox prefHeight="179.0" prefWidth="206.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
                               <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Join Table">
                                  <font>
@@ -191,7 +191,7 @@
                               <Insets left="10.0" right="10.0" top="20.0" />
                            </padding>
                         </VBox>
-                        <BorderPane style="-fx-background-color: black;">
+                        <BorderPane prefHeight="50.0" prefWidth="430.0" style="-fx-background-color: black;">
                            <left>
                               <Label prefHeight="30.0" prefWidth="77.0" text="Invoice" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
@@ -251,11 +251,11 @@
             </BorderPane>
             <Accordion fx:id="accordion" prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: black;">
                <panes>
-                  <TitledPane prefHeight="718.0" prefWidth="983.0" text="Area - 1">
+                  <TitledPane prefHeight="718.0" prefWidth="983.0" text="TEST AREA">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="736.0" style="-fx-background-color: black;">
                            <children>
-                              <GridPane fx:id="tableGrid" hgap="5.0" layoutX="15.0" layoutY="21.0" prefHeight="775.0" prefWidth="754.0" vgap="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="14.200000000000045">
+                              <GridPane fx:id="tableGrid" hgap="5.0" layoutX="34.6" layoutY="21.0" prefHeight="775.0" prefWidth="697.0" vgap="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
                                  <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
                                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -276,7 +276,7 @@
                                     <RowConstraints minHeight="80.0" vgrow="SOMETIMES" />
                                  </rowConstraints>
                                  <children>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="120.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 2" textFill="WHITE">
                                              <font>
@@ -289,7 +289,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="2">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="120.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="2">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 3" textFill="WHITE">
                                              <font>
@@ -302,7 +302,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="3">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="120.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="3">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 4" textFill="WHITE">
                                              <font>
@@ -315,7 +315,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="100.0" prefWidth="120.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 1" textFill="WHITE">
                                              <font>
@@ -328,7 +328,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="32.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 8" textFill="WHITE">
                                              <font>
@@ -341,7 +341,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" prefHeight="19.0" prefWidth="41.0" text="Table 9" textFill="WHITE">
                                              <font>
@@ -354,7 +354,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="3" GridPane.rowIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" text="Table 10" textFill="WHITE">
                                              <font>
@@ -367,7 +367,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.rowIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.rowIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="36.0" layoutY="14.0" onMouseClicked="#viewTableBillItems" prefHeight="19.0" prefWidth="41.0" text="Table 7" textFill="WHITE">
                                              <font>
@@ -380,7 +380,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="4">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="120.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="4">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 5" textFill="WHITE">
                                              <font>
@@ -393,7 +393,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="5">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="120.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="5">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" prefHeight="19.0" prefWidth="41.0" text="Table 6" textFill="WHITE">
                                              <font>
@@ -406,7 +406,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="4" GridPane.rowIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" text="Table 11" textFill="WHITE">
                                              <font>
@@ -419,7 +419,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Pane>
-                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                                    <Pane minWidth="80.0" onMouseClicked="#viewTableBillItems" prefHeight="90.0" prefWidth="90.0" styleClass="close-table" stylesheets="@../../billingStyleSheet.css" GridPane.columnIndex="5" GridPane.rowIndex="1">
                                        <children>
                                           <Label fx:id="tableNumber" layoutX="35.0" layoutY="16.0" text="Table 12" textFill="WHITE">
                                              <font>
@@ -436,16 +436,6 @@
                               </GridPane>
                            </children>
                         </AnchorPane>
-                     </content>
-                  </TitledPane>
-                  <TitledPane expanded="false" text="Area - 2">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="109.0" prefWidth="843.0" style="-fx-background-color: black;" />
-                     </content>
-                  </TitledPane>
-                  <TitledPane animated="false" expanded="false" text="Area - 3">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="692.0" prefWidth="843.0" style="-fx-background-color: black;" />
                      </content>
                   </TitledPane>
                </panes>

@@ -443,29 +443,32 @@ public class DaoImpl
         }
     }
 
-    public int fetchTotalTables()
+    public HashMap<String, Integer> fetchAreaAndTables()
     {
+        HashMap<String, Integer> areaAndTables = new HashMap<String, Integer>();
+
         PreparedStatement stmt;
         Connection c = dao.getConnection();
 
         try {
 
-            stmt  = c.prepareStatement("SELECT tables FROM "+tenantId+".settings");
+            stmt  = c.prepareStatement("SELECT tables,area FROM "+tenantId+".tableandarea");
             ResultSet rs = stmt.executeQuery();
-            rs.next();
-            int totalTables = rs.getInt("tables");
-
+            while(rs.next())
+            {
+                areaAndTables.put(  rs.getString("area")  , rs.getInt("tables") );
+            }
             stmt.close();
             c.close();
 
-            return totalTables;
+            return areaAndTables;
         }
         catch(SQLException e)
         {
             e.printStackTrace();
         }
 
-        return 0;
+        return null;
     }
 
     public boolean addItemToMenu(MenuItems item)

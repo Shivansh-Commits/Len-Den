@@ -60,6 +60,9 @@ public class TableBillingController implements Initializable {
     TextField discountField;
     @FXML
     Label tableGrandTotalLabel;
+
+    @FXML
+    Accordion accordion;
     @FXML
     GridPane tableGrid;
     Bill bill = new Bill();
@@ -139,95 +142,132 @@ public class TableBillingController implements Initializable {
         openTables = daoimpl.fetchOpenTableDetails();
 
         //--------------------------------------------------------------------------------------------------------------
-        //Display Tables
-        int totalTables = daoimpl.fetchTotalTables();
-        int row = 1;
-        int col = 1;
-        int temp = 1;
+        //Display Areas & Tables
+        HashMap<String, Integer> areaAndTables = daoimpl.fetchAreaAndTables();
 
-        for(int i=0;i<10;i++)
+        int temp = 1; // Counter for naming tables
+        for (Map.Entry<String, Integer> entry : areaAndTables.entrySet())
         {
-            for(int j=0;j<6;j++)
+            String areaName = entry.getKey();
+            Integer tablesInArea = entry.getValue();
+
+            // Create Title Pane
+            TitledPane titledPane1 = new TitledPane();
+            titledPane1.setText(areaName);
+            titledPane1.setExpanded(true);
+
+            // Create Anchor Pane
+            AnchorPane anchorpane = new AnchorPane();
+            anchorpane.setPrefSize(730, 690);
+            anchorpane.setMaxSize(2000,690);
+            anchorpane.setMinSize(500,690);
+            anchorpane.setStyle("-fx-background-color: grey;");
+
+            // Create GridPane
+            GridPane gridPane = new GridPane();
+            gridPane.setLayoutX(15);
+            gridPane.setLayoutY(21);
+            gridPane.setPrefSize(710, 690);
+            gridPane.setMaxSize(2000,690);
+            gridPane.setStyle("-fx-background-color: black;");
+            gridPane.setHgap(5);
+            gridPane.setVgap(5);
+
+
+            //Adding Panes (tables) in the grid
+
+            for(int i=0;i<10;i++)
             {
-                if(temp>totalTables)
-                    break;
-
-                Pane table = new Pane();
-                table.setCursor(Cursor.HAND); //Setting the cursor to "hand" when hovered on the pane
-
-                if(!openTables.isEmpty() && openTables.containsKey("Table "+temp))
+                for(int j=0;j<6;j++)
                 {
-                    table.setOnMouseClicked(this::viewTableBillItems);
-                    table.getStyleClass().add("open-table");
-                    table.setPrefWidth(90);
-                    table.setPrefWidth(90);
-                    table.setId("Table "+temp);
+                    if(temp>tablesInArea)
+                        break;
 
-                    Label name = new Label();
-                    name.setText("Table " + temp);
-                    name.setTextFill(Color.WHITE);
-                    name.setLayoutX(36);
-                    name.setLayoutY(14);
-                    name.setId("tableNumber");
+                    Pane table = new Pane();
+                    table.setCursor(Cursor.HAND); //Setting the cursor to "hand" when hovered on the pane
 
-                    //Displaying Grand Total on the table pane
-                    ObservableList<BillItems> billTableItems = openTables.get("Table "+temp);
-                    double subTotal = 0 ;
-                    double discount = bill.getDiscount();
-                    for (BillItems item : billTableItems) {
-                        subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
+                    if(!openTables.isEmpty() && openTables.containsKey("Table "+temp))
+                    {
+                        table.setOnMouseClicked(this::viewTableBillItems);
+                        table.getStyleClass().add("open-table");
+                        table.setPrefSize(120,90);
+                        table.setMaxSize(200,Region.USE_COMPUTED_SIZE);
+                        table.setId("Table "+temp);
+
+                        Label name = new Label();
+                        name.setText("Table " + temp);
+                        name.setTextFill(Color.WHITE);
+                        name.setLayoutX(36);
+                        name.setLayoutY(14);
+                        table.widthProperty().addListener((obs, oldWidth, newWidth) ->
+                                name.setLayoutX((newWidth.doubleValue() - name.getWidth()) / 2));
+
+                        name.setId("tableNumber");
+
+                        //Displaying Grand Total on the table pane
+                        ObservableList<BillItems> billTableItems = openTables.get("Table "+temp);
+                        double subTotal = 0 ;
+                        double discount = bill.getDiscount();
+                        for (BillItems item : billTableItems) {
+                            subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
+                        }
+                        double total = subTotal - (subTotal*((discount)/100));
+                        double cgst = bill.getCgst();
+                        double sgst = bill.getSgst();
+                        double servicecharge = bill.getServiceCharge();
+                        double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
+                        double grandTotal = total + tax;
+
+                        Label grandTotalLabel = new Label();
+                        DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+                        grandTotalLabel.setText(    decimalFormat.format(grandTotal)   );
+                        grandTotalLabel.setTextFill(Color.WHITE);
+                        grandTotalLabel.setLayoutX(42);
+                        grandTotalLabel.setLayoutY(46);
+                        grandTotalLabel.setId("tableGrandTotalLabel");
+
+                        table.getChildren().add(name);
+                        table.getChildren().add(grandTotalLabel);
                     }
-                    double total = subTotal - (subTotal*((discount)/100));
-                    double cgst = bill.getCgst();
-                    double sgst = bill.getSgst();
-                    double servicecharge = bill.getServiceCharge();
-                    double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
-                    double grandTotal = total + tax;
+                    else
+                    {
+                        table.setOnMouseClicked(this::viewTableBillItems);
+                        table.getStyleClass().add("close-table");
+                        table.setPrefSize(120,90);
+                        table.setMaxSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
+                        table.setId("Table "+temp);
 
-                    Label grandTotalLabel = new Label();
-                    DecimalFormat decimalFormat = new DecimalFormat("#0.00");
-                    grandTotalLabel.setText(    decimalFormat.format(grandTotal)   );
-                    grandTotalLabel.setTextFill(Color.WHITE);
-                    grandTotalLabel.setLayoutX(42);
-                    grandTotalLabel.setLayoutY(46);
-                    grandTotalLabel.setId("tableGrandTotalLabel");
+                        Label name = new Label();
+                        name.setText("Table " + temp);
+                        name.setTextFill(Color.WHITE);
+                        name.setLayoutX(36);
+                        name.setLayoutY(14);
+                        name.setId("tableNumber");
 
-                    table.getChildren().add(name);
-                    table.getChildren().add(grandTotalLabel);
+                        Label grandTotal = new Label();
+                        grandTotal.setText("_ : _");
+                        grandTotal.setTextFill(Color.WHITE);
+                        grandTotal.setLayoutX(42);
+                        grandTotal.setLayoutY(46);
+                        grandTotal.setId("tableGrandTotalLabel");
+
+                        table.getChildren().add(name);
+                        table.getChildren().add(grandTotal);
+                    }
+
+                    gridPane.add(table,j,i);
+                    gridPane.setHgap(10);
+                    gridPane.setVgap(10);
+
+                    temp++;
                 }
-                else
-                {
-                    table.setOnMouseClicked(this::viewTableBillItems);
-                    table.getStyleClass().add("close-table");
-                    table.setPrefWidth(90);
-                    table.setPrefWidth(90);
-                    table.setId("Table "+temp);
-
-                    Label name = new Label();
-                    name.setText("Table " + temp);
-                    name.setTextFill(Color.WHITE);
-                    name.setLayoutX(36);
-                    name.setLayoutY(14);
-                    name.setId("tableNumber");
-
-                    Label grandTotal = new Label();
-                    grandTotal.setText("_ : _");
-                    grandTotal.setTextFill(Color.WHITE);
-                    grandTotal.setLayoutX(42);
-                    grandTotal.setLayoutY(46);
-                    grandTotal.setId("tableGrandTotalLabel");
-
-                    table.getChildren().add(name);
-                    table.getChildren().add(grandTotal);
-                }
-
-
-                tableGrid.add(table,j,i);
-                tableGrid.setHgap(10);
-                tableGrid.setVgap(10);
-
-                temp++;
             }
+
+            anchorpane.getChildren().add(gridPane);
+            AnchorPane.setLeftAnchor(gridPane,15.0);
+            AnchorPane.setRightAnchor(gridPane,15.0);
+            titledPane1.setContent(anchorpane);
+            accordion.getPanes().add(titledPane1);
         }
 
 
@@ -519,8 +559,16 @@ public class TableBillingController implements Initializable {
     @FXML
     public void clearBill(MouseEvent e)
     {
-        if(billTableItems.isEmpty())
+        if(billTableItems.isEmpty()) // A Case where no items are added in the bill table
+        {
             return;
+        }
+
+        if(tableNumberLabel.getText().equals("_ : _")) // A Case where no table is selected , but user has added items to the bill table
+        {
+            billTableItems.clear();
+            return;
+        }
 
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Items in Invoice will be deleted");
@@ -532,7 +580,7 @@ public class TableBillingController implements Initializable {
 
         String tableNumber = tableNumberLabel.getText();
 
-        Pane table = findPaneById(tableGrid, tableNumber);
+        Pane table = findPaneById(accordion, tableNumber);
         table.getStyleClass().clear();
         table.getStyleClass().add("close-table");
 
