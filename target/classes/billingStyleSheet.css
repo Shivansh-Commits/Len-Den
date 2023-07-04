@@ -13,7 +13,11 @@
 
 .menu-table-items{
      -fx-font-size : 14px;
-     -fx-font-family : "Segoe UI Semibold";
+     -fx-font-family : "Segoe UI Symbol";
+}
+
+.menu-table-items:header {
+    -fx-font-weight: bold;
 }
 
 .open-table {
@@ -65,10 +69,10 @@
 }
 
 .clearbill {
-    -fx-background-color: #eb5454;
-    -fx-border-color: white;
-    -fx-border-width : 0.5;
-    -fx-text-fill : white ;
+    -fx-background-color: white;
+    -fx-border-color: #eb5454;
+    -fx-border-width : 1;
+    -fx-text-fill : #eb5454 ;
     -fx-font-family : "Segoe UI Symbol";
     -fx-font-size : 14px;
 }
@@ -76,8 +80,8 @@
 .clearbill:hover {
     -fx-background-color: red;
     -fx-border-width : 2px;
-    -fx-border-color : black;
-    -fx-text-fill : black ;
+    -fx-border-color : white;
+    -fx-text-fill : white ;
 }
 
 .single-bill-table-bill-button {

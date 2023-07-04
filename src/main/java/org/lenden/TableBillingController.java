@@ -63,8 +63,6 @@ public class TableBillingController implements Initializable {
 
     @FXML
     Accordion accordion;
-    @FXML
-    GridPane tableGrid;
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
     HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
@@ -145,7 +143,7 @@ public class TableBillingController implements Initializable {
         //Display Areas & Tables
         HashMap<String, Integer> areaAndTables = daoimpl.fetchAreaAndTables();
 
-        int temp = 1; // Counter for naming tables
+        int tableNumCounter = 1; // Counter for naming tables
         for (Map.Entry<String, Integer> entry : areaAndTables.entrySet())
         {
             String areaName = entry.getKey();
@@ -154,58 +152,63 @@ public class TableBillingController implements Initializable {
             // Create Title Pane
             TitledPane titledPane1 = new TitledPane();
             titledPane1.setText(areaName);
+            //titledPane1.setMaxSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
             titledPane1.setExpanded(true);
 
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
             anchorpane.setPrefSize(730, 690);
-            anchorpane.setMaxSize(2000,690);
+            //anchorpane.setMaxSize(2000,690);
             anchorpane.setMinSize(500,690);
-            anchorpane.setStyle("-fx-background-color: grey;");
+            anchorpane.setStyle("-fx-background-color: black;");
 
             // Create GridPane
             GridPane gridPane = new GridPane();
             gridPane.setLayoutX(15);
             gridPane.setLayoutY(21);
             gridPane.setPrefSize(710, 690);
-            gridPane.setMaxSize(2000,690);
+            //gridPane.setMaxSize(2000,690);
             gridPane.setStyle("-fx-background-color: black;");
             gridPane.setHgap(5);
             gridPane.setVgap(5);
 
+            AnchorPane.setLeftAnchor(gridPane,15.0);
+            AnchorPane.setRightAnchor(gridPane,15.0);
+
 
             //Adding Panes (tables) in the grid
-
-            for(int i=0;i<10;i++)
+            int row = 10;
+            int col = 6;
+            int temp = 0;
+            for(int i=0;i<row;i++)
             {
-                for(int j=0;j<6;j++)
+                for(int j=0;j<col;j++)
                 {
-                    if(temp>tablesInArea)
+                    if(temp>tablesInArea) {
                         break;
+                    }
 
                     Pane table = new Pane();
                     table.setCursor(Cursor.HAND); //Setting the cursor to "hand" when hovered on the pane
 
-                    if(!openTables.isEmpty() && openTables.containsKey("Table "+temp))
+                    if(!openTables.isEmpty() && openTables.containsKey("Table "+tableNumCounter))
                     {
                         table.setOnMouseClicked(this::viewTableBillItems);
                         table.getStyleClass().add("open-table");
                         table.setPrefSize(120,90);
                         table.setMaxSize(200,Region.USE_COMPUTED_SIZE);
-                        table.setId("Table "+temp);
+                        table.setId("Table "+tableNumCounter);
 
                         Label name = new Label();
-                        name.setText("Table " + temp);
+                        name.setText("Table " + tableNumCounter);
                         name.setTextFill(Color.WHITE);
                         name.setLayoutX(36);
                         name.setLayoutY(14);
-                        table.widthProperty().addListener((obs, oldWidth, newWidth) ->
-                                name.setLayoutX((newWidth.doubleValue() - name.getWidth()) / 2));
-
+                        name.layoutXProperty().bind(table.widthProperty().subtract(name.widthProperty()).divide(2)); // TO center whole label inside Pane
                         name.setId("tableNumber");
 
                         //Displaying Grand Total on the table pane
-                        ObservableList<BillItems> billTableItems = openTables.get("Table "+temp);
+                        ObservableList<BillItems> billTableItems = openTables.get("Table "+tableNumCounter);
                         double subTotal = 0 ;
                         double discount = bill.getDiscount();
                         for (BillItems item : billTableItems) {
@@ -224,6 +227,7 @@ public class TableBillingController implements Initializable {
                         grandTotalLabel.setTextFill(Color.WHITE);
                         grandTotalLabel.setLayoutX(42);
                         grandTotalLabel.setLayoutY(46);
+                        grandTotalLabel.layoutXProperty().bind(table.widthProperty().subtract(grandTotalLabel.widthProperty()).divide(2));  // TO center whole label inside Pane
                         grandTotalLabel.setId("tableGrandTotalLabel");
 
                         table.getChildren().add(name);
@@ -235,37 +239,36 @@ public class TableBillingController implements Initializable {
                         table.getStyleClass().add("close-table");
                         table.setPrefSize(120,90);
                         table.setMaxSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
-                        table.setId("Table "+temp);
+                        table.setId("Table "+tableNumCounter);
 
                         Label name = new Label();
-                        name.setText("Table " + temp);
+                        name.setText("Table " + tableNumCounter);
                         name.setTextFill(Color.WHITE);
                         name.setLayoutX(36);
                         name.setLayoutY(14);
+                        name.layoutXProperty().bind(table.widthProperty().subtract(name.widthProperty()).divide(2)); // TO center whole label inside Pane
                         name.setId("tableNumber");
 
-                        Label grandTotal = new Label();
-                        grandTotal.setText("_ : _");
-                        grandTotal.setTextFill(Color.WHITE);
-                        grandTotal.setLayoutX(42);
-                        grandTotal.setLayoutY(46);
-                        grandTotal.setId("tableGrandTotalLabel");
+                        Label grandTotalLabel = new Label();
+                        grandTotalLabel.setText("_ : _");
+                        grandTotalLabel.setTextFill(Color.WHITE);
+                        grandTotalLabel.setLayoutX(42);
+                        grandTotalLabel.setLayoutY(46);
+                        grandTotalLabel.layoutXProperty().bind(table.widthProperty().subtract(grandTotalLabel.widthProperty()).divide(2)); // TO center whole label inside Pane
+                        grandTotalLabel.setId("tableGrandTotalLabel");
 
                         table.getChildren().add(name);
-                        table.getChildren().add(grandTotal);
+                        table.getChildren().add(grandTotalLabel);
                     }
 
                     gridPane.add(table,j,i);
-                    gridPane.setHgap(10);
-                    gridPane.setVgap(10);
 
                     temp++;
+                    tableNumCounter++;
                 }
             }
 
             anchorpane.getChildren().add(gridPane);
-            AnchorPane.setLeftAnchor(gridPane,15.0);
-            AnchorPane.setRightAnchor(gridPane,15.0);
             titledPane1.setContent(anchorpane);
             accordion.getPanes().add(titledPane1);
         }
@@ -286,14 +289,17 @@ public class TableBillingController implements Initializable {
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        nameCol.setPrefWidth(200);
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        priceCol.setPrefWidth(200);
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
+        availCol.setPrefWidth(200);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
