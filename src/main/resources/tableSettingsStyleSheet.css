@@ -5,7 +5,7 @@
 
 }
 
-.save-button {
+.saveEdit-button {
      -fx-background-color: black;
      -fx-border-color: black;
      -fx-border-width : 0.5;
@@ -13,10 +13,36 @@
      -fx-font-size : 14px;
 }
 
-.save-button:hover {
+.saveEdit-button:hover {
           -fx-background-color: white;
           -fx-border-color: black;
           -fx-border-width : 0.5;
           -fx-text-fill: black;
           -fx-font-size : 14px;
+}
+
+.area-name-textField{
+    -fx-font-family : "Segoe UI Semibold";
+    -fx-font-size : 16px;
+}
+
+.plus-button{
+    -fx-background-color: #96fa84;
+    -fx-border-width : 0.5;
+    -fx-border-color: black;
+    -fx-text-fill : #026113;
+    -fx-font-size : 18px;
+}
+
+.minus-button{
+    -fx-background-color: #fa8484;
+    -fx-border-width : 0.5;
+    -fx-border-color: black;
+    -fx-text-fill : #570d0d;
+    -fx-font-size : 18px;
+}
+
+.tables-label{
+    -fx-font-family : "Segoe UI Semibold";
+    -fx-font-size : 16px;
 }
