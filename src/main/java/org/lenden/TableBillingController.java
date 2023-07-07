@@ -329,14 +329,14 @@ public class TableBillingController implements Initializable {
         });
     }
 
-    public void addMenuItemtoBill(MouseEvent e)
-    {
+    public void addMenuItemtoBill(MouseEvent e) {
         //Getting Selected Food Items
         MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
-        if(selectedFoodItem == null)
+        if (selectedFoodItem == null || tableNumberLabel.getText().equals("_ : _"))
         {
             return;
         }
+
 
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
         int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
@@ -604,7 +604,7 @@ public class TableBillingController implements Initializable {
         bill.setDiscount(0);
 
         //Clearing 'table number' label
-        tableNumberLabel.setText("_:_");
+        tableNumberLabel.setText("_ : _");
         tableGrandTotalLabel.setText("_:_");
 
         updateTotals(billTableItems);
