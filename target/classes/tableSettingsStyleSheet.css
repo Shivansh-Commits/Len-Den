@@ -1,0 +1,22 @@
+.edit-table-label {
+
+    -fx-font-size : 30px;
+    -fx-font-family : "Segoe UI Symbol";
+
+}
+
+.save-button {
+     -fx-background-color: black;
+     -fx-border-color: black;
+     -fx-border-width : 0.5;
+     -fx-text-fill: white;
+     -fx-font-size : 14px;
+}
+
+.save-button:hover {
+          -fx-background-color: white;
+          -fx-border-color: black;
+          -fx-border-width : 0.5;
+          -fx-text-fill: black;
+          -fx-font-size : 14px;
+}
