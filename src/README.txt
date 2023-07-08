@@ -88,9 +88,9 @@ TABLES -
         vat [numeric]
         servicecharge [numeric]
 
-    7)settings
-        tables [integer] (Primary Key)
-        areas [integer]
+    7)tableandarea
+        area [text] (Primary Key)
+        tables [integer]
 
 
 

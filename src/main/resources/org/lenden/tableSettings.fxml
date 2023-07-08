@@ -80,16 +80,16 @@
                                           <Insets bottom="25.0" left="25.0" right="25.0" top="25.0" />
                                        </GridPane.margin>
                                     </HBox>
-                                    <HBox prefHeight="100.0" prefWidth="200.0" stylesheets="@../../tableSettingsStyleSheet.css" GridPane.columnIndex="2">
+                                    <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" stylesheets="@../../tableSettingsStyleSheet.css" GridPane.columnIndex="2">
                                        <children>
-                                          <Button disable="true" mnemonicParsing="false" prefHeight="99.0" prefWidth="329.0" styleClass="saveEdit-button" stylesheets="@../../tableSettingsStyleSheet.css" text="Edit" visible="false">
+                                          <Button mnemonicParsing="false" prefHeight="99.0" prefWidth="329.0" styleClass="saveEdit-button" stylesheets="@../../tableSettingsStyleSheet.css" text="Edit" visible="false">
                                              <HBox.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                                <Insets />
                                              </HBox.margin>
                                           </Button>
-                                          <Button disable="true" mnemonicParsing="false" prefHeight="99.0" prefWidth="329.0" styleClass="saveEdit-button" stylesheets="@../../tableSettingsStyleSheet.css" text="Save" visible="false">
+                                          <Button mnemonicParsing="false" prefHeight="99.0" prefWidth="329.0" styleClass="saveEdit-button" stylesheets="@../../tableSettingsStyleSheet.css" text="Save" visible="false">
                                              <HBox.margin>
-                                                <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                                <Insets />
                                              </HBox.margin>
                                           </Button>
                                        </children>
@@ -99,6 +99,9 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <GridPane.margin>
+                                          <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                                       </GridPane.margin>
                                     </HBox>
                                  </children>
                               </GridPane>
