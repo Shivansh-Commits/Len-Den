@@ -70,7 +70,7 @@ public class DaoImpl
                 temp.setFoodItemName(rs.getString("fooditemname"));
                 temp.setFoodItemPrice(rs.getInt("fooditemprice"));
                 temp.setFoodItemCategory(category);
-                if(rs.getBoolean("fooditemavailability") == true)
+                if(rs.getBoolean("fooditemavailability"))
                     temp.setFoodItemAvailability("Available");
                 else
                     temp.setFoodItemAvailability("NOT Available");
@@ -567,6 +567,72 @@ public class DaoImpl
                 return false;
             }
 
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean updateAreaAndTables(HashMap<String,Integer> areaAndTables)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try
+        {
+
+            for(Map.Entry<String, Integer> entry : areaAndTables.entrySet())
+            {
+                String area = entry.getKey();
+                int tables = entry.getValue();
+
+                stmt  = c.prepareStatement("UPDATE "+tenantId+".tableandarea SET tables = ? WHERE area = ?");
+
+                stmt.setInt(1, tables);
+                stmt.setString(2,area);
+
+                int rowsUpdated = stmt.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    // Area does not exist, insert a new row
+                    stmt = c.prepareStatement("INSERT INTO "+tenantId+".tableandarea (area, tables) VALUES (?, ?)");
+                    stmt.setString(1, area);
+                    stmt.setInt(2, tables);
+                    if(stmt.executeUpdate()!=1)
+                        return false;
+                }
+            }
+            return true;
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean deleteArea(String area)
+    {
+        PreparedStatement stmt;
+        Connection c = dao.getConnection();
+
+        try
+        {
+            stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".tableandarea WHERE area = ? ");
+            stmt.setString(1,area);
+
+            int rowsDeleted = stmt.executeUpdate();
+
+            if (rowsDeleted > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
         catch(Exception e)
         {

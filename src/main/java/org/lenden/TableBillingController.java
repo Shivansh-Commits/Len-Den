@@ -179,7 +179,7 @@ public class TableBillingController implements Initializable {
             //Adding Panes (tables) in the grid
             int row = 10;
             int col = 6;
-            int temp = 0;
+            int temp = 1;
             for(int i=0;i<row;i++)
             {
                 for(int j=0;j<col;j++)
