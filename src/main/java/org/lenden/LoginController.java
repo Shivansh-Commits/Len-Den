@@ -9,7 +9,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Tenants;
-
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
