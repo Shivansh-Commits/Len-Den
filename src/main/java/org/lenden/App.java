@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
 public class App extends Application {
 
     private static Scene scene;
@@ -17,7 +18,7 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException
     {
-        scene = new Scene(loadFXML("login"));
+        scene = new Scene(loadFXML());
 
         scene.getStylesheets().add("loginStyleSheet.css");
 
@@ -33,9 +34,9 @@ public class App extends Application {
         stage.show();
     }
 
-    private static Parent loadFXML(String fxml) throws IOException
+    private static Parent loadFXML() throws IOException
     {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("login.fxml"));
         return fxmlLoader.load();
     }
 

@@ -1,10 +1,24 @@
------------------------------------
+----------------------------------------------------------
 LEN-DEN PROJECT DETAILS
------------------------------------
+----------------------------------------------------------
 
--------------------
-[ TECHNOLOGY ]
--------------------
+
+
+---------------------------------------
+           [ JAR CREATION ]
+---------------------------------------
+STEP 1 - If you main class is in App.java, and you create a jar , it will not run becaause App class inherits 'Application' class
+        which is a part of javafx library. hence we need to create a separate java class (launcher.java) and call the main method
+        of App.java from the launcher class. In this way the external libraries are added with the jar.
+
+STEP 2 - After the jar is created . open it with winrar and Inside META-INF folder, delete all files having extension
+         [ .SF ] ,[ .DSA ] , [ .RSA ]. These are the signature files of other jars (dependenceis) , but every jar can have only
+         one signature file, hence deleting these dependencies sign files.
+
+
+---------------------------------------
+           [ TECHNOLOGY ]
+---------------------------------------
 LANGUAGE USED - JAVA
 
 BUILD & COMPILE - MAVEN
@@ -16,9 +30,9 @@ IDE USED - IntelliJ
 UI DESIGNER TOOL - Scene Builder
 
 
--------------------
-[ DATABASE ]
--------------------
+---------------------------------------
+           [ DATABASE ]
+---------------------------------------
 
 DB USED - POSTGRES DATABASE
 
