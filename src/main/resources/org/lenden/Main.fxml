@@ -46,7 +46,7 @@
                            <graphic>
                               <ImageView fx:id="homeIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/black/home_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../images/black/home_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -64,7 +64,7 @@
                            <graphic>
                               <ImageView fx:id="salesIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/black/outline_sales_black_24.png" />
+                                    <Image url="@../../images/black/outline_sales_black_24.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -82,7 +82,7 @@
                            <graphic>
                               <ImageView fx:id="menuIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/black/outline_restaurant_menu_black_24.png" />
+                                    <Image url="@../../images/black/outline_restaurant_menu_black_24.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -100,7 +100,7 @@
                            <graphic>
                               <ImageView fx:id="billingIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -118,7 +118,7 @@
                            <graphic>
                               <ImageView fx:id="settingsIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/black/outline_settings_black_24.png" />
+                                    <Image url="@../../images/black/outline_settings_black_24.png" />
                                  </image>
                               </ImageView>
                            </graphic>
@@ -136,7 +136,7 @@
                            <graphic>
                               <ImageView fx:id="logoutIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../icons/black/logout_FILL0_wght400_GRAD0_opsz48.png" />
+                                    <Image url="@../../images/black/logout_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
                               </ImageView>
                            </graphic>
