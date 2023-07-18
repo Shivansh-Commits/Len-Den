@@ -6,7 +6,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -16,8 +15,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -184,105 +181,93 @@ public class MainController implements Initializable {
         stage.close();
     }
 
+
+
+
     @FXML
     public void changeHomeIcon(MouseEvent e)
     {
-
         //getting white logo and setting white logo
-        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_home_white_24.png");
-        homeIcon.setImage(new Image(logoPath.toUri().toString()));
+        Image white_logo = new Image(getClass().getResource("/images/white/outline_home_white_24.png").toExternalForm());
+        homeIcon.setImage(white_logo);
 
         //getting black logo
-        logoPath = Paths.get("src","main", "resources","icons","black", "home_FILL0_wght400_GRAD0_opsz48.png");
-        Image black_home_icon = new Image(logoPath.toUri().toString());
+        Image black_logo = new Image(getClass().getResource("/images/black/home_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
         //setting black logo on mouse exit
         homeMenuButton.setOnMouseExited(event -> {
-            homeIcon.setImage(black_home_icon);
+            homeIcon.setImage(black_logo);
         });
     }
-
     @FXML
     public void changeSalesIcon(MouseEvent e)
     {
-
         //getting white logo and setting white logo
-        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_sales_white_24.png");
-        salesIcon.setImage(new Image(logoPath.toUri().toString()));
+        Image white_logo = new Image(getClass().getResource("/images/white/outline_sales_white_24.png").toExternalForm());
+        salesIcon.setImage(white_logo);
 
         //getting black logo
-        logoPath = Paths.get("src","main", "resources","icons","black", "outline_sales_black_24.png");
-        Image black_sales_icon = new Image(logoPath.toUri().toString());
+        Image black_logo = new Image(getClass().getResource("/images/black/outline_sales_black_24.png").toExternalForm());
         //setting black logo on mouse exit
         salesMenuButton.setOnMouseExited(event -> {
-            salesIcon.setImage(black_sales_icon);
+            salesIcon.setImage(black_logo);
         });
-
     }
-
     @FXML
     public void changeMenuIcon(MouseEvent e)
     {
-
         //getting white logo and setting white logo
-        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_restaurant_menu_white_24.png");
-        menuIcon.setImage(new Image(logoPath.toUri().toString()));
+        Image white_logo = new Image(getClass().getResource("/images/white/outline_restaurant_menu_white_24.png").toExternalForm());
+        menuIcon.setImage(white_logo);
 
         //getting black logo
-        logoPath = Paths.get("src","main", "resources","icons","black", "outline_restaurant_menu_black_24.png");
-        Image black_menu_icon = new Image(logoPath.toUri().toString());
+        Image black_logo = new Image(getClass().getResource("/images/black/outline_restaurant_menu_black_24.png").toExternalForm());
         //setting black logo on mouse exit
         menuMenuButton.setOnMouseExited(event -> {
-            menuIcon.setImage(black_menu_icon);
+            menuIcon.setImage(black_logo);
         });
     }
-
     @FXML
     public void changeBillingIcon(MouseEvent e)
     {
-
         //getting white logo and setting white logo
-        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_currency_rupee_white_24.png");
-        billingIcon.setImage(new Image(logoPath.toUri().toString()));
+        Image white_logo = new Image(getClass().getResource("/images/white/outline_currency_rupee_white_24.png").toExternalForm());
+        billingIcon.setImage(white_logo);
 
         //getting black logo
-        logoPath = Paths.get("src","main", "resources","icons","black", "currency_rupee_FILL0_wght400_GRAD0_opsz48.png");
-        Image black_currency_icon = new Image(logoPath.toUri().toString());
+        Image black_logo = new Image(getClass().getResource("/images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
         //setting black logo on mouse exit
         billingMenuButton.setOnMouseExited(event -> {
-            billingIcon.setImage(black_currency_icon);
+            billingIcon.setImage(black_logo);
         });
     }
-
     @FXML
     public void changeSettingsIcon(MouseEvent e)
     {
 
         //getting white logo and setting white logo
-        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_settings_white_24.png");
-        settingsIcon.setImage(new Image(logoPath.toUri().toString()));
+        Image white_logo = new Image(getClass().getResource("/images/white/outline_settings_white_24.png").toExternalForm());
+        settingsIcon.setImage(white_logo);
 
         //getting black logo
-        logoPath = Paths.get("src","main", "resources","icons","black", "outline_settings_black_24.png");
-        Image black_setting_icon = new Image(logoPath.toUri().toString());
+        Image black_logo = new Image(getClass().getResource("/images/black/outline_settings_black_24.png").toExternalForm());
         //setting black logo on mouse exit
         settingsMenuButton.setOnMouseExited(event -> {
-            settingsIcon.setImage(black_setting_icon);
+            settingsIcon.setImage(black_logo);
         });
     }
-
     @FXML
     public void changeLogoutIcon(MouseEvent e)
     {
+
         //getting white logo and setting white logo
-        Path logoPath = Paths.get("src","main", "resources","icons","white", "outline_logout_white_24.png");
-        logoutIcon.setImage(new Image(logoPath.toUri().toString()));
+        Image white_logo = new Image(getClass().getResource("/images/white/outline_logout_white_24.png").toExternalForm());
+        logoutIcon.setImage(white_logo);
 
         //getting black logo
-        logoPath = Paths.get("src","main", "resources","icons","black", "logout_FILL0_wght400_GRAD0_opsz48.png");
-        Image black_logout_icon = new Image(logoPath.toUri().toString());
+        Image black_logo = new Image(getClass().getResource("/images/black/logout_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
         //setting black logo on mouse exit
         logoutMenuButton.setOnMouseExited(event -> {
-            logoutIcon.setImage(black_logout_icon);
+            logoutIcon.setImage(black_logo);
         });
     }
 
