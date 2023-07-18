@@ -27,9 +27,9 @@ public class App extends Application {
         //set title for window
         stage.setTitle("LenDen Login");
 
-        //set login window icon
-        Path logoPath = Paths.get("src","main", "resources","logos","png", "logo-white.png");
-        stage.getIcons().add(new Image(logoPath.toUri().toString()));
+        //Setting the Login window Icon
+        Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
+        stage.getIcons().add(window_icon);
 
         stage.show();
     }
