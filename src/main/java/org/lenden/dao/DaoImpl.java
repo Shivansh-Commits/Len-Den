@@ -14,6 +14,7 @@ import java.util.Map;
 
 public class DaoImpl
 {
+
     Dao dao = new Dao();
 
     public String tenantId = getTenant();
@@ -44,9 +45,10 @@ public class DaoImpl
             stmt.close();
             c.close();
         }
-        catch(Exception e)
+        catch(SQLException e)
         {
-            e.getMessage();
+            e.printStackTrace();
+
         }
 
         return false;

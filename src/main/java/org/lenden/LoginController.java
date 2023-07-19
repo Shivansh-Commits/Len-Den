@@ -35,7 +35,7 @@ public class LoginController
 
         if( daoimpl.login(tenant) )
         {
-            System.out.println("LOGIN SUCCESS");
+            //System.out.println("LOGIN SUCCESS");
 
             //Opening up new Window (Home Screen)
             FXMLLoader fxmlLoader = new FXMLLoader();
@@ -47,10 +47,9 @@ public class LoginController
             //set title for window
             stage.setTitle("LenDen");
 
-            //get icon path from properties file
-            Path logoPath = Paths.get("src","main", "resources","logos","png", "logo-white.png");
-            //set icon for home window
-            stage.getIcons().add(new Image(logoPath.toUri().toString()));
+            //Setting the window logo
+            Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
+            stage.getIcons().add(window_icon);
 
             stage.setScene(scene);
             stage.setMaximized(true);

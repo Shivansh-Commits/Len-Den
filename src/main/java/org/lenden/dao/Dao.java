@@ -1,5 +1,8 @@
 package org.lenden.dao;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -14,7 +17,7 @@ public class Dao
         Connection conn;
         try {
             Properties props = new Properties();
-            InputStream inputStream = new FileInputStream("C:\\Users\\shiva\\IdeaProjects\\LenDen\\src\\main\\java\\org\\lenden\\config.properties");
+            InputStream inputStream = getClass().getResourceAsStream("/config.properties");
             props.load(inputStream);
 
             String url = props.getProperty("DBurl");
@@ -23,11 +26,21 @@ public class Dao
 
             conn = DriverManager.getConnection(url, user, password);
             return conn;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e)
+        {
+            System.out.println("COULD NOT CONNECT TO DB");
+            Alert alert = new Alert(Alert.AlertType.ERROR, "DB CONNECTION ERROR", ButtonType.OK);
+            alert.setHeaderText("DB Error");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
             e.printStackTrace();
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e)
+        {
             throw new RuntimeException(e);
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
         return null;
