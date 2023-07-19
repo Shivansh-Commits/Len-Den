@@ -1,19 +1,54 @@
-----------------------------------------------------------
-LEN-DEN PROJECT DETAILS
-----------------------------------------------------------
-
+------------------------------------------------------------------------------------------------------------------------
+                                        [   LEN-DEN PROJECT DETAILS   ]
+------------------------------------------------------------------------------------------------------------------------
 
 
 ---------------------------------------
            [ JAR CREATION ]
 ---------------------------------------
-STEP 1 - If you main class is in App.java, and you create a jar , it will not run becaause App class inherits 'Application' class
+[NOTE] - If your main class is in App.java, and you create a jar , it will not run becaause App class inherits 'Application' class
         which is a part of javafx library. hence we need to create a separate java class (launcher.java) and call the main method
         of App.java from the launcher class. In this way the external libraries are added with the jar.
 
-STEP 2 - After the jar is created . open it with winrar and Inside META-INF folder, delete all files having extension
-         [ .SF ] ,[ .DSA ] , [ .RSA ]. These are the signature files of other jars (dependenceis) , but every jar can have only
-         one signature file, hence deleting these dependencies sign files.
+STEP 1 - After the jar is created . open it with winrar and Inside META-INF folder, delete all files having extension
+         [ .SF ] ,[ .DSA ] , [ .RSA ]. These are the signature files of other jars (dependenceis) , but every jar can
+         have only one signature file, hence deleting these dependencies sign files.
+
+VIDEO REFERENCE - https://youtu.be/IoPXzopsmpE
+
+
+---------------------------------------
+           [ EXE CREATION ]
+---------------------------------------
+Tools Required - Launch4j
+
+STEP 1 - Open Launch4j
+STEP 2 - Fill in the details i.e Loc of exe , Loc of output dir,Icon etc
+STEP 3 - In the JRE section, inside JRE path field , write -> "JRE"
+STEP 4 - in the output Dir create a Folder called JRE and go to the java installation folder and copy all the files in
+         JRE folder. (Our exe uses the JRE from this very folder, hence it should not be renamed or moved)
+
+VIDEO REFERENCE - https://youtu.be/51iMSVUOQNM
+
+
+---------------------------------------
+     [ SETUP/INSTALLER CREATION ]
+---------------------------------------
+Tools Require - Inno Setup Compiler
+
+STEP 1 - open inno script, choose option to "create a new script using script wizard"
+STEP 2 - Fill all the basic details (next -> next -> next ...)
+SETP 3 - On the "Application Files" page, mention location of EXE file, and below in the "other files section" click on
+         "Add Folder" and select the "JRE" folder that we created earlier.
+STEP 4 - Further add the basic details , and when installation wizard ends, you will be prompted with a dailouge box
+         saying "would you like to compile the script now" click "NO" and the script editor will open up.
+STEP 5 - In the script , find the "[Files]" section. In one of the "Sources" you will see the JRE's address mentioned.
+STEP 6 - In that line we have to change the "DestDir" value. remove "{app}" and write this
+         "C:\Program Files (x86)\LenDen\JRE" . (Basically we are bundelling JRE with the EXE , because our exe needs
+         JRE to run, on which ever system it will be installed)
+STEP 7 - Save the script and click on Run.
+
+VIDEO REFERENCE - https://youtu.be/k6m2a1OtfZ4
 
 
 ---------------------------------------
@@ -21,11 +56,13 @@ STEP 2 - After the jar is created . open it with winrar and Inside META-INF fold
 ---------------------------------------
 LANGUAGE USED - JAVA
 
+DATABASE - POSTGRES (Hosted via AWS)
+
 BUILD & COMPILE - MAVEN
 
 UI LIBRARY - JAVAFX
 
-IDE USED - IntelliJ
+IDE USED - Idea - IntelliJ
 
 UI DESIGNER TOOL - Scene Builder
 
@@ -64,7 +101,7 @@ TABLES -
         pax [integer]
         nextbillnumber [integer] (is incremented from code)
 
-        ---NOTE--- : One row in bills table should have all fields blank and "billnumber" field as 0 and "nextbillnumber"
+        [---NOTE---] : One row in bills table should have all fields blank and "billnumber" field as 0 and "nextbillnumber"
         field as the starting number for generating bill numbers.
 
     2)billdetails
