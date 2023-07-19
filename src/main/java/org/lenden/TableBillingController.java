@@ -843,4 +843,18 @@ public class TableBillingController implements Initializable {
         }
     }
 
+    @FXML
+    public void reserveTable(MouseEvent e)
+    {
+        String tableNumber = tableNumberLabel.getText();
+
+        if(tableNumber.equals("_ : _")) // A Case where no table is selected , but user has added items to the bill table
+        {
+            Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "Select a Table to Reserve it.", ButtonType.OK);
+            deleteAlert.setHeaderText("No Table Selected");
+            deleteAlert.setTitle("Alert!");
+            deleteAlert.showAndWait();
+        }
+
+    }
 }
