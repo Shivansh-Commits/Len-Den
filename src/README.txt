@@ -2,6 +2,7 @@
                                         [   LEN-DEN PROJECT DETAILS   ]
 ------------------------------------------------------------------------------------------------------------------------
 
+BRANCH - hotfix_master_aws_db
 
 ---------------------------------------
            [ JAR CREATION ]
@@ -142,8 +143,6 @@ TABLES -
     7)tableandarea
         area [text] (Primary Key)
         tables [integer]
-
-
 
 
 
