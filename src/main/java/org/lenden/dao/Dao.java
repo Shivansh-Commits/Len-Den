@@ -12,7 +12,7 @@ import java.util.Properties;
 
 public class Dao
 {
-    public Connection getConnection()
+    public Connection getConnection() throws SQLException
     {
         Connection conn;
         try {
@@ -29,20 +29,16 @@ public class Dao
         }
         catch (SQLException e)
         {
-            System.out.println("COULD NOT CONNECT TO DB");
-            Alert alert = new Alert(Alert.AlertType.ERROR, "DB CONNECTION ERROR", ButtonType.OK);
-            alert.setHeaderText("DB Error");
-            alert.setTitle("Alert!");
-            alert.showAndWait();
-
             e.printStackTrace();
-        } catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        } catch (IOException e)
+            throw new SQLException(e);
+        }
+        catch (FileNotFoundException e)
         {
             throw new RuntimeException(e);
         }
-        return null;
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
     }
 }

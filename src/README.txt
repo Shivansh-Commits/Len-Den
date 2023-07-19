@@ -13,7 +13,7 @@
 STEP 1 - After the jar is created . open it with winrar and Inside META-INF folder, delete all files having extension
          [ .SF ] ,[ .DSA ] , [ .RSA ]. These are the signature files of other jars (dependenceis) , but every jar can
          have only one signature file, hence deleting these dependencies sign files.
-
+ 
 VIDEO REFERENCE - https://youtu.be/IoPXzopsmpE
 
 
