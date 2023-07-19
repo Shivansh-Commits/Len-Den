@@ -12,6 +12,7 @@ import org.lenden.model.Tenants;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 
 public class LoginController
 {
@@ -33,41 +34,48 @@ public class LoginController
 
         DaoImpl daoimpl = new DaoImpl();
 
-        if( daoimpl.login(tenant) )
-        {
-            //System.out.println("LOGIN SUCCESS");
+        try {
+            if (daoimpl.login(tenant)) {
+                //System.out.println("LOGIN SUCCESS");
 
-            //Opening up new Window (Home Screen)
-            FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(getClass().getResource("Main.fxml"));
+                //Opening up new Window (Home Screen)
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("Main.fxml"));
 
-            Scene scene = new Scene(fxmlLoader.load(), 600, 400);
-            Stage stage = new Stage();
+                Scene scene = new Scene(fxmlLoader.load(), 600, 400);
+                Stage stage = new Stage();
 
-            //set title for window
-            stage.setTitle("LenDen");
+                //set title for window
+                stage.setTitle("LenDen");
 
-            //Setting the window logo
-            Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
-            stage.getIcons().add(window_icon);
+                //Setting the window logo
+                Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
+                stage.getIcons().add(window_icon);
 
-            stage.setScene(scene);
-            stage.setMaximized(true);
-            stage.show();
+                stage.setScene(scene);
+                stage.setMaximized(true);
+                stage.show();
 
-            Stage loginStage = (Stage) signInButton.getScene().getWindow();
-            loginStage.close();
+                Stage loginStage = (Stage) signInButton.getScene().getWindow();
+                loginStage.close();
+            } else {
+                System.out.println("LOGIN FAILURE");
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong username or password.", ButtonType.OK);
+                alert.setHeaderText("Login Error");
+                alert.setTitle("Alert!");
+                alert.showAndWait();
+
+                username.clear();
+                password.clear();
+            }
         }
-        else
+        catch(SQLException e)
         {
-            System.out.println("LOGIN FAILURE");
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong username or password.", ButtonType.OK);
-            alert.setHeaderText("Login Error");
+            Alert alert = new Alert(Alert.AlertType.WARNING, "LenDen Was unable to connect to the Database,check you network Connection. If this error keeps occouring ,contact Customer Support.", ButtonType.OK);
+            alert.setHeaderText("Database Connection Error");
             alert.setTitle("Alert!");
+            alert.setHeight(500);
             alert.showAndWait();
-
-            username.clear();
-            password.clear();
         }
     }
 

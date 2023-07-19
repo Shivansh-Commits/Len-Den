@@ -2,6 +2,8 @@ package org.lenden.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
@@ -14,18 +16,16 @@ import java.util.Map;
 
 public class DaoImpl
 {
-
     Dao dao = new Dao();
 
     public String tenantId = getTenant();
 
-    public boolean login(Tenants tenantInfo)
-    {
+    public boolean login(Tenants tenantInfo) throws SQLException {
 
         Statement stmt;
 
-        try {
-            Connection c = dao.getConnection();
+        try(Connection c = dao.getConnection();)
+        {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM public.tenants where username = '"+tenantInfo.getUsername()+"' AND password='"+tenantInfo.getPassword()+"';");
             rs.next();
@@ -48,7 +48,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
-
+            throw new SQLException(e);
         }
 
         return false;
@@ -59,9 +59,8 @@ public class DaoImpl
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
-        try {
-            Connection c = dao.getConnection();
-
+        try(Connection c = dao.getConnection();)
+        {
             stmt  = c.prepareStatement("SELECT * FROM "+tenantId+".menu WHERE fooditemcategory = ?");
             stmt.setString(1,category);
             ResultSet rs = stmt.executeQuery();
@@ -102,9 +101,8 @@ public class DaoImpl
 
     public double getTax(String tax) throws SQLException
     {
-        try {
-            Connection c = dao.getConnection();
-
+        try(Connection c = dao.getConnection();)
+        {
             PreparedStatement stmt;
             stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".taxes");
             ResultSet rs = stmt.executeQuery();
@@ -152,10 +150,9 @@ public class DaoImpl
     public int getNextBillNumber()
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
-
+        try(Connection c = dao.getConnection();)
+        {
             //GETTING NEXT BILL NUMBER
             stmt  = c.prepareStatement("Select nextbillnumber from "+tenantId+".bills where billnumber = 0 "); // A specific row where nextbill number is stored.
             ResultSet rs = stmt.executeQuery();
@@ -182,9 +179,9 @@ public class DaoImpl
     {
 
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
+        try(Connection c = dao.getConnection();)
+        {
             stmt  = c.prepareStatement("INSERT INTO "+tenantId+".bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
             stmt.setString(1, bill.getOutletName());
             stmt.setString(2, bill.getOutletAddress());
@@ -220,9 +217,10 @@ public class DaoImpl
     public void addBillDetails(Bill bill) throws SQLException
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
+
+        try(Connection c = dao.getConnection();)
+        {
             stmt = c.prepareStatement("INSERT INTO " + tenantId + ".billdetails (fooditemname,fooditemquantity,fooditemprice,billnumber,tablenumber) VALUES (?,?,?,?,?)");
 
             for (BillItems item : bill.getBillItems()) {
@@ -247,10 +245,9 @@ public class DaoImpl
     public String getOutletDetails(String detail)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
-
+        try(Connection c = dao.getConnection())
+        {
             stmt  = c.prepareStatement("Select * from "+tenantId+".outletdetails ");
             ResultSet rs = stmt.executeQuery();
             rs.next();
@@ -286,9 +283,9 @@ public class DaoImpl
     public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try
+
+        try(Connection c = dao.getConnection())
         {
             stmt = c.prepareStatement("INSERT INTO " + tenantId + ".opentabledetails (fooditemname,fooditemquantity,fooditemprice,tablenumber) VALUES (?,?,?,?) ON CONFLICT (fooditemname, tablenumber) DO UPDATE SET fooditemquantity = excluded.fooditemquantity, fooditemprice = excluded.fooditemprice");
 
@@ -323,11 +320,10 @@ public class DaoImpl
     {
         HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<String,ObservableList<BillItems>>();
 
-        Connection c = dao.getConnection();
         PreparedStatement stmt;
 
-        try
-        {
+        try(Connection c = dao.getConnection())
+        {;
             stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".opentabledetails",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             ResultSet rs = stmt.executeQuery();
@@ -377,9 +373,8 @@ public class DaoImpl
     public void deleteOpenTableDetails(String tableNumber,String foodItemName)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try
+        try(Connection c = dao.getConnection())
         {
             stmt = c.prepareStatement("DELETE FROM "+tenantId+".opentabledetails WHERE fooditemname = ? AND tablenumber = ? ");
             stmt.setString(1,foodItemName);
@@ -399,10 +394,9 @@ public class DaoImpl
     public ObservableList<String> getCategories()
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
-
+        try(Connection c = dao.getConnection())
+        {
             stmt  = c.prepareStatement("SELECT DISTINCT fooditemcategory FROM "+tenantId+".menu");
             ResultSet rs = stmt.executeQuery();
             ObservableList<String> categories = FXCollections.observableArrayList();
@@ -427,9 +421,8 @@ public class DaoImpl
     public void closeTable(String openTable)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try
+        try(Connection c = dao.getConnection())
         {
             stmt = c.prepareStatement("DELETE FROM "+tenantId+".opentabledetails WHERE tablenumber = ?");
             stmt.setString(1,openTable);
@@ -450,10 +443,9 @@ public class DaoImpl
         HashMap<String, Integer> areaAndTables = new HashMap<String, Integer>();
 
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
-
+        try(Connection c = dao.getConnection())
+        {
             stmt  = c.prepareStatement("SELECT tables,area FROM "+tenantId+".tableandarea");
             ResultSet rs = stmt.executeQuery();
             while(rs.next())
@@ -476,10 +468,9 @@ public class DaoImpl
     public boolean addItemToMenu(MenuItems item)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
-
+        try(Connection c = dao.getConnection())
+        {
             stmt  = c.prepareStatement("INSERT INTO "+ tenantId +".menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability) VALUES (?,?,?,?) ");
             stmt.setString(1,item.getFoodItemName());
             stmt.setString(2,item.getFoodItemCategory());
@@ -487,7 +478,6 @@ public class DaoImpl
 
             String availability = item.getFoodItemAvailability();
             stmt.setBoolean(4, availability.equals("Available"));
-
 
             if(stmt.executeUpdate()==1)
             {
@@ -501,7 +491,6 @@ public class DaoImpl
                 c.close();
                 return false;
             }
-
         }
         catch(Exception e)
         {
@@ -515,9 +504,8 @@ public class DaoImpl
     {
 
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try
+        try(Connection c = dao.getConnection();)
         {
             stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".menu WHERE fooditemname = ? ");
             stmt.setString(1,item.getFoodItemName());
@@ -543,9 +531,9 @@ public class DaoImpl
     public boolean updateMenuItem(MenuItems item)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try {
+        try(Connection c = dao.getConnection())
+        {
 
             stmt  = c.prepareStatement("UPDATE "+tenantId+".menu SET fooditemprice = ?, fooditemavailability = ?, fooditemcategory = ? WHERE fooditemname = ?");
 
@@ -580,9 +568,8 @@ public class DaoImpl
     public boolean updateAreaAndTables(HashMap<String,Integer> areaAndTables)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try
+        try(Connection c = dao.getConnection())
         {
 
             for(Map.Entry<String, Integer> entry : areaAndTables.entrySet())
@@ -618,9 +605,8 @@ public class DaoImpl
     public boolean deleteArea(String area)
     {
         PreparedStatement stmt;
-        Connection c = dao.getConnection();
 
-        try
+        try(Connection c = dao.getConnection())
         {
             stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".tableandarea WHERE area = ? ");
             stmt.setString(1,area);
