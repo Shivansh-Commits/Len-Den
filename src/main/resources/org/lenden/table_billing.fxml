@@ -168,7 +168,7 @@
                         </VBox>
                         <VBox prefHeight="179.0" prefWidth="206.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Button mnemonicParsing="false" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Join Table">
+                              <Button mnemonicParsing="false" onMouseClicked="#reserveTable" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Reserve Table">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>

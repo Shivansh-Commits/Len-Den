@@ -24,7 +24,6 @@ import org.lenden.model.MenuItems;
 
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -68,6 +67,21 @@ public class TableBillingController implements Initializable {
     HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
     MainController mainController = new MainController();
 
+    /**
+     * Used to pre-populate, display and set all necessary items before page is loaded, like :-
+     * -> setting CSS style class for menu Table.
+     * -> Displaying Category buttons based on menu items in databse.
+     * -> Populating Menu table with MainCourse food category items.
+     * -> Displaying Areas and Open/close Tables.
+     *
+     * @param url
+     * The location used to resolve relative paths for the root object, or
+     * {@code null} if the location is not known.
+     *
+     * @param resourceBundle
+     * The resources used to localize the root object, or {@code null} if
+     * the root object was not localized.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
@@ -272,13 +286,19 @@ public class TableBillingController implements Initializable {
             titledPane1.setContent(anchorpane);
             accordion.getPanes().add(titledPane1);
         }
-
-
     }
+
+
     public void setMainController(MainController mainController)
     {
         this.mainController = mainController;
     }
+
+
+    /**
+     * Populates the Menu Table when any food category is clicked.
+     * @param e Mouse Event i.e Click
+     */
     @FXML
     public void displayMenuItems(MouseEvent e)
     {
@@ -329,10 +349,25 @@ public class TableBillingController implements Initializable {
         });
     }
 
-    public void addMenuItemtoBill(MouseEvent e) {
+
+    /**
+     * Adds food items to the bill table when use selects/clicks in the menu
+     * @param e Mouse Event i.e Click
+     */
+    public void addMenuItemtoBill(MouseEvent e)
+    {
+        //Adding the selected table to 'openTables' list when first item is added
+        String tableNumber = tableNumberLabel.getText();
+        if(!openTables.containsKey(tableNumber))
+        {
+            ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();
+            billTableItems = newBillTableItems;
+            openTables.put(tableNumber,billTableItems) ;
+        }
+
         //Getting Selected Food Items
         MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
-        if (selectedFoodItem == null || tableNumberLabel.getText().equals("_ : _"))
+        if (selectedFoodItem == null || tableNumber.equals("_ : _"))
         {
             return;
         }
@@ -379,12 +414,21 @@ public class TableBillingController implements Initializable {
 
                             BillItems item = getTableView().getItems().get(getIndex());
                             int currentQuantity = item.getFoodItemQuantity();
-                            if (currentQuantity > 1) {
+                            if (currentQuantity > 1)
+                            {
                                 item.setFoodItemQuantity(currentQuantity - 1);
                                 txtQuantity.setText(String.valueOf(currentQuantity - 1));
                                 int index = billTableItems.indexOf(item);
                                 billTableItems.set(index, item);
-                            } else {
+
+                                //Updating Open tables data
+                                openTables.put(tableNumber,billTableItems);
+                            }
+                            else
+                            {
+                                //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+                                daoimpl.deleteOpenTableDetails(tableNumber,item.getFoodItemName());
+                                //************************************************************************************************
                                 billTableItems.remove(item);
                                 billTable.setItems(billTableItems);
                             }
@@ -402,6 +446,9 @@ public class TableBillingController implements Initializable {
                             txtQuantity.setText(String.valueOf(currentQuantity + 1));
                             int index = billTableItems.indexOf(item);
                             billTableItems.set(index, item);
+
+                            //Updating Open tables data
+                            openTables.put(tableNumber,billTableItems);
 
                             //update Grand Total
                             updateTotals(billTableItems);
@@ -466,6 +513,11 @@ public class TableBillingController implements Initializable {
 
     }
 
+
+    /**
+     * Computes the discount and updates all necessary labels via 'updateTotals()' method
+     * @param e
+     */
     public void computeDiscount(KeyEvent e)
     {
         if(discountField.getText().isEmpty())
@@ -498,6 +550,13 @@ public class TableBillingController implements Initializable {
         }
     }
 
+
+    /**
+     * Updates the labels (total, sub-total, grand-total, cgst, sgst, vat, service charge)
+     *  and sets their values in the bill object of the selected table.
+     * Also saves all the open table details in the Databasse
+     * @param billTableItems Contains the items added in that tables bill
+     */
     public void updateTotals(ObservableList<BillItems> billTableItems)
     {
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
@@ -545,14 +604,20 @@ public class TableBillingController implements Initializable {
         daoimpl.saveOpenTableDetails(openTables);
     }
 
-    private Pane findPaneById(Parent parent, String fxId) //to get the table (pane)
+
+    /**
+     * @param parent The JavaFX element in which Pane is contained
+     * @param fxId fxID of Pane Element (Table)
+     * @return Returns the Tables (Pane's Object) reference
+     */
+    private Pane getTableObjectById(Parent parent, String fxId)
     {
         if (parent != null) {
             for (Node node : parent.getChildrenUnmodifiable()) {
                 if (node instanceof Pane && fxId.equals(node.getId())) {
                     return (Pane) node;
                 } else if (node instanceof Parent) {
-                    Pane pane = findPaneById((Parent) node, fxId);
+                    Pane pane = getTableObjectById((Parent) node, fxId);
                     if (pane != null) {
                         return pane;
                     }
@@ -562,6 +627,11 @@ public class TableBillingController implements Initializable {
         return null;
     }
 
+
+    /**
+     * Removes all food items from the bill table and closes that Table
+     * @param e Mouse Event i.e Click
+     */
     @FXML
     public void clearBill(MouseEvent e)
     {
@@ -586,7 +656,7 @@ public class TableBillingController implements Initializable {
 
         String tableNumber = tableNumberLabel.getText();
 
-        Pane table = findPaneById(accordion, tableNumber);
+        Pane table = getTableObjectById(accordion, tableNumber);
         table.getStyleClass().clear();
         table.getStyleClass().add("close-table");
 
@@ -605,11 +675,19 @@ public class TableBillingController implements Initializable {
 
         //Clearing 'table number' label
         tableNumberLabel.setText("_ : _");
+
+        //Clearing the grand-total label on the table(pane)
         tableGrandTotalLabel.setText("_:_");
 
         updateTotals(billTableItems);
     }
 
+
+    /**
+     * Shows Invoice and gives option to print it
+     * @param e Mouse Event i.e Click
+     * @throws IOException
+     */
     @FXML
     public void generateInvoice(MouseEvent e) throws IOException
     {
@@ -643,6 +721,11 @@ public class TableBillingController implements Initializable {
 
     }
 
+
+    /**
+     * Saves Invoice to Database
+     * @param e Mouse Event i.e Click
+     */
     @FXML
     private void saveInvoice(MouseEvent e)
     {
@@ -685,16 +768,43 @@ public class TableBillingController implements Initializable {
         }
     }
 
+
+    /**
+     * Opens Single Billing Page
+     * @param e Mouse Event i.e Click
+     * @throws IOException
+     */
     @FXML
-    public void openSingleBillingPage(MouseEvent e) throws IOException, SQLException
+    public void openSingleBillingPage(MouseEvent e) throws IOException
     {
         mainController.openSingleBillPageFlag=true;
         mainController.openSingleBillingPage(e);
     }
 
+
+    /**
+     * Populates the bill Table, when the Table (Pane) is clicked
+     * @param e - Mouse Event i.e Click
+     */
     @FXML
     public void viewTableBillItems(MouseEvent e)
     {
+        /*
+        Changing the color of previously selected table (to red) ,if table is not Opened yet (No items are added yet)
+        This is being verified by checking the 'openTables' list (Because as soon as a item is added toa table ,that
+        table is added to 'openTables' list)
+         */
+        if(!tableNumberLabel.getText().equals("_ : _") && !openTables.containsKey(tableNumberLabel.getText()) )
+        {
+            Pane table = getTableObjectById(accordion, tableNumberLabel.getText());  //tableNumberLabel will still have the previously selected table number
+            table.getStyleClass().clear();
+            table.getStyleClass().add("close-table");
+
+            Label previousTableGrandTotalLabel = (Label) table.lookup("#tableGrandTotalLabel"); //Getting GRAND-TOTAL label of Table
+            previousTableGrandTotalLabel.setText("_ : _");
+        }
+
+        //Dealing with clicked Table
         Pane clickedTable = (Pane) e.getSource();
 
         Label clickedTableLabel = (Label) clickedTable.lookup("#tableNumber"); // Getting TABLE NUMBER label of Table
@@ -749,23 +859,27 @@ public class TableBillingController implements Initializable {
 
                                 BillItems item = getTableView().getItems().get(getIndex());
                                 int currentQuantity = item.getFoodItemQuantity();
-                                if (currentQuantity > 1) {
+                                if (currentQuantity > 1)
+                                {
                                     item.setFoodItemQuantity(currentQuantity - 1);
                                     txtQuantity.setText(String.valueOf(currentQuantity - 1));
                                     int index = billTableItems.indexOf(item);
                                     billTableItems.set(index, item);
-                                } else {
+
+                                    //Updating Open tables data
+                                    openTables.put(tableNumber,billTableItems);
+                                }
+                                else
+                                {
+                                    //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
                                     daoimpl.deleteOpenTableDetails(tableNumber,item.getFoodItemName());
+                                    //***********************************************************************************************
                                     billTableItems.remove(item);
                                     billTable.setItems(billTableItems);
                                 }
 
-                                //Updating Open tables data
-                                openTables.put(tableNumber,billTableItems);
-
-                                //update Grand Total
+                                //Update Grand Total
                                 updateTotals(billTableItems);
-
                             });
 
                             btnPlus.setOnAction(event -> {
@@ -823,7 +937,7 @@ public class TableBillingController implements Initializable {
 
             //Creating a blank list of bill items
             ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();
-            openTables.put(tableNumber,newBillTableItems);
+            //openTables.put(tableNumber,newBillTableItems);
 
             //Setting the empty bill item list
             billTableItems = newBillTableItems;
@@ -839,8 +953,38 @@ public class TableBillingController implements Initializable {
 
             //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
             tableNumberLabel.setText(tableNumber);
-
         }
     }
 
+
+    /**
+     * Reserves a Table
+     * @param e Mouse Event i.e Click
+     */
+    @FXML
+    public void reserveTable(MouseEvent e)
+    {
+        String tableNumber = tableNumberLabel.getText();
+
+        // CASE - if user tries to reserve a table when no table is selected
+        if(tableNumber.equals("_ : _"))
+        {
+            Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a Table to Reserve it.", ButtonType.OK);
+            reserveAlert.setHeaderText("No Table Selected");
+            reserveAlert.setTitle("Alert!");
+            reserveAlert.showAndWait();
+            return;
+        }
+
+        //CASE - if user tries to reserve a open Table
+        if(openTables.containsKey(tableNumber))
+        {
+            Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a closed table or close the current table to Reserve it", ButtonType.OK);
+            reserveAlert.setHeaderText(tableNumber +" can not be Reserved");
+            reserveAlert.setTitle("Alert!");
+            reserveAlert.showAndWait();
+            return;
+        }
+
+    }
 }

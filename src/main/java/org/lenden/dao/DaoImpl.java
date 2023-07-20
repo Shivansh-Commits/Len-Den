@@ -2,8 +2,6 @@ package org.lenden.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
@@ -24,7 +22,7 @@ public class DaoImpl
 
         Statement stmt;
 
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM public.tenants where username = '"+tenantInfo.getUsername()+"' AND password='"+tenantInfo.getPassword()+"';");
@@ -42,8 +40,8 @@ public class DaoImpl
             }
 
             rs.close();
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
@@ -59,7 +57,7 @@ public class DaoImpl
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             stmt  = c.prepareStatement("SELECT * FROM "+tenantId+".menu WHERE fooditemcategory = ?");
             stmt.setString(1,category);
@@ -88,12 +86,12 @@ public class DaoImpl
             }
 
             rs.close();
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
-            e.getMessage();
+            e.printStackTrace();
         }
 
         return null;
@@ -101,7 +99,7 @@ public class DaoImpl
 
     public double getTax(String tax) throws SQLException
     {
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             PreparedStatement stmt;
             stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".taxes");
@@ -142,7 +140,7 @@ public class DaoImpl
         catch(SQLException e)
         {
 
-            e.getMessage();
+            e.printStackTrace();
         }
         return 0;
     }
@@ -151,7 +149,7 @@ public class DaoImpl
     {
         PreparedStatement stmt;
 
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             //GETTING NEXT BILL NUMBER
             stmt  = c.prepareStatement("Select nextbillnumber from "+tenantId+".bills where billnumber = 0 "); // A specific row where nextbill number is stored.
@@ -180,7 +178,7 @@ public class DaoImpl
 
         PreparedStatement stmt;
 
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             stmt  = c.prepareStatement("INSERT INTO "+tenantId+".bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
             stmt.setString(1, bill.getOutletName());
@@ -219,7 +217,7 @@ public class DaoImpl
         PreparedStatement stmt;
 
 
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             stmt = c.prepareStatement("INSERT INTO " + tenantId + ".billdetails (fooditemname,fooditemquantity,fooditemprice,billnumber,tablenumber) VALUES (?,?,?,?,?)");
 
@@ -233,8 +231,8 @@ public class DaoImpl
                 stmt.executeUpdate();
             }
 
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
@@ -269,12 +267,12 @@ public class DaoImpl
                 return rs.getString("phone");
             }
 
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
-            e.getMessage();
+            e.printStackTrace();
         }
 
         return null;
@@ -307,8 +305,8 @@ public class DaoImpl
 
             }
 
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
@@ -323,7 +321,7 @@ public class DaoImpl
         PreparedStatement stmt;
 
         try(Connection c = dao.getConnection())
-        {;
+        {
             stmt = c.prepareStatement("SELECT * FROM " + tenantId + ".opentabledetails",ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 
             ResultSet rs = stmt.executeQuery();
@@ -352,7 +350,6 @@ public class DaoImpl
                         billitems.add(billItem);
                     }
                 }
-
                 openTableDetails.put(tableNumber,billitems);
             }
 
@@ -382,8 +379,8 @@ public class DaoImpl
 
             int affectedRows = stmt.executeUpdate();
 
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
@@ -429,8 +426,8 @@ public class DaoImpl
 
             stmt.executeUpdate();
 
-            stmt.close();
             c.close();
+            stmt.close();
         }
         catch(SQLException e)
         {
@@ -505,7 +502,7 @@ public class DaoImpl
 
         PreparedStatement stmt;
 
-        try(Connection c = dao.getConnection();)
+        try(Connection c = dao.getConnection())
         {
             stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".menu WHERE fooditemname = ? ");
             stmt.setString(1,item.getFoodItemName());
