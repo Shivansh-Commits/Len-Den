@@ -126,7 +126,6 @@ TABLES -
         fooditemavaiability [boolean]
 
     5)outletdetails
-        id [bigserial] (i.e autoincrementing) (Primary Key)
         outletname [text]
         outletaddress [text]
         gstnumber [text]
@@ -142,6 +141,9 @@ TABLES -
     7)tableandarea
         area [text] (Primary Key)
         tables [integer]
+
+    8)reservedtables
+        tablename [text] primary key
 
 
 
