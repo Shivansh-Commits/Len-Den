@@ -1,9 +1,5 @@
 package org.lenden.dao;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

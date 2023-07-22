@@ -378,20 +378,20 @@ public class TableBillingController implements Initializable {
         String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
 
         // Create a cell value factory for the Name column
-        TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
-        nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
-        nameColB.setPrefWidth(150);
+        TableColumn<MenuItems, String> billTableNameCol = new TableColumn<>("Name");
+        billTableNameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        billTableNameCol.setPrefWidth(150);
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
-        priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
-        priceColB.setPrefWidth(150);
+        TableColumn<MenuItems, String> billTablePriceCol = new TableColumn<>("Price");
+        billTablePriceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        billTablePriceCol.setPrefWidth(150);
 
         // Create a cell value factory for the Quantity column
-        TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
-        quantColB.setMinWidth(100);
-        quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
-        quantColB.setCellFactory(col -> {
+        TableColumn<BillItems, Integer> billTableQuantityCol = new TableColumn<>("Quantity");
+        billTableQuantityCol.setMinWidth(100);
+        billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+        billTableQuantityCol.setCellFactory(col -> {
             TableCell<BillItems, Integer> cell = new TableCell<>() {
                 @Override
                 public void updateItem(Integer quantity, boolean empty) {
@@ -461,7 +461,7 @@ public class TableBillingController implements Initializable {
             };
             return cell;
         });
-        quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+        billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
 
 //----------------------------------------------------------------------------------------------------------------------
 
@@ -505,7 +505,7 @@ public class TableBillingController implements Initializable {
                 updateTotals(billTableItems);
 
                 //set columns and display list items
-                billTable.getColumns().setAll(nameColB, priceColB, quantColB);
+                billTable.getColumns().setAll(billTableNameCol, billTablePriceCol, billTableQuantityCol);
                 billTable.setItems(billTableItems);
             }
 
