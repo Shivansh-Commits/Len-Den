@@ -372,7 +372,6 @@ public class TableBillingController implements Initializable {
             return;
         }
 
-
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
         int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
         String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
@@ -405,10 +404,14 @@ public class TableBillingController implements Initializable {
                     {
                         HBox hbox = new HBox(20);
                         Text txtQuantity = new Text(quantity.toString());
+
                         Button btnMinus = new Button("-");
                         btnMinus.getStyleClass().add("minus-button");
+                        btnMinus.setCursor(Cursor.HAND);
+
                         Button btnPlus = new Button("+");
                         btnPlus.getStyleClass().add("plus-button");
+                        btnPlus.setCursor(Cursor.HAND);
 
                         btnMinus.setOnAction(event -> {
 
@@ -426,11 +429,32 @@ public class TableBillingController implements Initializable {
                             }
                             else
                             {
-                                //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
-                                daoimpl.deleteOpenTableDetails(tableNumber,item.getFoodItemName());
-                                //************************************************************************************************
-                                billTableItems.remove(item);
-                                billTable.setItems(billTableItems);
+                                if(billTableItems.size() == 1)
+                                {
+                                    Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
+                                    tableCloseAlert.setHeaderText("Deleting last item will close the table");
+                                    tableCloseAlert.setTitle("Alert!");
+                                    tableCloseAlert.showAndWait();
+
+                                    if (tableCloseAlert.getResult() == ButtonType.YES)
+                                    {
+                                        openTables.remove(tableNumber);
+                                        //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+                                        daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                        //***********************************************************************************************
+                                        billTableItems.remove(item);
+                                        billTable.setItems(billTableItems);
+                                    }
+                                }
+                                else
+                                {
+
+                                    //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+                                    daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                    //***********************************************************************************************
+                                    billTableItems.remove(item);
+                                    billTable.setItems(billTableItems);
+                                }
                             }
 
                             //update Grand Total
@@ -601,7 +625,7 @@ public class TableBillingController implements Initializable {
 
 
         //Saving open table Details
-        daoimpl.saveOpenTableDetails(openTables);
+            daoimpl.saveOpenTableDetails(openTables);
     }
 
 
@@ -871,11 +895,32 @@ public class TableBillingController implements Initializable {
                                 }
                                 else
                                 {
-                                    //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
-                                    daoimpl.deleteOpenTableDetails(tableNumber,item.getFoodItemName());
-                                    //***********************************************************************************************
-                                    billTableItems.remove(item);
-                                    billTable.setItems(billTableItems);
+                                    if(billTableItems.size() == 1)
+                                    {
+                                        Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
+                                        tableCloseAlert.setHeaderText("Deleting last item will close the table");
+                                        tableCloseAlert.setTitle("Alert!");
+                                        tableCloseAlert.showAndWait();
+
+                                        if (tableCloseAlert.getResult() == ButtonType.YES)
+                                        {
+                                            openTables.remove(tableNumber);
+                                            //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+                                            daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                            //***********************************************************************************************
+                                            billTableItems.remove(item);
+                                            billTable.setItems(billTableItems);
+                                        }
+                                    }
+                                    else
+                                    {
+
+                                        //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+                                        daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                        //***********************************************************************************************
+                                        billTableItems.remove(item);
+                                        billTable.setItems(billTableItems);
+                                    }
                                 }
 
                                 //Update Grand Total
@@ -973,17 +1018,20 @@ public class TableBillingController implements Initializable {
             reserveAlert.setHeaderText("No Table Selected");
             reserveAlert.setTitle("Alert!");
             reserveAlert.showAndWait();
-            return;
         }
-
         //CASE - if user tries to reserve a open Table
-        if(openTables.containsKey(tableNumber))
+        else if(openTables.containsKey(tableNumber))
         {
             Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a closed table or close the current table to Reserve it", ButtonType.OK);
             reserveAlert.setHeaderText(tableNumber +" can not be Reserved");
             reserveAlert.setTitle("Alert!");
             reserveAlert.showAndWait();
-            return;
+        }
+        else
+        {
+            Pane table = getTableObjectById(accordion, tableNumber);
+            table.getStyleClass().clear();
+            table.getStyleClass().add("reserve-table");
         }
 
     }

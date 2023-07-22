@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class DaoImpl
 {
-    Dao dao = new Dao();
+    //Dao dao = new Dao(); //Connection manager class w/o connection pool
 
     public String tenantId = getTenant();
 
@@ -281,7 +281,6 @@ public class DaoImpl
     public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables)
     {
         PreparedStatement stmt;
-
 
         try(Connection c = ConnectionManager.getConnection())
         {
