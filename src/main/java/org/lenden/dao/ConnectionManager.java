@@ -30,7 +30,7 @@ public class ConnectionManager {
             config.setUsername(user);
             config.setPassword(password);
 
-            config.setMaximumPoolSize(10); // Set the maximum number of connections in the pool
+            config.setMaximumPoolSize(1); // Set the maximum number of connections in the pool
             config.setAutoCommit(true); // Set auto-commit to true (if required)
 
             dataSource = new HikariDataSource(config);

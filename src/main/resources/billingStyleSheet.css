@@ -44,6 +44,12 @@
     -fx-font-weight: bold;
 }
 
+.reserve-table {
+    -fx-background-color : black`;
+    -fx-border-color : #eb5454;
+    -fx-font-weight: bold;
+}
+
 .billGridPane {
     -fx-background-color : white
 }
