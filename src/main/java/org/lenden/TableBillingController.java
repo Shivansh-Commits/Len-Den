@@ -65,6 +65,7 @@ public class TableBillingController implements Initializable {
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
     HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
+    ArrayList<String> reservedTables = new ArrayList<>();
     MainController mainController = new MainController();
 
     /**
@@ -149,9 +150,10 @@ public class TableBillingController implements Initializable {
         });
 
         //--------------------------------------------------------------------------------------------------------------
-        //Setting Open Table Details
+        //Setting Open Table & Reserved Table Details
 
         openTables = daoimpl.fetchOpenTableDetails();
+        reservedTables = daoimpl.fetchReservedTables();
 
         //--------------------------------------------------------------------------------------------------------------
         //Display Areas & Tables
@@ -205,7 +207,33 @@ public class TableBillingController implements Initializable {
                     Pane table = new Pane();
                     table.setCursor(Cursor.HAND); //Setting the cursor to "hand" when hovered on the pane
 
-                    if(!openTables.isEmpty() && openTables.containsKey("Table "+tableNumCounter))
+                    if(reservedTables.size() > 0 && reservedTables.contains("Table "+tableNumCounter))
+                    {
+                        table.getStyleClass().add("reserve-table");
+                        table.setPrefSize(120,90);
+                        table.setMaxSize(200,Region.USE_COMPUTED_SIZE);
+                        table.setId("Table "+tableNumCounter);
+
+                        Label name = new Label();
+                        name.setText("Table " + tableNumCounter);
+                        name.setTextFill(Color.WHITE);
+                        name.setLayoutX(36);
+                        name.setLayoutY(14);
+                        name.layoutXProperty().bind(table.widthProperty().subtract(name.widthProperty()).divide(2)); // TO center whole label inside Pane
+                        name.setId("tableNumber");
+
+                        Label reservedLabel = new Label();
+                        reservedLabel.setText("RESERVED");
+                        reservedLabel.setTextFill(Color.WHITE);
+                        reservedLabel.setLayoutX(42);
+                        reservedLabel.setLayoutY(46);
+                        reservedLabel.layoutXProperty().bind(table.widthProperty().subtract(reservedLabel.widthProperty()).divide(2));  // TO center whole label inside Pane
+                        reservedLabel.setId("reservedTableLabel");
+
+                        table.getChildren().add(name);
+                        table.getChildren().add(reservedLabel);
+                    }
+                    else if(!openTables.isEmpty() && openTables.containsKey("Table "+tableNumCounter))
                     {
                         table.setOnMouseClicked(this::viewTableBillItems);
                         table.getStyleClass().add("open-table");
@@ -813,14 +841,15 @@ public class TableBillingController implements Initializable {
     @FXML
     public void viewTableBillItems(MouseEvent e)
     {
+        String previousTableNumber = tableNumberLabel.getText();
         /*
         Changing the color of previously selected table (to red) ,if table is not Opened yet (No items are added yet)
         This is being verified by checking the 'openTables' list (Because as soon as a item is added toa table ,that
         table is added to 'openTables' list)
          */
-        if(!tableNumberLabel.getText().equals("_ : _") && !openTables.containsKey(tableNumberLabel.getText()) )
+        if(!previousTableNumber.equals("_ : _") && !openTables.containsKey(tableNumberLabel.getText()) && !reservedTables.contains(previousTableNumber))
         {
-            Pane table = getTableObjectById(accordion, tableNumberLabel.getText());  //tableNumberLabel will still have the previously selected table number
+            Pane table = getTableObjectById(accordion, previousTableNumber);  //tableNumberLabel will still have the previously selected table number
             table.getStyleClass().clear();
             table.getStyleClass().add("close-table");
 
@@ -837,6 +866,9 @@ public class TableBillingController implements Initializable {
         Label selectedTableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel"); //Getting GRAND TOTAL lablel of Table
         tableGrandTotalLabel = selectedTableGrandTotalLabel;
 
+        // CHECKING IF CLICKED TABLE IS RESERVED OR NOT
+        if(reservedTables.contains(tableNumber))
+            return;
 
         if(openTables.containsKey(tableNumber))
         {
@@ -1029,9 +1061,24 @@ public class TableBillingController implements Initializable {
         }
         else
         {
-            Pane table = getTableObjectById(accordion, tableNumber);
-            table.getStyleClass().clear();
-            table.getStyleClass().add("reserve-table");
+            if(daoimpl.saveReservedTableDetails(tableNumber))
+            {
+                Pane table = getTableObjectById(accordion, tableNumber);
+                table.getStyleClass().clear();
+                table.getStyleClass().add("reserve-table");
+
+                Label selectedTableReservedLabel = (Label) table.lookup("#tableGrandTotalLabel");
+                selectedTableReservedLabel.setText("RESERVED");
+
+                reservedTables.add(tableNumber);
+
+                Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
+                reserveSuccessAlert.setHeaderText(tableNumber +" Reserved");
+                reserveSuccessAlert.setTitle("Information");
+                reserveSuccessAlert.showAndWait();
+            }
+
+
         }
 
     }

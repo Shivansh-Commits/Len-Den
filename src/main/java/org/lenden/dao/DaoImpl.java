@@ -8,6 +8,7 @@ import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +36,6 @@ public class DaoImpl
 
                 rs.close();
                 stmt.close();
-                c.close();
                 return true;
             }
 
@@ -86,7 +86,6 @@ public class DaoImpl
             }
 
             rs.close();
-            c.close();
             stmt.close();
         }
         catch(SQLException e)
@@ -200,7 +199,6 @@ public class DaoImpl
             addBillDetails(bill);
 
             stmt.close();
-            c.close();
 
             return rowsAffected;
         }
@@ -231,7 +229,6 @@ public class DaoImpl
                 stmt.executeUpdate();
             }
 
-            c.close();
             stmt.close();
         }
         catch(SQLException e)
@@ -267,7 +264,6 @@ public class DaoImpl
                 return rs.getString("phone");
             }
 
-            c.close();
             stmt.close();
         }
         catch(SQLException e)
@@ -301,10 +297,7 @@ public class DaoImpl
 
                     stmt.executeUpdate();
                 }
-
             }
-
-            c.close();
             stmt.close();
         }
         catch(SQLException e)
@@ -353,7 +346,6 @@ public class DaoImpl
             }
 
             stmt.close();
-            c.close();
 
             return openTableDetails;
 
@@ -378,7 +370,6 @@ public class DaoImpl
 
             int affectedRows = stmt.executeUpdate();
 
-            c.close();
             stmt.close();
         }
         catch(SQLException e)
@@ -402,7 +393,6 @@ public class DaoImpl
             }
 
             stmt.close();
-            c.close();
 
             return categories;
         }
@@ -425,7 +415,6 @@ public class DaoImpl
 
             stmt.executeUpdate();
 
-            c.close();
             stmt.close();
         }
         catch(SQLException e)
@@ -449,7 +438,6 @@ public class DaoImpl
                 areaAndTables.put(  rs.getString("area")  , rs.getInt("tables") );
             }
             stmt.close();
-            c.close();
 
             return areaAndTables;
         }
@@ -521,7 +509,6 @@ public class DaoImpl
             e.printStackTrace();
             return false;
         }
-
     }
 
     public boolean updateMenuItem(MenuItems item)
@@ -624,4 +611,56 @@ public class DaoImpl
             return false;
         }
     }
+
+    public ArrayList<String> fetchReservedTables()
+    {
+        Statement stmt;
+        ArrayList<String> reservedTables = new ArrayList<>();
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM "+ tenantId +".reservedtables");
+
+            while(rs.next())
+            {
+                reservedTables.add(rs.getString("tablename"));
+            }
+
+            rs.close();
+            c.close();
+            stmt.close();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return reservedTables;
+    }
+
+    public boolean saveReservedTableDetails(String reservedTableNumber)
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement("INSERT INTO " + tenantId + ".reservedtables (tablename) VALUES (?)");
+            stmt.setString(1,reservedTableNumber);
+
+            if(stmt.executeUpdate()>0)
+            {
+                stmt.close();
+                return true;
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }
