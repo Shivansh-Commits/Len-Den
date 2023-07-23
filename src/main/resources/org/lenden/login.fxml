@@ -51,8 +51,8 @@
                   </Button>
                <VBox fillWidth="false" layoutX="55.0" layoutY="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="118.0" prefWidth="248.0" spacing="20.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="80.0">
                   <children>
-                        <TextField fx:id="username" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="238.0" promptText="Enter Username" VBox.vgrow="ALWAYS" />
-                        <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" prefHeight="42.0" prefWidth="238.0" promptText="Enter Password" VBox.vgrow="ALWAYS" />
+                        <TextField fx:id="username" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="238.0" promptText="Enter Username" VBox.vgrow="ALWAYS" />
+                        <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="238.0" promptText="Enter Password" VBox.vgrow="ALWAYS" />
                   </children>
                </VBox>
       

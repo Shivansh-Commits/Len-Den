@@ -352,6 +352,10 @@ public class MenuController implements Initializable
             }
             else
             {
+                updateItemName.setText("");
+                updateItemPrice.setText("");
+                updateItemAvailability.setValue("");
+                updateItemCategory.setValue("");
                 displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
             }
         }
