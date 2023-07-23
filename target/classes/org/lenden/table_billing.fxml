@@ -22,7 +22,7 @@
 
 <AnchorPane prefHeight="791.0" prefWidth="1401.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
-      <SplitPane dividerPositions="0.4524796341289124" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.44747749035300843" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <bottom>
@@ -127,7 +127,7 @@
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="grandTotalLabel" layoutX="166.0" layoutY="10.0" text="_ _ : _ _">
+                              <Label fx:id="grandTotalLabel" layoutX="166.0" layoutY="10.0" prefHeight="30.0" prefWidth="62.0" text="_ _ : _ _">
                                  <font>
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
@@ -168,7 +168,7 @@
                         </VBox>
                         <VBox prefHeight="179.0" prefWidth="206.0" spacing="15.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <children>
-                              <Button mnemonicParsing="false" onMouseClicked="#reserveTable" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Reserve Table">
+                              <Button fx:id="reserveTableButton" mnemonicParsing="false" onMouseClicked="#reserveTable" prefHeight="35.0" prefWidth="198.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Reserve Table">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>
@@ -193,7 +193,7 @@
                            <left>
                               <Label prefHeight="30.0" prefWidth="77.0" text="Invoice" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
-                                    <Font name="Segoe UI Semilight" size="22.0" />
+                                    <Font name="Segoe UI Semilight" size="23.0" />
                                  </font>
                                  <BorderPane.margin>
                                     <Insets left="15.0" />
@@ -203,7 +203,7 @@
                         </BorderPane>
                         <BorderPane prefHeight="60.0" prefWidth="251.0" style="-fx-background-color: black;" GridPane.columnIndex="1">
                            <center>
-                              <Label fx:id="tableNumberLabel" prefHeight="26.0" prefWidth="78.0" text="_ : _" textFill="WHITE" BorderPane.alignment="CENTER">
+                              <Label fx:id="tableNumberLabel" prefHeight="30.0" prefWidth="90.0" text="_ : _" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="20.0" />
                                  </font>

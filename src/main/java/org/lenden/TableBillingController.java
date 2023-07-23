@@ -37,6 +37,9 @@ public class TableBillingController implements Initializable {
     ScrollPane categoryScrollPane;
     ObservableList<MenuItems> menuTableItems;
     ObservableList<BillItems> billTableItems = FXCollections.observableArrayList();
+
+    @FXML
+    Button reserveTableButton;
     @FXML
     TableView<MenuItems> foodItemsTable;
     @FXML
@@ -173,16 +176,16 @@ public class TableBillingController implements Initializable {
 
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
-            anchorpane.setPrefSize(730, 690);
+            anchorpane.setPrefSize(730, 620);
             //anchorpane.setMaxSize(2000,690);
-            anchorpane.setMinSize(500,690);
+            anchorpane.setMinSize(500,620);
             anchorpane.setStyle("-fx-background-color: black;");
 
             // Create GridPane
             GridPane gridPane = new GridPane();
             gridPane.setLayoutX(15);
             gridPane.setLayoutY(21);
-            gridPane.setPrefSize(710, 690);
+            gridPane.setPrefSize(710, 620);
             //gridPane.setMaxSize(2000,690);
             gridPane.setStyle("-fx-background-color: black;");
             gridPane.setHgap(5);
@@ -209,6 +212,7 @@ public class TableBillingController implements Initializable {
 
                     if(reservedTables.size() > 0 && reservedTables.contains("Table "+tableNumCounter))
                     {
+                        table.setOnMouseClicked(this::viewTableBillItems);
                         table.getStyleClass().add("reserve-table");
                         table.setPrefSize(120,90);
                         table.setMaxSize(200,Region.USE_COMPUTED_SIZE);
@@ -384,8 +388,13 @@ public class TableBillingController implements Initializable {
      */
     public void addMenuItemtoBill(MouseEvent e)
     {
-        //Adding the selected table to 'openTables' list when first item is added
         String tableNumber = tableNumberLabel.getText();
+
+        //Checking if the table is Reserved or not
+        if(reservedTables.contains(tableNumber))
+            return;
+
+        //Adding the selected table to 'openTables' list when first item is added
         if(!openTables.containsKey(tableNumber))
         {
             billTableItems = FXCollections.observableArrayList();
@@ -466,19 +475,17 @@ public class TableBillingController implements Initializable {
                                     if (tableCloseAlert.getResult() == ButtonType.YES)
                                     {
                                         openTables.remove(tableNumber);
-                                        //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+
                                         daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
-                                        //***********************************************************************************************
+
                                         billTableItems.remove(item);
                                         billTable.setItems(billTableItems);
                                     }
                                 }
                                 else
                                 {
-
-                                    //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
                                     daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
-                                    //***********************************************************************************************
+
                                     billTableItems.remove(item);
                                     billTable.setItems(billTableItems);
                                 }
@@ -623,6 +630,7 @@ public class TableBillingController implements Initializable {
             }
         //Setting SubTotal
         bill.setSubTotal(subTotal);
+
         //Displaying Subtotal
         subTotalLabel.setText(decimalFormat.format(subTotal));
 
@@ -643,7 +651,10 @@ public class TableBillingController implements Initializable {
 
         //Diplaying Grandtotal
         grandTotalLabel.setText(decimalFormat.format(grandTotal));
-        tableGrandTotalLabel.setText(decimalFormat.format(grandTotal));
+
+        //Checking, If label belongs to reserved table ,then don't update
+        if(tableGrandTotalLabel != null)
+            tableGrandTotalLabel.setText(decimalFormat.format(grandTotal));
 
         //Displaying taxes
         cgstLabel.setText(decimalFormat.format(cgst));
@@ -652,7 +663,7 @@ public class TableBillingController implements Initializable {
 
 
         //Saving open table Details
-            daoimpl.saveOpenTableDetails(openTables);
+        daoimpl.saveOpenTableDetails(openTables);
     }
 
 
@@ -686,16 +697,18 @@ public class TableBillingController implements Initializable {
     @FXML
     public void clearBill(MouseEvent e)
     {
-        if(billTableItems.isEmpty()) // A Case where no items are added in the bill table
-        {
+        if(billTableItems.isEmpty()) // CASE - Bill is empty
             return;
-        }
 
-        if(tableNumberLabel.getText().equals("_ : _")) // A Case where no table is selected , but user has added items to the bill table
+        if(reservedTables.contains(tableNumberLabel.getText())) // CASE - CLicked table is Reserved
+            return;
+
+        if(tableNumberLabel.getText().equals("_ : _")) // CASE - No table is selected , but user has added items to the bill table
         {
             billTableItems.clear();
             return;
         }
+
 
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Items in Invoice will be deleted");
@@ -864,9 +877,30 @@ public class TableBillingController implements Initializable {
         tableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel");
 
 
-        // CHECKING IF CLICKED TABLE IS RESERVED OR NOT
+        // Checking if current table is reserved
         if(reservedTables.contains(tableNumber))
+        {
+            //Setting the table number label
+            tableNumberLabel.setText(tableNumber);
+
+            //Settings bill items list as empty
+            billTableItems = FXCollections.observableArrayList();
+
+            //Setting bill table as empty
+            billTable.setItems(FXCollections.observableArrayList());
+
+            //Updating all labels to Totals 0
+            updateTotals(FXCollections.observableArrayList());
+
+            //Setting text of "reserve-table" button as "Un-Reserve Table"
+            reserveTableButton.setText("Un-Reserve Table");
+            reserveTableButton.setDisable(false);
+
             return;
+        }
+
+        //If the table is Un-Reserved , set the buttons label to "Reserve Table" (DEFAULT SETTING)
+        reserveTableButton.setText("Reserve Table");
 
         if(openTables.containsKey(tableNumber))
         {
@@ -1003,6 +1037,9 @@ public class TableBillingController implements Initializable {
             //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
             tableNumberLabel.setText(tableNumber);
 
+            //Disabiling Reserve button for open table
+            reserveTableButton.setDisable(true);
+
         }
         else
         {
@@ -1024,6 +1061,9 @@ public class TableBillingController implements Initializable {
 
             //Setting Table Number label for Identification of Open Table (Over Bill Items Table)
             tableNumberLabel.setText(tableNumber);
+
+            //Enabling reserve button for Closed Tables
+            reserveTableButton.setDisable(false);
         }
     }
 
@@ -1037,7 +1077,7 @@ public class TableBillingController implements Initializable {
     {
         String tableNumber = tableNumberLabel.getText();
 
-        // CASE - if user tries to reserve a table when no table is selected
+        // CASE - If user tries to reserve a table when no table is selected
         if(tableNumber.equals("_ : _"))
         {
             Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a Table to Reserve it.", ButtonType.OK);
@@ -1045,16 +1085,35 @@ public class TableBillingController implements Initializable {
             reserveAlert.setTitle("Alert!");
             reserveAlert.showAndWait();
         }
-        //CASE - if user tries to reserve a open Table
-        else if(openTables.containsKey(tableNumber))
+        //CASE - Un-Reserve Table
+        else if(reservedTables.contains(tableNumber))
         {
-            Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a closed table or close the current table to Reserve it", ButtonType.OK);
-            reserveAlert.setHeaderText(tableNumber +" can not be Reserved");
-            reserveAlert.setTitle("Alert!");
-            reserveAlert.showAndWait();
+            //IF Deletion success , then do UI work
+            if(daoimpl.deleteReservedTable(tableNumber))
+            {
+                Pane table = getTableObjectById(accordion, tableNumber);
+                table.getStyleClass().clear();
+                table.getStyleClass().add("close-table");
+
+                Label selectedTableReservedLabel = (Label) table.lookup("#reservedTableLabel");
+                selectedTableReservedLabel.setId("tableGrandTotalLabel");
+                selectedTableReservedLabel.setText("_ : _");
+
+                //Setting "reserve table" button's text to "Un-Reserve Table"
+                reserveTableButton.setText("Reserve Table");
+                reserveTableButton.setDisable(true);
+
+                //Deleting from reservedTables list
+                reservedTables.remove(tableNumber);
+
+                //Setting table number label to default
+                tableNumberLabel.setText("_ : _");
+            }
         }
+        //CASE - Reserving table
         else
         {
+            //If Saving success , then do UI Work
             if(daoimpl.saveReservedTableDetails(tableNumber))
             {
                 Pane table = getTableObjectById(accordion, tableNumber);
@@ -1062,9 +1121,19 @@ public class TableBillingController implements Initializable {
                 table.getStyleClass().add("reserve-table");
 
                 Label selectedTableReservedLabel = (Label) table.lookup("#tableGrandTotalLabel");
+                selectedTableReservedLabel.setId("reservedTableLabel");
                 selectedTableReservedLabel.setText("RESERVED");
 
+                //Setting "reserve Table" button's text to "Un-reserve"
+                reserveTableButton.setText("Un-Reserve Table");
+                reserveTableButton.setDisable(true);
+
+                //Adding reserved table num to "reservedTables" list
                 reservedTables.add(tableNumber);
+
+                //Setting table number label (present a-top bill table) to default
+                tableNumberLabel.setText("_ : _");
+
 
                 Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
                 reserveSuccessAlert.setHeaderText(tableNumber +" Reserved");
@@ -1075,4 +1144,6 @@ public class TableBillingController implements Initializable {
         }
 
     }
+
+
 }

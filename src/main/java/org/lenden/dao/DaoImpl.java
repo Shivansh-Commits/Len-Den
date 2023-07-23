@@ -1,6 +1,5 @@
 package org.lenden.dao;
 
-import com.zaxxer.hikari.pool.HikariPool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.lenden.model.Bill;
@@ -20,8 +19,8 @@ public class DaoImpl
 
     public String tenantId = getTenant();
 
-    public boolean login(Tenants tenantInfo) throws SQLException{
-
+    public boolean login(Tenants tenantInfo) throws SQLException
+    {
         Statement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -52,7 +51,6 @@ public class DaoImpl
                 stmt.close();
                 return false;
             }
-
         }
         catch(SQLException e)
         {
@@ -317,7 +315,7 @@ public class DaoImpl
 
     public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails()
     {
-        HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<String,ObservableList<BillItems>>();
+        HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<>();
 
         PreparedStatement stmt;
 
@@ -364,7 +362,7 @@ public class DaoImpl
             e.printStackTrace();
         }
 
-        return new HashMap<String,ObservableList<BillItems>>();
+        return new HashMap<>();
     }
 
     public void deleteOpenTableDetails(String tableNumber,String foodItemName)
@@ -434,7 +432,7 @@ public class DaoImpl
 
     public HashMap<String, Integer> fetchAreaAndTables()
     {
-        HashMap<String, Integer> areaAndTables = new HashMap<String, Integer>();
+        HashMap<String, Integer> areaAndTables = new HashMap<>();
 
         PreparedStatement stmt;
 
@@ -505,13 +503,7 @@ public class DaoImpl
 
             int rowsDeleted = stmt.executeUpdate();
 
-            if (rowsDeleted > 0)
-            {
-                return true;
-            } else
-            {
-                return false;
-            }
+            return (rowsDeleted > 0);
         }
         catch(Exception e)
         {
@@ -603,16 +595,7 @@ public class DaoImpl
             stmt  = c.prepareStatement("DELETE FROM "+ tenantId +".tableandarea WHERE area = ? ");
             stmt.setString(1,area);
 
-            int rowsDeleted = stmt.executeUpdate();
-
-            if (rowsDeleted > 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return (stmt.executeUpdate() > 0);
         }
         catch(Exception e)
         {
@@ -661,6 +644,35 @@ public class DaoImpl
             {
                 stmt.close();
                 return true;
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean deleteReservedTable(String reservedTableNumber)
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement("DELETE FROM " + tenantId + ".reservedtables where tablename = ?");
+            stmt.setString(1,reservedTableNumber);
+
+            if(stmt.executeUpdate()>0)
+            {
+                stmt.close();
+                return true;
+            }
+            else
+            {
+                stmt.close();
+                return false;
             }
 
         }

@@ -136,18 +136,19 @@ public class TableSettingsController implements Initializable {
 
                 if(deleteAlert.getResult() == ButtonType.YES)
                 {
-                    areaName.setDisable(true);
-                    plusButton.setDisable(true);
-                    minusButton.setDisable(true);
-                    numOfTablesLabel.setText("0 Tables");
-                    numOfTablesLabel.setDisable(true);
+                    if(daoimpl.deleteArea(areaName.getText()))
+                    {
+                        areaName.setDisable(true);
+                        plusButton.setDisable(true);
+                        minusButton.setDisable(true);
+                        numOfTablesLabel.setText("0 Tables");
+                        numOfTablesLabel.setDisable(true);
 
-                    editButton.setDisable(true);
-                    deleteButton.setDisable(true);
+                        editButton.setDisable(true);
+                        deleteButton.setDisable(true);
 
-                    areaAndTables.remove(areaName.getText());
-
-                    daoimpl.deleteArea(areaName.getText());
+                        areaAndTables.remove(areaName.getText());
+                    }
                 }
             });
 
