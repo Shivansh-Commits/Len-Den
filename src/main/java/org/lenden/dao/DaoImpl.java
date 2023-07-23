@@ -1,5 +1,6 @@
 package org.lenden.dao;
 
+import com.zaxxer.hikari.pool.HikariPool;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.lenden.model.Bill;
@@ -19,7 +20,7 @@ public class DaoImpl
 
     public String tenantId = getTenant();
 
-    public boolean login(Tenants tenantInfo) throws SQLException {
+    public boolean login(Tenants tenantInfo) throws SQLException{
 
         Statement stmt;
 
@@ -27,29 +28,37 @@ public class DaoImpl
         {
             stmt = c.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM public.tenants where username = '"+tenantInfo.getUsername()+"' AND password='"+tenantInfo.getPassword()+"';");
-            rs.next();
-            String name = rs.getString("username").trim();
-            String pass = rs.getString("password").trim();  // .trim() is used to remove "\n" or " " at the end of string
-
-            if(pass.equals(tenantInfo.getPassword()) && name.equals(tenantInfo.getUsername()))
+            if(rs.next())
             {
+                String name = rs.getString("username").trim();
+                String pass = rs.getString("password").trim();  // .trim() is used to remove "\n" or " " at the end of string
 
+                if(pass.equals(tenantInfo.getPassword()) && name.equals(tenantInfo.getUsername()))
+                {
+                    rs.close();
+                    stmt.close();
+                    return true;
+                }
+                else
+                {
+                    rs.close();
+                    stmt.close();
+                    return false;
+                }
+            }
+            else
+            {
                 rs.close();
                 stmt.close();
-                return true;
+                return false;
             }
 
-            rs.close();
-            c.close();
-            stmt.close();
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
-            throw new SQLException(e);
+            //e.printStackTrace();
+            throw new SQLException(e.getMessage());
         }
-
-        return false;
     }
 
     public ObservableList<MenuItems> getCategoryItems(String category)

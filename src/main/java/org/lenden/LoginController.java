@@ -1,5 +1,6 @@
 package org.lenden;
 
+import com.zaxxer.hikari.pool.HikariPool;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,15 +29,22 @@ public class LoginController
     @FXML
     public void onSignIn(ActionEvent event) throws IOException
     {
-
         tenant.setUsername(username.getText());
         tenant.setPassword(password.getText());
+
+        if(tenant.getUsername().equals("") || tenant.getPassword().equals(""))
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Enter Username & Password", ButtonType.OK);
+            alert.setHeaderText("Fields can not be Empty");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+            return;
+        }
 
         DaoImpl daoimpl = new DaoImpl();
 
         try {
             if (daoimpl.login(tenant)) {
-                //System.out.println("LOGIN SUCCESS");
 
                 //Opening up new Window (Home Screen)
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -58,7 +66,9 @@ public class LoginController
 
                 Stage loginStage = (Stage) signInButton.getScene().getWindow();
                 loginStage.close();
-            } else {
+            }
+            else
+            {
                 System.out.println("LOGIN FAILURE");
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Wrong username or password.", ButtonType.OK);
                 alert.setHeaderText("Login Error");
@@ -71,6 +81,8 @@ public class LoginController
         }
         catch(SQLException e)
         {
+            //e.printStackTrace();
+
             Alert alert = new Alert(Alert.AlertType.WARNING, "LenDen Was unable to connect to the Database,check you network Connection. If this error keeps occouring ,contact Customer Support.", ButtonType.OK);
             alert.setHeaderText("Database Connection Error");
             alert.setTitle("Alert!");
