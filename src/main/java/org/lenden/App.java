@@ -26,6 +26,7 @@ public class App extends Application {
 
         //set title for window
         stage.setTitle("LenDen Login");
+        stage.setResizable(false);
 
         //Setting the Login window Icon
         Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
