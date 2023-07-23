@@ -64,7 +64,7 @@ public class TableBillingController implements Initializable {
     Accordion accordion;
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
-    HashMap<String,ObservableList<BillItems>> openTables = new HashMap<String,ObservableList<BillItems>>();
+    HashMap<String,ObservableList<BillItems>> openTables = new HashMap<>();
     ArrayList<String> reservedTables = new ArrayList<>();
     MainController mainController = new MainController();
 
@@ -128,7 +128,7 @@ public class TableBillingController implements Initializable {
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -355,7 +355,7 @@ public class TableBillingController implements Initializable {
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -388,8 +388,7 @@ public class TableBillingController implements Initializable {
         String tableNumber = tableNumberLabel.getText();
         if(!openTables.containsKey(tableNumber))
         {
-            ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();
-            billTableItems = newBillTableItems;
+            billTableItems = FXCollections.observableArrayList();
             openTables.put(tableNumber,billTableItems) ;
         }
 
@@ -568,7 +567,7 @@ public class TableBillingController implements Initializable {
 
     /**
      * Computes the discount and updates all necessary labels via 'updateTotals()' method
-     * @param e
+     * @param e key board event i.e key pressed
      */
     public void computeDiscount(KeyEvent e)
     {
@@ -738,7 +737,7 @@ public class TableBillingController implements Initializable {
     /**
      * Shows Invoice and gives option to print it
      * @param e Mouse Event i.e Click
-     * @throws IOException
+     * @throws IOException throws IOException
      */
     @FXML
     public void generateInvoice(MouseEvent e) throws IOException
@@ -804,8 +803,7 @@ public class TableBillingController implements Initializable {
 
             billTableItems.clear(); //Clearing the bill table
 
-            Bill newBill = new Bill(); //Generating new bill after bill is saved
-            bill=newBill;
+            bill = new Bill(); //Generating new bill after old bill is saved
 
             discountField.setText(""); //Setting Discount field to blank
 
@@ -824,7 +822,7 @@ public class TableBillingController implements Initializable {
     /**
      * Opens Single Billing Page
      * @param e Mouse Event i.e Click
-     * @throws IOException
+     * @throws IOException  throws IOException
      */
     @FXML
     public void openSingleBillingPage(MouseEvent e) throws IOException
@@ -863,8 +861,8 @@ public class TableBillingController implements Initializable {
         Label clickedTableLabel = (Label) clickedTable.lookup("#tableNumber"); // Getting TABLE NUMBER label of Table
         String tableNumber = clickedTableLabel.getText();
 
-        Label selectedTableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel"); //Getting GRAND TOTAL lablel of Table
-        tableGrandTotalLabel = selectedTableGrandTotalLabel;
+        tableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel");
+
 
         // CHECKING IF CLICKED TABLE IS RESERVED OR NOT
         if(reservedTables.contains(tableNumber))
@@ -1012,12 +1010,8 @@ public class TableBillingController implements Initializable {
             clickedTable.getStyleClass().clear();
             clickedTable.getStyleClass().add("open-table");
 
-            //Creating a blank list of bill items
-            ObservableList<BillItems> newBillTableItems = FXCollections.observableArrayList();
-            //openTables.put(tableNumber,newBillTableItems);
-
             //Setting the empty bill item list
-            billTableItems = newBillTableItems;
+            billTableItems = FXCollections.observableArrayList();
 
             //Setting Table Bill items in Bill Table
             billTable.setItems(billTableItems);
@@ -1077,7 +1071,6 @@ public class TableBillingController implements Initializable {
                 reserveSuccessAlert.setTitle("Information");
                 reserveSuccessAlert.showAndWait();
             }
-
 
         }
 
