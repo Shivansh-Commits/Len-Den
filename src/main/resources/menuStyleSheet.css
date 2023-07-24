@@ -9,8 +9,6 @@
 }
 
 .category-button {
-    -fx-background-color: white;
-    -fx-border-color: white;
     -fx-border-width : 0.5;
     -fx-text-fill : black ;
     -fx-font-size : 15px;

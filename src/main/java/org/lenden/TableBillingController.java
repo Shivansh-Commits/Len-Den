@@ -398,7 +398,10 @@ public class TableBillingController implements Initializable {
         if(!openTables.containsKey(tableNumber))
         {
             billTableItems = FXCollections.observableArrayList();
-            openTables.put(tableNumber,billTableItems) ;
+            openTables.put(tableNumber,billTableItems);
+
+            //Setting "Reserve Table" button as disbaled
+            reserveTableButton.setDisable(true);
         }
 
         //Getting Selected Food Items
@@ -467,6 +470,9 @@ public class TableBillingController implements Initializable {
                             {
                                 if(billTableItems.size() == 1)
                                 {
+                                    //Close the table if user deleted last remaining item.
+                                    clearBill(e);
+                                    /*
                                     Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
                                     tableCloseAlert.setHeaderText("Deleting last item will close the table");
                                     tableCloseAlert.setTitle("Alert!");
@@ -481,9 +487,11 @@ public class TableBillingController implements Initializable {
                                         billTableItems.remove(item);
                                         billTable.setItems(billTableItems);
                                     }
+                                     */
                                 }
                                 else
                                 {
+                                    //Deleting the removed item from the DB
                                     daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
 
                                     billTableItems.remove(item);
@@ -710,8 +718,8 @@ public class TableBillingController implements Initializable {
         }
 
 
-        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
-        deleteAlert.setHeaderText("Items in Invoice will be deleted");
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
+        deleteAlert.setHeaderText("Table will be closed and bill items will be deleted");
         deleteAlert.setTitle("Alert!");
         deleteAlert.showAndWait();
 
@@ -961,6 +969,9 @@ public class TableBillingController implements Initializable {
                                 {
                                     if(billTableItems.size() == 1)
                                     {
+                                        //Close the table if user deleted last remaining item.
+                                        clearBill(e);
+                                        /*
                                         Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
                                         tableCloseAlert.setHeaderText("Deleting last item will close the table");
                                         tableCloseAlert.setTitle("Alert!");
@@ -975,13 +986,14 @@ public class TableBillingController implements Initializable {
                                             billTableItems.remove(item);
                                             billTable.setItems(billTableItems);
                                         }
+                                        */
                                     }
                                     else
                                     {
-
-                                        //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
+                                        //Deleting the removed food item from DB
                                         daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
-                                        //***********************************************************************************************
+
+                                        //Updating in billTableItems list
                                         billTableItems.remove(item);
                                         billTable.setItems(billTableItems);
                                     }

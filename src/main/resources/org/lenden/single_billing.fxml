@@ -28,7 +28,7 @@
                     <columns>
                       <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                       <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
-                        <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Availability" />
+                        <TableColumn maxWidth="191.19998779296873" minWidth="176.0" prefWidth="176.0" text="Availability" />
                     </columns>
                   </TableView>
                   <ScrollPane fx:id="categoryScrollPane" hbarPolicy="ALWAYS" prefHeight="88.0" prefWidth="614.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="702.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">

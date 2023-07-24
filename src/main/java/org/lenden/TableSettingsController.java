@@ -3,6 +3,7 @@ package org.lenden;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -18,6 +19,11 @@ public class TableSettingsController implements Initializable {
 
     @FXML
     GridPane tableAndAreaGrid;
+    @FXML
+    Label totalAreasLabel;
+    @FXML
+    Label totalTablesLabel;
+
     DaoImpl daoimpl = new DaoImpl();
 
     HashMap<String, Integer> areaAndTables;
@@ -26,14 +32,18 @@ public class TableSettingsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
         areaAndTables = daoimpl.fetchAreaAndTables();
+
+        totalAreasLabel.setText(    String.valueOf(areaAndTables.size())    );
+
         int gridRowCounter = 0;
+        int totalTables = 0;
 
         for(Map.Entry<String, Integer> entry : areaAndTables.entrySet())
         {
             String area = entry.getKey();
             int tables = entry.getValue();
+            totalTables +=tables;
 
             //Adding Text Field
             Label areaName = new Label();
@@ -59,8 +69,10 @@ public class TableSettingsController implements Initializable {
             plusButton.getStyleClass().add("plus-table-button");
             plusButton.setPrefSize(Region.USE_COMPUTED_SIZE,30);
             plusButton.setCursor(Cursor.HAND);
-            plusButton.setDisable(true);
             plusButton.setOnAction( event -> {
+
+                totalTablesLabel.setText(   String.valueOf(Integer.parseInt(totalTablesLabel.getText())+1)  );
+
                 int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
 
                 int newNumOfTables = numOfTables + 1;
@@ -80,7 +92,6 @@ public class TableSettingsController implements Initializable {
 
                 //Updating in the areaAndTables HashMap
                 areaAndTables.put(area,newNumOfTables);
-
             });
 
             Button minusButton = new Button();
@@ -88,8 +99,9 @@ public class TableSettingsController implements Initializable {
             minusButton.getStyleClass().add("minus-table-button");
             minusButton.setPrefSize(Region.USE_COMPUTED_SIZE,35);
             minusButton.setCursor(Cursor.HAND);
-            minusButton.setDisable(true);
             minusButton.setOnAction( event -> {
+                totalTablesLabel.setText(   String.valueOf(Integer.parseInt(totalTablesLabel.getText())-1)  );
+
                 int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
 
                 int newNumOfTables = numOfTables - 1;
@@ -105,23 +117,11 @@ public class TableSettingsController implements Initializable {
 
             HBox hBox1 = new HBox();
             hBox1.setSpacing(35);
+            hBox1.setAlignment(Pos.CENTER);
             hBox1.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
             GridPane.setMargin(hBox1,new Insets(25,55,25,0));
             tableAndAreaGrid.add(hBox1,1,gridRowCounter);
-
-
-            //Adding EDIT Buttons
-            Button editButton = new Button();
-            editButton.setPrefSize(300,100);
-            editButton.setText("Edit Tables");
-            editButton.getStyleClass().add("saveEdit-button");
-            editButton.setOnMouseClicked(event -> {
-                plusButton.setDisable(false);
-                minusButton.setDisable(false);
-
-                editButton.setDisable(true);
-            });
 
             Button deleteButton = new Button();
             deleteButton.setPrefSize(300,100);
@@ -138,13 +138,18 @@ public class TableSettingsController implements Initializable {
                 {
                     if(daoimpl.deleteArea(areaName.getText()))
                     {
+                        //Updating Total Tables Label
+                        totalTablesLabel.setText(   String.valueOf( Integer.parseInt(totalTablesLabel.getText()) - Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]) )  );
+
+                        //Updating Total Areas Label
+                        totalAreasLabel.setText(   String.valueOf( Integer.parseInt(totalAreasLabel.getText()) - 1 )  );
+
                         areaName.setDisable(true);
                         plusButton.setDisable(true);
                         minusButton.setDisable(true);
                         numOfTablesLabel.setText("0 Tables");
                         numOfTablesLabel.setDisable(true);
 
-                        editButton.setDisable(true);
                         deleteButton.setDisable(true);
 
                         areaAndTables.remove(areaName.getText());
@@ -154,13 +159,15 @@ public class TableSettingsController implements Initializable {
 
             HBox hBox2 = new HBox();
             hBox2.setSpacing(10);
-            hBox2.getChildren().addAll(editButton,deleteButton);
+            hBox2.getChildren().addAll(deleteButton);
 
             GridPane.setMargin(hBox2,new Insets(20,20,20,35));
             tableAndAreaGrid.add(hBox2,2,gridRowCounter);
 
             gridRowCounter++;
         }
+
+        totalTablesLabel.setText(String.valueOf(totalTables));
 
         while(gridRowCounter<5) // Loop for displaying the remaning areas (not being used) fields of the form & Less than 5 means, not more than 5 areas can exist
         {
@@ -170,9 +177,7 @@ public class TableSettingsController implements Initializable {
             areaName.getStyleClass().add("area-name-textField");
             areaName.setPromptText("Area Name");
             areaName.setDisable(true);
-            areaName.setOnAction(event -> {
-                areaAndTables.put(areaName.getText(),0);
-            });
+            areaName.setOnAction(event -> areaAndTables.put(areaName.getText(),0));
 
             HBox hBox = new HBox();
             hBox.setSpacing(10);
@@ -196,6 +201,8 @@ public class TableSettingsController implements Initializable {
             plusButton.setCursor(Cursor.HAND);
             plusButton.setDisable(true);
             plusButton.setOnAction( event -> {
+                totalTablesLabel.setText(   String.valueOf(Integer.parseInt(totalTablesLabel.getText())+1)  );
+
                 int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
 
                 int newNumOfTables = numOfTables + 1;
@@ -225,6 +232,8 @@ public class TableSettingsController implements Initializable {
             minusButton.setCursor(Cursor.HAND);
             minusButton.setDisable(true);
             minusButton.setOnAction( event -> {
+                totalTablesLabel.setText(   String.valueOf(Integer.parseInt(totalTablesLabel.getText())-1)  );
+
                 int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
 
                 int newNumOfTables = numOfTables - 1;
@@ -241,6 +250,7 @@ public class TableSettingsController implements Initializable {
 
             HBox hBox1 = new HBox();
             hBox1.setSpacing(35);
+            hBox1.setAlignment(Pos.CENTER);
             hBox1.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
             GridPane.setMargin(hBox1,new Insets(25,55,25,0));
@@ -253,6 +263,9 @@ public class TableSettingsController implements Initializable {
             addAreaButton.setText("Add Area");
             addAreaButton.getStyleClass().add("saveEdit-button");
             addAreaButton.setOnMouseClicked(event -> {
+                //Updating Total Areas Label
+                totalAreasLabel.setText(   String.valueOf( Integer.parseInt(totalAreasLabel.getText()) + 1 )  );
+
                 areaName.setDisable(false);
                 //areaName.setStyle("-fx-border-color:black");
                 areaName.requestFocus();
@@ -302,6 +315,7 @@ public class TableSettingsController implements Initializable {
 
         HBox hBox3 = new HBox();
         hBox3.setSpacing(10);
+        hBox3.setAlignment(Pos.CENTER);
         hBox3.getChildren().addAll(saveButton);
 
         GridPane.setMargin(hBox3,new Insets(15,55,10,0));
