@@ -6,11 +6,12 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 
 <AnchorPane maxHeight="486.0" maxWidth="697.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.LoginController">
    <children>
@@ -29,11 +30,16 @@
                         <Font name="Segoe UI Semilight" size="12.0" />
                      </font>
                   </Label>
+               <ImageView fitHeight="130.0" fitWidth="292.0" layoutX="33.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@../../images/Make-in-India-Logo-Vector-768x351.png" />
+                  </image>
+               </ImageView>
       
             </AnchorPane>
          </left>
          <right>
-            <AnchorPane prefHeight="474.0" prefWidth="348.0" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="474.0" prefWidth="348.0" style="-fx-background-color: white;" styleClass="white" BorderPane.alignment="CENTER">
       
                   <Label layoutX="143.0" layoutY="14.0" text="Login" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="142.6" AnchorPane.topAnchor="14.0">
                      <font>
@@ -41,7 +47,7 @@
                      </font>
                   </Label>
                   <Separator layoutX="58.0" layoutY="59.0" prefHeight="3.0" prefWidth="231.0" AnchorPane.bottomAnchor="424.2" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="59.0" />
-                  <Button fx:id="signInButton" defaultButton="true" layoutX="58.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSignIn" prefHeight="36.0" prefWidth="231.0" styleClass="signInButton" stylesheets="@../../loginStyleSheet.css" text="Sign In" textFill="WHITE" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="225.0">
+                  <Button fx:id="signInButton" defaultButton="true" layoutX="58.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSignIn" prefHeight="36.0" prefWidth="231.0" styleClass="signInButton" stylesheets="@../../loginStyleSheet.css" text="Log In" textFill="WHITE" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="225.0">
                      <font>
                         <Font name="Segoe UI Semilight" size="14.0" />
                      </font>

@@ -44,7 +44,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="homeIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/black/home_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
@@ -62,7 +62,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="salesIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="salesIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/black/outline_sales_black_24.png" />
                                  </image>
@@ -80,7 +80,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="menuIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="menuIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/black/outline_restaurant_menu_black_24.png" />
                                  </image>
@@ -98,7 +98,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="billingIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="billingIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>
@@ -116,7 +116,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="settingsIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="settingsIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/black/outline_settings_black_24.png" />
                                  </image>
@@ -134,7 +134,7 @@
                               <Insets />
                            </opaqueInsets>
                            <graphic>
-                              <ImageView fx:id="logoutIcon" fitHeight="42.0" fitWidth="35.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fx:id="logoutIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
                                     <Image url="@../../images/black/logout_FILL0_wght400_GRAD0_opsz48.png" />
                                  </image>

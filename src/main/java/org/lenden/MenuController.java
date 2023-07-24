@@ -37,7 +37,6 @@ public class MenuController implements Initializable
     @FXML
     ComboBox updateItemAvailability;
 
-
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
 
@@ -56,8 +55,8 @@ public class MenuController implements Initializable
 
             button.setOnMouseClicked(this::displayMenuItems);
             button.getStyleClass().add("category-button");
-            button.setPrefWidth(218);
-            button.setPrefHeight(114);
+            button.setPrefWidth(171);
+            button.setPrefHeight(80);
             button.setCursor(Cursor.HAND);
             categoriesVBox.getChildren().add(button);
         }
@@ -73,6 +72,7 @@ public class MenuController implements Initializable
 
         //Populating availability drop down menu (UPDATE ITEM)
         updateItemAvailability.setItems(FXCollections.observableArrayList("Available","NOT Available"));
+
     }
 
     public void displayMenuItems(String category)
@@ -181,6 +181,17 @@ public class MenuController implements Initializable
             alert.setTitle("Alert!");
             alert.showAndWait();
 
+            return;
+        }
+        if(addItemPrice.getText().length() > 5 )
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "The price of a single food item can not be more than 10,000", ButtonType.OK);
+            alert.setHeaderText("Price Limit Exceeded");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+            addItemPrice.setText("");
+            addItemPrice.requestFocus();
             return;
         }
 
