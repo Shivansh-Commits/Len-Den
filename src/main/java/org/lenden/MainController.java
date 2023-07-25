@@ -60,6 +60,7 @@ public class MainController implements Initializable {
     {
         try {
             home = FXMLLoader.load(getClass().getResource("home.fxml"));
+            
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

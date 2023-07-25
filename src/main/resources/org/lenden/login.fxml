@@ -16,7 +16,55 @@
 <AnchorPane maxHeight="486.0" maxWidth="697.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="697.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.LoginController">
    <children>
       <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="486.0" prefWidth="697.0">
-         <left>
+         <right>
+            <AnchorPane prefHeight="474.0" prefWidth="348.0" style="-fx-background-color: white;" styleClass="white" BorderPane.alignment="CENTER">
+      
+                  <Label layoutX="143.0" layoutY="14.0" text="Login" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="142.6" AnchorPane.topAnchor="14.0">
+                     <font>
+                        <Font name="Segoe UI" size="25.0" />
+                     </font>
+                  </Label>
+                  <Separator layoutX="58.0" layoutY="59.0" prefHeight="3.0" prefWidth="231.0" AnchorPane.bottomAnchor="424.2" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="59.0" />
+               <VBox fillWidth="false" layoutX="55.0" layoutY="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="118.0" prefWidth="248.0" spacing="25.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="80.0">
+                  <children>
+                        <TextField fx:id="username" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="238.0" promptText="Enter Username" VBox.vgrow="ALWAYS" />
+                        <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="238.0" promptText="Enter Password" VBox.vgrow="ALWAYS" />
+                  </children>
+               </VBox>
+               <VBox alignment="CENTER" layoutX="58.0" layoutY="217.0" spacing="5.0">
+                  <children>
+                        <Button fx:id="logInButton" defaultButton="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onLogIn" prefHeight="36.0" prefWidth="231.0" styleClass="logInButton" stylesheets="@../../loginStyleSheet.css" text="Log In" textFill="WHITE">
+                           <font>
+                              <Font name="Segoe UI Semilight" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     <Label alignment="CENTER" contentDisplay="CENTER" text="or">
+                        <font>
+                           <Font name="Segoe UI Symbol" size="12.0" />
+                        </font>
+                     </Label>
+                     <Button fx:id="signUpButton" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSignUp" prefHeight="36.0" prefWidth="231.0" styleClass="signUpButton" stylesheets="@../../loginStyleSheet.css" text="Sign Up" textFill="WHITE">
+                        <font>
+                           <Font name="Segoe UI Semilight" size="14.0" />
+                        </font>
+                        <cursor>
+                           <Cursor fx:constant="HAND" />
+                        </cursor>
+                     </Button>
+                  </children>
+               </VBox>
+               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="79.0" layoutY="464.0" text="© 2023 All Rights Reserved Shivansh Singh" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <font>
+                     <Font size="8.0" />
+                  </font>
+               </Label>
+      
+            </AnchorPane>
+         </right>
+         <center>
             <AnchorPane prefHeight="474.0" prefWidth="350.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
       
                   <Label layoutX="36.0" layoutY="368.0" prefHeight="0.0" prefWidth="106.0" text="LenDen" textFill="WHITE">
@@ -30,40 +78,14 @@
                         <Font name="Segoe UI Semilight" size="12.0" />
                      </font>
                   </Label>
-               <ImageView fitHeight="130.0" fitWidth="292.0" layoutX="33.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="102.0" fitWidth="228.0" layoutX="63.0" layoutY="170.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../../images/Make-in-India-Logo-Vector-768x351.png" />
                   </image>
                </ImageView>
       
             </AnchorPane>
-         </left>
-         <right>
-            <AnchorPane prefHeight="474.0" prefWidth="348.0" style="-fx-background-color: white;" styleClass="white" BorderPane.alignment="CENTER">
-      
-                  <Label layoutX="143.0" layoutY="14.0" text="Login" AnchorPane.leftAnchor="143.0" AnchorPane.rightAnchor="142.6" AnchorPane.topAnchor="14.0">
-                     <font>
-                        <Font name="Segoe UI" size="25.0" />
-                     </font>
-                  </Label>
-                  <Separator layoutX="58.0" layoutY="59.0" prefHeight="3.0" prefWidth="231.0" AnchorPane.bottomAnchor="424.2" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="59.0" />
-                  <Button fx:id="signInButton" defaultButton="true" layoutX="58.0" layoutY="225.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onSignIn" prefHeight="36.0" prefWidth="231.0" styleClass="signInButton" stylesheets="@../../loginStyleSheet.css" text="Log In" textFill="WHITE" AnchorPane.leftAnchor="58.0" AnchorPane.rightAnchor="58.0" AnchorPane.topAnchor="225.0">
-                     <font>
-                        <Font name="Segoe UI Semilight" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-               <VBox fillWidth="false" layoutX="55.0" layoutY="80.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="118.0" prefWidth="248.0" spacing="20.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="80.0">
-                  <children>
-                        <TextField fx:id="username" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="238.0" promptText="Enter Username" VBox.vgrow="ALWAYS" />
-                        <PasswordField fx:id="password" maxWidth="1.7976931348623157E308" prefHeight="40.0" prefWidth="238.0" promptText="Enter Password" VBox.vgrow="ALWAYS" />
-                  </children>
-               </VBox>
-      
-            </AnchorPane>
-         </right>
+         </center>
       </BorderPane>
    </children>
 </AnchorPane>

@@ -1,6 +1,5 @@
 package org.lenden;
 
-import com.zaxxer.hikari.pool.HikariPool;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +10,6 @@ import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Tenants;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.SQLException;
 
 public class LoginController
@@ -22,12 +19,12 @@ public class LoginController
     @FXML
     private PasswordField password;
     @FXML
-    private Button signInButton;
+    private Button logInButton;
 
     static Tenants tenant = new Tenants();
 
     @FXML
-    public void onSignIn(ActionEvent event) throws IOException
+    public void onLogIn(ActionEvent event) throws IOException
     {
         tenant.setUsername(username.getText());
         tenant.setPassword(password.getText());
@@ -64,7 +61,7 @@ public class LoginController
                 stage.setMaximized(true);
                 stage.show();
 
-                Stage loginStage = (Stage) signInButton.getScene().getWindow();
+                Stage loginStage = (Stage) logInButton.getScene().getWindow();
                 loginStage.close();
             }
             else
@@ -83,12 +80,21 @@ public class LoginController
         {
             //e.printStackTrace();
 
-            Alert alert = new Alert(Alert.AlertType.WARNING, "LenDen Was unable to connect to the Database,check you network Connection. If this error keeps occouring ,contact Customer Support.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "LenDen Was unable to connect to the Database. Check you network Connection. If this error keeps occurring, contact Customer Support.", ButtonType.OK);
             alert.setHeaderText("Database Connection Error");
             alert.setTitle("Alert!");
             alert.setHeight(500);
             alert.showAndWait();
         }
+    }
+
+    @FXML
+    public void onSignUp(ActionEvent event)
+    {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Contact LenDen HQ to obtain credentials", ButtonType.OK);
+        alert.setHeaderText("Contact LenDen");
+        alert.setTitle("Information");
+        alert.showAndWait();
     }
 
     public static String getTenant()

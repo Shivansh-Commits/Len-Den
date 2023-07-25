@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1401.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
       <SplitPane dividerPositions="0.44747749035300843" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -42,7 +42,7 @@
                            <columns>
                               <TableColumn prefWidth="149.59996038675308" text="Food Item" />
                               <TableColumn prefWidth="103.99993896484375" text="Price" />
-                              <TableColumn minWidth="5.60003662109375" prefWidth="89.60003662109375" text="Quantity" />
+                              <TableColumn minWidth="5.60003662109375" prefWidth="121.59992980957031" text="Quantity" />
                            </columns>
                            <GridPane.margin>
                               <Insets />
@@ -127,10 +127,13 @@
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="grandTotalLabel" layoutX="166.0" layoutY="10.0" prefHeight="30.0" prefWidth="62.0" text="_ _ : _ _">
+                              <Label fx:id="grandTotalLabel" layoutX="166.0" layoutY="10.0" text="_ _ : _ _">
                                  <font>
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
+                                 <cursor>
+                                    <Cursor fx:constant="TEXT" />
+                                 </cursor>
                               </Label>
                               <Separator layoutX="-22.0" layoutY="-6.0" prefHeight="12.0" prefWidth="669.0" />
                            </children>
