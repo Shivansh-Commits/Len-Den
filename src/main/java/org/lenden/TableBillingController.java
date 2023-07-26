@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -136,11 +137,33 @@ public class TableBillingController implements Initializable {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (item == null || empty) {
+                if (item == null || empty || item.equals("NOT Available"))
+                {
                     setText("");
                     setStyle("");
-                } else {
-                    setText(item);
+                    setGraphic(null);
+                }
+                else
+                {
+                    MenuItems selectedMenuItem = getTableRow().getItem();
+
+                    Button addItemToBill = new Button();
+                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setCursor(Cursor.HAND);
+                    addItemToBill.setPrefSize(150, 25);
+                    addItemToBill.getStyleClass().add("menu-add-button");
+                    addItemToBill.setOnMouseClicked(event -> {
+                            addMenuItemtoBill(selectedMenuItem);
+                    });
+
+                    HBox hBox = new HBox();
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.getChildren().add(addItemToBill);
+
+                    setGraphic(hBox);
+
+                    /*
+
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
                         setStyle("-fx-background-color: #c9f5c9;");
@@ -148,6 +171,7 @@ public class TableBillingController implements Initializable {
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
                     }
+                     */
                 }
             }
         });
@@ -359,15 +383,39 @@ public class TableBillingController implements Initializable {
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<>() {
+        availCol.setCellFactory(column -> new TableCell<>()
+        {
             @Override
-            protected void updateItem(String item, boolean empty) {
+            protected void updateItem(String item, boolean empty)
+            {
                 super.updateItem(item, empty);
 
-                if (item == null || empty) {
+                if (item == null || empty || item.equals("NOT Available"))
+                {
                     setText("");
                     setStyle("");
-                } else {
+                    setGraphic(null);
+                }
+                else
+                {
+                    MenuItems selectedMenuItem = getTableRow().getItem();
+
+                    Button addItemToBill = new Button();
+                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setCursor(Cursor.HAND);
+                    addItemToBill.setPrefSize(150, 25);
+                    addItemToBill.getStyleClass().add("menu-add-button");
+                    addItemToBill.setOnMouseClicked(event -> {
+                            addMenuItemtoBill(selectedMenuItem);
+                    });
+
+                    HBox hBox = new HBox();
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.getChildren().add(addItemToBill);
+
+                    setGraphic(hBox);
+                    /*
+
                     setText(item);
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
@@ -376,6 +424,8 @@ public class TableBillingController implements Initializable {
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
                     }
+
+                     */
                 }
             }
         });
@@ -384,9 +434,8 @@ public class TableBillingController implements Initializable {
 
     /**
      * Adds food items to the bill table when use selects/clicks in the menu
-     * @param e Mouse Event i.e Click
      */
-    public void addMenuItemtoBill(MouseEvent e)
+    public void addMenuItemtoBill(MenuItems selectedFoodItem)
     {
         String tableNumber = tableNumberLabel.getText();
 
@@ -400,12 +449,12 @@ public class TableBillingController implements Initializable {
             billTableItems = FXCollections.observableArrayList();
             openTables.put(tableNumber,billTableItems);
 
-            //Setting "Reserve Table" button as disbaled
+            //Setting "Reserve Table" button as disabled
             reserveTableButton.setDisable(true);
         }
 
         //Getting Selected Food Items
-        MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        //MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
         if (selectedFoodItem == null || tableNumber.equals("_ : _"))
         {
             return;
@@ -427,7 +476,7 @@ public class TableBillingController implements Initializable {
 
         // Create a cell value factory for the Quantity column
         TableColumn<BillItems, Integer> billTableQuantityCol = new TableColumn<>("Quantity");
-        billTableQuantityCol.setMinWidth(100);
+        billTableQuantityCol.setMinWidth(60);
         billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
         billTableQuantityCol.setCellFactory(col -> {
             TableCell<BillItems, Integer> cell = new TableCell<>() {
@@ -471,7 +520,7 @@ public class TableBillingController implements Initializable {
                                 if(billTableItems.size() == 1)
                                 {
                                     //Close the table if user deleted last remaining item.
-                                    clearBill(e);
+                                    clearBill();
                                     /*
                                     Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
                                     tableCloseAlert.setHeaderText("Deleting last item will close the table");
@@ -519,7 +568,9 @@ public class TableBillingController implements Initializable {
                             //update Grand Total
                             updateTotals(billTableItems);
                         });
+
                         hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
+
                         setGraphic(hbox);
                         setText(null);
                     }
@@ -717,6 +768,59 @@ public class TableBillingController implements Initializable {
             return;
         }
 
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
+        deleteAlert.setHeaderText("Table will be closed and bill items will be deleted");
+        deleteAlert.setTitle("Alert!");
+        deleteAlert.showAndWait();
+
+        if(deleteAlert.getResult() != ButtonType.YES)
+            return;
+
+        String tableNumber = tableNumberLabel.getText();
+
+        Pane table = getTableObjectById(accordion, tableNumber);
+        table.getStyleClass().clear();
+        table.getStyleClass().add("close-table");
+
+        //Removing open-tables bill items from DB
+        daoimpl.closeTable(tableNumber);
+
+        //Removing open-table from openTables hashMap
+        openTables.remove(tableNumber);
+
+        //Clearing the items in bill table
+        billTableItems.clear();
+
+        //Clearing 'discount' label
+        discountField.setText("");
+        bill.setDiscount(0);
+
+        //Clearing 'table number' label
+        tableNumberLabel.setText("_ : _");
+
+        //Clearing the grand-total label on the table(pane)
+        tableGrandTotalLabel.setText("_:_");
+
+        updateTotals(billTableItems);
+    }
+
+    /**
+     * Removes all food items from the bill table and closes that Table (No Argument)
+     */
+    @FXML
+    public void clearBill()
+    {
+        if(billTableItems.isEmpty()) // CASE - Bill is empty
+            return;
+
+        if(reservedTables.contains(tableNumberLabel.getText())) // CASE - CLicked table is Reserved
+            return;
+
+        if(tableNumberLabel.getText().equals("_ : _")) // CASE - No table is selected , but user has added items to the bill table
+        {
+            billTableItems.clear();
+            return;
+        }
 
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Table will be closed and bill items will be deleted");
@@ -926,7 +1030,7 @@ public class TableBillingController implements Initializable {
 
             // Create a cell value factory for the Quantity column
             TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
-            quantColB.setMinWidth(100);
+            quantColB.setMinWidth(60);
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
             quantColB.setCellFactory(col -> {
                 TableCell<BillItems, Integer> cell = new TableCell<>() {

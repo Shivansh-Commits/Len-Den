@@ -4,11 +4,21 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="home" prefHeight="841.0" prefWidth="1542.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
+<AnchorPane fx:id="home" prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.HomeController">
    <children>
-      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="414.0" prefWidth="973.0" text="Welcome to LenDen" textAlignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="1.0" layoutY="322.0" text="Welcome to LenDen" textAlignment="CENTER" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0">
          <font>
             <Font size="62.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-11.0" layoutY="407.0" text="Version - Beta 1.1.0" textAlignment="CENTER" AnchorPane.leftAnchor="-11.0" AnchorPane.rightAnchor="11.0">
+         <font>
+            <Font size="30.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="12.0" layoutY="598.0" text="© 2023 All Rights Reserved  Shivansh SIngh Bhadouria" textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <font>
+            <Font size="16.0" />
          </font>
       </Label>
    </children>
