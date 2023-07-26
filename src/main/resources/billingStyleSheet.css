@@ -22,14 +22,14 @@
 
 .menu-add-button {
     -fx-background-color: #c9f5c9;
-    -fx-border-color : green;
+    -fx-border-color : #c9f5c9;
     -fx-border-radius : 0.1;
     -fx-font-weight: bold;
     -fx-text-fill : black;
 }
 
 .menu-add-button:hover {
-    -fx-background-color : green;
+    -fx-background-color : #59a644;
     -fx-border-color : black;
     -fx-border-radius : 0.1;
     -fx-font-weight: bold;
