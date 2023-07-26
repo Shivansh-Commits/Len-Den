@@ -149,6 +149,6 @@
       </AnchorPane>
    </left>
    <center>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+      <AnchorPane prefHeight="200.0" prefWidth="1385.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

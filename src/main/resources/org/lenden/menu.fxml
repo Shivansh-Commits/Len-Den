@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="794.0" prefWidth="1399.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -44,9 +44,9 @@
          <center>
             <BorderPane prefHeight="543.0" prefWidth="1054.0" BorderPane.alignment="CENTER">
                <top>
-                  <ScrollPane prefHeight="354.0" prefWidth="1259.0" BorderPane.alignment="CENTER">
+                  <ScrollPane prefHeight="354.0" prefWidth="1208.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                      <content>
-                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="338.0" prefWidth="1237.0">
+                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="351.0" prefWidth="1218.0">
                           <columns>
                             <TableColumn prefWidth="245.60003662109375" text="Name" />
                             <TableColumn prefWidth="209.60003662109375" text="Price" />
@@ -57,7 +57,7 @@
                   </ScrollPane>
                </top>
                <bottom>
-                  <HBox BorderPane.alignment="CENTER">
+                  <HBox prefHeight="370.0" prefWidth="1222.0" BorderPane.alignment="CENTER">
                      <children>
                         <AnchorPane prefHeight="358.0" prefWidth="254.0" style="-fx-background-color: white;">
                            <children>

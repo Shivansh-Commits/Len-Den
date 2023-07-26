@@ -16,17 +16,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="794.0" prefWidth="1399.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
             <ScrollPane prefHeight="718.0" prefWidth="163.0" BorderPane.alignment="CENTER">
                <content>
-                  <BorderPane>
+                  <BorderPane prefHeight="707.0" prefWidth="160.0">
                      <left>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1000.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="699.0" prefWidth="147.0" BorderPane.alignment="CENTER">
                            <children>
-                              <VBox fx:id="categoriesVBox" prefHeight="1000.0" prefWidth="150.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                              <VBox fx:id="categoriesVBox" prefHeight="709.0" prefWidth="160.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-13.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </left>
@@ -44,9 +44,9 @@
          <center>
             <BorderPane prefHeight="543.0" prefWidth="1054.0" BorderPane.alignment="CENTER">
                <top>
-                  <ScrollPane prefHeight="354.0" prefWidth="1259.0" BorderPane.alignment="CENTER">
+                  <ScrollPane prefHeight="354.0" prefWidth="1208.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                      <content>
-                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="338.0" prefWidth="1237.0">
+                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="351.0" prefWidth="1218.0">
                           <columns>
                             <TableColumn prefWidth="245.60003662109375" text="Name" />
                             <TableColumn prefWidth="209.60003662109375" text="Price" />
@@ -57,11 +57,14 @@
                   </ScrollPane>
                </top>
                <bottom>
-                  <HBox BorderPane.alignment="CENTER">
+                  <HBox prefHeight="370.0" prefWidth="1222.0" BorderPane.alignment="CENTER">
                      <children>
                         <AnchorPane prefHeight="358.0" prefWidth="254.0" style="-fx-background-color: white;">
                            <children>
                               <BorderPane prefHeight="60.0" prefWidth="234.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="0.0">
+                                 <bottom>
+                                    <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
+                                 </bottom>
                                  <left>
                                     <Label prefHeight="38.0" styleClass="sub-header-label" stylesheets="@../../menuStyleSheet.css" text="Add Item" BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
@@ -69,9 +72,6 @@
                                        </BorderPane.margin>
                                     </Label>
                                  </left>
-                                 <bottom>
-                                    <Separator prefWidth="200.0" BorderPane.alignment="CENTER" />
-                                 </bottom>
                               </BorderPane>
                               <VBox layoutX="26.0" layoutY="81.0" prefHeight="257.0" prefWidth="204.0" spacing="15.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="25.0">
                                  <children>

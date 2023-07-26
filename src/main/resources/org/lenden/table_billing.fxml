@@ -20,7 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1401.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
       <SplitPane dividerPositions="0.44747749035300843" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -230,7 +230,7 @@
                   </GridPane>
                </bottom>
                <center>
-                  <TableView fx:id="foodItemsTable" onMouseClicked="#addMenuItemtoBill" prefHeight="265.0" prefWidth="635.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="635.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                      <columns>
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
