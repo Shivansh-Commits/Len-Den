@@ -195,8 +195,6 @@ public class TableBillingController implements Initializable {
             // Create Title Pane
             TitledPane titledPane1 = new TitledPane();
             titledPane1.setText(areaName);
-            //titledPane1.setMaxSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
-            titledPane1.setExpanded(true);
 
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
@@ -472,7 +470,7 @@ public class TableBillingController implements Initializable {
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> billTablePriceCol = new TableColumn<>("Price");
         billTablePriceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
-        billTablePriceCol.setPrefWidth(150);
+        billTablePriceCol.setPrefWidth(120);
 
         // Create a cell value factory for the Quantity column
         TableColumn<BillItems, Integer> billTableQuantityCol = new TableColumn<>("Quantity");
@@ -1026,7 +1024,7 @@ public class TableBillingController implements Initializable {
             // Create a cell value factory for the Price column
             TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
             priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
-            priceColB.setPrefWidth(150);
+            priceColB.setPrefWidth(120);
 
             // Create a cell value factory for the Quantity column
             TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
