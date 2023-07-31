@@ -20,13 +20,13 @@
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <ScrollPane prefHeight="718.0" prefWidth="163.0" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" prefHeight="718.0" prefWidth="163.0" BorderPane.alignment="CENTER">
                <content>
                   <BorderPane prefHeight="707.0" prefWidth="160.0">
                      <left>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="699.0" prefWidth="147.0" BorderPane.alignment="CENTER">
+                      <AnchorPane prefHeight="723.0" prefWidth="160.0" BorderPane.alignment="CENTER">
                            <children>
-                              <VBox fx:id="categoriesVBox" prefHeight="709.0" prefWidth="160.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="-10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-13.0" AnchorPane.topAnchor="0.0" />
+                              <VBox fx:id="categoriesVBox" prefHeight="720.0" prefWidth="163.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </left>
