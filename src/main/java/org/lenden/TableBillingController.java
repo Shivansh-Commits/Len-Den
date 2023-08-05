@@ -183,6 +183,8 @@ public class TableBillingController implements Initializable {
         reservedTables = daoimpl.fetchReservedTables();
 
         //--------------------------------------------------------------------------------------------------------------
+
+
         //Display Areas & Tables
         HashMap<String, Integer> areaAndTables = daoimpl.fetchAreaAndTables();
 
