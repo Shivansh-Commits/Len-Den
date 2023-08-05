@@ -453,7 +453,6 @@ public class TableBillingController implements Initializable {
             reserveTableButton.setDisable(true);
         }
 
-        //Getting Selected Food Items
         //MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
         if (selectedFoodItem == null || tableNumber.equals("_ : _"))
         {
