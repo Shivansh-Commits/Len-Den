@@ -24,7 +24,7 @@
          <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="790.0" prefWidth="599.0">
                <children>
-                  <TableView fx:id="foodItemsTable" layoutY="85.0" onMouseClicked="#addMenuItemtoBill" prefHeight="265.0" prefWidth="614.0" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="440.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="85.0">
+                  <TableView fx:id="foodItemsTable" layoutY="85.0" prefHeight="265.0" prefWidth="614.0" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="440.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="85.0">
                     <columns>
                       <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                       <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />

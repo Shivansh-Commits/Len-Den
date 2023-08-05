@@ -6,6 +6,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -110,7 +112,30 @@ public class SingleBillingController implements Initializable
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
+                if (item == null || empty || item.equals("NOT Available"))
+                {
+                    setText("");
+                    setStyle("");
+                    setGraphic(null);
+                }
+                else {
+                    MenuItems selectedMenuItem = getTableRow().getItem();
 
+                    Button addItemToBill = new Button();
+                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setCursor(Cursor.HAND);
+                    addItemToBill.setPrefSize(150, 25);
+                    addItemToBill.getStyleClass().add("menu-add-button");
+                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
+
+                    HBox hBox = new HBox();
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.getChildren().add(addItemToBill);
+
+                    setGraphic(hBox);
+                }
+
+                /*
                 if (item == null || empty) {
                     setText("");
                     setStyle("");
@@ -123,7 +148,8 @@ public class SingleBillingController implements Initializable
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
                     }
-                }
+               }
+               */
             }
         });
 
@@ -142,14 +168,17 @@ public class SingleBillingController implements Initializable
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        nameCol.setPrefWidth(200);
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        priceCol.setPrefWidth(200);
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
+        availCol.setPrefWidth(200);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -162,10 +191,35 @@ public class SingleBillingController implements Initializable
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
 
+                if (item == null || empty || item.equals("NOT Available"))
+                {
+                    setText("");
+                    setStyle("");
+                    setGraphic(null);
+                }
+                else
+                {
+                    MenuItems selectedMenuItem = getTableRow().getItem();
+
+                    Button addItemToBill = new Button();
+                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setCursor(Cursor.HAND);
+                    addItemToBill.setPrefSize(150, 25);
+                    addItemToBill.getStyleClass().add("menu-add-button");
+                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
+
+                    HBox hBox = new HBox();
+                    hBox.setAlignment(Pos.CENTER);
+                    hBox.getChildren().add(addItemToBill);
+
+                    setGraphic(hBox);
+
+                /*
                 if (item == null || empty) {
                     setText("");
                     setStyle("");
-                } else {
+                }
+                else {
                     setText(item);
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
@@ -174,14 +228,14 @@ public class SingleBillingController implements Initializable
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
                     }
+                    */
                 }
             }
         });
     }
-    public void addMenuItemtoBill(MouseEvent e)
+    public void addMenuItemtoBill(MenuItems selectedFoodItem)
     {
-        //Getting Selected Food Items
-        MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        //MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
         if(selectedFoodItem == null)
         {
             return;
