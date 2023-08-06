@@ -22,7 +22,7 @@
 
 <AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
-      <SplitPane dividerPositions="0.44747749035300843" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.4396414630620211" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <bottom>
@@ -230,7 +230,7 @@
                   </GridPane>
                </bottom>
                <center>
-                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="635.0" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="635.0" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                      <columns>
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
@@ -239,18 +239,18 @@
                   </TableView>
                </center>
                <top>
-                  <ScrollPane fx:id="categoryScrollPane" hbarPolicy="ALWAYS" prefHeight="88.0" prefWidth="614.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
+                  <ScrollPane fx:id="categoryScrollPane" hbarPolicy="ALWAYS" prefHeight="88.0" prefWidth="614.0" style="-fx-background-color: white;" stylesheets="@../../billingStyleSheet.css" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                      <content>
                         <AnchorPane fx:id="categoryAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="76.0" prefWidth="1385.0">
                            <children>
-                              <HBox fx:id="categoryHbox" prefHeight="76.0" prefWidth="1388.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <HBox fx:id="categoryHbox" prefHeight="76.0" prefWidth="1388.0" style="-fx-background-color: white;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                            </children>
                         </AnchorPane>
                      </content>
                   </ScrollPane>
                </top>
             </BorderPane>
-            <Accordion fx:id="accordion" prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: black;" />
+            <Accordion fx:id="accordion" prefHeight="770.0" prefWidth="495.0" style="-fx-background-color: white;" />
          </items>
       </SplitPane>
    </children>
