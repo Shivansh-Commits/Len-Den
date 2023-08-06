@@ -125,7 +125,7 @@ public class TableBillingController implements Initializable {
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(200);
+        availCol.setPrefWidth(170);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -203,7 +203,7 @@ public class TableBillingController implements Initializable {
             anchorpane.setPrefSize(730, 620);
             //anchorpane.setMaxSize(2000,690);
             anchorpane.setMinSize(500,620);
-            anchorpane.setStyle("-fx-background-color: black;");
+            anchorpane.setStyle("-fx-background-color: white;");
 
             // Create GridPane
             GridPane gridPane = new GridPane();
@@ -211,7 +211,7 @@ public class TableBillingController implements Initializable {
             gridPane.setLayoutY(21);
             gridPane.setPrefSize(710, 620);
             //gridPane.setMaxSize(2000,690);
-            gridPane.setStyle("-fx-background-color: black;");
+            gridPane.setStyle("-fx-background-color: white;");
             gridPane.setHgap(5);
             gridPane.setVgap(5);
 
@@ -375,7 +375,7 @@ public class TableBillingController implements Initializable {
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(200);
+        availCol.setPrefWidth(170);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -471,7 +471,7 @@ public class TableBillingController implements Initializable {
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> billTablePriceCol = new TableColumn<>("Price");
         billTablePriceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
-        billTablePriceCol.setPrefWidth(120);
+        billTablePriceCol.setPrefWidth(110);
 
         // Create a cell value factory for the Quantity column
         TableColumn<BillItems, Integer> billTableQuantityCol = new TableColumn<>("Quantity");
@@ -489,7 +489,7 @@ public class TableBillingController implements Initializable {
                     }
                     else
                     {
-                        HBox hbox = new HBox(20);
+                        HBox hbox = new HBox(18);
                         Text txtQuantity = new Text(quantity.toString());
 
                         Button btnMinus = new Button("-");
@@ -1029,7 +1029,7 @@ public class TableBillingController implements Initializable {
 
             // Create a cell value factory for the Quantity column
             TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
-            quantColB.setMinWidth(60);
+            quantColB.setMinWidth(100);
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
             quantColB.setCellFactory(col -> {
                 TableCell<BillItems, Integer> cell = new TableCell<>() {
@@ -1043,7 +1043,7 @@ public class TableBillingController implements Initializable {
                         }
                         else
                         {
-                            HBox hbox = new HBox(20);
+                            HBox hbox = new HBox(18);
                             Text txtQuantity = new Text(quantity.toString());
 
                             Button btnMinus = new Button("-");
@@ -1130,7 +1130,7 @@ public class TableBillingController implements Initializable {
                 return cell;
             });
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
-            quantColB.setPrefWidth(150);
+
 
 
             //----------------------------------------------------------------------------------------------------------
