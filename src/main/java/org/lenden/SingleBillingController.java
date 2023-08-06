@@ -100,7 +100,7 @@ public class SingleBillingController implements Initializable
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(200);
+        availCol.setPrefWidth(170);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -178,7 +178,7 @@ public class SingleBillingController implements Initializable
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(200);
+        availCol.setPrefWidth(170);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -248,14 +248,16 @@ public class SingleBillingController implements Initializable
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
         nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
+        nameColB.setMinWidth(150);
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
         priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
+        priceColB.setMinWidth(150);
 
         // Create a cell value factory for the Quantity column
         TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
-        quantColB.setMinWidth(100);
+        quantColB.setMinWidth(110);
         quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
         quantColB.setCellFactory(col -> {
             TableCell<BillItems, Integer> cell = new TableCell<>() {
@@ -269,7 +271,7 @@ public class SingleBillingController implements Initializable
                     }
                     else
                     {
-                        HBox hbox = new HBox(20);
+                        HBox hbox = new HBox(18);
                         Text txtQuantity = new Text(quantity.toString());
                         Button btnMinus = new Button("-");
                         btnMinus.setStyle("-fx-background-color: #fa8484; -fx-text-fill: white;");

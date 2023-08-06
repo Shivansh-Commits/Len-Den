@@ -21,7 +21,7 @@
 }
 
 .menu-add-button {
-    -fx-background-color: #c9f5c9;
+    -fx-background-color: #4e964d;
     -fx-border-color : #c9f5c9;
     -fx-border-radius : 0.1;
     -fx-font-weight: bold;
@@ -30,38 +30,45 @@
 
 .menu-add-button:hover {
     -fx-background-color : #59a644;
-    -fx-border-color : black;
     -fx-border-radius : 0.1;
     -fx-font-weight: bold;
     -fx-text-fill: black;
 }
 
 .open-table {
-    -fx-background-color : #59a644;
-    -fx-border-color : white;
-    -fx-font-weight: bold;
+    -fx-background-color : #4e964d;
+    -fx-border-color : black;
+    -fx-font-weight : bold;
+    -fx-border-width : 1px;
 }
 
 .open-table:hover {
     -fx-background-color : green;
-    -fx-border-color  : #38f205;
     -fx-font-weight: bold;
+}
+
+.open-table > .label {
+    -fx-text-fill: white;
 }
 
 .close-table {
-    -fx-background-color : #eb5454;
-    -fx-border-color : white;
-    -fx-font-weight: bold;
+    -fx-background-color : white;
+    -fx-border-color : black;
+    -fx-font-weight : bold;
+    -fx-border-width : 1px;
 }
 
 .close-table:hover {
-    -fx-background-color : red;
-    -fx-border-color  : #fa0505;
+    -fx-background-color : lightgrey;
     -fx-font-weight: bold;
 }
 
+.close-table > .label {
+    -fx-text-fill : #4e964d;
+}
+
 .reserve-table {
-    -fx-background-color : black;
+    -fx-background-color : #4f4f4f;
     -fx-border-color : white;
     -fx-font-weight: bold;
 }
@@ -121,7 +128,7 @@
 }
 
 .plus-button{
-    -fx-background-color: #96fa84;
+    -fx-background-color: #4e964d;
     -fx-text-fill : #026113;
     -fx-font-size : 12.5px;
 }
@@ -130,4 +137,71 @@
     -fx-background-color: #fa8484;
     -fx-text-fill : #570d0d;
     -fx-font-size : 12.5px;
+}
+
+
+/*  CSS FOR SCROLL BARS */
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track{
+    -fx-background-color :white;
+    -fx-border-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-border-radius :2.0em;
+}
+
+.scroll-bar:horizontal .increment-button ,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 0.0 8.0 0.0;
+
+}
+
+.scroll-bar:vertical .increment-button ,
+.scroll-bar:vertical .decrement-button {
+    -fx-background-color :transparent;
+    -fx-background-radius : 0.0em;
+    -fx-padding :0.0 8.0 0.0 0.0;
+
+}
+
+ .scroll-bar .increment-arrow,
+ .scroll-bar .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.15em 0.0;
+}
+
+ .scroll-bar:vertical .increment-arrow,
+ .scroll-bar:vertical .decrement-arrow{
+    -fx-shape : " ";
+    -fx-padding :0.0 0.15em;
+}
+
+.scroll-bar:horizontal .thumb,
+.scroll-bar:vertical .thumb {
+    -fx-background-color :derive(black,90.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+    -fx-background-color :derive(#4D4C4F,10.0%);
+    -fx-background-insets : 2.0, 0.0, 0.0;
+    -fx-background-radius : 2.0em;
+}
+
+/*  CSS FOR TABLE COL HEADER */
+.table-view .column-header,
+.table-view .column-header .filler,
+.table-view .column-header-background .filler {
+    -fx-background-color: white;
+    -fx-background-color: linear-gradient(to right, rgba(247, 247, 245, 1.0), white);
+}
+
+/*  CSS FOR TITLE PANE */
+.titled-pane > .title {
+    -fx-background-color: white;
+    -fx-border-color : grey;
+    -fx-border-width : 0.1px;
 }
