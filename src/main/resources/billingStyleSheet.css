@@ -24,15 +24,15 @@
     -fx-background-color: #5ec253;
     -fx-border-color : #c9f5c9;
     -fx-border-radius : 0.1;
+    -fx-font-family : "Segoe UI Semibold";
     -fx-font-weight: bold;
-    -fx-text-fill : black;
+    -fx-text-fill : white;
 }
 
 .menu-add-button:hover {
-    -fx-background-color : #59a644;
+    -fx-background-color : green;
     -fx-border-radius : 0.1;
     -fx-font-weight: bold;
-    -fx-text-fill: black;
 }
 
 .open-table {
@@ -123,7 +123,6 @@
 .single-bill-table-bill-button:hover {
     -fx-background-color : white;
     -fx-border-color : black;
-    -fx-border-width : 0.5;
     -fx-text-fill : black;
 }
 
