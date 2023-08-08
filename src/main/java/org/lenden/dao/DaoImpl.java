@@ -186,7 +186,7 @@ public class DaoImpl
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement("INSERT INTO "+tenantId+".bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);");
+            stmt  = c.prepareStatement("INSERT INTO "+tenantId+".bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber,tablenumber) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
             stmt.setString(1, bill.getOutletName());
             stmt.setString(2, bill.getOutletAddress());
             stmt.setString(3, bill.getGstNumber());
@@ -199,6 +199,7 @@ public class DaoImpl
             stmt.setDouble(10, bill.getGrandTotal());
             stmt.setString(11, bill.getDate());
             stmt.setDouble(12, bill.getBillnumber());
+            stmt.setString(13, bill.getTableNumber());
 
             int rowsAffected = stmt.executeUpdate();
 

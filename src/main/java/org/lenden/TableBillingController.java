@@ -195,13 +195,12 @@ public class TableBillingController implements Initializable {
             Integer tablesInArea = entry.getValue();
 
             // Create Title Pane
-            TitledPane titledPane1 = new TitledPane();
-            titledPane1.setText(areaName);
+            TitledPane titledPane = new TitledPane();
+            titledPane.setText(areaName);
 
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
             anchorpane.setPrefSize(730, 620);
-            //anchorpane.setMaxSize(2000,690);
             anchorpane.setMinSize(500,620);
             anchorpane.setStyle("-fx-background-color: white;");
 
@@ -210,7 +209,6 @@ public class TableBillingController implements Initializable {
             gridPane.setLayoutX(15);
             gridPane.setLayoutY(21);
             gridPane.setPrefSize(710, 620);
-            //gridPane.setMaxSize(2000,690);
             gridPane.setStyle("-fx-background-color: white;");
             gridPane.setHgap(5);
             gridPane.setVgap(5);
@@ -339,8 +337,8 @@ public class TableBillingController implements Initializable {
             }
 
             anchorpane.getChildren().add(gridPane);
-            titledPane1.setContent(anchorpane);
-            accordion.getPanes().add(titledPane1);
+            titledPane.setContent(anchorpane);
+            accordion.getPanes().add(titledPane);
         }
     }
 
@@ -864,7 +862,7 @@ public class TableBillingController implements Initializable {
      * @throws IOException throws IOException
      */
     @FXML
-    public void generateInvoice(MouseEvent e) throws IOException
+    public void printBillandKOT(MouseEvent e) throws IOException
     {
         if(billTableItems.isEmpty())
         {
@@ -902,8 +900,9 @@ public class TableBillingController implements Initializable {
      * @param e Mouse Event i.e Click
      */
     @FXML
-    private void saveInvoice(MouseEvent e)
+    private void settleBill(MouseEvent e)
     {
+        //Check if the bill table is empty
         if(billTableItems.isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
@@ -913,19 +912,25 @@ public class TableBillingController implements Initializable {
             return;
         }
 
-        bill.setBillItems(billTableItems);
 
-        //ADD BILL Details to DB
+        //IF BILL TABLE IS NOT EMPTY , PROCEED TO SAVING
+        bill.setBillItems(billTableItems);
+        String tableNumber = tableNumberLabel.getText();
+        bill.setTableNumber(tableNumber);
+
+        //Add bill details to DB
         int rowsUpdated = daoimpl.addBillToDB(bill);
 
         if(rowsUpdated>0)
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bill Added Successfully", ButtonType.OK);
-            alert.setHeaderText("Saved");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bill Settled & Added Successfully", ButtonType.OK);
+            alert.setHeaderText("Bill Settled Successfully");
             alert.setTitle("Success!");
             alert.showAndWait();
 
             billTableItems.clear(); //Clearing the bill table
+
+            openTables.remove(tableNumber); //Removing the table from openTables Collection
 
             bill = new Bill(); //Generating new bill after old bill is saved
 
