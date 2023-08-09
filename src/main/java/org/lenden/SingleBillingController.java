@@ -58,8 +58,6 @@ public class SingleBillingController implements Initializable
     Label subTotalLabel;
     @FXML
     TextField discountField;
-    @FXML
-    Button generateBillButton;
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -447,7 +445,7 @@ public class SingleBillingController implements Initializable
         updateTotals(billTableItems);
     }
     @FXML
-    public void generateInvoice(MouseEvent e) throws IOException
+    public void printBillAndKOT(MouseEvent e) throws IOException
     {
         if(billTableItems.isEmpty())
         {
@@ -479,7 +477,7 @@ public class SingleBillingController implements Initializable
 
     }
     @FXML
-    private void saveInvoice(MouseEvent e)
+    private void settleBill(MouseEvent e)
     {
         if(billTableItems.isEmpty())
         {

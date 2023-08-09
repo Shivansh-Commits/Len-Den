@@ -25,6 +25,7 @@ import org.lenden.model.MenuItems;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -152,9 +153,7 @@ public class TableBillingController implements Initializable {
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
-                    addItemToBill.setOnMouseClicked(event -> {
-                            addMenuItemtoBill(selectedMenuItem);
-                    });
+                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
 
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER);
@@ -403,9 +402,7 @@ public class TableBillingController implements Initializable {
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
-                    addItemToBill.setOnMouseClicked(event -> {
-                            addMenuItemtoBill(selectedMenuItem);
-                    });
+                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
 
                     HBox hBox = new HBox();
                     hBox.setAlignment(Pos.CENTER);
@@ -779,8 +776,18 @@ public class TableBillingController implements Initializable {
         table.getStyleClass().clear();
         table.getStyleClass().add("close-table");
 
-        //Removing open-tables bill items from DB
-        daoimpl.closeTable(tableNumber);
+        //Removing open-table from DB
+        try
+        {
+            daoimpl.closeTable(tableNumber);
+        }
+        catch(SQLException ex)
+        {
+            Alert closeTableFailedAlert = new Alert(Alert.AlertType.ERROR, "Could not Close table - DB Exception", ButtonType.OK);
+            closeTableFailedAlert.setHeaderText("Failed");
+            closeTableFailedAlert.setTitle("Error!");
+            closeTableFailedAlert.showAndWait();
+        }
 
         //Removing open-table from openTables hashMap
         openTables.remove(tableNumber);
@@ -833,10 +840,20 @@ public class TableBillingController implements Initializable {
         table.getStyleClass().clear();
         table.getStyleClass().add("close-table");
 
-        //Removing open-tables bill items from DB
-        daoimpl.closeTable(tableNumber);
+        //Removing open-table from DB
+        try
+        {
+            daoimpl.closeTable(tableNumber);
+        }
+        catch(SQLException ex)
+        {
+            Alert closeTableFailedAlert = new Alert(Alert.AlertType.ERROR, "Could not Close table - DB Exception", ButtonType.OK);
+            closeTableFailedAlert.setHeaderText("Failed");
+            closeTableFailedAlert.setTitle("Error!");
+            closeTableFailedAlert.showAndWait();
+        }
 
-        //Removing open-table from openTables hashMap
+        //Removing open-table from openTables collection
         openTables.remove(tableNumber);
 
         //Clearing the items in bill table
@@ -862,7 +879,7 @@ public class TableBillingController implements Initializable {
      * @throws IOException throws IOException
      */
     @FXML
-    public void printBillandKOT(MouseEvent e) throws IOException
+    public void printBillAndKOT(MouseEvent e) throws IOException
     {
         if(billTableItems.isEmpty())
         {
@@ -896,7 +913,8 @@ public class TableBillingController implements Initializable {
 
 
     /**
-     * Saves Invoice to Database
+     *  -> Saves Invoice to Database
+     *  -> Closes the table
      * @param e Mouse Event i.e Click
      */
     @FXML
@@ -913,7 +931,7 @@ public class TableBillingController implements Initializable {
         }
 
 
-        //IF BILL TABLE IS NOT EMPTY , PROCEED TO SAVING
+        //IF BILL TABLE IS NOT EMPTY , PROCEED TO SAVING AND SETTLING BILL
         bill.setBillItems(billTableItems);
         String tableNumber = tableNumberLabel.getText();
         bill.setTableNumber(tableNumber);
@@ -932,11 +950,31 @@ public class TableBillingController implements Initializable {
 
             openTables.remove(tableNumber); //Removing the table from openTables Collection
 
+            try
+            {
+                daoimpl.closeTable(tableNumber); //Removing the Open Table num from DB
+            }
+            catch(SQLException ex)
+            {
+                Alert closeTableFailedAlert = new Alert(Alert.AlertType.ERROR, "Could not Close table DB Exception", ButtonType.OK);
+                closeTableFailedAlert.setHeaderText("Failed");
+                closeTableFailedAlert.setTitle("Error!");
+                closeTableFailedAlert.showAndWait();
+            }
+
             bill = new Bill(); //Generating new bill after old bill is saved
 
             discountField.setText(""); //Setting Discount field to blank
 
-            updateTotals(billTableItems);// Updating total labels back to 0
+            updateTotals(billTableItems); // Updating total labels back to 0
+
+            // Changing open-tables style class to close-table
+            Pane table = getTableObjectById(accordion, tableNumber);
+            table.getStyleClass().clear();
+            table.getStyleClass().add("close-table");
+
+            Label previousTableGrandTotalLabel = (Label) table.lookup("#tableGrandTotalLabel"); //Getting GRAND-TOTAL label of Table
+            previousTableGrandTotalLabel.setText("_ : _");
         }
         else
         {
