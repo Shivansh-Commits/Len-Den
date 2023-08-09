@@ -412,8 +412,7 @@ public class DaoImpl
         return null;
     }
 
-    public void closeTable(String openTable)
-    {
+    public void closeTable(String openTable) throws SQLException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -428,6 +427,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
     }
 
