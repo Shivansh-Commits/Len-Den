@@ -275,6 +275,7 @@ public class TableSettingsController implements Initializable {
                 numOfTablesLabel.setDisable(false);
 
                 addAreaButton.setDisable(true);
+
             });
 
             HBox hBox2 = new HBox();

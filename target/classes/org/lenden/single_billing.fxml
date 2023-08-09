@@ -133,11 +133,11 @@
                               </VBox>
                               <VBox layoutX="392.0" layoutY="11.0" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="195.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="11.0">
                                  <children>
-                                    <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#generateInvoice" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Generate Invoice">
+                                    <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Generate Invoice">
                                        <font>
                                           <Font name="Segoe UI Symbol" size="14.0" />
                                        </font></Button>
-                                    <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#saveInvoice" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Save Invoice">
+                                    <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Save Invoice">
                                        <font>
                                           <Font size="14.0" />
                                        </font></Button>

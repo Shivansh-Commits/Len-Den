@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -149,7 +151,12 @@ public class TableBillingController implements Initializable {
                     MenuItems selectedMenuItem = getTableRow().getItem();
 
                     Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setText("Add ");
+                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    ImageView add_icon = new ImageView(add_image);
+                    add_icon.setFitHeight(20);
+                    add_icon.setFitWidth(20);
+                    addItemToBill.setGraphic(add_icon);
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
@@ -398,7 +405,12 @@ public class TableBillingController implements Initializable {
                     MenuItems selectedMenuItem = getTableRow().getItem();
 
                     Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setText("Add ");
+                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    ImageView add_icon = new ImageView(add_image);
+                    add_icon.setFitHeight(20);
+                    add_icon.setFitWidth(20);
+                    addItemToBill.setGraphic(add_icon);
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
