@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +27,8 @@ import org.lenden.model.MenuItems;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -58,6 +62,8 @@ public class SingleBillingController implements Initializable
     Label subTotalLabel;
     @FXML
     TextField discountField;
+    @FXML
+    ComboBox modeofpayment;
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -120,7 +126,12 @@ public class SingleBillingController implements Initializable
                     MenuItems selectedMenuItem = getTableRow().getItem();
 
                     Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setText("Add ");
+                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    ImageView add_icon = new ImageView(add_image);
+                    add_icon.setFitHeight(20);
+                    add_icon.setFitWidth(20);
+                    addItemToBill.setGraphic(add_icon);
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
@@ -150,6 +161,18 @@ public class SingleBillingController implements Initializable
                */
             }
         });
+
+        //Setting mode of payments
+
+        try
+        {
+            ArrayList<String> modeofpayments = daoimpl.getModeOfPayment();
+            modeofpayment.getItems().addAll(modeofpayments);
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
 
     }
     public void setMainController(MainController mainController)
@@ -200,7 +223,12 @@ public class SingleBillingController implements Initializable
                     MenuItems selectedMenuItem = getTableRow().getItem();
 
                     Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setText("Add ");
+                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    ImageView add_icon = new ImageView(add_image);
+                    add_icon.setFitHeight(20);
+                    add_icon.setFitWidth(20);
+                    addItemToBill.setGraphic(add_icon);
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
@@ -479,6 +507,7 @@ public class SingleBillingController implements Initializable
     @FXML
     private void settleBill(MouseEvent e)
     {
+        //Check if bill is not empty
         if(billTableItems.isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
@@ -488,6 +517,20 @@ public class SingleBillingController implements Initializable
             return;
         }
 
+        //Check if mode of payment in selected
+        if( modeofpayment.getValue() == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a valid mode of payment", ButtonType.OK);
+            alert.setHeaderText("Mode of Payment not Selected");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+            modeofpayment.requestFocus();
+            return;
+        }
+
+        String modeOfPayment = modeofpayment.getValue().toString();
+
+        bill.setModeOfpayment(modeOfPayment);
         bill.setBillItems(billTableItems);
 
         //ADD BILL Details to DB
@@ -503,8 +546,7 @@ public class SingleBillingController implements Initializable
 
             billTableItems.clear(); //Clearing the bill table
 
-            Bill newBill = new Bill(); //Generating new bill after bill is saved
-            bill=newBill;
+            bill = new Bill(); //Generating new bill after bill is saved
 
             discountField.setText(""); //Setting Discount field to blank
 

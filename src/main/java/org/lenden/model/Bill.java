@@ -1,14 +1,10 @@
 package org.lenden.model;
 
 import javafx.collections.ObservableList;
-import javafx.fxml.Initializable;
 import org.lenden.dao.DaoImpl;
-
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+
 
 public class Bill {
 
@@ -17,6 +13,7 @@ public class Bill {
     String gstNumber;
     String phone;
     String tableNumber;
+    String modeOfpayment;
     int billnumber;
     double grandTotal;
     double total;
@@ -35,11 +32,12 @@ public class Bill {
          {
              DaoImpl daoimpl = new DaoImpl();
 
+             this.billnumber = daoimpl.getNextBillNumber();
+
              this.cgst = daoimpl.getTax("cgst");
              this.sgst = daoimpl.getTax("sgst");
              this.vat = daoimpl.getTax("vat");
              this.serviceCharge = daoimpl.getTax("servicecharge");
-             this.billnumber = daoimpl.getNextBillNumber();
              this.outletName = daoimpl.getOutletDetails("name");
              this.outletAddress = daoimpl.getOutletDetails("address");
              this.phone = daoimpl.getOutletDetails("phone");
@@ -180,4 +178,8 @@ public class Bill {
     public void setBillItems(ObservableList<BillItems> billItems) {
         this.billItems = billItems;
     }
+
+    public String getModeOfpayment() {  return modeOfpayment; }
+
+    public void setModeOfpayment(String modeOfpayment) {  this.modeOfpayment = modeOfpayment;}
 }

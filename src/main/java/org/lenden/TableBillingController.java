@@ -12,6 +12,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -64,6 +66,8 @@ public class TableBillingController implements Initializable {
     TextField discountField;
     @FXML
     Label tableGrandTotalLabel;
+    @FXML
+    ComboBox modeofpayment;
 
     @FXML
     Accordion accordion;
@@ -149,7 +153,12 @@ public class TableBillingController implements Initializable {
                     MenuItems selectedMenuItem = getTableRow().getItem();
 
                     Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setText("Add ");
+                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    ImageView add_icon = new ImageView(add_image);
+                    add_icon.setFitHeight(20);
+                    add_icon.setFitWidth(20);
+                    addItemToBill.setGraphic(add_icon);
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
@@ -174,6 +183,18 @@ public class TableBillingController implements Initializable {
                 }
             }
         });
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting mode of payments
+
+        try
+        {
+            ArrayList<String> modeofpayments = daoimpl.getModeOfPayment();
+            modeofpayment.getItems().addAll(modeofpayments);
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Open Table & Reserved Table Details
@@ -329,7 +350,6 @@ public class TableBillingController implements Initializable {
                     }
 
                     gridPane.add(table,j,i);
-
                     temp++;
                     tableNumCounter++;
                 }
@@ -398,7 +418,12 @@ public class TableBillingController implements Initializable {
                     MenuItems selectedMenuItem = getTableRow().getItem();
 
                     Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ＋");
+                    addItemToBill.setText("Add ");
+                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    ImageView add_icon = new ImageView(add_image);
+                    add_icon.setFitHeight(20);
+                    add_icon.setFitWidth(20);
+                    addItemToBill.setGraphic(add_icon);
                     addItemToBill.setCursor(Cursor.HAND);
                     addItemToBill.setPrefSize(150, 25);
                     addItemToBill.getStyleClass().add("menu-add-button");
@@ -925,16 +950,31 @@ public class TableBillingController implements Initializable {
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
             alert.setHeaderText("Can't Generate Invoice");
-            alert.setTitle("Sorry!");
+            alert.setTitle("Alert!");
             alert.showAndWait();
             return;
         }
 
+        //Check if mode of payment in selected
+        if( modeofpayment.getValue() == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a valid mode of payment", ButtonType.OK);
+            alert.setHeaderText("Mode of Payment not Selected");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+            modeofpayment.requestFocus();
+            return;
+        }
 
-        //IF BILL TABLE IS NOT EMPTY , PROCEED TO SAVING AND SETTLING BILL
+        String modeOfPayment = modeofpayment.getValue().toString();
+
+        //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
         bill.setBillItems(billTableItems);
+
         String tableNumber = tableNumberLabel.getText();
         bill.setTableNumber(tableNumber);
+
+        bill.setModeOfpayment(modeOfPayment);
 
         //Add bill details to DB
         int rowsUpdated = daoimpl.addBillToDB(bill);
@@ -1029,7 +1069,6 @@ public class TableBillingController implements Initializable {
         String tableNumber = clickedTableLabel.getText();
 
         tableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel");
-
 
         // Checking if current table is reserved
         if(reservedTables.contains(tableNumber))

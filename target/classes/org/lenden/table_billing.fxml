@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Accordion?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -148,11 +149,20 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill">
-                                 <cursor>
-                                    <Cursor fx:constant="HAND" />
-                                 </cursor>
-                              </Button>
+                              <HBox prefHeight="37.0" prefWidth="207.0" spacing="10.0">
+                                 <children>
+                                    <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="89.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="38.0" prefWidth="109.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" prefHeight="52.0" prefWidth="108.0" promptText="Payment" style="-fx-background-color: white; -fx-border-color: black;">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </ComboBox>
+                                 </children>
+                              </HBox>
                               <Button maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="35.0" prefWidth="188.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
