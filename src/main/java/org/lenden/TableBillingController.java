@@ -915,6 +915,8 @@ public class TableBillingController implements Initializable {
             return;
         }
 
+        bill.setBillnumber(daoimpl.getNextBillNumber());
+
         bill.setBillItems(billTableItems);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("bill_preview.fxml"));
@@ -969,6 +971,10 @@ public class TableBillingController implements Initializable {
         String modeOfPayment = modeofpayment.getValue().toString();
 
         //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
+
+        if(bill.getBillnumber() == 0)
+            bill.setBillnumber(daoimpl.getNextBillNumber());
+
         bill.setBillItems(billTableItems);
 
         String tableNumber = tableNumberLabel.getText();
