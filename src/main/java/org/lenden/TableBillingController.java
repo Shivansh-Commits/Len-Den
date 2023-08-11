@@ -68,6 +68,8 @@ public class TableBillingController implements Initializable {
     Label tableGrandTotalLabel;
     @FXML
     ComboBox modeofpayment;
+    @FXML
+    Button shiftTableButton;
 
     @FXML
     Accordion accordion;
@@ -463,6 +465,9 @@ public class TableBillingController implements Initializable {
         if(reservedTables.contains(tableNumber))
             return;
 
+        //Enabling the shift Table Button when first item is added
+        shiftTableButton.setDisable(false);
+
         //Adding the selected table to 'openTables' list when first item is added
         if(!openTables.containsKey(tableNumber))
         {
@@ -693,19 +698,18 @@ public class TableBillingController implements Initializable {
      * Also saves all the open table details in the Databasse
      * @param billTableItems Contains the items added in that tables bill
      */
-    public void updateTotals(ObservableList<BillItems> billTableItems)
-    {
+    public void updateTotals(ObservableList<BillItems> billTableItems) {
         DecimalFormat decimalFormat = new DecimalFormat("#0.00");
 
-        double subTotal = 0 ;
+        double subTotal = 0;
         double discount = bill.getDiscount();
 
-        if(billTableItems==null)
+        if (billTableItems == null)
             billTableItems = FXCollections.observableArrayList();
 
         for (BillItems item : billTableItems) {
-                subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
-            }
+            subTotal += item.getFoodItemPrice() * item.getFoodItemQuantity();
+        }
         //Setting SubTotal
         bill.setSubTotal(subTotal);
 
@@ -713,7 +717,7 @@ public class TableBillingController implements Initializable {
         subTotalLabel.setText(decimalFormat.format(subTotal));
 
         //Setting Discounted Total
-        double total = subTotal - (subTotal*((discount)/100));
+        double total = subTotal - (subTotal * ((discount) / 100));
         bill.setTotal(total);
         //Displaying subtotal
         totalLabel.setText(decimalFormat.format(total));
@@ -721,7 +725,7 @@ public class TableBillingController implements Initializable {
         double cgst = bill.getCgst();
         double sgst = bill.getSgst();
         double servicecharge = bill.getServiceCharge();
-        double tax = total * ( ( cgst + sgst + servicecharge  ) / 100 );
+        double tax = total * ((cgst + sgst + servicecharge) / 100);
         double grandTotal = total + tax;
 
         //Setting Grand Total in bill
@@ -731,7 +735,7 @@ public class TableBillingController implements Initializable {
         grandTotalLabel.setText(decimalFormat.format(grandTotal));
 
         //Checking, If label belongs to reserved table ,then don't update
-        if(tableGrandTotalLabel != null)
+        if (tableGrandTotalLabel != null)
             tableGrandTotalLabel.setText(decimalFormat.format(grandTotal));
 
         //Displaying taxes
@@ -739,9 +743,17 @@ public class TableBillingController implements Initializable {
         sgstLabel.setText(decimalFormat.format(sgst));
         serviceChargeLabel.setText(decimalFormat.format(servicecharge));
 
-
-        //Saving open table Details
-        daoimpl.saveOpenTableDetails(openTables);
+        try {
+            //Saving open table Details
+            daoimpl.saveOpenTableDetails(openTables);
+        }
+        catch(SQLException e)
+        {
+            Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Not able to update Totals, Check you network Connection. If this keeps occurring Contact Customer Support", ButtonType.OK);
+            shiftTableAlert.setHeaderText("Totals Not updated");
+            shiftTableAlert.setTitle("Alert!");
+            shiftTableAlert.showAndWait();
+        }
     }
 
 
@@ -1079,6 +1091,9 @@ public class TableBillingController implements Initializable {
         // Checking if current table is reserved
         if(reservedTables.contains(tableNumber))
         {
+            //Making ShiftTable disabled Hidden for shifting table
+            shiftTableButton.setDisable(true);
+
             //Setting the table number label
             tableNumberLabel.setText(tableNumber);
 
@@ -1103,6 +1118,7 @@ public class TableBillingController implements Initializable {
 
         if(openTables.containsKey(tableNumber))
         {
+
             //----------------------SETTING COLUMNS FOR BILL TABLE, TO DISPLAY OPEN TABLE BILL ITEMS--------------------
 
             // Create a cell value factory for the Name column
@@ -1243,6 +1259,9 @@ public class TableBillingController implements Initializable {
             //Disabiling Reserve button for open table
             reserveTableButton.setDisable(true);
 
+            //Making shift table button Enabled for shifting table
+            shiftTableButton.setDisable(false);
+
         }
         else
         {
@@ -1267,6 +1286,9 @@ public class TableBillingController implements Initializable {
 
             //Enabling reserve button for Closed Tables
             reserveTableButton.setDisable(false);
+
+            //Making shift table button enabled for shifting table
+            shiftTableButton.setDisable(true);
         }
     }
 
@@ -1346,6 +1368,114 @@ public class TableBillingController implements Initializable {
 
         }
 
+    }
+
+    public ObservableList<String> getExpandedTitledPanesTables()
+    {
+        ObservableList destinationTables = FXCollections.observableArrayList();
+
+        TitledPane expandedPane = accordion.getExpandedPane();
+
+        if (expandedPane != null) {
+            AnchorPane anchorPane = (AnchorPane) expandedPane.getContent();
+            GridPane gridPane = (GridPane) anchorPane.getChildren().get(0); // Assuming the GridPane is the first child
+
+            int rows = GridPane.getRowIndex(gridPane.getChildren().get(gridPane.getChildren().size() - 1)) + 1;
+            int cols = GridPane.getColumnIndex(gridPane.getChildren().get(gridPane.getChildren().size() - 1)) + 1;
+
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    final int currentRow = row; // Capture the current row value
+                    final int currentCol = col; // Capture the current col value
+
+                    Node cellNode = gridPane.getChildren().stream()
+                            .filter(node -> GridPane.getRowIndex(node) == currentRow && GridPane.getColumnIndex(node) == currentCol)
+                            .findFirst()
+                            .orElse(null);
+
+                    if (cellNode != null && cellNode instanceof Pane) {
+                        Pane tablePane = (Pane) cellNode;
+                        Label nameLabel = (Label) tablePane.lookup("#tableNumber");
+
+                        if (nameLabel != null) {
+                            String tableName = nameLabel.getText();
+                            System.out.println("Table Name: " + tableName);
+                            // You can store or process the table names as needed
+                            destinationTables.add(tableName);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            // Handle the case when no pane is expanded
+            Alert noExpandedPaneAlert = new Alert(Alert.AlertType.WARNING, "No pane is expanded", ButtonType.OK);
+            noExpandedPaneAlert.setHeaderText("No Pane Expanded");
+            noExpandedPaneAlert.setTitle("Alert!");
+            noExpandedPaneAlert.showAndWait();
+        }
+
+        return destinationTables;
+    }
+
+    @FXML
+    public void shiftTable(MouseEvent e)
+    {
+
+        //CASE : If no table is selected or bill is empty
+        if(billTableItems.isEmpty())
+        {
+            Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "No Items Present in bill", ButtonType.OK);
+            shiftTableAlert.setHeaderText("Can not Shift Table");
+            shiftTableAlert.setTitle("Alert!");
+            shiftTableAlert.showAndWait();
+            return;
+        }
+
+        TextInputDialog destinationTableDialog = new TextInputDialog();
+        destinationTableDialog.setTitle("Destination Table");
+        destinationTableDialog.setHeaderText("Enter the Destination Table");
+        destinationTableDialog.setContentText("Value:");
+
+
+        //Function to get all tables in currently expanded area
+        ObservableList destinationTables = getExpandedTitledPanesTables();
+
+        ComboBox<String> destinationTableComboBox = new ComboBox<>(destinationTables);
+        destinationTableComboBox.getStyleClass().add("combo-box");
+        destinationTableComboBox.setPromptText("Select Destination Table");
+        destinationTableDialog.getDialogPane().setContent(destinationTableComboBox);
+
+        // Show the dialog and wait for a response
+        destinationTableDialog.showAndWait().ifPresent(result -> {
+            ObservableList<BillItems> billItems = openTables.get(tableNumberLabel.getText());
+            try {
+                String destinationTable = destinationTableComboBox.getValue();
+
+                if(!openTables.containsKey(destinationTable) && !reservedTables.contains(destinationTable))
+                {
+                    openTables.remove(tableNumberLabel.getText());
+                    daoimpl.closeTable(tableNumberLabel.getText());
+                    openTables.put(destinationTableComboBox.getValue(), billItems);
+                    daoimpl.saveOpenTableDetails(openTables);
+                }
+                else
+                {
+                    Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Select a Closed Table for Shifting", ButtonType.OK);
+                    shiftTableAlert.setHeaderText("Invalid Destination Table Selected");
+                    shiftTableAlert.setTitle("Alert!");
+                    shiftTableAlert.showAndWait();
+                }
+            }
+            catch (SQLException ex)
+            {
+                Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Table could not be Shifted, Check you network Connection. If this keeps occurring Contact Customer Support", ButtonType.OK);
+                shiftTableAlert.setHeaderText("Could not Shift Table");
+                shiftTableAlert.setTitle("Alert!");
+                shiftTableAlert.showAndWait();
+            }
+        });
     }
 
 

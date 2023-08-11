@@ -283,8 +283,7 @@ public class DaoImpl
         return null;
     }
 
-    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables)
-    {
+    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -312,6 +311,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
     }
 
