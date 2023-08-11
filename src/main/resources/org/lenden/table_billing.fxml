@@ -156,7 +156,7 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </Button>
-                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" prefHeight="52.0" prefWidth="108.0" promptText="Payment" style="-fx-background-color: white; -fx-border-color: black;">
+                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" prefHeight="52.0" prefWidth="108.0" promptText="Payment">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
@@ -189,7 +189,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Shift Table">
+                              <Button fx:id="shiftTableButton" disable="true" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#shiftTable" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Shift Table">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>
