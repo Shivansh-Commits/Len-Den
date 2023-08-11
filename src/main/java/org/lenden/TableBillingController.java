@@ -66,6 +66,8 @@ public class TableBillingController implements Initializable {
     TextField discountField;
     @FXML
     Label tableGrandTotalLabel;
+    @FXML
+    ComboBox modeofpayment;
 
     @FXML
     Accordion accordion;
@@ -181,6 +183,18 @@ public class TableBillingController implements Initializable {
                 }
             }
         });
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting mode of payments
+
+        try
+        {
+            ArrayList<String> modeofpayments = daoimpl.getModeOfPayment();
+            modeofpayment.getItems().addAll(modeofpayments);
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Open Table & Reserved Table Details
@@ -336,7 +350,6 @@ public class TableBillingController implements Initializable {
                     }
 
                     gridPane.add(table,j,i);
-
                     temp++;
                     tableNumCounter++;
                 }
@@ -937,16 +950,31 @@ public class TableBillingController implements Initializable {
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
             alert.setHeaderText("Can't Generate Invoice");
-            alert.setTitle("Sorry!");
+            alert.setTitle("Alert!");
             alert.showAndWait();
             return;
         }
 
+        //Check if mode of payment in selected
+        if( modeofpayment.getValue() == null)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a valid mode of payment", ButtonType.OK);
+            alert.setHeaderText("Mode of Payment not Selected");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+            modeofpayment.requestFocus();
+            return;
+        }
 
-        //IF BILL TABLE IS NOT EMPTY , PROCEED TO SAVING AND SETTLING BILL
+        String modeOfPayment = modeofpayment.getValue().toString();
+
+        //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
         bill.setBillItems(billTableItems);
+
         String tableNumber = tableNumberLabel.getText();
         bill.setTableNumber(tableNumber);
+
+        bill.setModeOfpayment(modeOfPayment);
 
         //Add bill details to DB
         int rowsUpdated = daoimpl.addBillToDB(bill);
@@ -1041,7 +1069,6 @@ public class TableBillingController implements Initializable {
         String tableNumber = clickedTableLabel.getText();
 
         tableGrandTotalLabel = (Label) clickedTable.lookup("#tableGrandTotalLabel");
-
 
         // Checking if current table is reserved
         if(reservedTables.contains(tableNumber))

@@ -101,6 +101,8 @@ TABLES -
         grandtotal [numeric]
         pax [integer]
         nextbillnumber [integer] (is incremented from code)
+        tablenumber [text]
+        modeofpayment [text]
 
         [---NOTE---] : One row in bills table should have all fields blank and "billnumber" field as 0 and "nextbillnumber"
         field as the starting number for generating bill numbers.
@@ -144,7 +146,10 @@ TABLES -
         tables [integer]
 
     8)reservedtables
-        tablename [text] primary key
+        tablename [text] (Primary key)
+
+    9)modeofpayment
+        modeofpayment [text] (Primary key)
 
 
 

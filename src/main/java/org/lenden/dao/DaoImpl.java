@@ -186,7 +186,7 @@ public class DaoImpl
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement("INSERT INTO "+tenantId+".bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber,tablenumber) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);");
+            stmt  = c.prepareStatement("INSERT INTO "+tenantId+".bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber,tablenumber,modeofpayment) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);");
             stmt.setString(1, bill.getOutletName());
             stmt.setString(2, bill.getOutletAddress());
             stmt.setString(3, bill.getGstNumber());
@@ -200,6 +200,7 @@ public class DaoImpl
             stmt.setString(11, bill.getDate());
             stmt.setDouble(12, bill.getBillnumber());
             stmt.setString(13, bill.getTableNumber());
+            stmt.setString(14, bill.getModeOfpayment());
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -683,6 +684,30 @@ public class DaoImpl
         }
 
         return false;
+    }
+
+    public ArrayList<String> getModeOfPayment() throws SQLException {
+        ArrayList modeOfPayments = new ArrayList<String>();
+
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement("SELECT modeofpayment FROM "+tenantId+".modeofpayment");
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next())
+            {
+                modeOfPayments.add(  rs.getString("modeofpayment") );
+            }
+            stmt.close();
+
+            return modeOfPayments;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 }

@@ -97,6 +97,11 @@
     -fx-font-family : "Segoe UI Symbol";
 }
 
+.combo-box {
+    -fx-background-color : white;
+    -fx-border-color : black;
+}
+
 .clearbill {
     -fx-background-color: white;
     -fx-border-color: #eb5454;
