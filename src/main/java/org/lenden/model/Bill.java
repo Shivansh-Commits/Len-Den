@@ -32,8 +32,6 @@ public class Bill {
          {
              DaoImpl daoimpl = new DaoImpl();
 
-             this.billnumber = daoimpl.getNextBillNumber();
-
              this.cgst = daoimpl.getTax("cgst");
              this.sgst = daoimpl.getTax("sgst");
              this.vat = daoimpl.getTax("vat");

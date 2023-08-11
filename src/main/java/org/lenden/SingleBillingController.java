@@ -484,6 +484,8 @@ public class SingleBillingController implements Initializable
             return;
         }
 
+        bill.setBillnumber(daoimpl.getNextBillNumber());
+
         bill.setBillItems(billTableItems);
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("bill_preview.fxml"));
@@ -528,9 +530,13 @@ public class SingleBillingController implements Initializable
             return;
         }
 
-        String modeOfPayment = modeofpayment.getValue().toString();
+        //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
+        if(bill.getBillnumber() == 0)
+            bill.setBillnumber(daoimpl.getNextBillNumber());
 
+        String modeOfPayment = modeofpayment.getValue().toString();
         bill.setModeOfpayment(modeOfPayment);
+
         bill.setBillItems(billTableItems);
 
         //ADD BILL Details to DB
