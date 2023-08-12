@@ -1399,8 +1399,7 @@ public class TableBillingController implements Initializable {
 
                         if (nameLabel != null) {
                             String tableName = nameLabel.getText();
-                            System.out.println("Table Name: " + tableName);
-                            // You can store or process the table names as needed
+                            // Store table names in list
                             destinationTables.add(tableName);
                         }
                     }
@@ -1410,8 +1409,8 @@ public class TableBillingController implements Initializable {
         else
         {
             // Handle the case when no pane is expanded
-            Alert noExpandedPaneAlert = new Alert(Alert.AlertType.WARNING, "No pane is expanded", ButtonType.OK);
-            noExpandedPaneAlert.setHeaderText("No Pane Expanded");
+            Alert noExpandedPaneAlert = new Alert(Alert.AlertType.WARNING, "Select a area to shift table from", ButtonType.OK);
+            noExpandedPaneAlert.setHeaderText("No area is selected");
             noExpandedPaneAlert.setTitle("Alert!");
             noExpandedPaneAlert.showAndWait();
         }
@@ -1438,27 +1437,58 @@ public class TableBillingController implements Initializable {
         destinationTableDialog.setHeaderText("Enter the Destination Table");
         destinationTableDialog.setContentText("Value:");
 
-
-        //Function to get all tables in currently expanded area
+        //Function call to get all tables in currently expanded area
         ObservableList destinationTables = getExpandedTitledPanesTables();
 
-        ComboBox<String> destinationTableComboBox = new ComboBox<>(destinationTables);
-        destinationTableComboBox.getStyleClass().add("combo-box");
+        ComboBox<String> destinationTableComboBox = new ComboBox<String>(destinationTables);
+        destinationTableComboBox.setPrefSize(50,15);
+        destinationTableComboBox.setStyle("-fx-background-color:white");
         destinationTableComboBox.setPromptText("Select Destination Table");
         destinationTableDialog.getDialogPane().setContent(destinationTableComboBox);
 
         // Show the dialog and wait for a response
         destinationTableDialog.showAndWait().ifPresent(result -> {
-            ObservableList<BillItems> billItems = openTables.get(tableNumberLabel.getText());
-            try {
-                String destinationTable = destinationTableComboBox.getValue();
 
-                if(!openTables.containsKey(destinationTable) && !reservedTables.contains(destinationTable))
+            String destinationTableName = destinationTableComboBox.getValue();
+            String sourceTableName = tableNumberLabel.getText();
+
+            ObservableList<BillItems> billItems = openTables.get(sourceTableName);
+
+            try {
+                //Checking if the source and destination tables are different or not
+                if(destinationTableName.equals(sourceTableName) || destinationTableName == null)
                 {
-                    openTables.remove(tableNumberLabel.getText());
-                    daoimpl.closeTable(tableNumberLabel.getText());
-                    openTables.put(destinationTableComboBox.getValue(), billItems);
+                    return;
+                }
+
+                //Checking if destination table is not and open-table or a reserved table
+                if(!openTables.containsKey(destinationTableName) && !reservedTables.contains(destinationTableName))
+                {
+                    //Updating DB and in-memory collections
+                    openTables.remove(sourceTableName);
+                    daoimpl.closeTable(sourceTableName);
+                    openTables.put(destinationTableName, billItems);
                     daoimpl.saveOpenTableDetails(openTables);
+
+                    //Getting source and destination Table objects
+                    Pane destTable = getTableObjectById(accordion,destinationTableName);
+                    Pane sourceTable = getTableObjectById(accordion,sourceTableName);
+
+                    //Setting respective style classes
+                    destTable.getStyleClass().clear();
+                    destTable.getStyleClass().add("open-table");
+
+                    sourceTable.getStyleClass().clear();
+                    sourceTable.getStyleClass().add("close-table");
+
+                    //Setting respective grand total labels
+                    Label sourceTableGrandTotalLabel = (Label) sourceTable.lookup("#tableGrandTotalLabel");
+                    Label destinationTableGrandTotalLabel = (Label) destTable.lookup("#tableGrandTotalLabel");
+
+                    destinationTableGrandTotalLabel.setText(sourceTableGrandTotalLabel.getText());
+
+                    sourceTableGrandTotalLabel.setText("_ : _");
+
                 }
                 else
                 {
