@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SingleBillingController">
+<AnchorPane prefHeight="791.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
    <children>
       <SplitPane dividerPositions="0.4634957351452942" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -175,7 +175,7 @@
                   </GridPane>
                   <AnchorPane layoutX="34.0" layoutY="350.0" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <children>
-                        <Button layoutX="494.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" prefHeight="33.0" prefWidth="98.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Table Bill" AnchorPane.rightAnchor="20.0">
+                        <Button layoutX="494.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" prefHeight="33.0" prefWidth="98.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Table Service" AnchorPane.rightAnchor="20.0">
                            <font>
                               <Font name="Segoe UI Symbol" size="12.0" />
                            </font>

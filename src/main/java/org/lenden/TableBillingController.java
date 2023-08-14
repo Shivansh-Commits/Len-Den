@@ -67,7 +67,7 @@ public class TableBillingController implements Initializable {
     @FXML
     Label tableGrandTotalLabel;
     @FXML
-    ComboBox modeofpayment;
+    ComboBox<String> modeofpayment;
     @FXML
     Button shiftTableButton;
 
@@ -657,9 +657,9 @@ public class TableBillingController implements Initializable {
 
     /**
      * Computes the discount and updates all necessary labels via 'updateTotals()' method
-     * @param e key board event i.e key pressed
+     * @param ignoredEvent key board event i.e key pressed
      */
-    public void computeDiscount(KeyEvent e)
+    public void computeDiscount(KeyEvent ignoredEvent)
     {
         if(discountField.getText().isEmpty())
         {
@@ -782,10 +782,10 @@ public class TableBillingController implements Initializable {
 
     /**
      * Removes all food items from the bill table and closes that Table
-     * @param e Mouse Event i.e Click
+     * @param ignoredEvent Mouse Event i.e Click
      */
     @FXML
-    public void clearBill(MouseEvent e)
+    public void clearBill(MouseEvent ignoredEvent)
     {
         if(billTableItems.isEmpty()) // CASE - Bill is empty
             return;
@@ -912,11 +912,11 @@ public class TableBillingController implements Initializable {
 
     /**
      * Shows Invoice and gives option to print it
-     * @param e Mouse Event i.e Click
+     * @param ignoredEvent Mouse Event i.e Click
      * @throws IOException throws IOException
      */
     @FXML
-    public void printBillAndKOT(MouseEvent e) throws IOException
+    public void printBillAndKOT(MouseEvent ignoredEvent) throws IOException
     {
         if(billTableItems.isEmpty())
         {
@@ -954,10 +954,10 @@ public class TableBillingController implements Initializable {
     /**
      *  -> Saves Invoice to Database
      *  -> Closes the table
-     * @param e Mouse Event i.e Click
+     * @param ignoredEvent Mouse Event i.e Click
      */
     @FXML
-    private void settleBill(MouseEvent e)
+    private void settleBill(MouseEvent ignoredEvent)
     {
         //Check if the bill table is empty
         if(billTableItems.isEmpty())
@@ -980,7 +980,7 @@ public class TableBillingController implements Initializable {
             return;
         }
 
-        String modeOfPayment = modeofpayment.getValue().toString();
+        String modeOfPayment = modeofpayment.getValue();
 
         //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
 
@@ -1295,10 +1295,10 @@ public class TableBillingController implements Initializable {
 
     /**
      * Reserves a Table
-     * @param e Mouse Event i.e Click
+     * @param ignoredEvent Mouse Event i.e Click
      */
     @FXML
-    public void reserveTable(MouseEvent e)
+    public void reserveTable(MouseEvent ignoredEvent)
     {
         String tableNumber = tableNumberLabel.getText();
 
@@ -1419,7 +1419,7 @@ public class TableBillingController implements Initializable {
     }
 
     @FXML
-    public void shiftTable(MouseEvent e)
+    public void shiftTable(MouseEvent ignoredEvent)
     {
 
         //CASE : If no table is selected or bill is empty
@@ -1438,9 +1438,9 @@ public class TableBillingController implements Initializable {
         destinationTableDialog.setContentText("Value:");
 
         //Function call to get all tables in currently expanded area
-        ObservableList destinationTables = getExpandedTitledPanesTables();
+        ObservableList<String> destinationTables = getExpandedTitledPanesTables();
 
-        ComboBox<String> destinationTableComboBox = new ComboBox<String>(destinationTables);
+        ComboBox<String> destinationTableComboBox = new ComboBox<>(destinationTables);
         destinationTableComboBox.setPrefSize(50,15);
         destinationTableComboBox.setStyle("-fx-background-color:white");
         destinationTableComboBox.setPromptText("Select Destination Table");
@@ -1456,7 +1456,7 @@ public class TableBillingController implements Initializable {
 
             try {
                 //Checking if the source and destination tables are different or not
-                if(destinationTableName.equals(sourceTableName) || destinationTableName == null)
+                if(destinationTableName == null || destinationTableName.equals(sourceTableName))
                 {
                     return;
                 }
@@ -1488,6 +1488,9 @@ public class TableBillingController implements Initializable {
                     destinationTableGrandTotalLabel.setText(sourceTableGrandTotalLabel.getText());
 
                     sourceTableGrandTotalLabel.setText("_ : _");
+
+                    //Setting the table number label
+                    tableNumberLabel.setText(destinationTableName);
 
                 }
                 else

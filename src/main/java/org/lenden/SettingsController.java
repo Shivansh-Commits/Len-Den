@@ -18,13 +18,15 @@ public class SettingsController implements Initializable {
     BorderPane mainPane;
     @FXML
     Button tableSettingsButton;
+    @FXML
+    Button billingSettingsButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    public void openTableSettings(MouseEvent event) throws IOException
+    public void openTableSettings(MouseEvent ignoredEvent) throws IOException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("tableSettings.fxml"));
         AnchorPane home = loader.load();
@@ -35,9 +37,14 @@ public class SettingsController implements Initializable {
         mainPane.setCenter(home);
     }
 
-    public void openTaxAndBillingSettings(MouseEvent event)
-    {
+    public void openBillingSettings(MouseEvent ignoredEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("billingSettings.fxml"));
+        AnchorPane home = loader.load();
 
+        Scene scene = billingSettingsButton.getScene();
+        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+
+        mainPane.setCenter(home);
     }
 
 

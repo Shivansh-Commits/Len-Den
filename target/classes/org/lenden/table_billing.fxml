@@ -216,14 +216,14 @@
                         </BorderPane>
                         <BorderPane prefHeight="60.0" prefWidth="251.0" style="-fx-background-color: black;" GridPane.columnIndex="1">
                            <center>
-                              <Label fx:id="tableNumberLabel" prefHeight="30.0" prefWidth="90.0" text="_ : _" textFill="WHITE" BorderPane.alignment="CENTER">
+                              <Label fx:id="tableNumberLabel" prefHeight="30.0" prefWidth="84.0" text="_ : _" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Semilight" size="20.0" />
                                  </font>
                               </Label>
                            </center>
                            <right>
-                              <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="33.0" prefWidth="98.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Single Bill" BorderPane.alignment="CENTER">
+                              <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="34.0" prefWidth="116.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Take-Away Service" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>
@@ -235,6 +235,12 @@
                                  </BorderPane.margin>
                               </Button>
                            </right>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                           <padding>
+                              <Insets right="3.0" />
+                           </padding>
                         </BorderPane>
                      </children>
                   </GridPane>

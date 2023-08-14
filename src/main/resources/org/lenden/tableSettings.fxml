@@ -16,13 +16,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="723.0" prefWidth="1236.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableSettingsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="724.8" prefWidth="1222.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableSettingsController">
    <children>
       <BorderPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <AnchorPane prefHeight="221.0" prefWidth="1236.0" BorderPane.alignment="CENTER">
                <children>
-                  <HBox layoutX="248.0" layoutY="36.0" spacing="150.0" AnchorPane.leftAnchor="248.0" AnchorPane.rightAnchor="460.0">
+                  <HBox layoutX="293.0" layoutY="44.0" spacing="150.0" AnchorPane.leftAnchor="293.0" AnchorPane.rightAnchor="415.0">
                      <children>
                         <VBox>
                            <children>
@@ -65,7 +65,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="485.0" prefWidth="1234.0" style="-fx-background-color: white;">
                            <children>
-                              <GridPane fx:id="tableAndAreaGrid" layoutX="123.0" layoutY="16.0" prefHeight="459.0" prefWidth="859.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="11.0" AnchorPane.topAnchor="16.0">
+                              <GridPane fx:id="tableAndAreaGrid" layoutX="160.0" layoutY="17.0" prefHeight="459.0" prefWidth="859.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="17.0">
                                 <columnConstraints>
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="271.7333068847656" minWidth="10.0" prefWidth="271.7333068847656" />
                                     <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.99997558593753" minWidth="10.0" prefWidth="284.79999999999995" />
