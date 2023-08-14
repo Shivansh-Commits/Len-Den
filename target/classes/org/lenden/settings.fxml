@@ -23,7 +23,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button mnemonicParsing="false" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Tax &amp; Billing">
+                              <Button fx:id="billingSettingsButton" mnemonicParsing="false" onMouseClicked="#openBillingSettings" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Billing">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

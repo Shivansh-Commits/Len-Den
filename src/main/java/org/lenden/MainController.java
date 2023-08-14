@@ -67,7 +67,7 @@ public class MainController implements Initializable {
         mainPane.setCenter(home);
     }
     @FXML
-    public void openHomePage(MouseEvent e) throws IOException
+    public void openHomePage(MouseEvent ignoredEvent) throws IOException
     {
         openTableBillPageFlag=true;
         openSingleBillPageFlag=true;
@@ -85,7 +85,7 @@ public class MainController implements Initializable {
 
     }
     @FXML
-    public void openSingleBillingPage(MouseEvent e) throws IOException
+    public void openSingleBillingPage(MouseEvent ignoredEvent) throws IOException
     {
         openHomePageFlag=true;
         openSalesPageFlag=true;
@@ -93,24 +93,24 @@ public class MainController implements Initializable {
         openSettingsPageFlag=true;
         openTableBillPageFlag=true;
 
-        if(openSingleBillPageFlag == true)
+        if(openSingleBillPageFlag)
         {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("single_billing.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("takeAway_billing.fxml"));
             AnchorPane Singlebilling = loader.load();
             mainPane.setCenter(Singlebilling);
 
             Scene scene = homeMenuButton.getScene();
             scene.getStylesheets().add("billingStyleSheet.css");
 
-            SingleBillingController singleBillingController = loader.getController();
-            singleBillingController.setMainController(this);
+            TakeAwayBillingController takeAwayBillingController = loader.getController();
+            takeAwayBillingController.setMainController(this);
 
             openSingleBillPageFlag=false;
         }
 
     }
     @FXML
-    public void openTableBillingPage(MouseEvent e) throws IOException
+    public void openTableBillingPage(MouseEvent ignoredEvent) throws IOException
     {
         openHomePageFlag=true;
         openSalesPageFlag=true;
@@ -118,7 +118,7 @@ public class MainController implements Initializable {
         openSettingsPageFlag=true;
         openSingleBillPageFlag=true;
 
-        if(openTableBillPageFlag == true)
+        if(openTableBillPageFlag)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("table_billing.fxml"));
             AnchorPane Tablebilling = loader.load();
@@ -135,7 +135,7 @@ public class MainController implements Initializable {
         }
 
     }
-    public void openMenuPage(MouseEvent e) throws IOException
+    public void openMenuPage(MouseEvent ignoredEvent) throws IOException
     {
         openTableBillPageFlag=true;
         openSingleBillPageFlag=true;
@@ -155,7 +155,7 @@ public class MainController implements Initializable {
         }
     }
     @FXML
-    public void openSettingsPage(MouseEvent e) throws IOException
+    public void openSettingsPage(MouseEvent ignoredEvent) throws IOException
     {
         openTableBillPageFlag=true;
         openSingleBillPageFlag=true;
@@ -186,7 +186,7 @@ public class MainController implements Initializable {
 
 
     @FXML
-    public void changeHomeIcon(MouseEvent e)
+    public void changeHomeIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
         Image white_logo = new Image(getClass().getResource("/images/white/outline_home_white_24.png").toExternalForm());
@@ -195,12 +195,10 @@ public class MainController implements Initializable {
         //getting black logo
         Image black_logo = new Image(getClass().getResource("/images/black/home_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
         //setting black logo on mouse exit
-        homeMenuButton.setOnMouseExited(event -> {
-            homeIcon.setImage(black_logo);
-        });
+        homeMenuButton.setOnMouseExited(event -> homeIcon.setImage(black_logo));
     }
     @FXML
-    public void changeSalesIcon(MouseEvent e)
+    public void changeSalesIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
         Image white_logo = new Image(getClass().getResource("/images/white/outline_sales_white_24.png").toExternalForm());
@@ -209,12 +207,10 @@ public class MainController implements Initializable {
         //getting black logo
         Image black_logo = new Image(getClass().getResource("/images/black/outline_sales_black_24.png").toExternalForm());
         //setting black logo on mouse exit
-        salesMenuButton.setOnMouseExited(event -> {
-            salesIcon.setImage(black_logo);
-        });
+        salesMenuButton.setOnMouseExited(event -> salesIcon.setImage(black_logo));
     }
     @FXML
-    public void changeMenuIcon(MouseEvent e)
+    public void changeMenuIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
         Image white_logo = new Image(getClass().getResource("/images/white/outline_restaurant_menu_white_24.png").toExternalForm());
@@ -223,12 +219,10 @@ public class MainController implements Initializable {
         //getting black logo
         Image black_logo = new Image(getClass().getResource("/images/black/outline_restaurant_menu_black_24.png").toExternalForm());
         //setting black logo on mouse exit
-        menuMenuButton.setOnMouseExited(event -> {
-            menuIcon.setImage(black_logo);
-        });
+        menuMenuButton.setOnMouseExited(event -> menuIcon.setImage(black_logo));
     }
     @FXML
-    public void changeBillingIcon(MouseEvent e)
+    public void changeBillingIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
         Image white_logo = new Image(getClass().getResource("/images/white/outline_currency_rupee_white_24.png").toExternalForm());
@@ -237,12 +231,10 @@ public class MainController implements Initializable {
         //getting black logo
         Image black_logo = new Image(getClass().getResource("/images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
         //setting black logo on mouse exit
-        billingMenuButton.setOnMouseExited(event -> {
-            billingIcon.setImage(black_logo);
-        });
+        billingMenuButton.setOnMouseExited(event -> billingIcon.setImage(black_logo));
     }
     @FXML
-    public void changeSettingsIcon(MouseEvent e)
+    public void changeSettingsIcon(MouseEvent ignoredEvent)
     {
 
         //getting white logo and setting white logo
@@ -252,12 +244,10 @@ public class MainController implements Initializable {
         //getting black logo
         Image black_logo = new Image(getClass().getResource("/images/black/outline_settings_black_24.png").toExternalForm());
         //setting black logo on mouse exit
-        settingsMenuButton.setOnMouseExited(event -> {
-            settingsIcon.setImage(black_logo);
-        });
+        settingsMenuButton.setOnMouseExited(event -> settingsIcon.setImage(black_logo));
     }
     @FXML
-    public void changeLogoutIcon(MouseEvent e)
+    public void changeLogoutIcon(MouseEvent ignoredEvent)
     {
 
         //getting white logo and setting white logo
@@ -267,9 +257,7 @@ public class MainController implements Initializable {
         //getting black logo
         Image black_logo = new Image(getClass().getResource("/images/black/logout_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
         //setting black logo on mouse exit
-        logoutMenuButton.setOnMouseExited(event -> {
-            logoutIcon.setImage(black_logo);
-        });
+        logoutMenuButton.setOnMouseExited(event -> logoutIcon.setImage(black_logo));
     }
 
 

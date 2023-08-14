@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 
-public class SingleBillingController implements Initializable
+public class TakeAwayBillingController implements Initializable
 {
 
     @FXML
@@ -63,7 +63,7 @@ public class SingleBillingController implements Initializable
     @FXML
     TextField discountField;
     @FXML
-    ComboBox modeofpayment;
+    ComboBox<String> modeofpayment;
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -111,8 +111,8 @@ public class SingleBillingController implements Initializable
 
         foodItemsTable.setItems(menuTableItems);
 
-        // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
+        // Adding Add button
+        availCol.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -207,7 +207,7 @@ public class SingleBillingController implements Initializable
         foodItemsTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -394,7 +394,7 @@ public class SingleBillingController implements Initializable
         }
 
     }
-    public void computeDiscount(KeyEvent e)
+    public void computeDiscount(KeyEvent ignoredEvent)
     {
         if(discountField.getText().isEmpty())
         {
@@ -463,7 +463,7 @@ public class SingleBillingController implements Initializable
 
     }
     @FXML
-    public void clearBill(MouseEvent e)
+    public void clearBill(MouseEvent ignoredEvent)
     {
         billTableItems.clear();
 
@@ -473,7 +473,7 @@ public class SingleBillingController implements Initializable
         updateTotals(billTableItems);
     }
     @FXML
-    public void printBillAndKOT(MouseEvent e) throws IOException
+    public void printBillAndKOT(MouseEvent ignoredEvent) throws IOException
     {
         if(billTableItems.isEmpty())
         {
@@ -484,7 +484,10 @@ public class SingleBillingController implements Initializable
             return;
         }
 
+        //Setting bill details
         bill.setBillnumber(daoimpl.getNextBillNumber());
+
+        bill.setTableNumber("TAKE AWAY");
 
         bill.setBillItems(billTableItems);
 
@@ -507,7 +510,7 @@ public class SingleBillingController implements Initializable
 
     }
     @FXML
-    private void settleBill(MouseEvent e)
+    private void settleBill(MouseEvent ignoredEvent)
     {
         //Check if bill is not empty
         if(billTableItems.isEmpty())
@@ -534,7 +537,7 @@ public class SingleBillingController implements Initializable
         if(bill.getBillnumber() == 0)
             bill.setBillnumber(daoimpl.getNextBillNumber());
 
-        String modeOfPayment = modeofpayment.getValue().toString();
+        String modeOfPayment = modeofpayment.getValue();
         bill.setModeOfpayment(modeOfPayment);
 
         bill.setBillItems(billTableItems);
