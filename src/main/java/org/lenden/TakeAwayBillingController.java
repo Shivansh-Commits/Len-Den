@@ -51,9 +51,7 @@ public class TakeAwayBillingController implements Initializable
     @FXML
     Label grandTotalLabel;
     @FXML
-    Label cgstLabel;
-    @FXML
-    Label sgstLabel;
+    Label gstLabel;
     @FXML
     Label serviceChargeLabel;
     @FXML
@@ -455,8 +453,7 @@ public class TakeAwayBillingController implements Initializable
         bill.setGrandTotal(grandTotal);
         grandTotalLabel.setText(Double.toString(grandTotal));
 
-        cgstLabel.setText(Double.toString(cgst));
-        sgstLabel.setText(Double.toString(sgst));
+        gstLabel.setText(Double.toString(sgst+cgst));
         serviceChargeLabel.setText(Double.toString(servicecharge));
 
 

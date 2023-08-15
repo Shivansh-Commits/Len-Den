@@ -57,7 +57,7 @@
                   </ScrollPane>
                </top>
                <bottom>
-                  <HBox prefHeight="370.0" prefWidth="1222.0" BorderPane.alignment="CENTER">
+                  <HBox prefHeight="370.0" prefWidth="1222.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
                      <children>
                         <AnchorPane prefHeight="358.0" prefWidth="254.0" style="-fx-background-color: white;">
                            <children>
