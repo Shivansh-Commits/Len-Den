@@ -20,7 +20,7 @@
 
 <AnchorPane prefHeight="791.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
    <children>
-      <SplitPane dividerPositions="0.4634957351452942" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.4540985976579442" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="790.0" prefWidth="599.0">
                <children>
@@ -121,7 +121,7 @@
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox layoutX="392.0" layoutY="11.0" maxWidth="1.7976931348623157E308" prefHeight="130.0" prefWidth="195.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="11.0">
+                              <VBox layoutX="392.0" layoutY="11.0" maxWidth="1.7976931348623157E308" prefHeight="128.0" prefWidth="210.0" spacing="15.0" AnchorPane.bottomAnchor="11.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="11.0">
                                  <children>
                                     <Button fx:id="printBillAndKOT" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="42.0" prefWidth="195.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Print Bill and KOT">
                                        <font>
@@ -129,7 +129,7 @@
                                        </font></Button>
                                     <HBox prefHeight="44.0" prefWidth="195.0" spacing="10.0">
                                        <children>
-                                          <Button fx:id="settleBill" maxWidth="1.7976931348623157E308" minWidth="94.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="36.0" prefWidth="94.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill">
+                                          <Button fx:id="settleBill" maxWidth="1.7976931348623157E308" minWidth="94.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="34.0" prefWidth="106.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill">
                                              <font>
                                                 <Font size="12.9" />
                                              </font>

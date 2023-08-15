@@ -1,0 +1,22 @@
+
+.save-button {
+     -fx-background-color: black;
+     -fx-border-color: black;
+     -fx-border-width : 0.5;
+     -fx-text-fill: white;
+     -fx-font-size : 14px;
+}
+
+.save-button:hover {
+          -fx-background-color: white;
+          -fx-border-color: black;
+          -fx-border-width : 0.5;
+          -fx-text-fill: black;
+          -fx-font-size : 14px;
+}
+
+.text-field{
+    -fx-font-family : "Segoe UI Semibold";
+    -fx-font-size : 12px;
+}
+
