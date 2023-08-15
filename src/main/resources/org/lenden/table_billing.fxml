@@ -23,7 +23,7 @@
 
 <AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
-      <SplitPane dividerPositions="0.4396414630620211" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.4447014601705942" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <bottom>
@@ -34,12 +34,12 @@
                      </columnConstraints>
                      <rowConstraints>
                         <RowConstraints maxHeight="199.00006713867188" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="251.0" minHeight="10.0" prefHeight="179.0" vgrow="SOMETIMES" />
-                        <RowConstraints maxHeight="154.39998779296872" minHeight="10.0" prefHeight="154.39998779296872" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="254.99997253417965" minHeight="10.0" prefHeight="194.2" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="154.39998779296872" minHeight="10.0" prefHeight="138.20000000000002" vgrow="SOMETIMES" />
                         <RowConstraints maxHeight="165.19998779296878" minHeight="10.0" prefHeight="52.80001220703127" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TableView fx:id="billTable" prefHeight="190.0" prefWidth="526.0" GridPane.rowIndex="1">
+                        <TableView fx:id="billTable" prefHeight="206.0" prefWidth="378.0" GridPane.rowIndex="1">
                            <columns>
                               <TableColumn prefWidth="149.59996038675308" text="Food Item" />
                               <TableColumn prefWidth="103.99993896484375" text="Price" />
@@ -49,9 +49,9 @@
                               <Insets />
                            </GridPane.margin>
                         </TableView>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="2">
+                        <AnchorPane prefHeight="141.0" prefWidth="378.0" GridPane.rowIndex="2">
                            <children>
-                              <VBox layoutX="14.0" layoutY="15.0" prefHeight="154.0" prefWidth="122.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
+                              <VBox layoutX="14.0" layoutY="19.0" prefHeight="116.0" prefWidth="122.0" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="19.0">
                                  <children>
                                     <Label prefHeight="26.0" prefWidth="83.0" text="Sub-Total">
                                        <font>
@@ -68,12 +68,7 @@
                                           <Font name="Segoe UI Semilight" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label text="CGST % :">
-                                       <font>
-                                          <Font name="Segoe UI Semilight" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label text="SGST % : ">
+                                    <Label text="GST %">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="14.0" />
                                        </font>
@@ -85,7 +80,7 @@
                                     </Label>
                                  </children>
                               </VBox>
-                              <VBox layoutX="136.0" layoutY="13.0" prefHeight="147.0" prefWidth="58.0" AnchorPane.bottomAnchor="10.0" AnchorPane.topAnchor="13.0">
+                              <VBox layoutX="136.0" layoutY="21.0" prefHeight="111.0" prefWidth="58.0" AnchorPane.bottomAnchor="22.0" AnchorPane.topAnchor="21.0">
                                  <children>
                                     <Label fx:id="subTotalLabel" prefHeight="20.0" prefWidth="60.0" text="_ _ : _ _">
                                        <font>
@@ -102,12 +97,7 @@
                                           <Font name="Segoe UI Semilight" size="14.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="cgstLabel" prefHeight="20.0" prefWidth="59.0" text="_ _ : _ _">
-                                       <font>
-                                          <Font name="Segoe UI Semilight" size="14.0" />
-                                       </font>
-                                    </Label>
-                                    <Label fx:id="sgstLabel" prefHeight="20.0" prefWidth="60.0" text="_ _ : _ _">
+                                    <Label fx:id="gstLabel" prefHeight="20.0" prefWidth="60.0" text="_ _ : _ _">
                                        <font>
                                           <Font name="Segoe UI Semilight" size="14.0" />
                                        </font>
@@ -139,7 +129,7 @@
                               <Separator layoutX="-22.0" layoutY="-6.0" prefHeight="12.0" prefWidth="669.0" />
                            </children>
                         </AnchorPane>
-                        <VBox spacing="15.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                        <VBox prefHeight="146.0" prefWidth="228.0" spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                            <children>
                               <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Print Bill &amp; KOT">
                                  <font>
@@ -176,7 +166,7 @@
                               <Insets />
                            </GridPane.margin>
                            <padding>
-                              <Insets left="10.0" right="10.0" top="10.0" />
+                              <Insets left="10.0" right="10.0" />
                            </padding>
                         </VBox>
                         <VBox alignment="TOP_CENTER" prefHeight="179.0" prefWidth="206.0" spacing="15.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
@@ -223,7 +213,7 @@
                               </Label>
                            </center>
                            <right>
-                              <Button mnemonicParsing="false" onMouseClicked="#openSingleBillingPage" prefHeight="34.0" prefWidth="116.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Take-Away Service" BorderPane.alignment="CENTER">
+                              <Button mnemonicParsing="false" onMouseClicked="#openTakeAwayBillingPage" prefHeight="34.0" prefWidth="116.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Take-Away Service" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>

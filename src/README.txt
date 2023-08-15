@@ -148,8 +148,10 @@ TABLES -
     8)reservedtables
         tablename [text] (Primary key)
 
-    9)modeofpayment
+    9)billsettings
         modeofpayment [text] (Primary key)
+        maxdiscount [numeric]
+        defaultdiscount [numeric]
 
 
 

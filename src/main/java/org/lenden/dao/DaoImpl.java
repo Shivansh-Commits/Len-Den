@@ -8,9 +8,7 @@ import org.lenden.model.MenuItems;
 import org.lenden.model.Tenants;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class DaoImpl
@@ -687,21 +685,24 @@ public class DaoImpl
     }
 
     public ArrayList<String> getModeOfPayment() throws SQLException {
-        ArrayList modeOfPayments = new ArrayList<String>();
 
+        String[] modeOfPayments = new String[0];
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement("SELECT modeofpayment FROM "+tenantId+".modeofpayment");
+            stmt  = c.prepareStatement("SELECT modeofpayment FROM "+tenantId+".billsettings");
             ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
-                modeOfPayments.add(  rs.getString("modeofpayment") );
+                 modeOfPayments = rs.getString("modeofpayment").split(",");
             }
+
+            ArrayList<String> paymentModesList = new ArrayList<>(Arrays.asList(modeOfPayments));
+
             stmt.close();
 
-            return modeOfPayments;
+            return paymentModesList;
         }
         catch(SQLException e)
         {

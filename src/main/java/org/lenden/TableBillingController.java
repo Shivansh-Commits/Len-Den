@@ -53,9 +53,7 @@ public class TableBillingController implements Initializable {
     @FXML
     Label grandTotalLabel;
     @FXML
-    Label cgstLabel;
-    @FXML
-    Label sgstLabel;
+    Label gstLabel;
     @FXML
     Label serviceChargeLabel;
     @FXML
@@ -739,8 +737,7 @@ public class TableBillingController implements Initializable {
             tableGrandTotalLabel.setText(decimalFormat.format(grandTotal));
 
         //Displaying taxes
-        cgstLabel.setText(decimalFormat.format(cgst));
-        sgstLabel.setText(decimalFormat.format(sgst));
+        gstLabel.setText(decimalFormat.format(sgst+cgst));
         serviceChargeLabel.setText(decimalFormat.format(servicecharge));
 
         try {
@@ -1045,12 +1042,12 @@ public class TableBillingController implements Initializable {
 
 
     /**
-     * Opens Single Billing Page
+     * Opens Take Away Billing Page
      * @param e Mouse Event i.e Click
      * @throws IOException  throws IOException
      */
     @FXML
-    public void openSingleBillingPage(MouseEvent e) throws IOException
+    public void openTakeAwayBillingPage(MouseEvent e) throws IOException
     {
         mainController.openSingleBillPageFlag=true;
         mainController.openSingleBillingPage(e);
