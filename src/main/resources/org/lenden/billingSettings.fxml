@@ -21,7 +21,7 @@
                <children>
                   <HBox prefHeight="337.0" prefWidth="711.0" spacing="15.0">
                      <children>
-                        <AnchorPane prefHeight="349.0" prefWidth="354.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6;">
+                        <AnchorPane prefHeight="349.0" prefWidth="354.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;">
                            <children>
                               <Label layoutX="126.0" layoutY="7.0" text="Tax Settings">
                                  <font>
@@ -46,7 +46,7 @@
                               <TextField disable="true" layoutX="111.0" layoutY="177.0" promptText="GST (%)" />
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefHeight="307.0" prefWidth="338.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6;">
+                        <AnchorPane prefHeight="307.0" prefWidth="338.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;">
                            <children>
                               <Label layoutX="104.0" layoutY="8.0" prefWidth="139.0" text="Discount Settings">
                                  <font>

@@ -24,7 +24,6 @@ import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.MenuItems;
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
