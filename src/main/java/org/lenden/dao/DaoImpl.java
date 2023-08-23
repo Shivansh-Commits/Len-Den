@@ -2,10 +2,8 @@ package org.lenden.dao;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import org.lenden.model.Bill;
-import org.lenden.model.BillItems;
-import org.lenden.model.MenuItems;
-import org.lenden.model.Tenants;
+import org.lenden.model.*;
+
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
 import java.util.*;
@@ -710,5 +708,6 @@ public class DaoImpl
             throw e;
         }
     }
+
 
 }

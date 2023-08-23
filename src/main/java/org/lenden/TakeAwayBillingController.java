@@ -18,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
@@ -62,6 +63,8 @@ public class TakeAwayBillingController implements Initializable
     TextField discountField;
     @FXML
     ComboBox<String> modeofpayment;
+    @FXML
+    VBox takeAwayOrdersVBox;
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -142,21 +145,6 @@ public class TakeAwayBillingController implements Initializable
                     setGraphic(hBox);
                 }
 
-                /*
-                if (item == null || empty) {
-                    setText("");
-                    setStyle("");
-                } else {
-                    setText(item);
-                    if (item.equals("Available")) {
-                        // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #c9f5c9;");
-                    } else {
-                        // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #f5c9c9;");
-                    }
-               }
-               */
             }
         });
 
