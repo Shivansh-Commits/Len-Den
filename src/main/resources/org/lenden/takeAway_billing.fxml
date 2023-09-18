@@ -13,6 +13,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -21,20 +22,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
+<AnchorPane prefHeight="791.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
    <children>
       <SplitPane dividerPositions="0.4540985976579442" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="790.0" prefWidth="599.0">
-               <children>
-                  <TableView fx:id="foodItemsTable" layoutY="85.0" prefHeight="265.0" prefWidth="614.0" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="440.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="85.0">
-                    <columns>
-                      <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
-                      <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
-                        <TableColumn maxWidth="191.19998779296873" minWidth="176.0" prefWidth="176.0" text="Availability" />
-                    </columns>
-                  </TableView>
-                  <ScrollPane fx:id="categoryScrollPane" hbarPolicy="ALWAYS" prefHeight="88.0" prefWidth="614.0" vbarPolicy="NEVER" AnchorPane.bottomAnchor="702.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <BorderPane prefHeight="200.0" prefWidth="200.0">
+               <top>
+                  <ScrollPane fx:id="categoryScrollPane" hbarPolicy="ALWAYS" prefHeight="88.0" prefWidth="614.0" vbarPolicy="NEVER" BorderPane.alignment="CENTER">
                      <content>
                         <AnchorPane fx:id="categoryAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="76.0" prefWidth="1385.0">
                            <children>
@@ -43,18 +37,30 @@
                         </AnchorPane>
                      </content>
                   </ScrollPane>
-                  <GridPane layoutY="399.0" maxWidth="1.7976931348623157E308" prefHeight="391.0" styleClass="billGridPane" stylesheets="@../../billingStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="399.0">
+               </top>
+               <center>
+                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="614.0" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                    <columns>
+                      <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
+                      <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
+                        <TableColumn maxWidth="191.19998779296873" minWidth="176.0" prefWidth="176.0" text="Availability" />
+                    </columns>
+                  </TableView>
+               </center>
+               <bottom>
+                  <GridPane maxWidth="1.7976931348623157E308" prefHeight="423.0" prefWidth="647.0" styleClass="billGridPane" stylesheets="@../../billingStyleSheet.css" BorderPane.alignment="CENTER">
                     <columnConstraints>
                       <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308" prefWidth="615.2" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="313.5999755859375" minWidth="0.0" prefWidth="0.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints maxHeight="199.00006713867188" minHeight="10.0" prefHeight="199.00006713867188" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="199.00006713867188" minHeight="10.0" prefHeight="49.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="234.0" minHeight="10.0" prefHeight="168.0" vgrow="SOMETIMES" />
                       <RowConstraints maxHeight="154.39998779296872" minHeight="10.0" prefHeight="154.39998779296872" vgrow="SOMETIMES" />
                       <RowConstraints maxHeight="165.19998779296878" minHeight="10.0" prefHeight="52.80001220703127" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <TableView fx:id="billTable" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="615.0" GridPane.hgrow="ALWAYS">
+                        <TableView fx:id="billTable" maxWidth="1.7976931348623157E308" prefHeight="190.0" prefWidth="615.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
                           <columns>
                             <TableColumn prefWidth="149.59996038675308" text="Food Item" />
                             <TableColumn prefWidth="103.99993896484375" text="Price" />
@@ -64,7 +70,7 @@
                               <Insets />
                            </GridPane.margin>
                         </TableView>
-                        <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1">
+                        <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                            <children>
                               <VBox layoutX="14.0" layoutY="15.0" prefHeight="154.0" prefWidth="122.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
                                  <children>
@@ -149,38 +155,47 @@
                               </VBox>
                            </children>
                         </AnchorPane>
-                        <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
+                        <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="3">
                            <children>
-                              <Label layoutX="10.0" layoutY="10.0" text="Grand Total (₹): ">
+                              <Label layoutX="14.0" layoutY="6.0" text="Grand Total (₹): ">
                                  <font>
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="grandTotalLabel" layoutX="166.0" layoutY="10.0" text="_ _ : _ _">
+                              <Label fx:id="grandTotalLabel" layoutX="169.0" layoutY="6.0" text="_ _ : _ _">
                                  <font>
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
                               </Label>
-                              <Separator layoutX="-22.0" layoutY="-6.0" prefHeight="12.0" prefWidth="669.0" />
+                              <Separator layoutX="-22.0" layoutY="-6.0" maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="669.0" />
                            </children>
                         </AnchorPane>
+                        <BorderPane prefHeight="54.0" prefWidth="647.0" style="-fx-background-color: black;">
+                           <right>
+                              <Button mnemonicParsing="false" onMouseClicked="#openTableBillingPage" prefHeight="33.0" prefWidth="98.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Table Service" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Symbol" size="12.0" />
+                                 </font>
+                                 <BorderPane.margin>
+                                    <Insets right="10.0" />
+                                 </BorderPane.margin>
+                              </Button>
+                           </right>
+                           <left>
+                              <Label prefHeight="32.0" prefWidth="110.0" text="Invoice" textFill="WHITE" BorderPane.alignment="CENTER">
+                                 <font>
+                                    <Font name="Segoe UI Semilight" size="23.0" />
+                                 </font>
+                                 <BorderPane.margin>
+                                    <Insets left="15.0" />
+                                 </BorderPane.margin>
+                              </Label>
+                           </left>
+                        </BorderPane>
                      </children>
                   </GridPane>
-                  <AnchorPane layoutX="34.0" layoutY="350.0" maxWidth="1.7976931348623157E308" prefHeight="49.0" prefWidth="200.0" style="-fx-background-color: black;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                     <children>
-                        <Button layoutX="494.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" prefHeight="33.0" prefWidth="98.0" styleClass="single-bill-table-bill-button" stylesheets="@../../billingStyleSheet.css" text="Table Service" AnchorPane.rightAnchor="20.0">
-                           <font>
-                              <Font name="Segoe UI Symbol" size="12.0" />
-                           </font>
-                        </Button>
-                     </children></AnchorPane>
-                  <Label layoutX="14.0" layoutY="358.0" prefHeight="30.0" prefWidth="77.0" text="Invoice" textFill="WHITE" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="523.0">
-                     <font>
-                        <Font name="Segoe UI Semilight" size="23.0" />
-                     </font>
-                  </Label>
-               </children>
-            </AnchorPane>
+               </bottom>
+            </BorderPane>
             <ScrollPane prefHeight="200.0" prefWidth="200.0">
                <content>
                   <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
