@@ -100,6 +100,7 @@ public class TableSettingsController implements Initializable {
             minusButton.setPrefSize(Region.USE_COMPUTED_SIZE,35);
             minusButton.setCursor(Cursor.HAND);
             minusButton.setOnAction( event -> {
+
                 totalTablesLabel.setText(   String.valueOf(Integer.parseInt(totalTablesLabel.getText())-1)  );
 
                 int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
@@ -296,6 +297,16 @@ public class TableSettingsController implements Initializable {
         saveButton.getStyleClass().add("saveEdit-button");
         saveButton.setOnMouseClicked(event -> {
 
+            //Checking if all tables are closed
+            if(daoimpl.fetchOpenAndReservedTableCount()>0)
+            {
+                Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "Open Tables Found!", ButtonType.OK);
+                deleteAlert.setHeaderText("Settle(close) the Open tables , Un-Reserve Tables and try again.Tables and Areas can be edited only when all tables are closed. ");
+                deleteAlert.setTitle("Alert!");
+                deleteAlert.showAndWait();
+                return;
+            }
+
             boolean isSaved = daoimpl.updateAreaAndTables(areaAndTables);
 
             if(isSaved)
@@ -307,10 +318,7 @@ public class TableSettingsController implements Initializable {
             }
             else
             {
-                Alert saveFailureAlert = new Alert(Alert.AlertType.ERROR, "Could not Save the Changes! Please contact customer support if this error keeps occuring.", ButtonType.OK);
-                saveFailureAlert.setHeaderText("Update Failure");
-                saveFailureAlert.setTitle("Warning!");
-                saveFailureAlert.showAndWait();
+                displayDBConnectionErrorAlert();
             }
         });
 
@@ -321,6 +329,14 @@ public class TableSettingsController implements Initializable {
 
         GridPane.setMargin(hBox3,new Insets(15,55,10,0));
         tableAndAreaGrid.add(hBox3,1,gridRowCounter);
+    }
+
+    public void displayDBConnectionErrorAlert()
+    {
+        Alert deleteAlert = new Alert(Alert.AlertType.ERROR, "Database Connection Error", ButtonType.OK);
+        deleteAlert.setHeaderText("Database error occurred. Check you Internet Connection and if this error keeps on occurring, Contact Customer Support. ");
+        deleteAlert.setTitle("Alert!");
+        deleteAlert.showAndWait();
     }
 
 }

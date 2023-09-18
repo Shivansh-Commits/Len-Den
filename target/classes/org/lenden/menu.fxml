@@ -7,6 +7,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -42,22 +43,16 @@
             </AnchorPane>
          </top>
          <center>
-            <BorderPane prefHeight="543.0" prefWidth="1054.0" BorderPane.alignment="CENTER">
-               <top>
-                  <ScrollPane prefHeight="354.0" prefWidth="1208.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
-                     <content>
-                        <TableView fx:id="menuTable" onMouseClicked="#populateUpdateDeleteForm" prefHeight="351.0" prefWidth="1218.0">
-                          <columns>
-                            <TableColumn prefWidth="245.60003662109375" text="Name" />
-                            <TableColumn prefWidth="209.60003662109375" text="Price" />
-                              <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Availability" />
-                          </columns>
-                        </TableView>
-                     </content>
-                  </ScrollPane>
-               </top>
-               <bottom>
-                  <HBox prefHeight="370.0" prefWidth="1222.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <SplitPane dividerPositions="0.5006915629322268" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+              <items>
+                  <TableView fx:id="menuTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#populateUpdateDeleteForm" prefHeight="355.0" prefWidth="1222.0">
+                    <columns>
+                      <TableColumn prefWidth="245.60003662109375" text="Name" />
+                      <TableColumn prefWidth="209.60003662109375" text="Price" />
+                        <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Availability" />
+                    </columns>
+                  </TableView>
+                  <HBox prefHeight="370.0" prefWidth="1222.0" style="-fx-background-color: white;">
                      <children>
                         <AnchorPane prefHeight="358.0" prefWidth="254.0" style="-fx-background-color: white;">
                            <children>
@@ -104,7 +99,8 @@
                                     <Button mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="46.0" prefWidth="225.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
-                                       </cursor></Button>
+                                       </cursor>
+                                    </Button>
                                  </children>
                               </VBox>
                            </children>
@@ -174,8 +170,8 @@
                         </AnchorPane>
                      </children>
                   </HBox>
-               </bottom>
-            </BorderPane>
+              </items>
+            </SplitPane>
          </center>
       </BorderPane>
    </children>
