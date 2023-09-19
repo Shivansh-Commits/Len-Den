@@ -29,21 +29,21 @@
                                  </font>
                               </Label>
                               <Separator layoutX="19.0" layoutY="35.0" prefHeight="11.0" prefWidth="316.0" />
-                              <Button layoutX="61.0" layoutY="253.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" />
-                              <RadioButton layoutX="19.0" layoutY="102.0" mnemonicParsing="false" text="18% GST ">
+                              <Button fx:id="saveTaxSettingsButton" layoutX="61.0" layoutY="253.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" />
+                              <RadioButton fx:id="eighteenPercentGstRadioButton" layoutX="19.0" layoutY="102.0" mnemonicParsing="false" text="18% GST ">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="gstToggleGroup" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton layoutX="19.0" layoutY="143.0" mnemonicParsing="false" prefWidth="72.0" text="5% GST " toggleGroup="$gstToggleGroup" />
+                              <RadioButton fx:id="fivePercentGstRadioButton" layoutX="19.0" layoutY="143.0" mnemonicParsing="false" prefWidth="72.0" text="5% GST " toggleGroup="$gstToggleGroup" />
                               <Label layoutX="21.0" layoutY="58.0" text="GST Amount">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>
                               </Label>
                               <Separator layoutX="19.0" layoutY="76.0" prefHeight="8.0" prefWidth="71.0" />
-                              <RadioButton layoutX="19.0" layoutY="181.0" mnemonicParsing="false" prefWidth="72.0" text="Custom " toggleGroup="$gstToggleGroup" />
-                              <TextField disable="true" layoutX="111.0" layoutY="177.0" promptText="GST (%)" />
+                              <RadioButton fx:id="customGstRadioButton" layoutX="19.0" layoutY="181.0" mnemonicParsing="false" prefWidth="72.0" text="Custom " toggleGroup="$gstToggleGroup" />
+                              <TextField fx:id="customGstTextField" disable="true" layoutX="111.0" layoutY="177.0" promptText="GST (%)" />
                            </children>
                         </AnchorPane>
                         <AnchorPane prefHeight="307.0" prefWidth="338.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;">

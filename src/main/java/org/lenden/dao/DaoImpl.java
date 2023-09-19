@@ -104,24 +104,18 @@ public class DaoImpl
         try(Connection c = ConnectionManager.getConnection())
         {
             PreparedStatement stmt;
-            stmt = c.prepareStatement(String.format("SELECT * FROM %s.taxes", tenantId));
+            stmt = c.prepareStatement(String.format("SELECT * FROM %s.billsettings", tenantId));
             ResultSet rs = stmt.executeQuery();
             rs.next();
             switch (tax) {
                 case "cgst":
-                    double cgst = rs.getDouble("cgst");
-
-                    rs.close();
-                    c.close();
-                    stmt.close();
-                    return cgst;
                 case "sgst":
-                    double sgst = rs.getDouble("sgst");
-
+                    double sgstOrCgst = rs.getDouble("gst");
+                    sgstOrCgst = sgstOrCgst/2;
                     rs.close();
                     c.close();
                     stmt.close();
-                    return sgst;
+                    return sgstOrCgst;
                 case "vat":
                     double vat = rs.getDouble("vat");
 
@@ -145,6 +139,27 @@ public class DaoImpl
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public void saveTax(int defaultGst) throws SQLException {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET gst = ?", tenantId));
+            stmt.setInt(1,defaultGst);
+
+            if(stmt.executeUpdate()>0)
+            {
+                stmt.close();
+            }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
     public int getNextBillNumber()
@@ -745,6 +760,7 @@ public class DaoImpl
             throw e;
         }
     }
+
 
 
 }

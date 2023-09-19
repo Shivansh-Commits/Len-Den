@@ -134,24 +134,20 @@ TABLES -
         gstnumber [text]
         phone [text]
 
-    6)taxes
-        id  [bigserial] (Primary Key)
-        cgst [numeric]
-        sgst [numeric]
-        vat [numeric]
-        servicecharge [numeric]
-
-    7)tableandarea
+    6)tableandarea
         area [text] (Primary Key)
         tables [integer]
 
-    8)reservedtables
+    7)reservedtables
         tablename [text] (Primary key)
 
-    9)billsettings
+    8)billsettings
         modeofpayment [text] (Primary key)
         maxdiscount [numeric]
         defaultdiscount [numeric]
+        gst [numeric]
+        vat [numeric]
+        servicecharge [numeric]
 
 
 
