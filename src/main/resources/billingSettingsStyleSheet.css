@@ -4,7 +4,7 @@
      -fx-border-color: black;
      -fx-border-width : 0.5;
      -fx-text-fill: white;
-     -fx-font-size : 14px;
+     -fx-font-size : 16px;
 }
 
 .save-button:hover {
@@ -12,7 +12,7 @@
           -fx-border-color: black;
           -fx-border-width : 0.5;
           -fx-text-fill: black;
-          -fx-font-size : 14px;
+          -fx-font-size : 16px;
 }
 
 .text-field{
