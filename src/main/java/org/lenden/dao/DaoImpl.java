@@ -141,13 +141,26 @@ public class DaoImpl
         return 0;
     }
 
-    public void saveTax(int defaultGst) throws SQLException {
+    public void saveTax(String taxType,double defaultTaxValue) throws SQLException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET gst = ?", tenantId));
-            stmt.setInt(1,defaultGst);
+            if(taxType.equals("gst"))
+            {
+                stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET gst = ?", tenantId));
+                stmt.setDouble(1,defaultTaxValue);
+            }
+            else if(taxType.equals("vat"))
+            {
+                stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET vat = ?", tenantId));
+                stmt.setDouble(1,defaultTaxValue);
+            }
+            else
+            {
+                stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET servicecharge = ?", tenantId));
+                stmt.setDouble(1,defaultTaxValue);
+            }
 
             if(stmt.executeUpdate()>0)
             {
