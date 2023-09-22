@@ -42,12 +42,15 @@
                         <TableView fx:id="billTable" prefHeight="206.0" prefWidth="378.0" GridPane.rowIndex="1">
                            <columns>
                               <TableColumn prefWidth="149.59996038675308" text="Food Item" />
-                              <TableColumn prefWidth="103.99993896484375" text="Price" />
-                              <TableColumn minWidth="5.60003662109375" prefWidth="121.59992980957031" text="Quantity" />
+                              <TableColumn prefWidth="120.0" text="Price" />
+                              <TableColumn minWidth="5.60003662109375" prefWidth="103.0" text="Quantity" />
                            </columns>
                            <GridPane.margin>
                               <Insets />
                            </GridPane.margin>
+                           <columnResizePolicy>
+                              <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                           </columnResizePolicy>
                         </TableView>
                         <AnchorPane prefHeight="141.0" prefWidth="378.0" GridPane.rowIndex="2">
                            <children>
@@ -242,6 +245,9 @@
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Availability" />
                      </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
                   </TableView>
                </center>
                <top>

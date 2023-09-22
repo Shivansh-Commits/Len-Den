@@ -512,6 +512,7 @@ public class TableBillingController implements Initializable {
                     else
                     {
                         HBox hbox = new HBox(18);
+
                         Text txtQuantity = new Text(quantity.toString());
 
                         Button btnMinus = new Button("-");
@@ -589,7 +590,7 @@ public class TableBillingController implements Initializable {
                             //update Grand Total
                             updateTotals(billTableItems);
                         });
-
+                        hbox.setAlignment(Pos.CENTER);
                         hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
 
                         setGraphic(hbox);
@@ -745,10 +746,10 @@ public class TableBillingController implements Initializable {
         }
         catch(SQLException e)
         {
-            Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Not able to update Totals, Check you network Connection. If this keeps occurring Contact Customer Support", ButtonType.OK);
-            shiftTableAlert.setHeaderText("Totals Not updated");
-            shiftTableAlert.setTitle("Alert!");
-            shiftTableAlert.showAndWait();
+            Alert updateAlert = new Alert(Alert.AlertType.WARNING, "Not able to update Totals, Check you network Connection. If this keeps occurring Contact Customer Support", ButtonType.OK);
+            updateAlert.setHeaderText("Totals Not updated");
+            updateAlert.setTitle("Alert!");
+            updateAlert.showAndWait();
         }
     }
 
@@ -872,6 +873,7 @@ public class TableBillingController implements Initializable {
         Pane table = getTableObjectById(accordion, tableNumber);
         table.getStyleClass().clear();
         table.getStyleClass().add("close-table");
+
 
         //Removing open-table from DB
         try
@@ -1221,7 +1223,9 @@ public class TableBillingController implements Initializable {
                                 //update Grand Total
                                 updateTotals(billTableItems);
                             });
+
                             hbox.getChildren().addAll(btnMinus, txtQuantity, btnPlus);
+                            hbox.setAlignment(Pos.CENTER);
                             setGraphic(hbox);
                             setText(null);
                         }
@@ -1482,6 +1486,7 @@ public class TableBillingController implements Initializable {
                     Label destinationTableGrandTotalLabel = (Label) destTable.lookup("#tableGrandTotalLabel");
 
                     destinationTableGrandTotalLabel.setText(sourceTableGrandTotalLabel.getText());
+                    tableGrandTotalLabel = destinationTableGrandTotalLabel;
 
                     sourceTableGrandTotalLabel.setText("_ : _");
 
