@@ -148,6 +148,12 @@ TABLES -
         gst [numeric]
         vat [numeric]
         servicecharge [numeric]
+    9)takeawayorderdetails
+        ordernumber[integer] (Primary Key)
+        fooditemname [text] (Primary Key)
+        fooditemquantity [text] (Primary Key)
+        fooditemprice [numeric]
+        status [text]
 
 
 

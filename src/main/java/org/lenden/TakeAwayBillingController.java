@@ -6,6 +6,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
@@ -16,9 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
@@ -62,9 +61,11 @@ public class TakeAwayBillingController implements Initializable
     Label subTotalLabel;
     @FXML
     TextField discountField;
+    @FXML
+    TilePane takeAwayOrdersTilePane;
     ComboBox<String> modeofpayment = new ComboBox<>();
 
-    HashMap<String,ObservableList<BillItems>> openOrders = new HashMap<>();
+    HashMap<Integer,ObservableList<BillItems>> openOrders = new HashMap<>();
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -477,14 +478,12 @@ public class TakeAwayBillingController implements Initializable
         paymentDialog.getDialogPane().setContent(modeofpayment);
         paymentDialog.showAndWait();
 
-        if(paymentDialog.getResult() == ButtonType.CANCEL)
+        if(paymentDialog.getResult() == ButtonType.CANCEL || modeofpayment.getValue() == null)
             return;
         else
         {
             settleBill(ignoredEvent);
         }
-
-        //Adding Order in Order Window
 
 
     }
@@ -512,19 +511,17 @@ public class TakeAwayBillingController implements Initializable
         }
 
         //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
-        //Setting bill details
 
+        //Setting bill details
         bill.setBillnumber(daoimpl.getNextBillNumber());
 
         String modeOfPayment = modeofpayment.getValue();
 
         bill.setModeOfpayment(modeOfPayment);
 
-
         bill.setTableNumber("TAKE AWAY");
 
         bill.setBillItems(billTableItems);
-
 
         //ADD BILL Details to DB
         DaoImpl daoimpl = new DaoImpl();
@@ -554,14 +551,6 @@ public class TakeAwayBillingController implements Initializable
             alert.setHeaderText("Saved");
             alert.setTitle("Success!");
             alert.showAndWait();
-
-            billTableItems.clear(); //Clearing the bill table
-
-            bill = new Bill(); //Generating new bill after bill is saved
-
-            discountField.setText(""); //Setting Discount field to blank
-
-            updateTotals(billTableItems);// Updating total labels back to 0
         }
         else
         {
@@ -569,8 +558,72 @@ public class TakeAwayBillingController implements Initializable
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
             alert.showAndWait();
+            return;
         }
+
+
+        //Display Take Away Orders in Take-Away order Tile Pane
+        displayTakeAwayOrders();
+
+
+
+
+
+        billTableItems.clear(); //Clearing the bill table
+
+        bill = new Bill(); //Generating new bill after bill is saved
+
+        discountField.setText(""); //Setting Discount field to blank
+
+        updateTotals(billTableItems);// Updating total labels back to 0
     }
+
+    public void displayTakeAwayOrders()
+    {
+        //Adding Order in Take-Away Order Window
+        openOrders.put(bill.getBillnumber(),billTableItems);
+
+        takeAwayOrdersTilePane.setPadding(new Insets(15, 15, 15, 15));
+
+        Label orderNumber = new Label();
+        orderNumber.setText("Order No. "+String.valueOf(bill.getBillnumber()));
+
+        Button servedButton = new Button();
+        servedButton.setText("Order Served");
+        servedButton.setMaxWidth(Integer.MAX_VALUE);
+        servedButton.getStyleClass().add("billngButtons");
+
+        Button cancelButton = new Button();
+        cancelButton.setText("Cancel Order");
+        cancelButton.setMaxWidth(Integer.MAX_VALUE);
+        cancelButton.getStyleClass().add("billngButtons");
+
+        TextArea orderItems = new TextArea();
+        String itemsList="";
+        for(BillItems items:billTableItems)
+        {
+            itemsList += (items.getFoodItemName()).concat(" X ").concat( String.valueOf(items.getFoodItemQuantity()) ).concat("\n");
+        }
+        orderItems.setText(itemsList);
+
+        VBox vbox = new VBox();
+        vbox.setSpacing(10);
+        vbox.getChildren().add(orderItems);
+        vbox.getChildren().add(servedButton);
+        vbox.getChildren().add(cancelButton);
+
+        BorderPane order = new BorderPane();
+        order.getStyleClass().add("new-order");
+        order.setPadding(new Insets(8,8,8,8));
+        order.setPrefHeight(200);
+        order.setPrefWidth(100);
+        order.setTop(orderNumber);
+        order.setCenter(vbox);
+
+
+        takeAwayOrdersTilePane.getChildren().add(order);
+    }
+
     public void openTableBillingPage(MouseEvent e) throws IOException
     {
         mainController.openSingleBillPageFlag=true;

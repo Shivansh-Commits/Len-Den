@@ -143,6 +143,15 @@
     -fx-font-size : 12.5px;
 }
 
+.new-order {
+    -fx-background-color : white;
+    -fx-border-color: black;
+    -fx-border-width: 1;
+}
+
+.ready-order {
+
+}
 
 /*  CSS FOR SCROLL BARS */
 .scroll-bar:horizontal .track,
