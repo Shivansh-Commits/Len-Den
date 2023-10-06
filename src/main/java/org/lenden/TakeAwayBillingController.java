@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -62,8 +63,8 @@ public class TakeAwayBillingController implements Initializable
     @FXML
     TextField discountField;
     ComboBox<String> modeofpayment = new ComboBox<>();
-    @FXML
-    VBox takeAwayOrdersVBox;
+
+    HashMap<String,ObservableList<BillItems>> openOrders = new HashMap<>();
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
