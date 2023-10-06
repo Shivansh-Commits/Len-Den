@@ -774,6 +774,36 @@ public class DaoImpl
         }
     }
 
+    public void saveTakeAwayOrderDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException {
+        PreparedStatement stmt;
 
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.takeawayorderdetails (fooditemname,fooditemquantity,fooditemprice,ordernumber,status) VALUES (?,?,?,?,?) ON CONFLICT (fooditemname, tablenumber) DO UPDATE SET fooditemquantity = excluded.fooditemquantity, fooditemprice = excluded.fooditemprice ,status = excluded.status", tenantId));
+
+            for (Map.Entry<String, ObservableList<BillItems>> entry : openTables.entrySet())
+            {
+                String tablenumber = entry.getKey();
+                stmt.setString(4,tablenumber);
+
+                ObservableList<BillItems> billdetails = entry.getValue();
+
+                for(BillItems item: billdetails)
+                {
+                    stmt.setString(1,item.getFoodItemName());
+                    stmt.setInt(2,item.getFoodItemQuantity());
+                    stmt.setInt(3,item.getFoodItemPrice());
+
+                    stmt.executeUpdate();
+                }
+            }
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
 
 }
