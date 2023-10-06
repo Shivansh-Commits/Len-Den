@@ -7,12 +7,12 @@ main screen dim - 1385 x 806
 ---------------------------------------
            [ JAR CREATION ]
 ---------------------------------------
-[NOTE] - If your main class is in App.java, and you create a jar , it will not run becaause App class inherits 'Application' class
+[NOTE] - If your main class is in App.java, and you create a jar , it will not run because App class inherits 'Application' class
         which is a part of javafx library. hence we need to create a separate java class (launcher.java) and call the main method
         of App.java from the launcher class. In this way the external libraries are added with the jar.
 
 STEP 1 - After the jar is created . open it with winrar and Inside META-INF folder, delete all files having extension
-         [ .SF ] ,[ .DSA ] , [ .RSA ]. These are the signature files of other jars (dependenceis) , but every jar can
+         [ .SF ] ,[ .DSA ] , [ .RSA ]. These are the signature files of other jars (dependencies) , but every jar can
          have only one signature file, hence deleting these dependencies sign files.
  
 VIDEO REFERENCE - https://youtu.be/IoPXzopsmpE
@@ -45,7 +45,7 @@ STEP 4 - Further add the basic details , and when installation wizard ends, you 
          saying "would you like to compile the script now" click "NO" and the script editor will open up.
 STEP 5 - In the script , find the "[Files]" section. In one of the "Sources" you will see the JRE's address mentioned.
 STEP 6 - In that line we have to change the "DestDir" value. remove "{app}" and write this
-         "C:\Program Files (x86)\LenDen\JRE" . (Basically we are bundelling JRE with the EXE , because our exe needs
+         "C:\Program Files (x86)\LenDen\JRE" . (Basically we are bundling JRE with the EXE , because our exe needs
          JRE to run, on which ever system it will be installed)
 STEP 7 - Save the script and click on Run.
 
@@ -74,13 +74,13 @@ UI DESIGNER TOOL - Scene Builder
 
 DB USED - POSTGRES DATABASE
 
-STUCTURE DESCRIPTION -
+STRUCTURE DESCRIPTION -
 
     Multi-tenant database format is used to store software data.
 
     One schema will be used to store the tenant data ( ID & Passwords ).
-    ID of the tenant (which will be used to login) is the name of schema of that
-    tenant and is refered as 'tenantId' in the src code.
+    ID of the tenant (which will be used to log in) is the name of schema of that
+    tenant and is referred as 'tenantId' in the src code.
 
     Every Tenant will have their own SCHEMA with same tables.
 

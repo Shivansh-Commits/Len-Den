@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -61,10 +62,9 @@ public class TakeAwayBillingController implements Initializable
     Label subTotalLabel;
     @FXML
     TextField discountField;
-    @FXML
-    ComboBox<String> modeofpayment;
-    @FXML
-    VBox takeAwayOrdersVBox;
+    ComboBox<String> modeofpayment = new ComboBox<>();
+
+    HashMap<String,ObservableList<BillItems>> openOrders = new HashMap<>();
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -148,11 +148,11 @@ public class TakeAwayBillingController implements Initializable
             }
         });
 
-        //Setting mode of payments
-
+        //Adding Values to Mode Of payment Combo Box
         try
         {
             ArrayList<String> modeofpayments = daoimpl.getModeOfPayment();
+            modeofpayment.setPromptText("Mode Of Payment");
             modeofpayment.getItems().addAll(modeofpayments);
         }
         catch (SQLException e)
@@ -458,8 +458,7 @@ public class TakeAwayBillingController implements Initializable
         updateTotals(billTableItems);
     }
     @FXML
-    public void printBillAndKOT(MouseEvent ignoredEvent) throws IOException
-    {
+    public void placeOrder(MouseEvent ignoredEvent) throws IOException {
         if(billTableItems.isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
@@ -469,34 +468,28 @@ public class TakeAwayBillingController implements Initializable
             return;
         }
 
-        //Setting bill details
-        bill.setBillnumber(daoimpl.getNextBillNumber());
+        //Showing payment Window
+        ButtonType customButtonType = new ButtonType("PAID");
+        Alert paymentDialog = new Alert(Alert.AlertType.INFORMATION, "", customButtonType ,ButtonType.CANCEL );
+        paymentDialog.setHeaderText("Payment Window");
+        paymentDialog.setTitle("Confirm Payment");
 
-        bill.setTableNumber("TAKE AWAY");
+        paymentDialog.getDialogPane().setContent(modeofpayment);
+        paymentDialog.showAndWait();
 
-        bill.setBillItems(billTableItems);
+        if(paymentDialog.getResult() == ButtonType.CANCEL)
+            return;
+        else
+        {
+            settleBill(ignoredEvent);
+        }
 
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("bill_preview.fxml"));
-        Parent root = loader.load();
+        //Adding Order in Order Window
 
-        // Get the controller of the preview window
-        BillPrintController controller = loader.getController();
-
-        // Set the bill details in the controller
-        controller.setPreviewBillValues(bill);
-
-        // Create a new stage for the preview window
-        Stage stage = new Stage();
-        stage.setTitle("Preview");
-        stage.setScene(new Scene(root));
-
-        // Show the preview window
-        stage.show();
 
     }
     @FXML
-    private void settleBill(MouseEvent ignoredEvent)
-    {
+    private void settleBill(MouseEvent ignoredEvent) throws IOException {
         //Check if bill is not empty
         if(billTableItems.isEmpty())
         {
@@ -519,13 +512,19 @@ public class TakeAwayBillingController implements Initializable
         }
 
         //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
-        if(bill.getBillnumber() == 0)
-            bill.setBillnumber(daoimpl.getNextBillNumber());
+        //Setting bill details
+
+        bill.setBillnumber(daoimpl.getNextBillNumber());
 
         String modeOfPayment = modeofpayment.getValue();
+
         bill.setModeOfpayment(modeOfPayment);
 
+
+        bill.setTableNumber("TAKE AWAY");
+
         bill.setBillItems(billTableItems);
+
 
         //ADD BILL Details to DB
         DaoImpl daoimpl = new DaoImpl();
@@ -533,7 +532,25 @@ public class TakeAwayBillingController implements Initializable
 
         if(rowsUpdated>0)
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bill Added Successfully", ButtonType.OK);
+            //Displaying Bill
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("bill_preview.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller of the preview window
+            BillPrintController controller = loader.getController();
+
+            // Set the bill details in the controller
+            controller.setPreviewBillValues(bill);
+
+            // Create a new stage for the preview window
+            Stage stage = new Stage();
+            stage.setTitle("Preview");
+            stage.setScene(new Scene(root));
+
+            // Show the preview window
+            stage.show();
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Order Placed Successfully", ButtonType.OK);
             alert.setHeaderText("Saved");
             alert.setTitle("Success!");
             alert.showAndWait();
