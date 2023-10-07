@@ -103,6 +103,7 @@ TABLES -
         nextbillnumber [integer] (is incremented from code)
         tablenumber [text]
         modeofpayment [text]
+        status [text]
 
         [---NOTE---] : One row in bills table should have all fields blank and "billnumber" field as 0 and "nextbillnumber"
         field as the starting number for generating bill numbers.

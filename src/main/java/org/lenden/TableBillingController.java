@@ -992,6 +992,8 @@ public class TableBillingController implements Initializable {
 
         bill.setModeOfpayment(modeOfPayment);
 
+        bill.setStatus("SUCCESS");
+
         //Add bill details to DB
         int rowsUpdated = daoimpl.addBillToDB(bill);
 

@@ -153,6 +153,10 @@
 
 }
 
+.common-text-font{
+    -fx-font-family: "Segoe UI Symbol";
+}
+
 /*  CSS FOR SCROLL BARS */
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
