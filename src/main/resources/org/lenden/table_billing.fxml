@@ -129,7 +129,7 @@
                                     <Cursor fx:constant="TEXT" />
                                  </cursor>
                               </Label>
-                              <Separator layoutX="-22.0" layoutY="-6.0" prefHeight="12.0" prefWidth="669.0" />
+                              <Separator layoutX="-12.0" layoutY="4.0" prefHeight="0.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                            </children>
                         </AnchorPane>
                         <VBox prefHeight="146.0" prefWidth="228.0" spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
@@ -237,6 +237,28 @@
                               <Insets right="3.0" />
                            </padding>
                         </BorderPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="10.0" layoutY="10.0" text="Grand Total (₹): ">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="grandTotalLabel1" layoutX="166.0" layoutY="10.0" text="_ _ : _ _">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="20.0" />
+                                 </font>
+                                 <cursor>
+                                    <Cursor fx:constant="TEXT" />
+                                 </cursor>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="53.0" prefWidth="236.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <children>
+                              <Separator layoutY="3.0" prefHeight="3.0" prefWidth="253.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
                      </children>
                   </GridPane>
                </bottom>

@@ -24,6 +24,7 @@ public class Bill {
     double sgst;
     double vat;
     String date;
+    String status;
     ObservableList<BillItems> billItems;
 
      public Bill()
@@ -45,10 +46,13 @@ public class Bill {
          }
          catch(SQLException e)
          {
-             e.getMessage();
+             e.printStackTrace();
          }
     }
 
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
     public int getBillnumber() {
         return billnumber;
     }

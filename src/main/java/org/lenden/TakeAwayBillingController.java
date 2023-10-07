@@ -28,10 +28,9 @@ import org.lenden.model.MenuItems;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class TakeAwayBillingController implements Initializable
@@ -65,7 +64,7 @@ public class TakeAwayBillingController implements Initializable
     TilePane takeAwayOrdersTilePane;
     ComboBox<String> modeofpayment = new ComboBox<>();
 
-    HashMap<Integer,ObservableList<BillItems>> openOrders = new HashMap<>();
+    HashMap<String,ObservableList<BillItems>> openOrders = new HashMap<>();
 
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
@@ -160,6 +159,9 @@ public class TakeAwayBillingController implements Initializable
         {
             throw new RuntimeException(e);
         }
+
+        //Displaying pending Take-away orders
+        displayTakeAwayOrdersInitially();
 
     }
     public void setMainController(MainController mainController)
@@ -459,7 +461,7 @@ public class TakeAwayBillingController implements Initializable
         updateTotals(billTableItems);
     }
     @FXML
-    public void placeOrder(MouseEvent ignoredEvent) throws IOException {
+    public void placeOrder(MouseEvent ignoredEvent) throws IOException, SQLException {
         if(billTableItems.isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
@@ -482,13 +484,26 @@ public class TakeAwayBillingController implements Initializable
             return;
         else
         {
-            settleBill(ignoredEvent);
+            addBill(ignoredEvent);
+
+            //Display Take Away Orders in Take-Away order Tile Pane
+            displayTakeAwayOrders();
+
+
+
+            billTableItems.clear(); //Clearing the bill table
+
+            bill = new Bill(); //Generating new bill after bill is saved
+
+            discountField.setText(""); //Setting Discount field to blank
+
+            updateTotals(billTableItems);// Updating total labels back to 0
         }
 
 
     }
     @FXML
-    private void settleBill(MouseEvent ignoredEvent) throws IOException {
+    private void addBill(MouseEvent ignoredEvent) throws IOException, SQLException {
         //Check if bill is not empty
         if(billTableItems.isEmpty())
         {
@@ -523,7 +538,9 @@ public class TakeAwayBillingController implements Initializable
 
         bill.setBillItems(billTableItems);
 
-        //ADD BILL Details to DB
+        bill.setStatus("IN PROGRESS");
+
+        //ADD BILL Details to DB (Bill Table)
         DaoImpl daoimpl = new DaoImpl();
         int rowsUpdated = daoimpl.addBillToDB(bill);
 
@@ -562,43 +579,96 @@ public class TakeAwayBillingController implements Initializable
         }
 
 
-        //Display Take Away Orders in Take-Away order Tile Pane
-        displayTakeAwayOrders();
+        //ADD order DETAILS TO DB openOrderDetails Table
+        daoimpl.saveTakeAwayOrderDetails(bill.getBillnumber(),billTableItems,"In Process");
 
 
-
-
-
-        billTableItems.clear(); //Clearing the bill table
-
-        bill = new Bill(); //Generating new bill after bill is saved
-
-        discountField.setText(""); //Setting Discount field to blank
-
-        updateTotals(billTableItems);// Updating total labels back to 0
     }
 
     public void displayTakeAwayOrders()
     {
         //Adding Order in Take-Away Order Window
-        openOrders.put(bill.getBillnumber(),billTableItems);
 
         takeAwayOrdersTilePane.setPadding(new Insets(15, 15, 15, 15));
 
-        Label orderNumber = new Label();
-        orderNumber.setText("Order No. "+String.valueOf(bill.getBillnumber()));
+        Label orderNumberLabel = new Label();
+        orderNumberLabel.setText("Order No. "+String.valueOf(bill.getBillnumber()));
+        orderNumberLabel.setAlignment(Pos.CENTER);
+        orderNumberLabel.setId("orderNumber");
+        orderNumberLabel.getStyleClass().add("common-text-font");
+
+        Label grandTotal = new Label();
+        grandTotal.setText("Grand Total : "+String.valueOf(bill.getGrandTotal()));
+        grandTotal.getStyleClass().add("common-text-font");
 
         Button servedButton = new Button();
         servedButton.setText("Order Served");
         servedButton.setMaxWidth(Integer.MAX_VALUE);
         servedButton.getStyleClass().add("billngButtons");
+        servedButton.setOnAction(actionEvent -> {
+
+            Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
+            deleteAlert.setHeaderText("Please make sure the order is Served");
+            deleteAlert.setTitle("Alert!");
+            deleteAlert.showAndWait();
+
+            if(deleteAlert.getResult() != ButtonType.YES)
+                return;
+
+            //Removing the ORDER ticket from Take Away Order Tile Pane
+            BorderPane order = (BorderPane) servedButton.getParent().getParent();
+            TilePane tilePane = (TilePane) order.getParent();
+            tilePane.getChildren().remove(order);
+
+            //Changing the status of order
+            Label ordernumLabel = (Label)order.lookup("#orderNumber");
+            Pattern pattern = Pattern.compile("\\d+"); // Matches one or more digits
+            Matcher matcher = pattern.matcher(ordernumLabel.getText());
+            // Check if a match is found
+            if (matcher.find()) {
+                // Extract and parse the matched digits as an integer
+                String match = matcher.group();
+                int ordernumber = Integer.parseInt(match);
+                daoimpl.closeTakeAwayOrder(ordernumber);
+                daoimpl.changeBillStatus(ordernumber,"SUCCESS");
+            }
+
+        });
 
         Button cancelButton = new Button();
         cancelButton.setText("Cancel Order");
         cancelButton.setMaxWidth(Integer.MAX_VALUE);
         cancelButton.getStyleClass().add("billngButtons");
+        cancelButton.setOnAction(actionEvent -> {
+
+            Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
+            deleteAlert.setHeaderText("This order will be cancelled");
+            deleteAlert.setTitle("Alert!");
+            deleteAlert.showAndWait();
+
+            if(deleteAlert.getResult() != ButtonType.YES)
+                return;
+
+            BorderPane order = (BorderPane) cancelButton.getParent().getParent();
+            TilePane tilePane = (TilePane) order.getParent();
+            tilePane.getChildren().remove(order);
+
+            Label ordernumLabel = (Label)order.lookup("#orderNumber");
+            Pattern pattern = Pattern.compile("\\d+"); // Matches one or more digits
+            Matcher matcher = pattern.matcher(ordernumLabel.getText());
+            // Check if a match is found
+            if (matcher.find()) {
+                // Extract and parse the matched digits as an integer
+                String match = matcher.group();
+                int ordernumber = Integer.parseInt(match);
+                daoimpl.closeTakeAwayOrder(ordernumber);
+                daoimpl.changeBillStatus(ordernumber,"CANCELLED");
+            }
+
+        });
 
         TextArea orderItems = new TextArea();
+        orderItems.getStyleClass().add("common-text-font");
         String itemsList="";
         for(BillItems items:billTableItems)
         {
@@ -611,18 +681,143 @@ public class TakeAwayBillingController implements Initializable
         vbox.getChildren().add(orderItems);
         vbox.getChildren().add(servedButton);
         vbox.getChildren().add(cancelButton);
+        vbox.getChildren().add(grandTotal);
 
         BorderPane order = new BorderPane();
         order.getStyleClass().add("new-order");
         order.setPadding(new Insets(8,8,8,8));
-        order.setPrefHeight(200);
-        order.setPrefWidth(100);
-        order.setTop(orderNumber);
+        BorderPane.setAlignment(orderNumberLabel, javafx.geometry.Pos.CENTER);
+        order.setPrefHeight(300);
+        order.setPrefWidth(200);
+        order.setTop(orderNumberLabel);
         order.setCenter(vbox);
 
 
         takeAwayOrdersTilePane.getChildren().add(order);
     }
+
+    public void displayTakeAwayOrdersInitially()
+    {
+        openOrders = daoimpl.fetchOpenTakeAwayOrders();
+
+        takeAwayOrdersTilePane.setPadding(new Insets(15, 15, 15, 15));
+
+
+        for (Map.Entry<String, ObservableList<BillItems> > openTakeAwayOrder : openOrders.entrySet()) {
+            String orderNum = openTakeAwayOrder.getKey();
+
+            Label orderNumberLabel = new Label();
+            orderNumberLabel.setText("Order No. "+orderNum);
+            orderNumberLabel.setAlignment(Pos.CENTER);
+            orderNumberLabel.setId("orderNumber");
+            orderNumberLabel.getStyleClass().add("common-text-font");
+
+
+            Bill bill = daoimpl.fetchBill(Integer.parseInt(orderNum));
+            Label grandTotalLabel = new Label();
+            grandTotalLabel.setText("Grand Total : "+String.valueOf(bill.getGrandTotal()));
+            grandTotalLabel.getStyleClass().add("common-text-font");
+
+
+            Button servedButton = new Button();
+            servedButton.setText("Order Served");
+            servedButton.setMaxWidth(Integer.MAX_VALUE);
+            servedButton.getStyleClass().add("billngButtons");
+            servedButton.setOnAction(actionEvent -> {
+
+                Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
+                deleteAlert.setHeaderText("Please make sure the order is Served");
+                deleteAlert.setTitle("Alert!");
+                deleteAlert.showAndWait();
+
+                if(deleteAlert.getResult() != ButtonType.YES)
+                    return;
+
+                //Removing the ORDER ticket (GUI) from Take Away Order Tile Pane
+                BorderPane order = (BorderPane) servedButton.getParent().getParent();
+                TilePane tilePane = (TilePane) order.getParent();
+                tilePane.getChildren().remove(order);
+
+                //Changing the status of order
+                Label ordernumLabel = (Label)order.lookup("#orderNumber");
+                Pattern pattern = Pattern.compile("\\d+"); // Matches one or more digits
+                Matcher matcher = pattern.matcher(ordernumLabel.getText());
+                // Check if a match is found
+                if (matcher.find()) {
+                    // Extract and parse the matched digits as an integer
+                    String match = matcher.group();
+                    int ordernumber = Integer.parseInt(match);
+                    daoimpl.closeTakeAwayOrder(ordernumber);
+                    daoimpl.changeBillStatus(ordernumber,"SUCCESS");
+                }
+
+            });
+
+            Button cancelButton = new Button();
+            cancelButton.setText("Cancel Order");
+            cancelButton.setMaxWidth(Integer.MAX_VALUE);
+            cancelButton.getStyleClass().add("billngButtons");
+            cancelButton.setOnAction(actionEvent -> {
+
+                Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
+                deleteAlert.setHeaderText("This order will be cancelled");
+                deleteAlert.setTitle("Alert!");
+                deleteAlert.showAndWait();
+
+                if(deleteAlert.getResult() != ButtonType.YES)
+                    return;
+
+                BorderPane order = (BorderPane) cancelButton.getParent().getParent();
+                TilePane tilePane = (TilePane) order.getParent();
+                tilePane.getChildren().remove(order);
+
+                Label ordernumLabel = (Label)order.lookup("#orderNumber");
+                Pattern pattern = Pattern.compile("\\d+"); // Matches one or more digits
+                Matcher matcher = pattern.matcher(ordernumLabel.getText());
+                // Check if a match is found
+                if (matcher.find()) {
+                    // Extract and parse the matched digits as an integer
+                    String match = matcher.group();
+                    int ordernumber = Integer.parseInt(match);
+                    daoimpl.closeTakeAwayOrder(ordernumber);
+                    daoimpl.changeBillStatus(ordernumber,"CANCELLED");
+                }
+
+            });
+
+            ObservableList<BillItems> billitems = openTakeAwayOrder.getValue();
+
+            TextArea orderItems = new TextArea();
+            orderItems.getStyleClass().add("common-text-font");
+            String itemsList="";
+            for(BillItems items:billitems)
+            {
+                itemsList += (items.getFoodItemName()).concat(" X ").concat( String.valueOf(items.getFoodItemQuantity()) ).concat("\n");
+            }
+            orderItems.setText(itemsList);
+
+            VBox vbox = new VBox();
+            vbox.setSpacing(10);
+            vbox.getChildren().add(orderItems);
+            vbox.getChildren().add(servedButton);
+            vbox.getChildren().add(cancelButton);
+            vbox.getChildren().add(grandTotalLabel);
+
+            BorderPane order = new BorderPane();
+            order.getStyleClass().add("new-order");
+            order.setPadding(new Insets(8,8,8,8));
+            BorderPane.setAlignment(orderNumberLabel, javafx.geometry.Pos.CENTER);
+            order.setPrefHeight(300);
+            order.setPrefWidth(200);
+            order.setTop(orderNumberLabel);
+            order.setCenter(vbox);
+
+
+            takeAwayOrdersTilePane.getChildren().add(order);
+        }
+
+    }
+
 
     public void openTableBillingPage(MouseEvent e) throws IOException
     {

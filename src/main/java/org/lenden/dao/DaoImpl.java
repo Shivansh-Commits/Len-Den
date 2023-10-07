@@ -210,7 +210,7 @@ public class DaoImpl
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("INSERT INTO %s.bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber,tablenumber,modeofpayment) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?);", tenantId));
+            stmt  = c.prepareStatement(String.format("INSERT INTO %s.bills (outletname,outletaddress,gstnumber,servicecharge,sgst,cgst,discount,subtotal,total,grandtotal,billdate,billnumber,tablenumber,modeofpayment,status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);", tenantId));
             stmt.setString(1, bill.getOutletName());
             stmt.setString(2, bill.getOutletAddress());
             stmt.setString(3, bill.getGstNumber());
@@ -225,6 +225,7 @@ public class DaoImpl
             stmt.setDouble(12, bill.getBillnumber());
             stmt.setString(13, bill.getTableNumber());
             stmt.setString(14, bill.getModeOfpayment());
+            stmt.setString(15, bill.getStatus());
 
             int rowsAffected = stmt.executeUpdate();
 
@@ -241,6 +242,56 @@ public class DaoImpl
         }
         return -1;
 
+    }
+
+    public Bill fetchBill(int billNumber)
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.bills", tenantId));
+            ResultSet rs = stmt.executeQuery();
+
+            Bill bill = new Bill();
+            while(rs.next())
+            {
+                bill.setBillnumber(rs.getInt("billnumber"));
+                bill.setGrandTotal(rs.getDouble("grandtotal"));
+                bill.setDiscount(rs.getDouble("discount"));
+            }
+
+            stmt.close();
+
+            return bill;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public void changeBillStatus(int billNumber,String status)
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("UPDATE %s.bills SET status =  ? WHERE billnumber = ?;", tenantId));
+            stmt.setString(1,status);
+            stmt.setInt(2, billNumber);
+
+
+            int rowsAffected = stmt.executeUpdate();
+
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void addBillDetails(Bill bill) throws SQLException
@@ -774,21 +825,18 @@ public class DaoImpl
         }
     }
 
-    public void saveTakeAwayOrderDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException {
+    public void saveTakeAwayOrderDetails(int orderNumber, ObservableList<BillItems> takeAwayOrders,String status) throws SQLException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt = c.prepareStatement(String.format("INSERT INTO %s.takeawayorderdetails (fooditemname,fooditemquantity,fooditemprice,ordernumber,status) VALUES (?,?,?,?,?) ON CONFLICT (fooditemname, tablenumber) DO UPDATE SET fooditemquantity = excluded.fooditemquantity, fooditemprice = excluded.fooditemprice ,status = excluded.status", tenantId));
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.takeawayordersdetails (fooditemname,fooditemquantity,fooditemprice,ordernumber,status) VALUES (?,?,?,?,?)", tenantId));
 
-            for (Map.Entry<String, ObservableList<BillItems>> entry : openTables.entrySet())
-            {
-                String tablenumber = entry.getKey();
-                stmt.setString(4,tablenumber);
+                int ordernumber = orderNumber;
+                stmt.setInt(4,ordernumber);
+                stmt.setString(5,status);
 
-                ObservableList<BillItems> billdetails = entry.getValue();
-
-                for(BillItems item: billdetails)
+                for(BillItems item: takeAwayOrders)
                 {
                     stmt.setString(1,item.getFoodItemName());
                     stmt.setInt(2,item.getFoodItemQuantity());
@@ -796,13 +844,84 @@ public class DaoImpl
 
                     stmt.executeUpdate();
                 }
-            }
+
             stmt.close();
         }
         catch(SQLException e)
         {
             e.printStackTrace();
             throw e;
+        }
+    }
+
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTakeAwayOrders()
+    {
+        HashMap<String,ObservableList<BillItems>> pendingOrdersDetails = new HashMap<>();
+
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("SELECT * FROM %s.takeawayordersdetails", tenantId),ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+            {
+                String ordernumber = rs.getString("ordernumber");
+                if(!pendingOrdersDetails.containsKey(ordernumber))
+                {
+                    ObservableList<BillItems> billitems = FXCollections.observableArrayList();
+                    pendingOrdersDetails.put(ordernumber,billitems);
+                }
+            }
+
+            for (Map.Entry<String, ObservableList<BillItems>> openTakeAwayOrder : pendingOrdersDetails.entrySet())
+            {
+                String ordernumber = openTakeAwayOrder.getKey();
+                rs.beforeFirst();
+
+                ObservableList<BillItems> billitems = FXCollections.observableArrayList();
+                while(rs.next())
+                {
+                    if(rs.getString("ordernumber").equals(ordernumber))
+                    {
+                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getInt("fooditemprice"),rs.getInt("fooditemquantity"));
+                        billitems.add(billItem);
+                    }
+                }
+                pendingOrdersDetails.put(ordernumber,billitems);
+            }
+
+            stmt.close();
+
+            return pendingOrdersDetails;
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+        }
+
+        return new HashMap<>();
+    }
+
+    public void closeTakeAwayOrder(int orderNumber)
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("DELETE FROM %s.takeawayordersdetails WHERE ordernumber = ? ", tenantId));
+            stmt.setInt(1,orderNumber);
+
+            int affectedRows = stmt.executeUpdate();
+
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
         }
     }
 

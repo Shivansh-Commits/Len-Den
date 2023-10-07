@@ -8,7 +8,6 @@
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -20,9 +19,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
+<AnchorPane prefHeight="791.0" prefWidth="1381.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
    <children>
-      <SplitPane dividerPositions="0.4699927693420101" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <SplitPane dividerPositions="0.4539116963594113" layoutX="6.0" prefHeight="791.0" prefWidth="1375.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
             <BorderPane prefHeight="200.0" prefWidth="200.0">
                <top>
@@ -161,7 +160,7 @@
                                     <Font name="Segoe UI Semibold" size="20.0" />
                                  </font>
                               </Label>
-                              <Separator layoutX="-22.0" layoutY="-6.0" maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="669.0" />
+                              <Separator layoutX="-22.0" layoutY="-6.0" maxWidth="1.7976931348623157E308" prefHeight="12.0" prefWidth="669.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                            </children>
                         </AnchorPane>
                         <BorderPane prefHeight="54.0" prefWidth="647.0" style="-fx-background-color: black;">
@@ -190,57 +189,11 @@
                   </GridPane>
                </bottom>
             </BorderPane>
-            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="789.0" prefWidth="771.0">
                <center>
-                  <ScrollPane fitToWidth="true" BorderPane.alignment="CENTER">
+                  <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="789.0" prefWidth="754.0" BorderPane.alignment="CENTER">
                      <content>
-                        <TilePane fx:id="takeAwayOrdersTilePane" hgap="15.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" vgap="15.0">
-                           <children>
-                              <BorderPane prefHeight="241.0" prefWidth="200.0" style="-fx-background-color: grey;">
-                                 <bottom>
-                                    <TextArea editable="false" minWidth="50.0" prefHeight="100.0" prefWidth="173.0" styleClass="table-view" stylesheets="@../../billingStyleSheet.css" text="Dal Makhni X 2&#10;Roti X 3&#10;Naan X 1&#10;Dessert  X 2&#10;Item 1 X 2&#10;Dal Makhni X 2&#10;Roti X 3&#10;Naan X 1&#10;Dessert  X 2&#10;Item 1 X 2" BorderPane.alignment="CENTER" />
-                                 </bottom>
-                                 <padding>
-                                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                                 </padding>
-                                 <center>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Cancel order" />
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Mark Ready" />
-                                       </children>
-                                       <BorderPane.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </BorderPane.margin>
-                                    </VBox>
-                                 </center>
-                                 <top>
-                                    <Label stylesheets="@../../billingStyleSheet.css" text="Order No." BorderPane.alignment="CENTER" />
-                                 </top>
-                              </BorderPane>
-                              <BorderPane prefHeight="241.0" prefWidth="200.0" style="-fx-background-color: grey;">
-                                 <bottom>
-                                    <TextArea editable="false" minWidth="50.0" prefHeight="100.0" prefWidth="173.0" styleClass="table-view" stylesheets="@../../billingStyleSheet.css" text="Dal Makhni X 2&#10;Roti X 3&#10;Naan X 1&#10;Dessert  X 2&#10;Item 1 X 2&#10;Dal Makhni X 2&#10;Roti X 3&#10;Naan X 1&#10;Dessert  X 2&#10;Item 1 X 2" BorderPane.alignment="CENTER" />
-                                 </bottom>
-                                 <padding>
-                                    <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-                                 </padding>
-                                 <center>
-                                    <VBox prefHeight="200.0" prefWidth="100.0" spacing="15.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Cancel order" />
-                                          <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Mark Ready" />
-                                       </children>
-                                       <BorderPane.margin>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </BorderPane.margin>
-                                    </VBox>
-                                 </center>
-                                 <top>
-                                    <Label stylesheets="@../../billingStyleSheet.css" text="Order No." BorderPane.alignment="CENTER" />
-                                 </top>
-                              </BorderPane>
-                           </children>
+                        <TilePane fx:id="takeAwayOrdersTilePane" hgap="15.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="527.0" prefWidth="303.0" vgap="15.0">
                            <padding>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                            </padding>
