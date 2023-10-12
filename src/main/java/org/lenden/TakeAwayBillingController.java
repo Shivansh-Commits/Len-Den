@@ -668,6 +668,7 @@ public class TakeAwayBillingController implements Initializable
         });
 
         TextArea orderItems = new TextArea();
+        orderItems.setEditable(false);
         orderItems.getStyleClass().add("common-text-font");
         String itemsList="";
         for(BillItems items:billTableItems)
@@ -684,7 +685,7 @@ public class TakeAwayBillingController implements Initializable
         vbox.getChildren().add(grandTotal);
 
         BorderPane order = new BorderPane();
-        order.getStyleClass().add("new-order");
+        order.getStyleClass().add("new-order-border-pane");
         order.setPadding(new Insets(8,8,8,8));
         BorderPane.setAlignment(orderNumberLabel, javafx.geometry.Pos.CENTER);
         order.setPrefHeight(300);
@@ -713,9 +714,9 @@ public class TakeAwayBillingController implements Initializable
             orderNumberLabel.getStyleClass().add("common-text-font");
 
 
-            Bill bill = daoimpl.fetchBill(Integer.parseInt(orderNum));
+            Bill fetchedBill = daoimpl.fetchBill(Integer.parseInt(orderNum));
             Label grandTotalLabel = new Label();
-            grandTotalLabel.setText("Grand Total : "+String.valueOf(bill.getGrandTotal()));
+            grandTotalLabel.setText("Grand Total : "+String.valueOf(fetchedBill.getGrandTotal()));
             grandTotalLabel.getStyleClass().add("common-text-font");
 
 
@@ -788,6 +789,7 @@ public class TakeAwayBillingController implements Initializable
             ObservableList<BillItems> billitems = openTakeAwayOrder.getValue();
 
             TextArea orderItems = new TextArea();
+            orderItems.setEditable(false);
             orderItems.getStyleClass().add("common-text-font");
             String itemsList="";
             for(BillItems items:billitems)
@@ -804,7 +806,7 @@ public class TakeAwayBillingController implements Initializable
             vbox.getChildren().add(grandTotalLabel);
 
             BorderPane order = new BorderPane();
-            order.getStyleClass().add("new-order");
+            order.getStyleClass().add("new-order-border-pane");
             order.setPadding(new Insets(8,8,8,8));
             BorderPane.setAlignment(orderNumberLabel, javafx.geometry.Pos.CENTER);
             order.setPrefHeight(300);

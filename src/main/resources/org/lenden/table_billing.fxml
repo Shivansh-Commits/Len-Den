@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableBillingController">
    <children>
       <SplitPane dividerPositions="0.485177151120752" layoutX="151.1999969482422" layoutY="50.599998474121094" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -237,23 +237,7 @@
                               <Insets right="3.0" />
                            </padding>
                         </BorderPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutX="10.0" layoutY="10.0" text="Grand Total (₹): ">
-                                 <font>
-                                    <Font name="Segoe UI Semibold" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="grandTotalLabel1" layoutX="166.0" layoutY="10.0" text="_ _ : _ _">
-                                 <font>
-                                    <Font name="Segoe UI Semibold" size="20.0" />
-                                 </font>
-                                 <cursor>
-                                    <Cursor fx:constant="TEXT" />
-                                 </cursor>
-                              </Label>
-                           </children>
-                        </AnchorPane>
+                        <AnchorPane prefHeight="200.0" prefWidth="200.0" />
                         <AnchorPane prefHeight="53.0" prefWidth="236.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <children>
                               <Separator layoutY="3.0" prefHeight="3.0" prefWidth="253.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
