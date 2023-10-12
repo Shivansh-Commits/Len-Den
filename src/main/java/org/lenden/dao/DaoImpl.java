@@ -250,7 +250,8 @@ public class DaoImpl
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.bills", tenantId));
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.bills WHERE billnumber = ?", tenantId));
+            stmt.setInt(1, billNumber);
             ResultSet rs = stmt.executeQuery();
 
             Bill bill = new Bill();
