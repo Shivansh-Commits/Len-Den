@@ -152,7 +152,7 @@ TABLES -
     9)takeawayorderdetails
         ordernumber[integer] (Primary Key)
         fooditemname [text] (Primary Key)
-        fooditemquantity [text] (Primary Key)
+        fooditemquantity [integer]
         fooditemprice [numeric]
         status [text]
 
