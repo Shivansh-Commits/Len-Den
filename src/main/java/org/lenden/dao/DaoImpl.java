@@ -50,12 +50,12 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            //e.printStackTrace();
-            throw new SQLException(e.getMessage());
+            e.printStackTrace();
+            throw e;
         }
     }
 
-    public ObservableList<MenuItems> getCategoryItems(String category)
+    public ObservableList<MenuItems> getCategoryItems(String category) throws Exception
     {
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
@@ -94,6 +94,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
 
         return null;
@@ -137,6 +138,7 @@ public class DaoImpl
         {
 
             e.printStackTrace();
+            throw e;
         }
         return 0;
     }
@@ -175,7 +177,7 @@ public class DaoImpl
         }
     }
 
-    public int getNextBillNumber()
+    public int getNextBillNumber() throws SQLException
     {
         PreparedStatement stmt;
 
@@ -197,13 +199,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
-
+            throw e;
         }
-
-        return 0;
     }
 
-    public int addBillToDB(Bill bill)
+    public int addBillToDB(Bill bill) throws SQLException
     {
 
         PreparedStatement stmt;
@@ -239,12 +239,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
-        return -1;
-
     }
 
-    public Bill fetchBill(int billNumber)
+    public Bill fetchBill(int billNumber) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -269,12 +268,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return null;
     }
 
-    public void changeBillStatus(int billNumber,String status)
+    public void changeBillStatus(int billNumber,String status) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -322,7 +320,7 @@ public class DaoImpl
         }
     }
 
-    public String getOutletDetails(String detail)
+    public String getOutletDetails(String detail) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -354,6 +352,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
 
         return null;
@@ -391,7 +390,7 @@ public class DaoImpl
         }
     }
 
-    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails()
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails() throws SQLException
     {
         HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<>();
 
@@ -438,12 +437,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return new HashMap<>();
     }
 
-    public int fetchOpenAndReservedTableCount()
+    public int fetchOpenAndReservedTableCount() throws SQLException
     {
         PreparedStatement stmt;
         int openTables = 0;
@@ -475,12 +473,12 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
 
-        return -1;
     }
 
-    public void deleteOpenTableDetails(String tableNumber,String foodItemName)
+    public void deleteOpenTableDetails(String tableNumber,String foodItemName) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -497,10 +495,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
     }
 
-    public ObservableList<String> getCategories()
+    public ObservableList<String> getCategories() throws SQLException
     {
         PreparedStatement stmt;
 
@@ -521,9 +520,9 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
 
-        return null;
     }
 
     public void closeTable(String openTable) throws SQLException {
@@ -545,7 +544,7 @@ public class DaoImpl
         }
     }
 
-    public HashMap<String, Integer> fetchAreaAndTables()
+    public HashMap<String, Integer> fetchAreaAndTables() throws SQLException
     {
         HashMap<String, Integer> areaAndTables = new HashMap<>();
 
@@ -566,12 +565,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return null;
     }
 
-    public boolean addItemToMenu(MenuItems item)
+    public boolean addItemToMenu(MenuItems item) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -601,8 +599,9 @@ public class DaoImpl
         catch(Exception e)
         {
             e.printStackTrace();
-            return false;
+            throw e;
         }
+
 
     }
 
@@ -855,7 +854,7 @@ public class DaoImpl
         }
     }
 
-    public HashMap<String,ObservableList<BillItems>> fetchOpenTakeAwayOrders()
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTakeAwayOrders() throws SQLException
     {
         HashMap<String,ObservableList<BillItems>> pendingOrdersDetails = new HashMap<>();
 
@@ -902,12 +901,11 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return new HashMap<>();
     }
 
-    public void closeTakeAwayOrder(int orderNumber)
+    public void closeTakeAwayOrder(int orderNumber) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -923,6 +921,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
     }
 

@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.MenuItems;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 public class MenuController implements Initializable
 {
@@ -47,7 +48,19 @@ public class MenuController implements Initializable
         menuTable.getStyleClass().add("table-items");
 
         //Displaying Categories
-        ObservableList<String> categories = daoimpl.getCategories();
+        ObservableList<String> categories = null;
+        try
+        {
+            categories = daoimpl.getCategories();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         for(String category:categories)
         {
@@ -77,7 +90,16 @@ public class MenuController implements Initializable
 
     public void displayMenuItems(String category)
     {
-        menuTableItems = daoimpl.getCategoryItems(category);
+        try {
+            menuTableItems = daoimpl.getCategoryItems(category);
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
@@ -127,7 +149,16 @@ public class MenuController implements Initializable
         Button clickedButton = (Button) e.getSource();
         String category = clickedButton.getText();
 
-        menuTableItems = daoimpl.getCategoryItems(category);
+        try {
+            menuTableItems = daoimpl.getCategoryItems(category);
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
@@ -172,7 +203,7 @@ public class MenuController implements Initializable
         });
     }
 
-    public void addToMenu(MouseEvent event)
+    public void addToMenu(MouseEvent event) throws SQLException
     {
         if(addItemName.getText().isEmpty() || addItemPrice.getText().isEmpty() || addItemCategory.getSelectionModel().getSelectedItem() == null || addItemAvailability.getSelectionModel().getSelectedItem() == null )
         {
@@ -213,7 +244,19 @@ public class MenuController implements Initializable
         if(categories.contains(item.getFoodItemCategory()))  //If category already EXISTS
         {
 
-            boolean isSuccess = daoimpl.addItemToMenu(item);
+            boolean isSuccess=false;
+            try
+            {
+                isSuccess = daoimpl.addItemToMenu(item);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
+            }
 
             if (isSuccess)
             {
@@ -241,7 +284,19 @@ public class MenuController implements Initializable
 
             if(confirmationAlert.getResult() == ButtonType.YES)//Checking if user has selected YES or NO
             {
-                boolean isSuccess = daoimpl.addItemToMenu(item);
+                boolean isSuccess=false;
+                try
+                {
+                    isSuccess = daoimpl.addItemToMenu(item);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+                    alert.setHeaderText("Failed");
+                    alert.setTitle("Error!");
+                    alert.showAndWait();
+                }
 
                 if(isSuccess)
                 {

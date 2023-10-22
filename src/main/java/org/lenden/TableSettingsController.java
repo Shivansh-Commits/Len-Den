@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import org.lenden.dao.DaoImpl;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -32,7 +33,18 @@ public class TableSettingsController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        areaAndTables = daoimpl.fetchAreaAndTables();
+        try
+        {
+            areaAndTables = daoimpl.fetchAreaAndTables();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         totalAreasLabel.setText(    String.valueOf(areaAndTables.size())    );
 
@@ -298,13 +310,24 @@ public class TableSettingsController implements Initializable {
         saveButton.setOnMouseClicked(event -> {
 
             //Checking if all tables are closed
-            if(daoimpl.fetchOpenAndReservedTableCount()>0)
+            try
             {
-                Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "Open Tables Found!", ButtonType.OK);
-                deleteAlert.setHeaderText("Settle(close) the Open tables , Un-Reserve Tables and try again.Tables and Areas can be edited only when all tables are closed. ");
-                deleteAlert.setTitle("Alert!");
-                deleteAlert.showAndWait();
-                return;
+                if(daoimpl.fetchOpenAndReservedTableCount()>0)
+                {
+                    Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "Open Tables Found!", ButtonType.OK);
+                    deleteAlert.setHeaderText("Settle(close) the Open tables , Un-Reserve Tables and try again.Tables and Areas can be edited only when all tables are closed. ");
+                    deleteAlert.setTitle("Alert!");
+                    deleteAlert.showAndWait();
+                    return;
+                }
+            }
+            catch (SQLException e)
+            {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
             }
 
             boolean isSaved = daoimpl.updateAreaAndTables(areaAndTables);
