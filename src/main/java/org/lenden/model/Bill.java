@@ -1,8 +1,9 @@
 package org.lenden.model;
 
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.lenden.dao.DaoImpl;
-import java.sql.SQLException;
 import java.util.Date;
 
 
@@ -44,9 +45,13 @@ public class Bill {
              this.discount = 0;
              this.date = (new Date()).toString();
          }
-         catch(SQLException e)
+         catch(Exception e)
          {
              e.printStackTrace();
+             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+             alert.setHeaderText("Failed");
+             alert.setTitle("Error!");
+             alert.showAndWait();
          }
     }
 

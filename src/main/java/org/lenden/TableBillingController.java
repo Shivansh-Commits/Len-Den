@@ -100,7 +100,19 @@ public class TableBillingController implements Initializable {
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Category Buttons
-        List<String> categories = daoimpl.getCategories();
+        List<String> categories = null;
+        try
+        {
+            categories = daoimpl.getCategories();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         for(String category:categories)
         {
@@ -114,8 +126,17 @@ public class TableBillingController implements Initializable {
         }
 
         //--------------------------------------------------------------------------------------------------------------
-        //Getting Menu Items FOR MENU TABLE
-        menuTableItems = daoimpl.getCategoryItems("Main Course");
+        try {
+            //Getting Menu Items FOR MENU TABLE
+            menuTableItems = daoimpl.getCategoryItems("Main Course");
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
@@ -169,16 +190,6 @@ public class TableBillingController implements Initializable {
 
                     setGraphic(hBox);
 
-                    /*
-
-                    if (item.equals("Available")) {
-                        // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #c9f5c9;");
-                    } else {
-                        // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #f5c9c9;");
-                    }
-                     */
                 }
             }
         });
@@ -198,14 +209,35 @@ public class TableBillingController implements Initializable {
         //--------------------------------------------------------------------------------------------------------------
         //Setting Open Table & Reserved Table Details
 
-        openTables = daoimpl.fetchOpenTableDetails();
+        try {
+            openTables = daoimpl.fetchOpenTableDetails();
+        }
+        catch(Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
         reservedTables = daoimpl.fetchReservedTables();
 
         //--------------------------------------------------------------------------------------------------------------
 
 
         //Display Areas & Tables
-        HashMap<String, Integer> areaAndTables = daoimpl.fetchAreaAndTables();
+        HashMap<String, Integer> areaAndTables = null;
+        try
+        {
+            areaAndTables = daoimpl.fetchAreaAndTables();
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         int tableNumCounter = 1; // Counter for naming tables
         for (Map.Entry<String, Integer> entry : areaAndTables.entrySet())
@@ -377,7 +409,16 @@ public class TableBillingController implements Initializable {
         Button clickedButton = (Button) e.getSource();
         String category = clickedButton.getText();
 
-        menuTableItems = daoimpl.getCategoryItems(category);
+        try {
+            menuTableItems = daoimpl.getCategoryItems(category);
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
@@ -543,27 +584,22 @@ public class TableBillingController implements Initializable {
                                 {
                                     //Close the table if user deleted last remaining item.
                                     clearBill();
-                                    /*
-                                    Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
-                                    tableCloseAlert.setHeaderText("Deleting last item will close the table");
-                                    tableCloseAlert.setTitle("Alert!");
-                                    tableCloseAlert.showAndWait();
-
-                                    if (tableCloseAlert.getResult() == ButtonType.YES)
-                                    {
-                                        openTables.remove(tableNumber);
-
-                                        daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
-
-                                        billTableItems.remove(item);
-                                        billTable.setItems(billTableItems);
-                                    }
-                                     */
                                 }
                                 else
                                 {
                                     //Deleting the removed item from the DB
-                                    daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                    try
+                                    {
+                                        daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                    }
+                                    catch(Exception e)
+                                    {
+                                        e.printStackTrace();
+                                        Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+                                        alert.setHeaderText("Failed");
+                                        alert.setTitle("Error!");
+                                        alert.showAndWait();
+                                    }
 
                                     billTableItems.remove(item);
                                     billTable.setItems(billTableItems);
@@ -744,9 +780,9 @@ public class TableBillingController implements Initializable {
             //Saving open table Details
             daoimpl.saveOpenTableDetails(openTables);
         }
-        catch(SQLException e)
+        catch(Exception e)
         {
-            Alert updateAlert = new Alert(Alert.AlertType.WARNING, "Not able to update Totals, Check you network Connection. If this keeps occurring Contact Customer Support", ButtonType.OK);
+            Alert updateAlert = new Alert(Alert.AlertType.WARNING, "Not able to update Totals, Check you network Connection. If this keeps occurring Contact Customer Support"+e.getMessage(), ButtonType.OK);
             updateAlert.setHeaderText("Totals Not updated");
             updateAlert.setTitle("Alert!");
             updateAlert.showAndWait();
@@ -914,8 +950,7 @@ public class TableBillingController implements Initializable {
      * @throws IOException throws IOException
      */
     @FXML
-    public void printBillAndKOT(MouseEvent ignoredEvent) throws IOException
-    {
+    public void printBillAndKOT(MouseEvent ignoredEvent) throws IOException {
         if(billTableItems.isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
@@ -925,7 +960,16 @@ public class TableBillingController implements Initializable {
             return;
         }
 
-        bill.setBillnumber(daoimpl.getNextBillNumber());
+        try {
+            bill.setBillnumber(daoimpl.getNextBillNumber());
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         bill.setBillItems(billTableItems);
 
@@ -983,7 +1027,19 @@ public class TableBillingController implements Initializable {
         //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
 
         if(bill.getBillnumber() == 0)
-            bill.setBillnumber(daoimpl.getNextBillNumber());
+        {
+            try
+            {
+                bill.setBillnumber(daoimpl.getNextBillNumber());
+            }
+            catch (Exception ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
+            }
+        }
 
         bill.setBillItems(billTableItems);
 
@@ -995,7 +1051,18 @@ public class TableBillingController implements Initializable {
         bill.setStatus("SUCCESS");
 
         //Add bill details to DB
-        int rowsUpdated = daoimpl.addBillToDB(bill);
+        int rowsUpdated=0;
+        try
+        {
+            rowsUpdated = daoimpl.addBillToDB(bill);
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         if(rowsUpdated>0)
         {
@@ -1178,27 +1245,21 @@ public class TableBillingController implements Initializable {
                                     {
                                         //Close the table if user deleted last remaining item.
                                         clearBill(e);
-                                        /*
-                                        Alert tableCloseAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES, ButtonType.NO);
-                                        tableCloseAlert.setHeaderText("Deleting last item will close the table");
-                                        tableCloseAlert.setTitle("Alert!");
-                                        tableCloseAlert.showAndWait();
-
-                                        if (tableCloseAlert.getResult() == ButtonType.YES)
-                                        {
-                                            openTables.remove(tableNumber);
-                                            //******************* FIND A SOLUTION TO , not use this deleteOpenTableDetails method ***********
-                                            daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
-                                            //***********************************************************************************************
-                                            billTableItems.remove(item);
-                                            billTable.setItems(billTableItems);
-                                        }
-                                        */
                                     }
                                     else
                                     {
                                         //Deleting the removed food item from DB
-                                        daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                        try {
+                                            daoimpl.deleteOpenTableDetails(tableNumber, item.getFoodItemName());
+                                        }
+                                        catch(Exception e)
+                                        {
+                                            e.printStackTrace();
+                                            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+                                            alert.setHeaderText("Failed");
+                                            alert.setTitle("Error!");
+                                            alert.showAndWait();
+                                        }
 
                                         //Updating in billTableItems list
                                         billTableItems.remove(item);
@@ -1506,7 +1567,7 @@ public class TableBillingController implements Initializable {
             }
             catch (SQLException ex)
             {
-                Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Table could not be Shifted, Check you network Connection. If this keeps occurring Contact Customer Support", ButtonType.OK);
+                Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Table could not be Shifted, Check you network Connection. If this keeps occurring Contact Customer Support"+ex.getMessage(), ButtonType.OK);
                 shiftTableAlert.setHeaderText("Could not Shift Table");
                 shiftTableAlert.setTitle("Alert!");
                 shiftTableAlert.showAndWait();
