@@ -149,23 +149,33 @@ public class TableSettingsController implements Initializable {
 
                 if(deleteAlert.getResult() == ButtonType.YES)
                 {
-                    if(daoimpl.deleteArea(areaName.getText()))
+                    try
                     {
-                        //Updating Total Tables Label
-                        totalTablesLabel.setText(   String.valueOf( Integer.parseInt(totalTablesLabel.getText()) - Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]) )  );
+                        if(daoimpl.deleteArea(areaName.getText()))
+                            {
+                            //Updating Total Tables Label
+                            totalTablesLabel.setText(   String.valueOf( Integer.parseInt(totalTablesLabel.getText()) - Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]) )  );
 
-                        //Updating Total Areas Label
-                        totalAreasLabel.setText(   String.valueOf( Integer.parseInt(totalAreasLabel.getText()) - 1 )  );
+                            //Updating Total Areas Label
+                            totalAreasLabel.setText(   String.valueOf( Integer.parseInt(totalAreasLabel.getText()) - 1 )  );
 
-                        areaName.setDisable(true);
-                        plusButton.setDisable(true);
-                        minusButton.setDisable(true);
-                        numOfTablesLabel.setText("0 Tables");
-                        numOfTablesLabel.setDisable(true);
+                            areaName.setDisable(true);
+                            plusButton.setDisable(true);
+                            minusButton.setDisable(true);
+                            numOfTablesLabel.setText("0 Tables");
+                            numOfTablesLabel.setDisable(true);
 
-                        deleteButton.setDisable(true);
+                            deleteButton.setDisable(true);
 
-                        areaAndTables.remove(areaName.getText());
+                            areaAndTables.remove(areaName.getText());
+                            }
+                    }
+                    catch (SQLException ex)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Database delete operation Exception - "+ex.getMessage(), ButtonType.OK);
+                        alert.setHeaderText("Failed");
+                        alert.setTitle("Error!");
+                        alert.showAndWait();
                     }
                 }
             });
@@ -330,7 +340,18 @@ public class TableSettingsController implements Initializable {
                 alert.showAndWait();
             }
 
-            boolean isSaved = daoimpl.updateAreaAndTables(areaAndTables);
+            boolean isSaved = false;
+            try
+            {
+                isSaved = daoimpl.updateAreaAndTables(areaAndTables);
+            }
+            catch (SQLException ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database update operation Exception - "+ex.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
+            }
 
             if(isSaved)
             {

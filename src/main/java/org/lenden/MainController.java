@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
@@ -58,10 +59,12 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        try {
-            home = FXMLLoader.load(getClass().getResource("home.fxml"));
-            
-        } catch (IOException e) {
+        try
+        {
+            home = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("home.fxml")));
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
         mainPane.setCenter(home);
@@ -121,7 +124,7 @@ public class MainController implements Initializable {
         if(openTableBillPageFlag)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("table_billing.fxml"));
-            AnchorPane Tablebilling = loader.load();
+            BorderPane Tablebilling = loader.load();
 
             Scene scene = homeMenuButton.getScene();
             scene.getStylesheets().add("billingStyleSheet.css");
@@ -132,6 +135,28 @@ public class MainController implements Initializable {
             tableBillingController.setMainController(this);
 
             openTableBillPageFlag=false;
+        }
+
+    }
+    public void openSalesPage(MouseEvent ignoredEvent) throws IOException
+    {
+        openHomePageFlag=true;
+        openTableBillPageFlag=true;
+        openMenuPageFlag=true;
+        openSettingsPageFlag=true;
+        openSingleBillPageFlag=true;
+
+        if(openSalesPageFlag)
+        {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("sales.fxml"));
+            BorderPane Sales = loader.load();
+
+            Scene scene = homeMenuButton.getScene();
+            scene.getStylesheets().add("salesStyleSheet.css");
+
+            mainPane.setCenter(Sales);
+
+            openSalesPageFlag=false;
         }
 
     }
@@ -189,11 +214,11 @@ public class MainController implements Initializable {
     public void changeHomeIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
-        Image white_logo = new Image(getClass().getResource("/images/white/outline_home_white_24.png").toExternalForm());
+        Image white_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_home_white_24.png")).toExternalForm());
         homeIcon.setImage(white_logo);
 
         //getting black logo
-        Image black_logo = new Image(getClass().getResource("/images/black/home_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
+        Image black_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/black/home_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
         //setting black logo on mouse exit
         homeMenuButton.setOnMouseExited(event -> homeIcon.setImage(black_logo));
     }
@@ -201,11 +226,11 @@ public class MainController implements Initializable {
     public void changeSalesIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
-        Image white_logo = new Image(getClass().getResource("/images/white/outline_sales_white_24.png").toExternalForm());
+        Image white_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_sales_white_24.png")).toExternalForm());
         salesIcon.setImage(white_logo);
 
         //getting black logo
-        Image black_logo = new Image(getClass().getResource("/images/black/outline_sales_black_24.png").toExternalForm());
+        Image black_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/black/outline_sales_black_24.png")).toExternalForm());
         //setting black logo on mouse exit
         salesMenuButton.setOnMouseExited(event -> salesIcon.setImage(black_logo));
     }
@@ -213,11 +238,11 @@ public class MainController implements Initializable {
     public void changeMenuIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
-        Image white_logo = new Image(getClass().getResource("/images/white/outline_restaurant_menu_white_24.png").toExternalForm());
+        Image white_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_restaurant_menu_white_24.png")).toExternalForm());
         menuIcon.setImage(white_logo);
 
         //getting black logo
-        Image black_logo = new Image(getClass().getResource("/images/black/outline_restaurant_menu_black_24.png").toExternalForm());
+        Image black_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/black/outline_restaurant_menu_black_24.png")).toExternalForm());
         //setting black logo on mouse exit
         menuMenuButton.setOnMouseExited(event -> menuIcon.setImage(black_logo));
     }
@@ -225,11 +250,11 @@ public class MainController implements Initializable {
     public void changeBillingIcon(MouseEvent ignoredEvent)
     {
         //getting white logo and setting white logo
-        Image white_logo = new Image(getClass().getResource("/images/white/outline_currency_rupee_white_24.png").toExternalForm());
+        Image white_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_currency_rupee_white_24.png")).toExternalForm());
         billingIcon.setImage(white_logo);
 
         //getting black logo
-        Image black_logo = new Image(getClass().getResource("/images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
+        Image black_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
         //setting black logo on mouse exit
         billingMenuButton.setOnMouseExited(event -> billingIcon.setImage(black_logo));
     }
@@ -238,11 +263,11 @@ public class MainController implements Initializable {
     {
 
         //getting white logo and setting white logo
-        Image white_logo = new Image(getClass().getResource("/images/white/outline_settings_white_24.png").toExternalForm());
+        Image white_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_settings_white_24.png")).toExternalForm());
         settingsIcon.setImage(white_logo);
 
         //getting black logo
-        Image black_logo = new Image(getClass().getResource("/images/black/outline_settings_black_24.png").toExternalForm());
+        Image black_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/black/outline_settings_black_24.png")).toExternalForm());
         //setting black logo on mouse exit
         settingsMenuButton.setOnMouseExited(event -> settingsIcon.setImage(black_logo));
     }
@@ -251,11 +276,11 @@ public class MainController implements Initializable {
     {
 
         //getting white logo and setting white logo
-        Image white_logo = new Image(getClass().getResource("/images/white/outline_logout_white_24.png").toExternalForm());
+        Image white_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_logout_white_24.png")).toExternalForm());
         logoutIcon.setImage(white_logo);
 
         //getting black logo
-        Image black_logo = new Image(getClass().getResource("/images/black/logout_FILL0_wght400_GRAD0_opsz48.png").toExternalForm());
+        Image black_logo = new Image(Objects.requireNonNull(getClass().getResource("/images/black/logout_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
         //setting black logo on mouse exit
         logoutMenuButton.setOnMouseExited(event -> logoutIcon.setImage(black_logo));
     }

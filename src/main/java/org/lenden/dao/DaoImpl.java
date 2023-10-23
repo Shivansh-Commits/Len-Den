@@ -3,7 +3,6 @@ package org.lenden.dao;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.lenden.model.*;
-
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
 import java.util.*;
@@ -272,6 +271,41 @@ public class DaoImpl
         }
     }
 
+    public ArrayList<Bill> fetchAllBills() throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.bills", tenantId));
+            ResultSet rs = stmt.executeQuery();
+
+            ArrayList<Bill> bills = new ArrayList<>();
+
+            while(rs.next())
+            {
+                Bill bill = new Bill();
+
+                bill.setBillnumber(rs.getInt("billnumber"));
+                bill.setSubTotal(rs.getDouble("subtotal"));
+                bill.setGrandTotal(rs.getDouble("grandtotal"));
+                bill.setDiscount(rs.getDouble("discount"));
+                bill.setModeOfpayment(rs.getString("modeofpayment"));
+
+                bills.add(bill);
+            }
+
+            stmt.close();
+
+            return bills;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public void changeBillStatus(int billNumber,String status) throws SQLException
     {
         PreparedStatement stmt;
@@ -290,6 +324,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
     }
 
@@ -317,6 +352,7 @@ public class DaoImpl
         catch(SQLException e)
         {
             e.printStackTrace();
+            throw e;
         }
     }
 
@@ -605,7 +641,7 @@ public class DaoImpl
 
     }
 
-    public boolean deleteMenuItem(MenuItems item)
+    public boolean deleteMenuItem(MenuItems item) throws SQLException
     {
 
         PreparedStatement stmt;
@@ -622,11 +658,11 @@ public class DaoImpl
         catch(Exception e)
         {
             e.printStackTrace();
-            return false;
+            throw e;
         }
     }
 
-    public boolean updateMenuItem(MenuItems item)
+    public boolean updateMenuItem(MenuItems item) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -659,11 +695,11 @@ public class DaoImpl
         catch(Exception e)
         {
             e.printStackTrace();
-            return false;
+            throw e;
         }
     }
 
-    public boolean updateAreaAndTables(HashMap<String,Integer> areaAndTables)
+    public boolean updateAreaAndTables(HashMap<String,Integer> areaAndTables) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -696,11 +732,11 @@ public class DaoImpl
         catch(Exception e)
         {
             e.printStackTrace();
-            return false;
+            throw e;
         }
     }
 
-    public boolean deleteArea(String area)
+    public boolean deleteArea(String area) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -714,11 +750,11 @@ public class DaoImpl
         catch(Exception e)
         {
             e.printStackTrace();
-            return false;
+            throw e;
         }
     }
 
-    public ArrayList<String> fetchReservedTables()
+    public ArrayList<String> fetchReservedTables() throws SQLException
     {
         Statement stmt;
         ArrayList<String> reservedTables = new ArrayList<>();
@@ -736,16 +772,17 @@ public class DaoImpl
             rs.close();
             c.close();
             stmt.close();
+
+            return reservedTables;
         }
         catch(Exception e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return reservedTables;
     }
 
-    public boolean saveReservedTableDetails(String reservedTableNumber)
+    public boolean saveReservedTableDetails(String reservedTableNumber) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -759,17 +796,16 @@ public class DaoImpl
                 stmt.close();
                 return true;
             }
-
+            return false;
         }
         catch(Exception e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return false;
     }
 
-    public boolean deleteReservedTable(String reservedTableNumber)
+    public boolean deleteReservedTable(String reservedTableNumber) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -793,9 +829,8 @@ public class DaoImpl
         catch(Exception e)
         {
             e.printStackTrace();
+            throw e;
         }
-
-        return false;
     }
 
     public ArrayList<String> getModeOfPayment() throws SQLException {

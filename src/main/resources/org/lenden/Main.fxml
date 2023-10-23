@@ -51,7 +51,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Sales" textFill="WHITE">
+                        <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openSalesPage" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Sales" textFill="WHITE">
                            <font>
                               <Font name="Segoe UI Semilight" size="16.0" />
                            </font>

@@ -25,18 +25,18 @@ public class MenuController implements Initializable
     @FXML
     TextField addItemPrice;
     @FXML
-    ComboBox addItemCategory;
+    ComboBox<String> addItemCategory;
     @FXML
-    ComboBox addItemAvailability;
+    ComboBox<String> addItemAvailability;
 
     @FXML
     TextField updateItemName;
     @FXML
     TextField updateItemPrice;
     @FXML
-    ComboBox updateItemCategory;
+    ComboBox<String> updateItemCategory;
     @FXML
-    ComboBox updateItemAvailability;
+    ComboBox<String> updateItemAvailability;
 
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
@@ -203,7 +203,7 @@ public class MenuController implements Initializable
         });
     }
 
-    public void addToMenu(MouseEvent event) throws SQLException
+    public void addToMenu(MouseEvent ignoredEvent) throws SQLException
     {
         if(addItemName.getText().isEmpty() || addItemPrice.getText().isEmpty() || addItemCategory.getSelectionModel().getSelectedItem() == null || addItemAvailability.getSelectionModel().getSelectedItem() == null )
         {
@@ -365,22 +365,31 @@ public class MenuController implements Initializable
             item.setFoodItemCategory(   itemCategory    );
             item.setFoodItemAvailability(   itemAvailability    );
 
-            if(!daoimpl.updateMenuItem(item))
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
-                alert.setHeaderText("Item not Update!");
-                alert.setTitle("Alert!");
-                alert.showAndWait();
+            try {
+                if (!daoimpl.updateMenuItem(item))
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
+                    alert.setHeaderText("Item not Update!");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
+                }
+                else
+                {
+                    displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+                }
             }
-            else
+            catch (SQLException ex)
             {
-                displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database update operation Exception - "+ex.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
             }
         }
 
     }
 
-    public void deleteItem(MouseEvent event)
+    public void deleteItem(MouseEvent ignoredEvent)
     {
         if(updateItemName.getText().isEmpty() || updateItemPrice.getText().isEmpty() || updateItemCategory.getSelectionModel().getSelectedItem() == null || updateItemAvailability.getSelectionModel().getSelectedItem() == null )
         {
@@ -409,20 +418,28 @@ public class MenuController implements Initializable
             item.setFoodItemName(   itemName   );
             item.setFoodItemCategory(   itemCategory    );
 
-            if(!daoimpl.deleteMenuItem(item))
-            {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT DELETE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
-                alert.setHeaderText("Item not deleted!");
-                alert.setTitle("Alert!");
-                alert.showAndWait();
+            try {
+                if (!daoimpl.deleteMenuItem(item)) {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT DELETE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
+                    alert.setHeaderText("Item not deleted!");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
+                }
+                else
+                {
+                    updateItemName.setText("");
+                    updateItemPrice.setText("");
+                    updateItemAvailability.setValue("");
+                    updateItemCategory.setValue("");
+                    displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+                }
             }
-            else
+            catch (SQLException ex)
             {
-                updateItemName.setText("");
-                updateItemPrice.setText("");
-                updateItemAvailability.setValue("");
-                updateItemCategory.setValue("");
-                displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database delete operation Exception - "+ex.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
             }
         }
 
