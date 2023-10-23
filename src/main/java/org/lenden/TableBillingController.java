@@ -174,7 +174,7 @@ public class TableBillingController implements Initializable {
 
                     Button addItemToBill = new Button();
                     addItemToBill.setText("Add ");
-                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    Image add_image = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_add_white_36pt_2x.png")).toExternalForm());
                     ImageView add_icon = new ImageView(add_image);
                     add_icon.setFitHeight(20);
                     add_icon.setFitWidth(20);
@@ -211,6 +211,8 @@ public class TableBillingController implements Initializable {
 
         try {
             openTables = daoimpl.fetchOpenTableDetails();
+
+            reservedTables = daoimpl.fetchReservedTables();
         }
         catch(Exception ex)
         {
@@ -219,7 +221,7 @@ public class TableBillingController implements Initializable {
             alert.setTitle("Error!");
             alert.showAndWait();
         }
-        reservedTables = daoimpl.fetchReservedTables();
+
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -459,7 +461,7 @@ public class TableBillingController implements Initializable {
 
                     Button addItemToBill = new Button();
                     addItemToBill.setText("Add ");
-                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
+                    Image add_image = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_add_white_36pt_2x.png")).toExternalForm());
                     ImageView add_icon = new ImageView(add_image);
                     add_icon.setFitHeight(20);
                     add_icon.setFitWidth(20);
@@ -1361,74 +1363,76 @@ public class TableBillingController implements Initializable {
      * @param ignoredEvent Mouse Event i.e Click
      */
     @FXML
-    public void reserveTable(MouseEvent ignoredEvent)
-    {
+    public void reserveTable(MouseEvent ignoredEvent) throws SQLException {
         String tableNumber = tableNumberLabel.getText();
 
-        // CASE - If user tries to reserve a table when no table is selected
-        if(tableNumber.equals("_ : _"))
-        {
-            Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a Table to Reserve it.", ButtonType.OK);
-            reserveAlert.setHeaderText("No Table Selected");
-            reserveAlert.setTitle("Alert!");
-            reserveAlert.showAndWait();
-        }
-        //CASE - Un-Reserve Table
-        else if(reservedTables.contains(tableNumber))
-        {
-            //IF Deletion success , then do UI work
-            if(daoimpl.deleteReservedTable(tableNumber))
-            {
-                Pane table = getTableObjectById(accordion, tableNumber);
-                table.getStyleClass().clear();
-                table.getStyleClass().add("close-table");
+        try {
+            // CASE - If user tries to reserve a table when no table is selected
+            if (tableNumber.equals("_ : _")) {
+                Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a Table to Reserve it.", ButtonType.OK);
+                reserveAlert.setHeaderText("No Table Selected");
+                reserveAlert.setTitle("Alert!");
+                reserveAlert.showAndWait();
+            }
+            //CASE - Un-Reserve Table
+            else if (reservedTables.contains(tableNumber)) {
+                //IF Deletion success , then do UI work
+                if (daoimpl.deleteReservedTable(tableNumber)) {
+                    Pane table = getTableObjectById(accordion, tableNumber);
+                    table.getStyleClass().clear();
+                    table.getStyleClass().add("close-table");
 
-                Label selectedTableReservedLabel = (Label) table.lookup("#reservedTableLabel");
-                selectedTableReservedLabel.setId("tableGrandTotalLabel");
-                selectedTableReservedLabel.setText("_ : _");
+                    Label selectedTableReservedLabel = (Label) table.lookup("#reservedTableLabel");
+                    selectedTableReservedLabel.setId("tableGrandTotalLabel");
+                    selectedTableReservedLabel.setText("_ : _");
 
-                //Setting "reserve table" button's text to "Un-Reserve Table"
-                reserveTableButton.setText("Reserve Table");
-                reserveTableButton.setDisable(true);
+                    //Setting "reserve table" button's text to "Un-Reserve Table"
+                    reserveTableButton.setText("Reserve Table");
+                    reserveTableButton.setDisable(true);
 
-                //Deleting from reservedTables list
-                reservedTables.remove(tableNumber);
+                    //Deleting from reservedTables list
+                    reservedTables.remove(tableNumber);
 
-                //Setting table number label to default
-                tableNumberLabel.setText("_ : _");
+                    //Setting table number label to default
+                    tableNumberLabel.setText("_ : _");
+                }
+            }
+            //CASE - Reserving table
+            else {
+                //If Saving success , then do UI Work
+                if (daoimpl.saveReservedTableDetails(tableNumber)) {
+                    Pane table = getTableObjectById(accordion, tableNumber);
+                    table.getStyleClass().clear();
+                    table.getStyleClass().add("reserve-table");
+
+                    Label selectedTableReservedLabel = (Label) table.lookup("#tableGrandTotalLabel");
+                    selectedTableReservedLabel.setId("reservedTableLabel");
+                    selectedTableReservedLabel.setText("RESERVED");
+
+                    //Setting "reserve Table" button's text to "Un-reserve"
+                    reserveTableButton.setText("Un-Reserve Table");
+                    reserveTableButton.setDisable(true);
+
+                    //Adding reserved table num to "reservedTables" list
+                    reservedTables.add(tableNumber);
+
+                    //Setting table number label (present a-top bill table) to default
+                    tableNumberLabel.setText("_ : _");
+
+
+                    Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
+                    reserveSuccessAlert.setHeaderText(tableNumber + " Reserved");
+                    reserveSuccessAlert.setTitle("Information");
+                    reserveSuccessAlert.showAndWait();
+                }
             }
         }
-        //CASE - Reserving table
-        else
+        catch (Exception ex)
         {
-            //If Saving success , then do UI Work
-            if(daoimpl.saveReservedTableDetails(tableNumber))
-            {
-                Pane table = getTableObjectById(accordion, tableNumber);
-                table.getStyleClass().clear();
-                table.getStyleClass().add("reserve-table");
-
-                Label selectedTableReservedLabel = (Label) table.lookup("#tableGrandTotalLabel");
-                selectedTableReservedLabel.setId("reservedTableLabel");
-                selectedTableReservedLabel.setText("RESERVED");
-
-                //Setting "reserve Table" button's text to "Un-reserve"
-                reserveTableButton.setText("Un-Reserve Table");
-                reserveTableButton.setDisable(true);
-
-                //Adding reserved table num to "reservedTables" list
-                reservedTables.add(tableNumber);
-
-                //Setting table number label (present a-top bill table) to default
-                tableNumberLabel.setText("_ : _");
-
-
-                Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
-                reserveSuccessAlert.setHeaderText(tableNumber +" Reserved");
-                reserveSuccessAlert.setTitle("Information");
-                reserveSuccessAlert.showAndWait();
-            }
-
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
         }
 
     }
