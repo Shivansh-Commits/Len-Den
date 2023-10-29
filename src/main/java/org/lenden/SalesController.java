@@ -23,30 +23,6 @@ public class SalesController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        PieChart pieChart = new PieChart();
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
 
-        try
-        {
-            ArrayList<Bill> billsData = daoImpl.fetchAllBills();
-
-            for(Bill bill : billsData)
-            {
-                pieChartData.add(new PieChart.Data("TEST", bill.getGrandTotal()));
-            }
-
-            pieChart.setData(pieChartData);
-            pieChart.setLegendVisible(true);
-            pieChart.setLabelsVisible(true);
-        }
-        catch (Exception ex)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
-            alert.setHeaderText("Failed");
-            alert.setTitle("Error!");
-            alert.showAndWait();
-        }
-
-        mainBorderPane.setCenter(pieChart);
     }
 }
