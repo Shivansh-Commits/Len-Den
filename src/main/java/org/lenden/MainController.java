@@ -170,7 +170,7 @@ public class MainController implements Initializable {
         if(openMenuPageFlag)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
-            AnchorPane home = loader.load();
+            BorderPane home = loader.load();
 
             Scene scene = homeMenuButton.getScene();
             scene.getStylesheets().add("menuStyleSheet.css");
