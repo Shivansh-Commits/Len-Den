@@ -172,7 +172,7 @@ public class TakeAwayBillingController implements Initializable
         //Adding Values to Mode Of payment Combo Box
         try
         {
-            ArrayList<String> modeofpayments = daoimpl.getModeOfPayment();
+            ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
             modeofpayment.setPromptText("Mode Of Payment");
             modeofpayment.getItems().addAll(modeofpayments);
         }
@@ -269,6 +269,20 @@ public class TakeAwayBillingController implements Initializable
         if(selectedFoodItem == null)
         {
             return;
+        }
+
+        //Setting Default Discount
+        try{
+            Double defaultDiscount = daoimpl.fetchDefaultDiscount();
+            bill.setDiscount(defaultDiscount);
+            discountField.setText(Double.toString(defaultDiscount));
+        }
+        catch(Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
         }
 
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();

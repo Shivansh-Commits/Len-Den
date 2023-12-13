@@ -198,7 +198,7 @@ public class TableBillingController implements Initializable {
 
         try
         {
-            ArrayList<String> modeofpayments = daoimpl.getModeOfPayment();
+            ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
             modeofpayment.getItems().addAll(modeofpayments);
         }
         catch (SQLException e)
@@ -222,6 +222,22 @@ public class TableBillingController implements Initializable {
             alert.showAndWait();
         }
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting Default Discount
+
+        try{
+            Double defaultDiscount = daoimpl.fetchDefaultDiscount();
+
+            bill.setDiscount(defaultDiscount);
+            discountField.setText(Double.toString(defaultDiscount));
+        }
+        catch(Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
 
         //--------------------------------------------------------------------------------------------------------------
 
@@ -522,6 +538,20 @@ public class TableBillingController implements Initializable {
         if (selectedFoodItem == null || tableNumber.equals("_ : _"))
         {
             return;
+        }
+
+        //Setting Default Discount
+        try{
+            Double defaultDiscount = daoimpl.fetchDefaultDiscount();
+            bill.setDiscount(defaultDiscount);
+            discountField.setText(Double.toString(defaultDiscount));
+        }
+        catch(Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
         }
 
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
@@ -1102,6 +1132,8 @@ public class TableBillingController implements Initializable {
 
             Label previousTableGrandTotalLabel = (Label) table.lookup("#tableGrandTotalLabel"); //Getting GRAND-TOTAL label of Table
             previousTableGrandTotalLabel.setText("_ : _");
+
+            tableNumberLabel.setText("_ : _");
         }
         else
         {
