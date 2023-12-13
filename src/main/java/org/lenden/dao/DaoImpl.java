@@ -833,7 +833,7 @@ public class DaoImpl
         }
     }
 
-    public ArrayList<String> getModeOfPayment() throws SQLException {
+    public ArrayList<String> fetchModeOfPayment() throws SQLException {
 
         String[] modeOfPayments = new String[0];
         PreparedStatement stmt;
@@ -960,4 +960,52 @@ public class DaoImpl
         }
     }
 
+    public Double fetchDefaultDiscount() throws SQLException
+    {
+
+        Double defaultdiscount=0.0;
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT defaultdiscount FROM %s.billsettings", tenantId));
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next())
+            {
+                defaultdiscount = Double.parseDouble(rs.getString("defaultdiscount"));
+            }
+
+            stmt.close();
+
+            return defaultdiscount;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public void updateDefaultDiscount(Double defaultDiscount) throws SQLException
+    {
+
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET defaultDiscount = ?", tenantId));
+            stmt.setDouble(1,defaultDiscount);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
 }

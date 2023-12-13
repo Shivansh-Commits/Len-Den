@@ -30,11 +30,25 @@
     -fx-font-family : "Segoe UI Symbol";
 }
 
+.table
+{
+ -fx-border-color:grey;
+ -fx-border-width:0.5;
+ -fx-border-radius:3;
+}
+
 .table-items
 {
 
     -fx-font-size : 15px;
     -fx-font-family : "Segoe UI Symbol";
+}
+
+.add-update-menu-items
+{
+    -fx-border-color:grey;
+ -fx-border-width:0.5;
+ -fx-border-radius:3;
 }
 
 .header-label
