@@ -725,8 +725,7 @@ public class TableBillingController implements Initializable {
      * Computes the discount and updates all necessary labels via 'updateTotals()' method
      * @param ignoredEvent key board event i.e key pressed
      */
-    public void computeDiscount(KeyEvent ignoredEvent)
-    {
+    public void computeDiscount(KeyEvent ignoredEvent) throws SQLException {
         if(discountField.getText().isEmpty())
         {
             discountField.setText("");
@@ -735,8 +734,9 @@ public class TableBillingController implements Initializable {
         }
         else
         {
-            //Checking if the discount value is more than 0 and less than 35
-            if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < 35)
+            //Checking if the discount value is more than 0 and less than Max Discount Value
+            Double maxDiscount = daoimpl.fetchMaxDiscount();
+            if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < maxDiscount )
             {
                 double newDiscount = Double.parseDouble(discountField.getText());
                 bill.setDiscount(newDiscount);
@@ -745,7 +745,7 @@ public class TableBillingController implements Initializable {
             else
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Discount Value", ButtonType.OK);
-                alert.setHeaderText("Discount should be more than 0 & less than 35 and a number");
+                alert.setHeaderText("Discount should be more than 0.0 & less than "+maxDiscount);
                 alert.setTitle("Attention!");
                 alert.showAndWait();
 

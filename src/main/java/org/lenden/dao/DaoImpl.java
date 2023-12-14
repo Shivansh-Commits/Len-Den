@@ -989,13 +989,60 @@ public class DaoImpl
 
     public void updateDefaultDiscount(Double defaultDiscount) throws SQLException
     {
-
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET defaultDiscount = ?", tenantId));
+            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET defaultdiscount = ?", tenantId));
             stmt.setDouble(1,defaultDiscount);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public Double fetchMaxDiscount() throws SQLException
+    {
+
+        Double maxdiscount=0.0;
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT maxdiscount FROM %s.billsettings", tenantId));
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next())
+            {
+                maxdiscount = Double.parseDouble(rs.getString("maxdiscount"));
+            }
+
+            stmt.close();
+
+            return maxdiscount;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public void updateMaxDiscount(Double maxDiscount) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET maxdiscount = ?", tenantId));
+            stmt.setDouble(1,maxDiscount);
 
             stmt.executeUpdate();
 
