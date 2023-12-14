@@ -169,7 +169,10 @@ public class TakeAwayBillingController implements Initializable
             }
         });
 
+
+        //--------------------------------------------------------------------------------------------------------------
         //Adding Values to Mode Of payment Combo Box
+
         try
         {
             ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
@@ -181,8 +184,28 @@ public class TakeAwayBillingController implements Initializable
             throw new RuntimeException(e);
         }
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting Default Discount
+
+        try{
+            Double defaultDiscount = daoimpl.fetchDefaultDiscount();
+
+            bill.setDiscount(defaultDiscount);
+            discountField.setText(Double.toString(defaultDiscount));
+        }
+        catch(Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
+
+        //--------------------------------------------------------------------------------------------------------------
         //Displaying pending Take-away orders
         displayTakeAwayOrdersInitially();
+
+        //--------------------------------------------------------------------------------------------------------------
 
     }
     public void setMainController(MainController mainController)
@@ -412,8 +435,7 @@ public class TakeAwayBillingController implements Initializable
         }
 
     }
-    public void computeDiscount(KeyEvent ignoredEvent)
-    {
+    public void computeDiscount(KeyEvent ignoredEvent) throws SQLException {
         if(discountField.getText().isEmpty())
         {
             discountField.setText("");
@@ -422,8 +444,9 @@ public class TakeAwayBillingController implements Initializable
         }
         else
         {
-            //checking if the discount value is more than 0 and less than 35
-            if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < 35)
+            //Checking if the discount value is more than 0 and less than Max Discount Value
+            Double maxDiscount = daoimpl.fetchMaxDiscount();
+            if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < maxDiscount )
             {
                 double newDiscount = Double.parseDouble(discountField.getText());
                 bill.setDiscount(newDiscount);
@@ -432,7 +455,7 @@ public class TakeAwayBillingController implements Initializable
             else
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Discount Out of Limits", ButtonType.OK);
-                alert.setHeaderText("Discount should be more than 0 & less than 35");
+                alert.setHeaderText("Discount should be more than 0.0 & less than "+maxDiscount);
                 alert.setTitle("Attention!");
                 alert.showAndWait();
 
@@ -641,13 +664,13 @@ public class TakeAwayBillingController implements Initializable
         takeAwayOrdersTilePane.setPadding(new Insets(15, 15, 15, 15));
 
         Label orderNumberLabel = new Label();
-        orderNumberLabel.setText("Order No. "+String.valueOf(bill.getBillnumber()));
+        orderNumberLabel.setText("Order No. "+ bill.getBillnumber());
         orderNumberLabel.setAlignment(Pos.CENTER);
         orderNumberLabel.setId("orderNumber");
         orderNumberLabel.getStyleClass().add("common-text-font");
 
         Label grandTotal = new Label();
-        grandTotal.setText("Grand Total : "+String.valueOf(bill.getGrandTotal()));
+        grandTotal.setText("Grand Total : "+ bill.getGrandTotal());
         grandTotal.getStyleClass().add("common-text-font");
 
         Button servedButton = new Button();
@@ -784,7 +807,7 @@ public class TakeAwayBillingController implements Initializable
 
                 Bill fetchedBill = daoimpl.fetchBill(Integer.parseInt(orderNum));
                 Label grandTotal = new Label();
-                grandTotal.setText("Grand Total : " + String.valueOf(fetchedBill.getGrandTotal()));
+                grandTotal.setText("Grand Total : " + fetchedBill.getGrandTotal());
                 grandTotal.getStyleClass().add("common-text-font");
 
                 Button servedButton = new Button();

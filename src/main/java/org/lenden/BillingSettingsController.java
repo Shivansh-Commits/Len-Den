@@ -16,9 +16,9 @@ public class BillingSettingsController implements Initializable {
     @FXML
     CheckBox setMaxDiscountCheckbox;
     @FXML
-    TextField defaultDiscount;
+    TextField defaultDiscountTextBox;
     @FXML
-    TextField maxDiscount;
+    TextField maxDiscountTextBox;
     @FXML
     RadioButton eighteenPercentGstRadioButton;
     @FXML
@@ -35,6 +35,8 @@ public class BillingSettingsController implements Initializable {
     TextField customVatTextField;
     @FXML
     Button saveTaxSettingsButton;
+    @FXML
+    Button saveDiscountSettingsButton;
 
 
     DaoImpl daoimpl = new DaoImpl();
@@ -44,6 +46,7 @@ public class BillingSettingsController implements Initializable {
     {
         try
         {
+            //Initially checking saved GST values
             double defaultGst = 2*daoimpl.getTax("sgst"); // sgst + cgst = GST  (sgst = cgst)
             if(defaultGst == 5)
             {
@@ -60,6 +63,7 @@ public class BillingSettingsController implements Initializable {
                 customGstTextField.setDisable(false);
             }
 
+            //Initially checking saved VAT values
             double defaultVat = daoimpl.getTax("vat");
             if(defaultVat == 5)
             {
@@ -71,6 +75,31 @@ public class BillingSettingsController implements Initializable {
                 customVatTextField.setText(Double.toString(defaultVat));
                 customVatTextField.setDisable(false);
             }
+
+            //Initially checking & displaying saved Default Discount
+            double defaultDiscount = daoimpl.fetchDefaultDiscount();
+            if(defaultDiscount > 0)
+            {
+                setDefaultDiscountCheckbox.setSelected(true);
+                defaultDiscountTextBox.setText(String.valueOf(defaultDiscount));
+            }
+            else
+            {
+                defaultDiscountTextBox.setDisable(true);
+            }
+
+            //Initially checking & displaying saved Max Discount
+            double maxDiscount = daoimpl.fetchMaxDiscount();
+            if(maxDiscount > 0)
+            {
+                setMaxDiscountCheckbox.setSelected(true);
+                maxDiscountTextBox.setText(String.valueOf(maxDiscount));
+            }
+            else
+            {
+                maxDiscountTextBox.setDisable(true);
+            }
+
         }
         catch (SQLException e)
         {
@@ -78,14 +107,16 @@ public class BillingSettingsController implements Initializable {
         }
 
         fivePercentGstRadioButton.setOnAction(event -> customGstTextField.setDisable(true));
-
         eighteenPercentGstRadioButton.setOnAction(event -> customGstTextField.setDisable(true));
-
         customGstRadioButton.setOnAction(event -> customGstTextField.setDisable(false));
 
-        fivePercentVatRadioButton.setOnAction(event -> customVatTextField.setDisable(true));
 
+        fivePercentVatRadioButton.setOnAction(event -> customVatTextField.setDisable(true));
         customVatRadioButton.setOnAction(event -> customVatTextField.setDisable(false));
+
+
+        setDefaultDiscountCheckbox.setOnAction(event -> defaultDiscountTextBox.setDisable(false));
+        setMaxDiscountCheckbox.setOnAction((event -> maxDiscountTextBox.setDisable(false)));
 
         saveTaxSettingsButton.setOnMouseClicked(event -> {
 
@@ -153,6 +184,80 @@ public class BillingSettingsController implements Initializable {
             reserveSuccessAlert.showAndWait();
 
         });
+
+        saveDiscountSettingsButton.setOnMouseClicked(event -> {
+
+            try{
+
+                double defaultDiscount = 0.0;
+                double maxDiscount = 0.0;
+
+                if(setDefaultDiscountCheckbox.isSelected())
+                    defaultDiscount = Double.parseDouble(defaultDiscountTextBox.getText());
+                if(setMaxDiscountCheckbox.isSelected())
+                    maxDiscount = Double.parseDouble(maxDiscountTextBox.getText());
+
+
+                if(!setMaxDiscountCheckbox.isSelected() && !setDefaultDiscountCheckbox.isSelected())
+                {
+                    daoimpl.updateDefaultDiscount(defaultDiscount);
+                    daoimpl.updateMaxDiscount(maxDiscount);
+                }
+                else if(!setMaxDiscountCheckbox.isSelected() && setDefaultDiscountCheckbox.isSelected())
+                {
+                    daoimpl.updateDefaultDiscount(defaultDiscount);
+                    daoimpl.updateMaxDiscount(maxDiscount);
+                }
+                else if(setMaxDiscountCheckbox.isSelected() && !setDefaultDiscountCheckbox.isSelected() )
+                {
+                    daoimpl.updateMaxDiscount(maxDiscount);
+                    daoimpl.updateDefaultDiscount(defaultDiscount);
+                }
+                else if(setMaxDiscountCheckbox.isSelected() && setDefaultDiscountCheckbox.isSelected() && (defaultDiscount <= maxDiscount))
+                {
+                    defaultDiscount = Double.parseDouble(defaultDiscountTextBox.getText());
+                    maxDiscount = Double.parseDouble(maxDiscountTextBox.getText());
+
+                    daoimpl.updateDefaultDiscount(defaultDiscount);
+                    daoimpl.updateMaxDiscount(maxDiscount);
+                }
+                else if(setMaxDiscountCheckbox.isSelected() && setDefaultDiscountCheckbox.isSelected() && (defaultDiscount > maxDiscount))
+                {
+                        Alert reserveSuccessAlert = new Alert(Alert.AlertType.WARNING, "Default discount should be less than Max Discount Value", ButtonType.OK);
+                        reserveSuccessAlert.setHeaderText("Default Discount > Max Discount");
+                        reserveSuccessAlert.setTitle("Alert");
+                        reserveSuccessAlert.showAndWait();
+                        return;
+                }
+
+                defaultDiscountTextBox.setText(String.valueOf(defaultDiscount));
+                maxDiscountTextBox.setText(String.valueOf(maxDiscount));
+            }
+            catch (SQLException e)
+            {
+                Alert reserveSuccessAlert = new Alert(Alert.AlertType.ERROR, "Check your Internet Connection. If this error keeps occurring, contact customer support."+e.getMessage(), ButtonType.OK);
+                reserveSuccessAlert.setHeaderText("Could not save to Database");
+                reserveSuccessAlert.setTitle("Error!");
+                reserveSuccessAlert.showAndWait();
+                throw new RuntimeException(e);
+            }
+            catch (NumberFormatException e)
+            {
+                Alert reserveSuccessAlert = new Alert(Alert.AlertType.WARNING, "Only Numeric Values are allowed in the Text box", ButtonType.OK);
+                reserveSuccessAlert.setHeaderText("Invalid Values");
+                reserveSuccessAlert.setTitle("Error!");
+                reserveSuccessAlert.showAndWait();
+                e.printStackTrace();
+                return;
+            }
+
+            Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Discount Values Saved Successfully", ButtonType.OK);
+            reserveSuccessAlert.setHeaderText("Discount Saved Successfully");
+            reserveSuccessAlert.setTitle("INFORMATION");
+            reserveSuccessAlert.showAndWait();
+
+        });
+
 
     }
 
