@@ -45,7 +45,7 @@ public class MenuController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
         //Setting CSS Classes
-        menuTable.getStyleClass().add("table-items");
+        //menuTable.getStyleClass().add("table-view");
 
         //Displaying Categories
         ObservableList<String> categories = null;

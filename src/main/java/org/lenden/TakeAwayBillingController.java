@@ -74,7 +74,7 @@ public class TakeAwayBillingController implements Initializable
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         //Setting CSS Classes
-        foodItemsTable.getStyleClass().add("menu-table-items");
+        //foodItemsTable.getStyleClass().add("view-table");
 
         //Setting Category Buttons
         List<String> categories = null;

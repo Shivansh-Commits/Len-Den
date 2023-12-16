@@ -15,7 +15,7 @@ public class Bill {
     String phone;
     String tableNumber;
     String modeOfpayment;
-    int billnumber;
+    int billNumber;
     double grandTotal;
     double total;
     double subTotal;
@@ -59,11 +59,11 @@ public class Bill {
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
     public int getBillnumber() {
-        return billnumber;
+        return billNumber;
     }
 
     public void setBillnumber(int billnumber) {
-        this.billnumber = billnumber;
+        this.billNumber = billnumber;
     }
 
     public String getOutletName() {

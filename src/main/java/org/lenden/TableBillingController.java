@@ -96,7 +96,7 @@ public class TableBillingController implements Initializable {
     {
         //--------------------------------------------------------------------------------------------------------------
         //Setting CSS Classes
-        foodItemsTable.getStyleClass().add("menu-table-items");
+        //foodItemsTable.getStyleClass().add("table-view");
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Category Buttons
@@ -492,18 +492,6 @@ public class TableBillingController implements Initializable {
                     hBox.getChildren().add(addItemToBill);
 
                     setGraphic(hBox);
-                    /*
-
-                    setText(item);
-                    if (item.equals("Available")) {
-                        // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #c9f5c9;");
-                    } else {
-                        // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #f5c9c9;");
-                    }
-
-                     */
                 }
             }
         });
