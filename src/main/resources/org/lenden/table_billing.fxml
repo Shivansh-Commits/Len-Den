@@ -39,7 +39,7 @@
                         <RowConstraints maxHeight="165.19998779296878" minHeight="10.0" prefHeight="52.80001220703127" vgrow="SOMETIMES" />
                      </rowConstraints>
                      <children>
-                        <TableView fx:id="billTable" prefHeight="206.0" prefWidth="378.0" GridPane.rowIndex="1">
+                        <TableView fx:id="billTable" prefHeight="206.0" prefWidth="378.0" styleClass="food-items-table" stylesheets="@../../billingStyleSheet.css" GridPane.rowIndex="1">
                            <columns>
                               <TableColumn prefWidth="149.59996038675308" text="Food Item" />
                               <TableColumn prefWidth="120.0" text="Price" />
@@ -247,7 +247,7 @@
                   </GridPane>
                </bottom>
                <center>
-                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="635.0" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="635.0" styleClass="food-items-table" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                      <columns>
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />

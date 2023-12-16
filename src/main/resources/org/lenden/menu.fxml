@@ -42,7 +42,7 @@
    <center>
       <BorderPane minHeight="-Infinity" prefHeight="700.0" prefWidth="1202.0" BorderPane.alignment="CENTER">
          <top>
-            <TableView fx:id="menuTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#populateUpdateDeleteForm" prefHeight="332.0" prefWidth="1202.0" styleClass="table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
+            <TableView fx:id="menuTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#populateUpdateDeleteForm" prefHeight="332.0" prefWidth="1202.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
               <columns>
                 <TableColumn prefWidth="245.60003662109375" text="Name" />
                 <TableColumn prefWidth="209.60003662109375" text="Price" />

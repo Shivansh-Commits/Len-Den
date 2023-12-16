@@ -271,7 +271,7 @@ public class DaoImpl
         }
     }
 
-    public ArrayList<Bill> fetchAllBills() throws SQLException
+    public ObservableList<Bill> fetchAllBills() throws SQLException
     {
         PreparedStatement stmt;
 
@@ -280,7 +280,7 @@ public class DaoImpl
             stmt  = c.prepareStatement(String.format("SELECT * FROM %s.bills", tenantId));
             ResultSet rs = stmt.executeQuery();
 
-            ArrayList<Bill> bills = new ArrayList<>();
+            ObservableList<Bill> bills = FXCollections.observableArrayList();
 
             while(rs.next())
             {
@@ -291,6 +291,7 @@ public class DaoImpl
                 bill.setGrandTotal(rs.getDouble("grandtotal"));
                 bill.setDiscount(rs.getDouble("discount"));
                 bill.setModeOfpayment(rs.getString("modeofpayment"));
+                bill.setStatus(rs.getString("status"));
 
                 bills.add(bill);
             }

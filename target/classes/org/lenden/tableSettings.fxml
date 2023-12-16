@@ -11,13 +11,13 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="915.0" prefWidth="1222.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableSettingsController">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="699.0" prefWidth="1222.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TableSettingsController">
    <children>
-      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="500.0" prefHeight="846.0" prefWidth="1222.0" AnchorPane.bottomAnchor="8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="500.0" prefHeight="699.0" prefWidth="1222.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="220.0" minWidth="500.0" style="-fx-border-radius: 6; -fx-border-color: grey; -fx-background-color: white; -fx-border-width: 0.5;" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="193.0" minWidth="500.0" prefHeight="193.0" prefWidth="1202.0" style="-fx-border-radius: 6; -fx-border-color: grey; -fx-background-color: white; -fx-border-width: 0.5;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" layoutX="357.0" layoutY="21.0" minHeight="160.0" minWidth="500.0" spacing="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox alignment="CENTER" layoutX="357.0" layoutY="21.0" minHeight="150.0" minWidth="500.0" prefWidth="1201.0" spacing="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <VBox>
                            <children>
@@ -59,28 +59,28 @@
             </AnchorPane>
          </top>
          <center>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="500.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="307.0" minWidth="500.0" prefHeight="371.0" prefWidth="1202.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </BorderPane.margin>
                <children>
-                  <GridPane fx:id="tableAndAreaGrid" alignment="CENTER" layoutX="5.5" layoutY="11.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="500.0" minWidth="500.0" prefHeight="425.0" prefWidth="1193.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <GridPane fx:id="tableAndAreaGrid" alignment="CENTER" layoutX="5.5" layoutY="2.5" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="300.0" minWidth="500.0" prefHeight="360.0" prefWidth="1201.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="139.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="271.7333068847656" minWidth="10.0" prefWidth="271.7333068847656" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="367.99997558593753" minWidth="10.0" prefWidth="284.79999999999995" />
                         <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="405.666650390625" minWidth="10.0" prefWidth="336.0" />
                     </columnConstraints>
                     <rowConstraints>
-                      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <padding>
-                        <Insets bottom="200.0" left="100.0" right="100.0" top="10.0" />
+                        <Insets left="100.0" right="100.0" top="10.0" />
                      </padding>
                   </GridPane>
                </children>
