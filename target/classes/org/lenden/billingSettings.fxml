@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="707.0" prefWidth="1222.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.BillingSettingsController">
+   <children>
+      <ScrollPane layoutX="-7.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="503.0" prefWidth="772.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <content>
+            <AnchorPane>
+               <children>
+                  <HBox prefHeight="417.0" prefWidth="711.0" spacing="15.0">
+                     <children>
+                        <AnchorPane prefHeight="370.0" prefWidth="340.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;">
+                           <children>
+                              <Label layoutX="126.0" layoutY="7.0" text="Tax Settings">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Separator layoutX="19.0" layoutY="35.0" prefHeight="11.0" prefWidth="316.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+                              <Button fx:id="saveTaxSettingsButton" layoutX="62.0" layoutY="330.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="12.0" />
+                                 </font></Button>
+                              <HBox layoutX="19.0" layoutY="218.0" prefHeight="20.0" prefWidth="285.0" spacing="10.0" />
+                              <VBox layoutX="22.0" layoutY="46.0" prefHeight="124.0" prefWidth="311.0" spacing="18.0">
+                                 <children>
+                                    <AnchorPane prefHeight="22.0" prefWidth="73.0">
+                                       <children>
+                                          <Label layoutX="2.0" layoutY="2.0" text="GST Amount">
+                                             <font>
+                                                <Font name="Segoe UI Semibold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Separator layoutY="18.0" prefHeight="11.0" prefWidth="74.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <HBox prefHeight="20.0" prefWidth="285.0" spacing="10.0">
+                                       <children>
+                                          <RadioButton fx:id="fivePercentGstRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="91.0" text="5% GST ">
+                                             <font>
+                                                <Font name="Segoe UI Symbol" size="14.0" />
+                                             </font>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="gstToggleGroup" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="eighteenPercentGstRadioButton" mnemonicParsing="false" text="18% GST " toggleGroup="$gstToggleGroup">
+                                             <font>
+                                                <Font name="Segoe UI Symbol" size="14.0" />
+                                             </font>
+                                          </RadioButton>
+                                          <RadioButton fx:id="customGstRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="90.0" text="Custom %" toggleGroup="$gstToggleGroup">
+                                             <font>
+                                                <Font name="Segoe UI Symbol" size="14.0" />
+                                             </font>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                    <AnchorPane>
+                                       <children>
+                                          <TextField fx:id="customGstTextField" disable="true" prefHeight="32.0" prefWidth="152.0" promptText="Custom GST (%)" stylesheets="@../../billingSettingsStyleSheet.css" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                              <VBox layoutX="21.0" layoutY="187.0" prefHeight="124.0" prefWidth="311.0" spacing="18.0">
+                                 <children>
+                                    <AnchorPane prefHeight="22.0" prefWidth="73.0">
+                                       <children>
+                                          <Label layoutX="2.0" layoutY="2.0" text="VAT Amount">
+                                             <font>
+                                                <Font name="Segoe UI Semibold" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <Separator layoutY="18.0" prefHeight="11.0" prefWidth="74.0" />
+                                       </children>
+                                    </AnchorPane>
+                                    <HBox prefHeight="20.0" prefWidth="285.0" spacing="10.0">
+                                       <children>
+                                          <RadioButton fx:id="fivePercentVatRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="91.0" text="5% VAT">
+                                             <font>
+                                                <Font name="Segoe UI Symbol" size="14.0" />
+                                             </font>
+                                             <toggleGroup>
+                                                <ToggleGroup fx:id="gstToggleGroup1" />
+                                             </toggleGroup>
+                                          </RadioButton>
+                                          <RadioButton fx:id="customVatRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="90.0" text="Custom %" toggleGroup="$gstToggleGroup1">
+                                             <font>
+                                                <Font name="Segoe UI Symbol" size="14.0" />
+                                             </font>
+                                          </RadioButton>
+                                       </children>
+                                    </HBox>
+                                    <AnchorPane>
+                                       <children>
+                                          <TextField fx:id="customVatTextField" disable="true" prefHeight="32.0" prefWidth="152.0" promptText="Custom GST (%)" stylesheets="@../../billingSettingsStyleSheet.css" />
+                                       </children>
+                                    </AnchorPane>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane prefHeight="307.0" prefWidth="338.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-radius: 6; -fx-border-width: 0.5;">
+                           <children>
+                              <Label layoutX="97.0" layoutY="8.0" prefHeight="27.0" prefWidth="144.0" text="Discount Settings">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Separator layoutX="19.0" layoutY="35.0" prefHeight="11.0" prefWidth="316.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+                              <CheckBox fx:id="setDefaultDiscountCheckbox" layoutX="31.0" layoutY="59.0" mnemonicParsing="false" text="Set Default Discount">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="12.0" />
+                                 </font></CheckBox>
+                              <CheckBox fx:id="setMaxDiscountCheckbox" layoutX="31.0" layoutY="166.0" mnemonicParsing="false" text="Set Max Discount Limit">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="12.0" />
+                                 </font></CheckBox>
+                              <TextField fx:id="defaultDiscountTextBox" layoutX="30.0" layoutY="96.0" prefHeight="32.0" prefWidth="192.0" promptText="Default Discount" styleClass="text-field" stylesheets="@../../billingSettingsStyleSheet.css" />
+                              <TextField fx:id="maxDiscountTextBox" layoutX="30.0" layoutY="200.0" prefHeight="32.0" prefWidth="192.0" promptText="Max Discount (%)" stylesheets="@../../billingSettingsStyleSheet.css" />
+                              <Button fx:id="saveDiscountSettingsButton" layoutX="57.0" layoutY="330.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

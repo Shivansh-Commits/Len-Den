@@ -11,14 +11,6 @@
     -fx-font-size : 16px;
 }
 
-.menu-table-items{
-     -fx-font-size : 14px;
-     -fx-font-family : "Segoe UI Symbol";
-}
-
-.menu-table-items:header {
-    -fx-font-weight: bold;
-}
 
 .menu-add-button {
     -fx-background-color: #5ec253;
@@ -154,6 +146,33 @@
 }
 
 
+/* CSS FOR TABLES CONTENT */
+.food-items-table{
+     -fx-font-size : 14px;
+     -fx-font-family : "Segoe UI Symbol";
+}
+
+/*  CSS FOR TABLE COL HEADER */
+.food-items-table .column-header,
+.food-items-table .column-header .filler,
+.food-items-table .column-header-background .filler {
+    -fx-background-color: white;
+    -fx-background-color: linear-gradient(to right, rgba(247, 247, 245, 1.0), white);
+    -fx-font-family: "Helvetica";
+    -fx-font-size : 13px;
+    -fx-font-weight : bold;
+}
+
+
+/*  CSS FOR TITLE PANE */
+.titled-pane > .title {
+    -fx-background-color: white;
+    -fx-border-color : grey;
+    -fx-border-width : 0.1px;
+}
+
+
+
 /*  CSS FOR SCROLL BARS */
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
@@ -205,17 +224,3 @@
     -fx-background-radius : 2.0em;
 }
 
-/*  CSS FOR TABLE COL HEADER */
-.table-view .column-header,
-.table-view .column-header .filler,
-.table-view .column-header-background .filler {
-    -fx-background-color: white;
-    -fx-background-color: linear-gradient(to right, rgba(247, 247, 245, 1.0), white);
-}
-
-/*  CSS FOR TITLE PANE */
-.titled-pane > .title {
-    -fx-background-color: white;
-    -fx-border-color : grey;
-    -fx-border-width : 0.1px;
-}

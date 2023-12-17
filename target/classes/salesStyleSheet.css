@@ -1,42 +1,3 @@
-.text-field
-{
-    -fx-font-family : "Segoe UI Semibold";
-}
-
-.combo-box
-{
-    -fx-background-color: white;
-    -fx-border-color: gray;
-    -fx-font-family : "Segoe UI Semibold";
-}
-
-.category-button
-{
-    -fx-border-width : 0.5;
-    -fx-text-fill : black ;
-    -fx-font-size : 15px;
-    -fx-font-family : "Segoe UI Symbol";
-    -fx-background-color: linear-gradient(to bottom, rgba(200, 200, 200, 0.1), rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8));
-
-}
-
-.category-button:hover
-{
-    -fx-background-color: black;
-    -fx-border-color: black;
-    -fx-border-width : 0.5;
-    -fx-text-fill : white ;
-    -fx-font-size : 17px;
-    -fx-font-family : "Segoe UI Symbol";
-}
-
-.add-update-menu-items
-{
-    -fx-border-color:grey;
-    -fx-border-width:0.5;
-    -fx-border-radius:3;
-}
-
 .header-label
 {
     -fx-text-fill : white;
@@ -51,61 +12,27 @@
      -fx-font-family : "Segoe UI Symbol";
 }
 
-.add-button
+.bills-table
 {
-     -fx-background-color: black;
-     -fx-border-color: black;
-     -fx-border-width : 0.5;
-     -fx-text-fill: white;
-     -fx-font-size : 14px;
-}
-
-.add-button:hover
-{
-     -fx-background-color: white;
-     -fx-border-color: black;
-     -fx-border-width : 0.5;
-     -fx-text-fill: black;
-     -fx-font-size : 14px;
-}
-
-.menu-button
-{
-    -fx-background-color: white;
-    -fx-border-color: black;
-    -fx-border-width : 0.5;
-    -fx-font-size : 12px;
-}
-
-.sub-button
-{
-     -fx-background-color: white;
-     -fx-border-color: black;
-     -fx-border-width : 0.5;
-     -fx-text-fill : #000000cb;
-     -fx-font-size : 12px;
-}
-
-/* CSS FOR TABLES CONTENT */
-.menu-items-table
-{
+    -fx-font-family: "Helvetica";
+    -fx-font-size : 14px;
     -fx-border-color:grey;
     -fx-border-width:0.5;
     -fx-border-radius:3;
-    -fx-font-size : 15px;
-    -fx-font-family : "Segoe UI Symbol";
 }
 
 
 /*  CSS FOR TABLE COL HEADER */
-.menu-items-table .column-header,
-.menu-items-table .column-header .filler,
-.menu-items-table .column-header-background .filler {
+.bills-table .column-header,
+.bills-table .filler,
+.bills-table .column-header .filler,
+.bills-table .column-header-background .filler
+{
     -fx-background-color: white;
     -fx-background-color: linear-gradient(to right, rgba(247, 247, 245, 1.0), white);
-    -fx-font-size : 13px;
     -fx-font-family: "Helvetica";
     -fx-font-weight : bold;
+    -fx-font-size : 15px;
 }
 
 
@@ -159,4 +86,3 @@
     -fx-background-insets : 2.0, 0.0, 0.0;
     -fx-background-radius : 2.0em;
 }
-
