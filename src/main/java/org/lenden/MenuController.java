@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -44,8 +45,6 @@ public class MenuController implements Initializable
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-        //Setting CSS Classes
-        //menuTable.getStyleClass().add("table-view");
 
         //Displaying Categories
         ObservableList<String> categories = null;
@@ -105,11 +104,13 @@ public class MenuController implements Initializable
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(250);
+        nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
+        priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
@@ -135,6 +136,7 @@ public class MenuController implements Initializable
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
                         setStyle("-fx-background-color: #c9f5c9;");
+                        setAlignment(Pos.CENTER);
                     } else {
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
@@ -164,11 +166,13 @@ public class MenuController implements Initializable
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(250);
+        nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
+        priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
@@ -177,7 +181,6 @@ public class MenuController implements Initializable
 
         // Set the cell value factories for the table columns
         menuTable.getColumns().setAll(nameCol, priceCol, availCol);
-
         menuTable.setItems(menuTableItems);
 
         // Set the background color of the "Availability" cell based on its content
@@ -194,9 +197,11 @@ public class MenuController implements Initializable
                     if (item.equals("Available")) {
                         // Set the background color of the cell to green if the food item is available
                         setStyle("-fx-background-color: #c9f5c9;");
+                        setAlignment(Pos.CENTER);
                     } else {
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
+                        setAlignment(Pos.CENTER);
                     }
                 }
             }

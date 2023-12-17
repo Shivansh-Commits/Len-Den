@@ -141,11 +141,13 @@ public class TableBillingController implements Initializable {
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
+        nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
+        priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
@@ -441,11 +443,13 @@ public class TableBillingController implements Initializable {
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
+        nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
+        priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
