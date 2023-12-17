@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TableBillingController implements Initializable {
@@ -1073,6 +1074,9 @@ public class TableBillingController implements Initializable {
         bill.setModeOfpayment(modeOfPayment);
 
         bill.setStatus("SUCCESS");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        bill.setDate(dateFormat.format( new Date()));
 
         //Add bill details to DB
         int rowsUpdated=0;

@@ -292,6 +292,7 @@ public class DaoImpl
                 bill.setDiscount(rs.getDouble("discount"));
                 bill.setModeOfpayment(rs.getString("modeofpayment"));
                 bill.setStatus(rs.getString("status"));
+                bill.setDate(rs.getString("billdate"));
 
                 bills.add(bill);
             }

@@ -4,6 +4,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import org.lenden.dao.DaoImpl;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -43,7 +45,6 @@ public class Bill {
              this.phone = daoimpl.getOutletDetails("phone");
              this.gstNumber = daoimpl.getOutletDetails("gstnumber");
              this.discount = 0;
-             this.date = (new Date()).toString();
          }
          catch(Exception e)
          {
