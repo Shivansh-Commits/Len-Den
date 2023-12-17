@@ -139,6 +139,8 @@ TABLES -
         area [text] (Primary Key)
         tables [integer]
 
+        [---NOTE---] : Mention Area name and Table count
+
     7)reservedtables
         tablename [text] (Primary key)
 
@@ -149,6 +151,9 @@ TABLES -
         gst [numeric]
         vat [numeric]
         servicecharge [numeric]
+
+        [---NOTE---] : Mention GST Values and default Discount
+
     9)takeawayorderdetails
         ordernumber[integer] (Primary Key)
         fooditemname [text] (Primary Key)

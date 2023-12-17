@@ -13,6 +13,10 @@ import org.lenden.model.Bill;
 import org.lenden.model.MenuItems;
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 
@@ -51,6 +55,7 @@ public class SalesController implements Initializable
         TableColumn<Bill, String> dateCol = new TableColumn<>("Date");
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         dateCol.setPrefWidth(170);
+
 
         // Create a cell value factory for the Grand Total column
         TableColumn<Bill, Double> grandTotalCol = new TableColumn<>("Grand Total");

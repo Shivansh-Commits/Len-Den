@@ -28,6 +28,7 @@ import org.lenden.model.MenuItems;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -439,6 +440,7 @@ public class TakeAwayBillingController implements Initializable
         }
 
     }
+
     public void computeDiscount(KeyEvent ignoredEvent) throws SQLException {
         if(discountField.getText().isEmpty())
         {
@@ -470,6 +472,7 @@ public class TakeAwayBillingController implements Initializable
             }
         }
     }
+
     public void updateTotals(ObservableList<BillItems> billTableItems)
     {
 
@@ -506,6 +509,7 @@ public class TakeAwayBillingController implements Initializable
 
 
     }
+
     @FXML
     public void clearBill(MouseEvent ignoredEvent)
     {
@@ -516,6 +520,7 @@ public class TakeAwayBillingController implements Initializable
 
         updateTotals(billTableItems);
     }
+
     @FXML
     public void placeOrder(MouseEvent ignoredEvent) throws IOException, SQLException {
         if(billTableItems.isEmpty())
@@ -558,6 +563,7 @@ public class TakeAwayBillingController implements Initializable
 
 
     }
+
     @FXML
     private void addBill(MouseEvent ignoredEvent)
     {
@@ -606,6 +612,9 @@ public class TakeAwayBillingController implements Initializable
         bill.setBillItems(billTableItems);
 
         bill.setStatus("IN PROGRESS");
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        bill.setDate(dateFormat.format( new Date()));
 
         //ADD BILL Details to DB (Bill Table)
         DaoImpl daoimpl = new DaoImpl();
@@ -934,7 +943,6 @@ public class TakeAwayBillingController implements Initializable
         }
 
     }
-
 
     public void openTableBillingPage(MouseEvent e) throws IOException
     {
