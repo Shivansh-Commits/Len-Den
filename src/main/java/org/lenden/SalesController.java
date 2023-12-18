@@ -10,14 +10,9 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
-import org.lenden.model.MenuItems;
-
 import java.net.URL;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.ResourceBundle;
+import java.util.*;
 
 
 public class SalesController implements Initializable
@@ -26,16 +21,21 @@ public class SalesController implements Initializable
     BorderPane mainBorderPane;
     @FXML
     TableView<Bill> billsTable;
+    @FXML
+    Label netSalesLabel;
+    @FXML
+    Label totalOrdersLabel;
 
     DaoImpl daoImpl = new DaoImpl();
     @Override
     public void initialize(URL location, ResourceBundle resources)
     {
-
+        //FETCHING ALL BILLS
         ObservableList<Bill> bills = FXCollections.observableArrayList();
         try {
-            //Getting Menu Items FOR MENU TABLE
+            //Fetching all Bills
             bills = daoImpl.fetchAllBills();
+            bills = bills.filtered(bill -> bill.getBillnumber() != 0);
         }
         catch (Exception ex)
         {
@@ -44,6 +44,15 @@ public class SalesController implements Initializable
             alert.setTitle("Error!");
             alert.showAndWait();
         }
+
+
+
+        //DISPLAYING TODAY'S BILLS AND SALES DATA
+        displayTodaysBillData(bills);
+
+
+
+        //DISPLAYING BILLS IN TABLE
         // Create a cell value factory for the Bill No. column
         TableColumn<Bill, Integer> billNoCol = new TableColumn<>("Bill No.");
         billNoCol.setCellValueFactory(new PropertyValueFactory<>("billnumber"));
@@ -80,12 +89,12 @@ public class SalesController implements Initializable
         statusCol.setCellValueFactory(new PropertyValueFactory<>("status"));
         statusCol.setPrefWidth(170);
 
-        ObservableList<Bill> filteredBills = bills.filtered(bill -> bill.getBillnumber() != 0);
+        bills = bills.filtered(bill -> bill.getBillnumber() != 0);
 
 
         // Set the cell value factories for the table columns
         billsTable.getColumns().setAll(billNoCol, dateCol ,grandTotalCol, subTotalCol , modeOfPaymentCol ,statusCol );
-        billsTable.setItems(filteredBills);
+        billsTable.setItems(bills);
         billsTable.getSortOrder().add(billNoCol);
         billsTable.sort();
 
@@ -123,4 +132,48 @@ public class SalesController implements Initializable
         });
 
     }
+
+    public boolean isSameDay(String dateString1, String dateString2) {
+        // Extract day, month, and year components from both date strings
+        String[] components1 = dateString1.split(" ")[1].split("/");
+        String[] components2 = dateString2.split(" ")[1].split("/");
+
+        int day1 = Integer.parseInt(components1[0]);
+        int month1 = Integer.parseInt(components1[1]);
+        int year1 = Integer.parseInt(components1[2]);
+
+        int day2 = Integer.parseInt(components2[0]);
+        int month2 = Integer.parseInt(components2[1]);
+        int year2 = Integer.parseInt(components2[2]);
+
+        // Compare day, month, and year components
+        return (day1 == day2) && (month1 == month2) && (year1 == year2);
+    }
+
+    public void displayTodaysBillData(ObservableList<Bill> bills)
+    {
+        //FILTERING ONLY TODAY'S Bills
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        String todaysDate = dateFormat.format( new Date());
+
+        ArrayList<Bill> todaysBills = new ArrayList<>();
+        for(Bill bill:bills)
+        {
+            if(isSameDay(bill.getDate(),todaysDate))
+            {
+                todaysBills.add(bill);
+            }
+        }
+
+        double netSales = todaysBills.stream()
+                .filter(bill -> !bill.getStatus().equals("CANCELLED"))
+                .mapToDouble(Bill::getGrandTotal)
+                .sum();
+        netSalesLabel.setText(String.format("%.2f", netSales));
+
+        int totalOrders = todaysBills.size();
+        totalOrdersLabel.setText(String.valueOf(totalOrders));
+    }
+
+
 }

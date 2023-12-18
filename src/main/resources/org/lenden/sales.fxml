@@ -29,42 +29,57 @@
                <children>
                   <Pane maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="1616.0" style="-fx-border-color: black; -fx-border-width: 0.2; -fx-border-radius: 5;">
                      <children>
-                        <Label layoutX="140.0" layoutY="14.0" text="Net Revenue">
-                           <font>
-                              <Font name="Segoe UI" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label alignment="CENTER" layoutX="77.0" layoutY="54.0" prefHeight="73.0" prefWidth="261.0" text="_ _">
-                           <font>
-                              <Font name="Monospaced Regular" size="48.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </Pane>
-                  <Pane maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="1616.0" style="-fx-border-color: black; -fx-border-width: 0.2; -fx-border-radius: 5;">
-                     <children>
-                        <Label layoutX="158.0" layoutY="14.0" text="Net Profit">
+                        <Label layoutX="145.0" layoutY="25.0" text="Net Sales">
                            <font>
                               <Font name="Segoe UI Semibold" size="24.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="106.0" layoutY="68.0" prefHeight="73.0" prefWidth="217.0" text="_ _">
+                        <Label fx:id="netSalesLabel" alignment="CENTER" layoutX="79.0" layoutY="66.0" prefHeight="73.0" prefWidth="261.0" text="_ _">
                            <font>
-                              <Font name="Monospaced Regular" size="48.0" />
+                              <Font name="Segoe UI Semibold" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="172.0" layoutY="9.0" prefHeight="18.0" prefWidth="48.0" text="Todays">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="14.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
                   <Pane maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="1616.0" style="-fx-border-color: black; -fx-border-width: 0.2; -fx-border-radius: 5;">
                      <children>
-                        <Label layoutX="146.0" layoutY="14.0" text="Todays Sale">
+                        <Label layoutX="161.0" layoutY="25.0" text="Net Profit">
                            <font>
-                              <Font name="Segoe UI" size="24.0" />
+                              <Font name="Segoe UI Semibold" size="24.0" />
                            </font>
                         </Label>
-                        <Label alignment="CENTER" layoutX="79.0" layoutY="60.0" prefHeight="73.0" prefWidth="264.0" text="_ _">
+                        <Label fx:id="netProfitLabel" alignment="CENTER" layoutX="106.0" layoutY="68.0" prefHeight="73.0" prefWidth="217.0" text="_ _">
                            <font>
-                              <Font name="Monospaced Regular" size="48.0" />
+                              <Font name="Segoe UI Semibold" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="191.0" layoutY="9.0" prefHeight="18.0" prefWidth="48.0" text="Todays">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Pane maxWidth="1.7976931348623157E308" prefHeight="160.0" prefWidth="1616.0" style="-fx-border-color: black; -fx-border-width: 0.2; -fx-border-radius: 5;">
+                     <children>
+                        <Label layoutX="146.0" layoutY="25.0" text="Total Orders">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="totalOrdersLabel" alignment="CENTER" layoutX="79.0" layoutY="60.0" prefHeight="73.0" prefWidth="264.0" text="_ _">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="48.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="187.0" layoutY="9.0" prefHeight="18.0" prefWidth="48.0" text="Todays">
+                           <font>
+                              <Font name="Segoe UI Semibold" size="14.0" />
                            </font>
                         </Label>
                      </children>
