@@ -65,7 +65,6 @@ public class SalesController implements Initializable
         dateCol.setCellValueFactory(new PropertyValueFactory<>("date"));
         dateCol.setPrefWidth(170);
 
-
         // Create a cell value factory for the Grand Total column
         TableColumn<Bill, Double> grandTotalCol = new TableColumn<>("Grand Total");
         grandTotalCol.setCellValueFactory(new PropertyValueFactory<>("grandTotal"));
@@ -103,7 +102,8 @@ public class SalesController implements Initializable
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
 
-                if (item == null || empty) {
+                if (item == null || empty)
+                {
                     setText("");
                     setStyle("");
                 }
@@ -130,7 +130,6 @@ public class SalesController implements Initializable
                 }
             }
         });
-
     }
 
     public boolean isSameDay(String dateString1, String dateString2) {
@@ -171,7 +170,9 @@ public class SalesController implements Initializable
                 .sum();
         netSalesLabel.setText(String.format("%.2f", netSales));
 
-        int totalOrders = todaysBills.size();
+        long totalOrders = todaysBills.stream()
+                .filter(bill -> !bill.getStatus().equals("CANCELLED"))
+                .count();
         totalOrdersLabel.setText(String.valueOf(totalOrders));
     }
 

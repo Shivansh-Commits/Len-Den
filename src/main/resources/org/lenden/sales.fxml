@@ -34,7 +34,7 @@
                               <Font name="Segoe UI Semibold" size="24.0" />
                            </font>
                         </Label>
-                        <Label fx:id="netSalesLabel" alignment="CENTER" layoutX="79.0" layoutY="66.0" prefHeight="73.0" prefWidth="261.0" text="_ _">
+                        <Label fx:id="netSalesLabel" alignment="CENTER" layoutX="66.0" layoutY="66.0" prefHeight="73.0" prefWidth="261.0" text="_ _">
                            <font>
                               <Font name="Segoe UI Semibold" size="48.0" />
                            </font>
