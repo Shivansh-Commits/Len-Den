@@ -21,6 +21,26 @@
     -fx-border-radius:3;
 }
 
+.filter-buttons
+{
+    -fx-background-color: white;
+    -fx-border-width: 0.5px;
+    -fx-border-color: grey;
+    -fx-border-radius: 3px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 10, 0, 0, 0);
+}
+
+.filter-buttons:selected
+{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}
+
+.filter-buttons:hover
+{
+    -fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, 0, 0);
+}
+
 
 /*  CSS FOR TABLE COL HEADER */
 .bills-table .column-header,
