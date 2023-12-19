@@ -1,6 +1,8 @@
 package org.lenden;
 
 import javafx.fxml.FXML;
+import javafx.print.PrinterJob;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -35,29 +37,54 @@ public class BillPrintController{
 
         // Add Sub-total price
         billText.append("-".repeat(50)).append("\n");
-        billText.append(String.format("%45s %10.2f", "Sub-Total", bill.getSubTotal())).append("\n");
+        billText.append(String.format("%30s %10.2f", "Sub-Total", bill.getSubTotal())).append("\n");
 
         // Add Discount
-        billText.append(String.format("%45s %10.2f", "Discount (%)", bill.getDiscount() )).append("\n");
+        billText.append(String.format("%30s %10.2f", "Discount (%)", bill.getDiscount() )).append("\n");
 
         // Add total price
-        billText.append(String.format("%45s %10.2f", "Total", bill.getTotal() )).append("\n");
+        billText.append(String.format("%30s %10.2f", "Total", bill.getTotal() )).append("\n");
 
         // Add Tax Charges
         billText.append("-".repeat(50)).append("\n");
-        billText.append(String.format("%45s %10.2f", "CGST (%)", bill.getCgst() )).append("\n");
-        billText.append(String.format("%45s %10.2f", "SGST (%)", bill.getSgst() )).append("\n");
-        billText.append(String.format("%45s %10.2f", "Service Charge (%)", bill.getServiceCharge() )).append("\n");
+        billText.append(String.format("%30s %10.2f", "CGST (%)", bill.getCgst() )).append("\n");
+        billText.append(String.format("%30s %10.2f", "SGST (%)", bill.getSgst() )).append("\n");
+        billText.append(String.format("%30s %10.2f", "Service Charge (%)", bill.getServiceCharge() )).append("\n");
 
         // Add Grand total price
         billText.append("-".repeat(50)).append("\n");
-        billText.append(String.format("%45s %10.2f", "Grand Total", bill.getGrandTotal())).append("\n");
+        billText.append(String.format("%30s %10.2f", "Grand Total", bill.getGrandTotal())).append("\n");
 
         // Add footer
         billText.append("\n");
-        billText.append(String.format("%60s", "Thank You!")).append("\n");
+        billText.append(String.format("%35s", "Thank You!")).append("\n");
 
         billLabel.setText((billText.toString()));
+
+    }
+
+    /**
+     *
+     * Contains actual printing logic.
+     * Displays print window.
+     *
+     * **/
+    @FXML
+    private void printBill()
+    {
+        // Get the scene associated with the print button
+        Scene scene = billLabel.getScene();
+
+        // Create a PrinterJob
+        PrinterJob printerJob = PrinterJob.createPrinterJob();
+
+        if (printerJob != null && printerJob.showPrintDialog(scene.getWindow())) {
+            boolean success = printerJob.printPage(billLabel);
+
+            if (success) {
+                printerJob.endJob();
+            }
+        }
     }
 
     @FXML
