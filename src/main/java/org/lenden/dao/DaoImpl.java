@@ -287,7 +287,7 @@ public class DaoImpl
                 Bill bill = new Bill();
 
                 bill.setBillnumber(rs.getInt("billnumber"));
-                bill.setSubTotal(rs.getDouble("subtotal"));
+                bill.setTotal(rs.getDouble("total"));
                 bill.setGrandTotal(rs.getDouble("grandtotal"));
                 bill.setDiscount(rs.getDouble("discount"));
                 bill.setModeOfpayment(rs.getString("modeofpayment"));

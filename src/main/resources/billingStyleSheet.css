@@ -50,7 +50,8 @@
     -fx-border-width : 1px;
 }
 
-.close-table:hover {
+.close-table:hover
+{
     -fx-background-color : lightgrey;
     -fx-font-weight: bold;
 }
