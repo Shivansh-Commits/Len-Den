@@ -2,9 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -107,56 +109,87 @@
             </TableView>
          </bottom>
          <center>
-            <HBox prefHeight="50.0" prefWidth="1365.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;" BorderPane.alignment="CENTER">
+            <BorderPane BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </BorderPane.margin>
-               <children>
-                  <Label alignment="CENTER" prefHeight="30.0" prefWidth="66.0" text="Filters :">
-                     <font>
-                        <Font name="Segoe UI Symbol" size="17.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="20.0" top="10.0" />
-                     </HBox.margin>
-                  </Label>
-                  <ToggleButton fx:id="todaysFilterToggleButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Today">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <toggleGroup>
-                        <ToggleGroup fx:id="filterButtons" />
-                     </toggleGroup>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ToggleButton>
-                  <ToggleButton fx:id="weeklyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Weekly" toggleGroup="$filterButtons">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ToggleButton>
-                  <ToggleButton fx:id="monthlyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Monthly" toggleGroup="$filterButtons">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ToggleButton>
-                  <ToggleButton fx:id="quarterlyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Quaterly" toggleGroup="$filterButtons">
-                     <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </HBox.margin>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </ToggleButton>
-               </children>
-            </HBox>
+               <center>
+                  <HBox prefHeight="50.0" prefWidth="1365.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;">
+                     <children>
+                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="66.0" text="Filters :">
+                           <font>
+                              <Font name="Segoe UI Symbol" size="17.0" />
+                           </font>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="20.0" top="10.0" />
+                           </HBox.margin>
+                        </Label>
+                        <ToggleButton fx:id="todaysFilterToggleButton" mnemonicParsing="false" prefHeight="29.0" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Today">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </HBox.margin>
+                           <toggleGroup>
+                              <ToggleGroup fx:id="filterButtons" />
+                           </toggleGroup>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ToggleButton>
+                        <ToggleButton fx:id="weeklyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Weekly" toggleGroup="$filterButtons">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ToggleButton>
+                        <ToggleButton fx:id="monthlyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Monthly" toggleGroup="$filterButtons">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ToggleButton>
+                        <ToggleButton fx:id="quarterlyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Quaterly" toggleGroup="$filterButtons">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </HBox.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </ToggleButton>
+                        <ToggleButton fx:id="yearlyFilterToggleButton" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Yearly" toggleGroup="$filterButtons">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                           </HBox.margin>
+                        </ToggleButton>
+                     </children>
+                  </HBox>
+               </center>
+               <right>
+                  <HBox prefHeight="49.0" prefWidth="405.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.3; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
+                     <children>
+                        <ComboBox fx:id="searchOptionsComboBox" prefHeight="26.0" prefWidth="129.0" promptText="--- Search By ---" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.3;">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </ComboBox>
+                        <TextField fx:id="searchField" prefHeight="26.0" prefWidth="222.0" promptText="Search ">
+                           <HBox.margin>
+                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                           </HBox.margin>
+                        </TextField>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets left="10.0" />
+                     </BorderPane.margin>
+                  </HBox>
+               </right>
+            </BorderPane>
          </center>
       </BorderPane>
    </center>
