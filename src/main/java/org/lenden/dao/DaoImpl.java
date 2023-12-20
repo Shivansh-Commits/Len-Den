@@ -1057,4 +1057,52 @@ public class DaoImpl
         }
 
     }
+
+    public String fetchDefaultModeOfPayment() throws SQLException
+    {
+
+        String defaultModeOfPayment = "";
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT defaultmodeofpayment FROM %s.billsettings", tenantId));
+            ResultSet rs = stmt.executeQuery();
+            while(rs.next())
+            {
+                defaultModeOfPayment = rs.getString("defaultmodeofpayment");
+            }
+
+            stmt.close();
+
+            return defaultModeOfPayment;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public void updateDefaultModeOfPayment(String defaultmodeofpayment) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("UPDATE %s.billsettings SET defaultmodeofpayment = ?", tenantId));
+            stmt.setString(1,defaultmodeofpayment);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
 }

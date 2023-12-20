@@ -15,12 +15,17 @@
       </Label>
       <Label fx:id="billLabel" contentDisplay="CENTER" text="Label" wrapText="true">
          <font>
-            <Font name="Segoe UI Symbol" size="15.0" />
+            <Font name="Courier New" size="15.0" />
          </font>
       </Label>
       <Button fx:id="close" mnemonicParsing="false" onMouseClicked="#closePreviewWindow" prefHeight="34.0" prefWidth="109.0" text="Close">
          <VBox.margin>
             <Insets bottom="10.0" left="100.0" right="100.0" />
          </VBox.margin></Button>
+      <Button fx:id="print" mnemonicParsing="false" onMouseClicked="#printBill" prefHeight="34.0" prefWidth="109.0" text="Print">
+         <VBox.margin>
+            <Insets left="100.0" right="100.0" />
+         </VBox.margin>
+      </Button>
    </children>
 </VBox>
