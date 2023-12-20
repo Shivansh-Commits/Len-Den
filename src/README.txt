@@ -146,6 +146,7 @@ TABLES -
 
     8)billsettings
         modeofpayment [text] (Primary key)
+        defaultmodeofpayment [text]
         maxdiscount [numeric]
         defaultdiscount [numeric]
         gst [numeric]

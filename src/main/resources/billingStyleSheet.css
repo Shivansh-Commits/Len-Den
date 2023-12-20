@@ -148,7 +148,8 @@
 
 
 /* CSS FOR TABLES CONTENT */
-.food-items-table{
+.food-items-table
+{
      -fx-font-size : 14px;
      -fx-font-family : "Segoe UI Symbol";
 }

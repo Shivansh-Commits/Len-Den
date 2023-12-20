@@ -39,7 +39,7 @@ public class SettingsController implements Initializable {
 
     public void openBillingSettings(MouseEvent ignoredEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("billingSettings.fxml"));
-        AnchorPane home = loader.load();
+        BorderPane home = loader.load();
 
         Scene scene = billingSettingsButton.getScene();
         scene.getStylesheets().add("tableSettingsStyleSheet.css");

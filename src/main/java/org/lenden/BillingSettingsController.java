@@ -7,6 +7,7 @@ import org.lenden.dao.DaoImpl;
 
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class BillingSettingsController implements Initializable {
@@ -34,9 +35,15 @@ public class BillingSettingsController implements Initializable {
     @FXML
     TextField customVatTextField;
     @FXML
+    CheckBox setDefaultModeOfPaymentCheckbox;
+    @FXML
+    ComboBox<String> defaultModeOfPaymentsComboBox;
+    @FXML
     Button saveTaxSettingsButton;
     @FXML
     Button saveDiscountSettingsButton;
+    @FXML
+    Button saveModeOfPaymentSettings;
 
 
     DaoImpl daoimpl = new DaoImpl();
@@ -46,7 +53,7 @@ public class BillingSettingsController implements Initializable {
     {
         try
         {
-            //Initially checking saved GST values
+            //----------------Initially checking saved GST values
             double defaultGst = 2*daoimpl.getTax("sgst"); // sgst + cgst = GST  (sgst = cgst)
             if(defaultGst == 5)
             {
@@ -63,7 +70,7 @@ public class BillingSettingsController implements Initializable {
                 customGstTextField.setDisable(false);
             }
 
-            //Initially checking saved VAT values
+            //----------------Initially checking saved VAT values
             double defaultVat = daoimpl.getTax("vat");
             if(defaultVat == 5)
             {
@@ -76,7 +83,8 @@ public class BillingSettingsController implements Initializable {
                 customVatTextField.setDisable(false);
             }
 
-            //Initially checking & displaying saved Default Discount
+
+            //----------------Initially checking & displaying saved Default Discount
             double defaultDiscount = daoimpl.fetchDefaultDiscount();
             if(defaultDiscount > 0)
             {
@@ -88,7 +96,8 @@ public class BillingSettingsController implements Initializable {
                 defaultDiscountTextBox.setDisable(true);
             }
 
-            //Initially checking & displaying saved Max Discount
+
+            //------------------Initially checking & displaying saved Max Discount
             double maxDiscount = daoimpl.fetchMaxDiscount();
             if(maxDiscount > 0)
             {
@@ -98,6 +107,23 @@ public class BillingSettingsController implements Initializable {
             else
             {
                 maxDiscountTextBox.setDisable(true);
+            }
+
+
+            //-----------------Initially Checking and displaying mode of payments
+            ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
+            defaultModeOfPaymentsComboBox.getItems().addAll(modeofpayments);
+
+            String defaultmodeofpayment = daoimpl.fetchDefaultModeOfPayment();
+
+            if(defaultmodeofpayment!=null)
+            {
+                defaultModeOfPaymentsComboBox.setValue(defaultmodeofpayment);
+
+                defaultModeOfPaymentsComboBox.setDisable(false);
+
+                setDefaultModeOfPaymentCheckbox.setSelected(true);
+
             }
 
         }
@@ -115,8 +141,12 @@ public class BillingSettingsController implements Initializable {
         customVatRadioButton.setOnAction(event -> customVatTextField.setDisable(false));
 
 
-        setDefaultDiscountCheckbox.setOnAction(event -> defaultDiscountTextBox.setDisable(false));
-        setMaxDiscountCheckbox.setOnAction((event -> maxDiscountTextBox.setDisable(false)));
+        setDefaultDiscountCheckbox.setOnAction(event -> defaultDiscountTextBox.setDisable(!setDefaultDiscountCheckbox.isSelected()));
+        setMaxDiscountCheckbox.setOnAction((event -> maxDiscountTextBox.setDisable(!setMaxDiscountCheckbox.isSelected())));
+
+
+        setDefaultModeOfPaymentCheckbox.setOnAction(event -> defaultModeOfPaymentsComboBox.setDisable(!setDefaultModeOfPaymentCheckbox.isSelected()));
+
 
         saveTaxSettingsButton.setOnMouseClicked(event -> {
 
@@ -258,7 +288,40 @@ public class BillingSettingsController implements Initializable {
 
         });
 
+        saveModeOfPaymentSettings.setOnMouseClicked(event -> {
 
+            try
+            {
+
+                String defaultmodeofpayment = null;
+
+                if(setDefaultModeOfPaymentCheckbox.isSelected())
+                {
+                    defaultmodeofpayment = defaultModeOfPaymentsComboBox.getValue();
+                    daoimpl.updateDefaultModeOfPayment(defaultmodeofpayment);
+                }
+                else
+                {
+                    return;
+                }
+
+                defaultDiscountTextBox.setText(String.valueOf(defaultmodeofpayment));
+            }
+            catch (SQLException e)
+            {
+                Alert reserveSuccessAlert = new Alert(Alert.AlertType.ERROR, "Check your Internet Connection. If this error keeps occurring, contact customer support."+e.getMessage(), ButtonType.OK);
+                reserveSuccessAlert.setHeaderText("Could not save to Database");
+                reserveSuccessAlert.setTitle("Error!");
+                reserveSuccessAlert.showAndWait();
+                throw new RuntimeException(e);
+            }
+
+
+            Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Default mode of Payment Saved Successfully", ButtonType.OK);
+            reserveSuccessAlert.setHeaderText("Default mode of payment Saved Successfully");
+            reserveSuccessAlert.setTitle("INFORMATION");
+            reserveSuccessAlert.showAndWait();
+        });
     }
 
 }

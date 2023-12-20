@@ -96,8 +96,6 @@ public class TableBillingController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
         //--------------------------------------------------------------------------------------------------------------
-        //Setting CSS Classes
-        //foodItemsTable.getStyleClass().add("table-view");
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Category Buttons
@@ -197,12 +195,18 @@ public class TableBillingController implements Initializable {
             }
         });
         //--------------------------------------------------------------------------------------------------------------
-        //Setting mode of payments
+        //Setting mode of payments & Default Payment
 
         try
         {
             ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
             modeofpayment.getItems().addAll(modeofpayments);
+
+            String defaultmodeofpayment = daoimpl.fetchDefaultModeOfPayment();
+            if(defaultmodeofpayment!=null)
+            {
+                modeofpayment.setValue(defaultmodeofpayment);
+            }
         }
         catch (SQLException e)
         {
