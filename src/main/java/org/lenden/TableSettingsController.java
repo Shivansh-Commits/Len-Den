@@ -142,6 +142,23 @@ public class TableSettingsController implements Initializable {
             deleteButton.getStyleClass().add("saveEdit-button");
             deleteButton.setOnMouseClicked(event -> {
 
+                try
+                {
+                    if(daoimpl.fetchOpenAndReservedTableCount()>0)
+                    {
+                        Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "Open Tables Found!", ButtonType.OK);
+                        deleteAlert.setHeaderText("Settle(close) the Open tables , Un-Reserve Tables and try again.Tables and Areas can be edited only when all tables are closed. ");
+                        deleteAlert.setTitle("Alert!");
+                        deleteAlert.showAndWait();
+                        return;
+                    }
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(e);
+                }
+
+
                 Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you Sure ?", ButtonType.YES , ButtonType.NO);
                 deleteAlert.setHeaderText("Area will be deleted from the Billing Page");
                 deleteAlert.setTitle("Alert!");

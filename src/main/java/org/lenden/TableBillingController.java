@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -125,9 +126,10 @@ public class TableBillingController implements Initializable {
         }
 
         //--------------------------------------------------------------------------------------------------------------
-        try {
-            //Getting Menu Items FOR MENU TABLE
-            menuTableItems = daoimpl.getCategoryItems("Main Course");
+        try
+        {
+            //Getting Default Category Items FOR MENU TABLE
+            menuTableItems = daoimpl.getCategoryItems(categories.get(0));
         }
         catch (Exception ex)
         {
@@ -1469,9 +1471,9 @@ public class TableBillingController implements Initializable {
 
     }
 
-    public ObservableList<String> getExpandedTitledPanesTables()
-    {
-        ObservableList destinationTables = FXCollections.observableArrayList();
+
+    public ObservableList<String> getExpandedTitledPanesTables() {
+        ObservableList<String> destinationTables = FXCollections.observableArrayList();
 
         TitledPane expandedPane = accordion.getExpandedPane();
 
@@ -1482,33 +1484,23 @@ public class TableBillingController implements Initializable {
             int rows = GridPane.getRowIndex(gridPane.getChildren().get(gridPane.getChildren().size() - 1)) + 1;
             int cols = GridPane.getColumnIndex(gridPane.getChildren().get(gridPane.getChildren().size() - 1)) + 1;
 
-            for (int row = 0; row < rows; row++) {
-                for (int col = 0; col < cols; col++) {
-                    final int currentRow = row; // Capture the current row value
-                    final int currentCol = col; // Capture the current col value
+            for (Node cellNode : gridPane.getChildren()) {
+                Integer row = GridPane.getRowIndex(cellNode);
+                Integer col = GridPane.getColumnIndex(cellNode);
 
-                    Node cellNode = gridPane.getChildren().stream()
-                            .filter(node -> GridPane.getRowIndex(node) == currentRow && GridPane.getColumnIndex(node) == currentCol)
-                            .findFirst()
-                            .orElse(null);
+                if (row != null && col != null && cellNode instanceof Pane) {
+                    Pane tablePane = (Pane) cellNode;
+                    Label nameLabel = (Label) tablePane.lookup("#tableNumber");
 
-                    if (cellNode != null && cellNode instanceof Pane) {
-                        Pane tablePane = (Pane) cellNode;
-                        Label nameLabel = (Label) tablePane.lookup("#tableNumber");
-
-                        if (nameLabel != null) {
-                            String tableName = nameLabel.getText();
-                            // Store table names in list
-                            destinationTables.add(tableName);
-                        }
+                    if (nameLabel != null) {
+                        String tableName = nameLabel.getText();
+                        destinationTables.add(tableName);
                     }
                 }
             }
-        }
-        else
-        {
+        } else {
             // Handle the case when no pane is expanded
-            Alert noExpandedPaneAlert = new Alert(Alert.AlertType.WARNING, "Select a area to shift table from", ButtonType.OK);
+            Alert noExpandedPaneAlert = new Alert(Alert.AlertType.WARNING, "Select an area to shift the table from", ButtonType.OK);
             noExpandedPaneAlert.setHeaderText("No area is selected");
             noExpandedPaneAlert.setTitle("Alert!");
             noExpandedPaneAlert.showAndWait();
@@ -1516,6 +1508,7 @@ public class TableBillingController implements Initializable {
 
         return destinationTables;
     }
+
 
     @FXML
     public void shiftTable(MouseEvent ignoredEvent)
@@ -1541,8 +1534,10 @@ public class TableBillingController implements Initializable {
 
         ComboBox<String> destinationTableComboBox = new ComboBox<>(destinationTables);
         destinationTableComboBox.setPrefSize(50,15);
+        destinationTableComboBox.setPadding(new Insets(5,5,5,5));
         destinationTableComboBox.setStyle("-fx-background-color:white");
         destinationTableComboBox.setPromptText("Select Destination Table");
+        destinationTableDialog.getDialogPane().setPadding(new Insets(10,10,10,10));
         destinationTableDialog.getDialogPane().setContent(destinationTableComboBox);
 
         // Show the dialog and wait for a response

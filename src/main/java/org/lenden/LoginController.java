@@ -54,11 +54,13 @@ public class LoginController
                 stage.setTitle("LenDen");
 
                 //Setting the window logo
-                Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
-                stage.getIcons().add(window_icon);
+                Image whiteLogo = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
+                stage.getIcons().add(whiteLogo);
 
                 stage.setScene(scene);
                 stage.setMaximized(true);
+                //stage.setFullScreen(true);
+
                 stage.show();
 
                 Stage loginStage = (Stage) logInButton.getScene().getWindow();

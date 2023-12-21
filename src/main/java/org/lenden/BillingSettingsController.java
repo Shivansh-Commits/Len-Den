@@ -90,6 +90,7 @@ public class BillingSettingsController implements Initializable {
             {
                 setDefaultDiscountCheckbox.setSelected(true);
                 defaultDiscountTextBox.setText(String.valueOf(defaultDiscount));
+                defaultDiscountTextBox.setDisable(false);
             }
             else
             {
@@ -103,6 +104,7 @@ public class BillingSettingsController implements Initializable {
             {
                 setMaxDiscountCheckbox.setSelected(true);
                 maxDiscountTextBox.setText(String.valueOf(maxDiscount));
+                maxDiscountTextBox.setDisable(false);
             }
             else
             {

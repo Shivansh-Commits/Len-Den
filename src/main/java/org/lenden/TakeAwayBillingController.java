@@ -63,7 +63,8 @@ public class TakeAwayBillingController implements Initializable
     TextField discountField;
     @FXML
     TilePane takeAwayOrdersTilePane;
-    ComboBox<String> modeofpayment = new ComboBox<>();
+    @FXML
+    ComboBox<String> modeOfPaymentComboBox;
 
     HashMap<String,ObservableList<BillItems>> openOrders = new HashMap<>();
 
@@ -74,8 +75,6 @@ public class TakeAwayBillingController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //Setting CSS Classes
-        //foodItemsTable.getStyleClass().add("view-table");
 
         //Setting Category Buttons
         List<String> categories = null;
@@ -179,8 +178,12 @@ public class TakeAwayBillingController implements Initializable
         try
         {
             ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
-            modeofpayment.setPromptText("Mode Of Payment");
-            modeofpayment.getItems().addAll(modeofpayments);
+            modeOfPaymentComboBox.getItems().addAll(modeofpayments);
+            String defaultmodeofpayment = daoimpl.fetchDefaultModeOfPayment();
+            if(defaultmodeofpayment!=null)
+            {
+                modeOfPaymentComboBox.setValue(defaultmodeofpayment);
+            }
         }
         catch (SQLException e)
         {
@@ -532,25 +535,23 @@ public class TakeAwayBillingController implements Initializable
             return;
         }
 
-        //Showing payment Window
-        ButtonType customButtonType = new ButtonType("PAID");
-        Alert paymentDialog = new Alert(Alert.AlertType.INFORMATION, "", customButtonType ,ButtonType.CANCEL );
-        paymentDialog.setHeaderText("Payment Window");
-        paymentDialog.setTitle("Confirm Payment");
+        //Checking for Mode of payment
+        if( modeOfPaymentComboBox.getValue() == null)
+        {
 
-        paymentDialog.getDialogPane().setContent(modeofpayment);
-        paymentDialog.showAndWait();
-
-        if(paymentDialog.getResult() == ButtonType.CANCEL || modeofpayment.getValue() == null)
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a valid mode of payment", ButtonType.OK);
+            alert.setHeaderText("Mode of Payment not Selected");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+            modeOfPaymentComboBox.requestFocus();
             return;
+        }
         else
         {
             addBill(ignoredEvent);
 
             //Display Take Away Orders in Take-Away order Tile Pane
             displayTakeAwayOrders();
-
-
 
             billTableItems.clear(); //Clearing the bill table
 
@@ -577,17 +578,6 @@ public class TakeAwayBillingController implements Initializable
             return;
         }
 
-        //Check if mode of payment in selected
-        if( modeofpayment.getValue() == null)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Select a valid mode of payment", ButtonType.OK);
-            alert.setHeaderText("Mode of Payment not Selected");
-            alert.setTitle("Alert!");
-            alert.showAndWait();
-            modeofpayment.requestFocus();
-            return;
-        }
-
         //IF BILL TABLE IS NOT EMPTY AND MODE OF PAYMENT IS SELECTED, PROCEED TO SAVING AND SETTLING BILL
 
         //Setting bill details
@@ -603,7 +593,7 @@ public class TakeAwayBillingController implements Initializable
             alert.showAndWait();
         }
 
-        String modeOfPayment = modeofpayment.getValue();
+        String modeOfPayment = modeOfPaymentComboBox.getValue();
 
         bill.setModeOfpayment(modeOfPayment);
 
