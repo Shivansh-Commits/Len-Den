@@ -142,7 +142,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <BorderPane prefHeight="41.0" prefWidth="360.0">
+                              <BorderPane>
                                  <right>
                                     <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="89.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="38.0" prefWidth="109.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill" BorderPane.alignment="CENTER">
                                        <cursor>
@@ -151,7 +151,7 @@
                                     </Button>
                                  </right>
                                  <left>
-                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" maxWidth="1.7976931348623157E308" prefHeight="52.0" prefWidth="108.0" promptText="Payment" BorderPane.alignment="CENTER">
+                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="108.0" promptText="Payment" BorderPane.alignment="CENTER">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>

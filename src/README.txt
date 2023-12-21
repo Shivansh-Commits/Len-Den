@@ -43,11 +43,18 @@ SETP 3 - On the "Application Files" page, mention location of EXE file, and belo
          "Add Folder" and select the "JRE" folder that we created earlier.
 STEP 4 - Further add the basic details , and when installation wizard ends, you will be prompted with a dailouge box
          saying "would you like to compile the script now" click "NO" and the script editor will open up.
-STEP 5 - In the script , find the "[Files]" section. In one of the "Sources" you will see the JRE's address mentioned.
+
+STEP 5 - (For First Source) In the script , find the "[Files]" section. In one of the "Sources" you will see the EXE Application's address mentioned.
 STEP 6 - In that line we have to change the "DestDir" value. remove "{app}" and write this
+         "C:\Program Files (x86)\LenDen" . (Basically we are bundling JRE with the EXE , because our exe needs
+         JRE to run, on which ever system it will be installed).
+
+STEP 7 - (FOR FIRST Source) In the script , find the "[Files]" section. In one of the "Sources" you will see the JRE's address mentioned.
+STEP 8 - In that line we have to change the "DestDir" value. remove "{app}" and write this
          "C:\Program Files (x86)\LenDen\JRE" . (Basically we are bundling JRE with the EXE , because our exe needs
-         JRE to run, on which ever system it will be installed)
-STEP 7 - Save the script and click on Run.
+         JRE to run, on which ever system it will be installed).
+
+STEP 9 - Save the script and click on Run.
 
 VIDEO REFERENCE - https://youtu.be/k6m2a1OtfZ4
 

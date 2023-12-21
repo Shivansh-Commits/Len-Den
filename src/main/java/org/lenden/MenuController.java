@@ -8,7 +8,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.MenuItems;
@@ -85,6 +87,79 @@ public class MenuController implements Initializable
         //Populating availability drop down menu (UPDATE ITEM)
         updateItemAvailability.setItems(FXCollections.observableArrayList("Available","NOT Available"));
 
+        addNumericInputFieldValidation(addItemPrice);
+        addNumericInputFieldValidation(updateItemPrice);
+
+        addAlphabeticInputFieldValidation(addItemName);
+        addAlphabeticInputFieldValidation(updateItemName);
+    }
+
+    /**
+     *
+     * For Input Validation.
+     * Desc - Function adds event listener to the fields and uses regex to match input .
+     * only allows Aplhabets , " - " and nums 1-9
+     *
+     * **/
+    private void addAlphabeticInputFieldValidation(TextField textField) {
+        // Event filter to allow only alphabetic characters and the hyphen "-"
+        textField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            String input = event.getCharacter();
+
+            // Use a regular expression to check if the input is alphabetic or a hyphen
+            if (!input.matches("[a-zA-Z\\-1-9 ]")) {
+                event.consume(); // Ignore the input if it's not alphabetic or a hyphen
+            }
+        });
+    }
+
+    /**
+     *
+     * For Input Validation.
+     * Desc - Function adds event listener to the fields and uses regex to match input .
+     * only allows " . " and nums 1-9
+     *
+     * **/
+    private void addNumericInputFieldValidation(TextField textField) {
+        // Event filter to allow only numeric characters and the decimal point "."
+        textField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
+            String input = event.getCharacter();
+
+            // Use a regular expression to check if the input is numeric or a decimal point
+            if (!input.matches("[0-9.]")) {
+                event.consume(); // Ignore the input if it's not numeric or a decimal point
+            }
+        });
+    }
+
+    public void displayUpdatedCategoryList()
+    {
+        //Displaying Updated Category List
+        try {
+            ObservableList<String> categories = daoimpl.getCategories();
+
+            categoriesVBox.getChildren().clear();
+
+            for(String category:categories)
+            {
+                Button button = new Button(category); // Create a new button
+
+                button.setOnMouseClicked(this::displayMenuItems);
+                button.getStyleClass().add("category-button");
+                button.setPrefWidth(171);
+                button.setPrefHeight(80);
+                button.setCursor(Cursor.HAND);
+                categoriesVBox.getChildren().add(button);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            Alert exAlert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
+            exAlert.setHeaderText("Failed");
+            exAlert.setTitle("Error!");
+            exAlert.showAndWait();
+        }
     }
 
     public void displayMenuItems(String category)
@@ -222,6 +297,8 @@ public class MenuController implements Initializable
         if(addItemPrice.getText().length() > 5 )
         {
             Alert alert = new Alert(Alert.AlertType.WARNING, "The price of a single food item can not be more than 10,000", ButtonType.OK);
+            alert.getDialogPane().setMinHeight(Region.USE_COMPUTED_SIZE);
+            alert.getDialogPane().setMaxHeight(Region.USE_COMPUTED_SIZE);
             alert.setHeaderText("Price Limit Exceeded");
             alert.setTitle("Alert!");
             alert.showAndWait();
@@ -275,6 +352,8 @@ public class MenuController implements Initializable
             else
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Item Already Exists! If item does not already exist and you are still seeing this error, Contact customer Support!", ButtonType.OK);
+                alert.getDialogPane().setMinHeight(Region.USE_COMPUTED_SIZE);
+                alert.getDialogPane().setMaxHeight(Region.USE_COMPUTED_SIZE);
                 alert.setHeaderText("Duplicate Item Entry");
                 alert.setTitle("Information");
                 alert.showAndWait();
@@ -309,6 +388,10 @@ public class MenuController implements Initializable
                     alert.setHeaderText("Success");
                     alert.setTitle("Information");
                     alert.showAndWait();
+
+                    //Displaying Updated Category List
+                    displayUpdatedCategoryList();
+
                 }
                 else
                 {
@@ -436,7 +519,12 @@ public class MenuController implements Initializable
                     updateItemPrice.setText("");
                     updateItemAvailability.setValue("");
                     updateItemCategory.setValue("");
-                    displayMenuItems(item.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+
+                    //SHOW TABLE WITH UPDATED ITEMS
+                    displayMenuItems(item.getFoodItemCategory());
+
+                    //SHOW UPDATED CATEGORY LIST
+                    displayUpdatedCategoryList();
                 }
             }
             catch (SQLException ex)

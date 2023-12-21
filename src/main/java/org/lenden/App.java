@@ -29,8 +29,8 @@ public class App extends Application {
         stage.setResizable(false);
 
         //Setting the Login window Icon
-        Image window_icon = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
-        stage.getIcons().add(window_icon);
+        Image whiteLogo = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());
+        stage.getIcons().add(whiteLogo);
 
         stage.show();
     }
