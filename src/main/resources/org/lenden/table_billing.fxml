@@ -134,7 +134,7 @@
                         </AnchorPane>
                         <VBox prefHeight="146.0" prefWidth="228.0" spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                            <children>
-                              <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="35.0" prefWidth="188.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Print Bill &amp; KOT">
+                              <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="37.0" prefWidth="234.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Print Bill &amp; KOT">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>
@@ -142,22 +142,20 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <BorderPane>
-                                 <right>
-                                    <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="89.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="38.0" prefWidth="109.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill" BorderPane.alignment="CENTER">
-                                       <cursor>
-                                          <Cursor fx:constant="HAND" />
-                                       </cursor>
-                                    </Button>
-                                 </right>
-                                 <left>
-                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="108.0" promptText="Payment" BorderPane.alignment="CENTER">
+                              <HBox prefWidth="200.0" spacing="10.0">
+                                 <children>
+                                    <ComboBox fx:id="modeofpayment" accessibleHelp="Mode of Payment" maxWidth="1.7976931348623157E308" prefHeight="38.0" prefWidth="110.0" promptText="Payment">
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ComboBox>
-                                 </left>
-                              </BorderPane>
+                                    <Button fx:id="saveInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="89.0" mnemonicParsing="false" onMouseClicked="#settleBill" prefHeight="38.0" prefWidth="119.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Settle Bill">
+                                       <cursor>
+                                          <Cursor fx:constant="HAND" />
+                                       </cursor>
+                                    </Button>
+                                 </children>
+                              </HBox>
                               <Button maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="35.0" prefWidth="188.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
