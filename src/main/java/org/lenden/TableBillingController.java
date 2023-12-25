@@ -735,6 +735,9 @@ public class TableBillingController implements Initializable {
         {
             //Checking if the discount value is more than 0 and less than Max Discount Value
             Double maxDiscount = daoimpl.fetchMaxDiscount();
+            if(maxDiscount==0)
+                return;
+
             if( discountField.getText().matches("[0-9]*\\.?[0-9]*") && Double.parseDouble(discountField.getText()) >= 0 && Double.parseDouble(discountField.getText()) < maxDiscount )
             {
                 double newDiscount = Double.parseDouble(discountField.getText());
@@ -744,7 +747,7 @@ public class TableBillingController implements Initializable {
             else
             {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Discount Value", ButtonType.OK);
-                alert.setHeaderText("Discount should be more than 0.0 & less than "+maxDiscount);
+                alert.setHeaderText("Discount should be more than/equal to 0.0 & less than "+maxDiscount);
                 alert.setTitle("Attention!");
                 alert.showAndWait();
 

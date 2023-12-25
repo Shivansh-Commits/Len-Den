@@ -137,7 +137,7 @@ TABLES -
         fooditemavaiability [boolean]
 
     5)outletdetails
-        outletname [text]
+        outletname [text] (Primary Key)
         outletaddress [text]
         gstnumber [text]
         phone [text]
