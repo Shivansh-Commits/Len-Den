@@ -54,9 +54,9 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
          <center>
-            <ScrollPane fitToWidth="true" maxWidth="1.7976931348623157E308" minWidth="800.0" style="-fx-border-color: white;" BorderPane.alignment="CENTER">
+            <ScrollPane fitToWidth="true" maxWidth="1.7976931348623157E308" minWidth="800.0" prefHeight="324.0" prefWidth="1202.0" style="-fx-border-color: white;" BorderPane.alignment="CENTER">
                <content>
-                  <TilePane minWidth="800.0" vgap="10.0">
+                  <TilePane minWidth="800.0" orientation="VERTICAL" vgap="10.0">
                      <children>
                         <BorderPane maxWidth="1.7976931348623157E308" minWidth="800.0" prefHeight="115.0" prefWidth="1196.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" TilePane.alignment="CENTER">
                            <center>
@@ -100,22 +100,31 @@
                                        <cursor>
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
+                                       <HBox.margin>
+                                          <Insets right="10.0" />
+                                       </HBox.margin>
                                     </Button>
                                  </children>
+                                 <padding>
+                                    <Insets left="15.0" top="10.0" />
+                                 </padding>
                               </HBox>
                            </center>
                            <top>
-                              <Label maxWidth="1.7976931348623157E308" minWidth="80.0" text="Update / Delete" BorderPane.alignment="CENTER">
+                              <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" style="-fx-background-color: BLACK;" text="Update / Delete" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <BorderPane.margin>
                                     <Insets bottom="10.0" />
                                  </BorderPane.margin>
+                                 <padding>
+                                    <Insets left="15.0" />
+                                 </padding>
                               </Label>
                            </top>
                            <padding>
-                              <Insets bottom="20.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets bottom="20.0" />
                            </padding>
                            <opaqueInsets>
                               <Insets />
@@ -156,24 +165,30 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                        <HBox.margin>
-                                          <Insets left="30.0" />
+                                          <Insets left="30.0" right="10.0" />
                                        </HBox.margin>
                                     </Button>
                                  </children>
+                                 <padding>
+                                    <Insets left="15.0" top="10.0" />
+                                 </padding>
                               </HBox>
                            </center>
                            <top>
-                              <Label maxWidth="1.7976931348623157E308" minWidth="80.0" text="Add Item" BorderPane.alignment="CENTER">
+                              <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" style="-fx-background-color: black;" text="Add Item" textFill="WHITE" BorderPane.alignment="CENTER">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                                  <BorderPane.margin>
                                     <Insets bottom="10.0" />
                                  </BorderPane.margin>
+                                 <padding>
+                                    <Insets left="15.0" />
+                                 </padding>
                               </Label>
                            </top>
                            <padding>
-                              <Insets bottom="20.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets bottom="20.0" />
                            </padding>
                         </BorderPane>
                      </children>
