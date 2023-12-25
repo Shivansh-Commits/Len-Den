@@ -396,6 +396,30 @@ public class DaoImpl
         return null;
     }
 
+    public void updateOutletDetails(String outletName, String outletAddress, String  outletContact , String outletGstNum) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("UPDATE %s.outletdetails SET outletname = ?,outletaddress = ?, phone = ?, gstnumber = ?", tenantId));
+            stmt.setString(1,outletName);
+            stmt.setString(2,outletAddress);
+            stmt.setString(3,outletContact);
+            stmt.setString(4,outletGstNum);
+
+            stmt.executeUpdate();
+
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
     public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException {
         PreparedStatement stmt;
 

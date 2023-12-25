@@ -20,6 +20,8 @@ public class BillingSettingsController implements Initializable {
     TextField defaultDiscountTextBox;
     @FXML
     TextField maxDiscountTextBox;
+
+
     @FXML
     RadioButton eighteenPercentGstRadioButton;
     @FXML
@@ -35,15 +37,37 @@ public class BillingSettingsController implements Initializable {
     @FXML
     TextField customVatTextField;
     @FXML
+    RadioButton fivePercentServiceChargeRadioButton;
+    @FXML
+    RadioButton tenPercentServiceChargeRadioButton;
+    @FXML
+    RadioButton customServiceChargeRadioButton;
+    @FXML
+    TextField serviceChargeTextField;
+
+    @FXML
     CheckBox setDefaultModeOfPaymentCheckbox;
     @FXML
     ComboBox<String> defaultModeOfPaymentsComboBox;
+
+    @FXML
+    TextField outletNameTextField;
+    @FXML
+    TextField outletAddressTextField;
+    @FXML
+    TextField outletContactTextField;
+    @FXML
+    TextField outletGstNumTextField;
+
+
     @FXML
     Button saveTaxSettingsButton;
     @FXML
     Button saveDiscountSettingsButton;
     @FXML
-    Button saveModeOfPaymentSettings;
+    Button saveModeOfPaymentSettingsButton;
+    @FXML
+    Button  saveOutletDetailsButton;
 
 
     DaoImpl daoimpl = new DaoImpl();
@@ -53,7 +77,7 @@ public class BillingSettingsController implements Initializable {
     {
         try
         {
-            //----------------Initially checking saved GST values
+            //----------------Initially checking saved GST values--------------------------------
             double defaultGst = 2*daoimpl.getTax("sgst"); // sgst + cgst = GST  (sgst = cgst)
             if(defaultGst == 5)
             {
@@ -70,7 +94,8 @@ public class BillingSettingsController implements Initializable {
                 customGstTextField.setDisable(false);
             }
 
-            //----------------Initially checking saved VAT values
+
+            //----------------Initially checking saved VAT values--------------------------------
             double defaultVat = daoimpl.getTax("vat");
             if(defaultVat == 5)
             {
@@ -84,7 +109,25 @@ public class BillingSettingsController implements Initializable {
             }
 
 
-            //----------------Initially checking & displaying saved Default Discount
+            //----------------Initially checking saved Service Charge values--------------------------------
+            double serviceCharge = daoimpl.getTax("servicecharge"); // sgst + cgst = GST  (sgst = cgst)
+            if(serviceCharge == 5)
+            {
+                fivePercentServiceChargeRadioButton.setSelected(true);
+            }
+            else if (serviceCharge == 10)
+            {
+                tenPercentServiceChargeRadioButton.setSelected(true);
+            }
+            else
+            {
+                customServiceChargeRadioButton.setSelected(true);
+                serviceChargeTextField.setText(Double.toString(serviceCharge));
+                serviceChargeTextField.setDisable(false);
+            }
+
+
+            //----------------Initially checking & displaying saved Default Discount--------------------------------
             double defaultDiscount = daoimpl.fetchDefaultDiscount();
             if(defaultDiscount > 0)
             {
@@ -98,7 +141,7 @@ public class BillingSettingsController implements Initializable {
             }
 
 
-            //------------------Initially checking & displaying saved Max Discount
+            //------------------Initially checking & displaying saved Max Discount--------------------------------
             double maxDiscount = daoimpl.fetchMaxDiscount();
             if(maxDiscount > 0)
             {
@@ -112,7 +155,7 @@ public class BillingSettingsController implements Initializable {
             }
 
 
-            //-----------------Initially Checking and displaying mode of payments
+            //-----------------Initially Checking and displaying mode of payments--------------------------------
             ArrayList<String> modeofpayments = daoimpl.fetchModeOfPayment();
             defaultModeOfPaymentsComboBox.getItems().addAll(modeofpayments);
 
@@ -125,23 +168,49 @@ public class BillingSettingsController implements Initializable {
                 defaultModeOfPaymentsComboBox.setDisable(false);
 
                 setDefaultModeOfPaymentCheckbox.setSelected(true);
-
             }
 
+            //------------------Initially displaying saved Outlet Details--------------------------------
+            String outletName = daoimpl.getOutletDetails("name");
+            String outletAddress = daoimpl.getOutletDetails("address");
+            String outletContact = daoimpl.getOutletDetails("phone");
+            String outletGstNumber = daoimpl.getOutletDetails("gstnumber");
+
+            if(outletName!=null)
+            {
+                outletNameTextField.setText(outletName);
+            }
+            if(outletAddress!=null)
+            {
+                outletAddressTextField.setText(outletAddress);
+            }
+            if(outletContact!=null)
+            {
+                outletContactTextField.setText(outletContact);
+            }
+            if(outletGstNumber!=null)
+            {
+                outletGstNumTextField.setText(outletGstNumber);
+            }
         }
         catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
 
-        fivePercentGstRadioButton.setOnAction(event -> customGstTextField.setDisable(true));
-        eighteenPercentGstRadioButton.setOnAction(event -> customGstTextField.setDisable(true));
-        customGstRadioButton.setOnAction(event -> customGstTextField.setDisable(false));
+        //----------------RADIO BUTTONS AND TEXT FIELD ACTIONS--------------------
+        fivePercentGstRadioButton.setOnAction(event -> customGstTextField.setDisable(fivePercentGstRadioButton.isSelected()));
+        eighteenPercentGstRadioButton.setOnAction(event -> customGstTextField.setDisable(eighteenPercentGstRadioButton.isSelected()));
+        customGstRadioButton.setOnAction(event -> customGstTextField.setDisable(!customGstRadioButton.isSelected()));
 
 
-        fivePercentVatRadioButton.setOnAction(event -> customVatTextField.setDisable(true));
-        customVatRadioButton.setOnAction(event -> customVatTextField.setDisable(false));
+        fivePercentVatRadioButton.setOnAction(event -> customVatTextField.setDisable(fivePercentVatRadioButton.isSelected()));
+        customVatRadioButton.setOnAction(event -> customVatTextField.setDisable(!customVatRadioButton.isSelected()));
 
+
+        fivePercentServiceChargeRadioButton.setOnAction(event -> serviceChargeTextField.setDisable(fivePercentServiceChargeRadioButton.isSelected()));
+        tenPercentServiceChargeRadioButton.setOnAction(event -> serviceChargeTextField.setDisable(tenPercentServiceChargeRadioButton.isSelected()));
+        customServiceChargeRadioButton.setOnAction(event -> serviceChargeTextField.setDisable(!customServiceChargeRadioButton.isSelected()));
 
         setDefaultDiscountCheckbox.setOnAction(event -> defaultDiscountTextBox.setDisable(!setDefaultDiscountCheckbox.isSelected()));
         setMaxDiscountCheckbox.setOnAction((event -> maxDiscountTextBox.setDisable(!setMaxDiscountCheckbox.isSelected())));
@@ -150,6 +219,7 @@ public class BillingSettingsController implements Initializable {
         setDefaultModeOfPaymentCheckbox.setOnAction(event -> defaultModeOfPaymentsComboBox.setDisable(!setDefaultModeOfPaymentCheckbox.isSelected()));
 
 
+        //-------------------SAVE BUTTON ACTIONS----------------------
         saveTaxSettingsButton.setOnMouseClicked(event -> {
 
             try
@@ -192,6 +262,16 @@ public class BillingSettingsController implements Initializable {
                     reserveSuccessAlert.showAndWait();
                     return;
                 }
+
+                //FOR SERVICE CHARGE
+                double serviceCharge = 5;
+                if(tenPercentServiceChargeRadioButton.isSelected())
+                    serviceCharge = 10;
+                if(customServiceChargeRadioButton.isSelected())
+                    serviceCharge = Double.parseDouble(serviceChargeTextField.getText());
+
+                daoimpl.saveTax("servicecharge",serviceCharge);
+
             }
             catch (SQLException e)
             {
@@ -290,7 +370,7 @@ public class BillingSettingsController implements Initializable {
 
         });
 
-        saveModeOfPaymentSettings.setOnMouseClicked(event -> {
+        saveModeOfPaymentSettingsButton.setOnMouseClicked(event -> {
 
             try
             {
@@ -323,6 +403,44 @@ public class BillingSettingsController implements Initializable {
             reserveSuccessAlert.setHeaderText("Default mode of payment Saved Successfully");
             reserveSuccessAlert.setTitle("INFORMATION");
             reserveSuccessAlert.showAndWait();
+        });
+
+        saveOutletDetailsButton.setOnMouseClicked(event -> {
+            try
+            {
+
+                String outletName  = outletNameTextField.getText();
+                String outletAddress = outletAddressTextField.getText();
+                String outletContact = outletContactTextField.getText();
+                String outletGstNum = outletGstNumTextField.getText();
+
+                //Saving to Database
+                if(outletName!=null && outletName !="")
+                {
+                    daoimpl.updateOutletDetails(outletName,outletAddress,outletContact,outletGstNum);
+                }
+                else
+                {
+                    Alert reserveSuccessAlert = new Alert(Alert.AlertType.ERROR, "Outlet Name can not be EMPTY", ButtonType.OK);
+                    reserveSuccessAlert.setHeaderText("Value Missing");
+                    reserveSuccessAlert.setTitle("Error!");
+                    reserveSuccessAlert.showAndWait();
+                    return;
+                }
+
+                outletNameTextField.setText(outletName);
+                outletAddressTextField.setText(outletAddress);
+                outletContactTextField.setText(outletContact);
+                outletGstNumTextField.setText(outletGstNum);
+            }
+            catch (SQLException e)
+            {
+                Alert reserveSuccessAlert = new Alert(Alert.AlertType.ERROR, "Check your Internet Connection. If this error keeps occurring, contact customer support."+e.getMessage(), ButtonType.OK);
+                reserveSuccessAlert.setHeaderText("Could not save to Database");
+                reserveSuccessAlert.setTitle("Error!");
+                reserveSuccessAlert.showAndWait();
+                throw new RuntimeException(e);
+            }
         });
     }
 
