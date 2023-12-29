@@ -11,6 +11,9 @@ import org.lenden.dao.DaoImpl;
 import org.lenden.model.Tenants;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 public class LoginController
 {
@@ -29,7 +32,7 @@ public class LoginController
         tenant.setUsername(username.getText());
         tenant.setPassword(password.getText());
 
-        if(tenant.getUsername().equals("") || tenant.getPassword().equals(""))
+        if(tenant.getUsername().equals("") || tenant.getUsername().equals(null) || tenant.getPassword().equals("") || tenant.getPassword().equals(null))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Enter Username & Password", ButtonType.OK);
             alert.setHeaderText("Fields can not be Empty");
@@ -41,7 +44,29 @@ public class LoginController
         DaoImpl daoimpl = new DaoImpl();
 
         try {
-            if (daoimpl.login(tenant)) {
+            if (daoimpl.login(tenant))
+            {
+
+                //Fetching Subscription Info and Checking
+                Map.Entry<String, String> subscriptionDates = daoimpl.getSubscriptionInfo(tenant);
+                String startDate = subscriptionDates.getKey();
+                String endDate = subscriptionDates.getValue();
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm dd/MM/yyyy");
+                LocalDateTime subscriptionStartDate = LocalDateTime.parse(startDate, formatter);
+                LocalDateTime subscriptionEndDate = LocalDateTime.parse(endDate, formatter);
+
+                String currentDateTimeStringFormat = LocalDateTime.now().format(formatter);
+                LocalDateTime currentDateTime = LocalDateTime.parse(currentDateTimeStringFormat, formatter);
+
+                if(!subscriptionEndDate.isAfter(currentDateTime))
+                {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "Hey, your LenDen Subscription has expired. Contact customer support", ButtonType.OK);
+                    alert.setHeaderText("Renew Subscription");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
+                    return;
+                }
 
                 //Opening up new Window (Home Screen)
                 FXMLLoader fxmlLoader = new FXMLLoader();

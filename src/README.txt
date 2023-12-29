@@ -79,17 +79,27 @@ UI DESIGNER TOOL - Scene Builder
            [ DATABASE ]
 ---------------------------------------
 
-DB USED - POSTGRES DATABASE
-
 STRUCTURE DESCRIPTION -
 
-    Multi-tenant database format is used to store software data.
+Multi-tenant database format is used to store software data. Different tenant means different schema. One schema i.e.
+"public" holds all the sensitive user credentials.
 
-    One schema will be used to store the tenant data ( ID & Passwords ).
+    [ SCHEMA 1 ] -->
+    'PUBLIC' schema will be used to store the tenant data ( ID & Passwords ).
     ID of the tenant (which will be used to log in) is the name of schema of that
     tenant and is referred as 'tenantId' in the src code.
 
-    Every Tenant will have their own SCHEMA with same tables.
+TABLES -
+    1)tenants
+        username [text] (Primary Key)
+        password [text]
+        subscriptionstartdate [text]
+        subscriptionenddate [text]
+
+
+    [ SCHEMA 2 ] (can be multiple depending on users) -->
+    multiple schemas can exist depending on the customers.Their structure will be as defined below.
+    (Every Tenant will have their own SCHEMA with same tables)
 
 TABLES -
     1)bills
