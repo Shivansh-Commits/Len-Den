@@ -96,7 +96,6 @@ public class TableBillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
-        //--------------------------------------------------------------------------------------------------------------
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Category Buttons
@@ -272,36 +271,37 @@ public class TableBillingController implements Initializable {
             String areaName = entry.getKey();
             Integer tablesInArea = entry.getValue();
 
-
             // Create Title Pane
             TitledPane titledPane = new TitledPane();
+            titledPane.setStyle("-fx-background-color: white;");
             titledPane.setText(areaName);
 
             //Creating Scroll Pane
             ScrollPane scrollPane = new ScrollPane();
+            scrollPane.setStyle("-fx-background-color: white;");
 
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
             //anchorpane.setPrefSize(730, 620);
             //anchorpane.setMinSize(500,620);
-            anchorpane.setStyle("-fx-background-color: red;");
+            anchorpane.setStyle("-fx-background-color: white;");
             anchorpane.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
 
-            // Create GridPane
-            GridPane gridPane = new GridPane();
-            gridPane.setLayoutX(15);
-            gridPane.setLayoutY(21);
+            // Create TilePane
+            TilePane tilePane = new TilePane();
+            tilePane.setLayoutX(15);
+            tilePane.setLayoutY(21);
             //gridPane.setPrefSize(710, 620);
-            gridPane.setStyle("-fx-background-color: yellow;");
-            gridPane.setHgap(5);
-            gridPane.setVgap(5);
-            gridPane.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
+            tilePane.setStyle("-fx-background-color: white;");
+            tilePane.setHgap(5);
+            tilePane.setVgap(5);
+            tilePane.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
 
-            AnchorPane.setLeftAnchor(gridPane,15.0);
-            AnchorPane.setRightAnchor(gridPane,15.0);
+            AnchorPane.setLeftAnchor(tilePane,15.0);
+            AnchorPane.setRightAnchor(tilePane,15.0);
 
 
-            //Adding Panes (tables) in the grid
+            //Adding Panes (tables) in the Tile pane
             int row = 10;
             int col = 6;
             int temp = 1;
@@ -412,15 +412,14 @@ public class TableBillingController implements Initializable {
                         table.getChildren().add(name);
                         table.getChildren().add(grandTotalLabel);
                     }
-
-                    gridPane.add(table,j,i);
+                    tilePane.getChildren().add(table);
                     temp++;
                     tableNumCounter++;
                 }
             }
 
 
-            anchorpane.getChildren().add(gridPane);
+            anchorpane.getChildren().add(tilePane);
 
             scrollPane.setContent(anchorpane);
 
@@ -1492,17 +1491,12 @@ public class TableBillingController implements Initializable {
         TitledPane expandedPane = accordion.getExpandedPane();
 
         if (expandedPane != null) {
-            AnchorPane anchorPane = (AnchorPane) expandedPane.getContent();
-            GridPane gridPane = (GridPane) anchorPane.getChildren().get(0); // Assuming the GridPane is the first child
+            ScrollPane scrollPane = (ScrollPane) expandedPane.getContent();
+            AnchorPane anchorPane = (AnchorPane) scrollPane.getContent();
+            TilePane tilePane = (TilePane) anchorPane.getChildren().get(0); // Assuming the TilePane is the first child
 
-            int rows = GridPane.getRowIndex(gridPane.getChildren().get(gridPane.getChildren().size() - 1)) + 1;
-            int cols = GridPane.getColumnIndex(gridPane.getChildren().get(gridPane.getChildren().size() - 1)) + 1;
-
-            for (Node cellNode : gridPane.getChildren()) {
-                Integer row = GridPane.getRowIndex(cellNode);
-                Integer col = GridPane.getColumnIndex(cellNode);
-
-                if (row != null && col != null && cellNode instanceof Pane) {
+            for (Node cellNode : tilePane.getChildren()) {
+                if (cellNode instanceof Pane) {
                     Pane tablePane = (Pane) cellNode;
                     Label nameLabel = (Label) tablePane.lookup("#tableNumber");
 
