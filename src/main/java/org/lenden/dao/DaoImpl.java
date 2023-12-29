@@ -54,6 +54,33 @@ public class DaoImpl
         }
     }
 
+    public Map.Entry<String, String> getSubscriptionInfo(Tenants tenant) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("SELECT subscriptionstartdate,subscriptionenddate FROM public.tenants where username = ? AND password = ?;"));
+            stmt.setString(1,tenant.getUsername());
+            stmt.setString(2,tenant.getPassword());
+
+            ResultSet rs = stmt.executeQuery();
+
+            rs.next();
+
+            String startDate = rs.getString("subscriptionstartdate").trim();
+            String endDate = rs.getString("subscriptionenddate").trim();  // .trim() is used to remove "\n" or " " at the end of string
+
+            return new AbstractMap.SimpleEntry<>(startDate, endDate);
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public ObservableList<MenuItems> getCategoryItems(String category) throws Exception
     {
         ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();

@@ -84,10 +84,10 @@
                                                 <Font name="Segoe UI Symbol" size="14.0" />
                                              </font>
                                              <toggleGroup>
-                                                <ToggleGroup fx:id="gstToggleGroup1" />
+                                                <ToggleGroup fx:id="vatToggleGroup" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="customVatRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="90.0" text="Custom %" toggleGroup="$gstToggleGroup1">
+                                          <RadioButton fx:id="customVatRadioButton" mnemonicParsing="false" prefHeight="20.0" prefWidth="90.0" text="Custom %" toggleGroup="$vatToggleGroup">
                                              <font>
                                                 <Font name="Segoe UI Symbol" size="14.0" />
                                              </font>
@@ -116,15 +116,15 @@
                                                 <Font name="Segoe UI Symbol" size="14.0" />
                                              </font>
                                              <toggleGroup>
-                                                <ToggleGroup fx:id="gstToggleGroup2" />
+                                                <ToggleGroup fx:id="serviceChargeToggleGroup" />
                                              </toggleGroup>
                                           </RadioButton>
-                                          <RadioButton fx:id="tenPercentServiceChargeRadioButton" mnemonicParsing="false" text="10% " toggleGroup="$gstToggleGroup2">
+                                          <RadioButton fx:id="tenPercentServiceChargeRadioButton" mnemonicParsing="false" text="10% " toggleGroup="$serviceChargeToggleGroup">
                                              <font>
                                                 <Font name="Segoe UI Symbol" size="14.0" />
                                              </font>
                                           </RadioButton>
-                                          <RadioButton fx:id="customServiceChargeRadioButton" mnemonicParsing="false" prefHeight="20.0" text="Custom %" toggleGroup="$gstToggleGroup2">
+                                          <RadioButton fx:id="customServiceChargeRadioButton" mnemonicParsing="false" prefHeight="20.0" text="Custom %" toggleGroup="$serviceChargeToggleGroup">
                                              <font>
                                                 <Font name="Segoe UI Symbol" size="14.0" />
                                              </font>

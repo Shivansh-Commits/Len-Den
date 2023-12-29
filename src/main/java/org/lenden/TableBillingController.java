@@ -272,24 +272,30 @@ public class TableBillingController implements Initializable {
             String areaName = entry.getKey();
             Integer tablesInArea = entry.getValue();
 
+
             // Create Title Pane
             TitledPane titledPane = new TitledPane();
             titledPane.setText(areaName);
 
+            //Creating Scroll Pane
+            ScrollPane scrollPane = new ScrollPane();
+
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
-            anchorpane.setPrefSize(730, 620);
-            anchorpane.setMinSize(500,620);
-            anchorpane.setStyle("-fx-background-color: white;");
+            //anchorpane.setPrefSize(730, 620);
+            //anchorpane.setMinSize(500,620);
+            anchorpane.setStyle("-fx-background-color: red;");
+            anchorpane.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
 
             // Create GridPane
             GridPane gridPane = new GridPane();
             gridPane.setLayoutX(15);
             gridPane.setLayoutY(21);
-            gridPane.setPrefSize(710, 620);
-            gridPane.setStyle("-fx-background-color: white;");
+            //gridPane.setPrefSize(710, 620);
+            gridPane.setStyle("-fx-background-color: yellow;");
             gridPane.setHgap(5);
             gridPane.setVgap(5);
+            gridPane.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
 
             AnchorPane.setLeftAnchor(gridPane,15.0);
             AnchorPane.setRightAnchor(gridPane,15.0);
@@ -413,8 +419,13 @@ public class TableBillingController implements Initializable {
                 }
             }
 
+
             anchorpane.getChildren().add(gridPane);
-            titledPane.setContent(anchorpane);
+
+            scrollPane.setContent(anchorpane);
+
+            titledPane.setContent(scrollPane);
+
             accordion.getPanes().add(titledPane);
         }
     }
