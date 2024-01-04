@@ -633,18 +633,19 @@ public class DaoImpl
         }
     }
 
-    public HashMap<String, Integer> fetchAreaAndTables() throws SQLException
+    public LinkedHashMap<String, Integer> fetchAreaAndTables() throws SQLException
     {
-        HashMap<String, Integer> areaAndTables = new HashMap<>();
+        LinkedHashMap<String, Integer> areaAndTables = new LinkedHashMap<>();
 
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("SELECT tables,area FROM %s.tableandarea", tenantId));
+            stmt  = c.prepareStatement(String.format("SELECT tables,area FROM %s.tableandarea ORDER BY area ASC", tenantId));
             ResultSet rs = stmt.executeQuery();
             while(rs.next())
             {
+                String area = rs.getString("area");
                 areaAndTables.put(  rs.getString("area")  , rs.getInt("tables") );
             }
             stmt.close();

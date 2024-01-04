@@ -26,7 +26,7 @@
                <children>
                   <BorderPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="322.0" prefWidth="1186.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                      <center>
-                        <HBox maxWidth="1.7976931348623157E308" prefWidth="1170.0" spacing="50.0">
+                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="1170.0" spacing="50.0">
                            <children>
                               <VBox fillWidth="false" prefWidth="286.0" spacing="15.0">
                                  <children>
@@ -173,7 +173,7 @@
                   </BorderPane>
                   <BorderPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefWidth="1186.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                      <center>
-                        <HBox maxWidth="1.7976931348623157E308" prefWidth="1170.0" spacing="50.0">
+                        <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" prefWidth="1170.0" spacing="50.0">
                            <children>
                               <VBox prefHeight="150.0" prefWidth="182.0" spacing="15.0">
                                  <children>
@@ -278,7 +278,7 @@
                         <Insets bottom="15.0" />
                      </padding>
                      <center>
-                        <VBox fillWidth="false" prefHeight="115.0" prefWidth="1141.0" spacing="20.0" BorderPane.alignment="CENTER">
+                        <VBox alignment="CENTER" fillWidth="false" prefHeight="115.0" prefWidth="1141.0" spacing="20.0" BorderPane.alignment="CENTER">
                            <children>
                               <AnchorPane prefHeight="22.0" prefWidth="73.0">
                                  <children>
@@ -335,7 +335,7 @@
                         <Insets bottom="15.0" />
                      </padding>
                      <center>
-                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="50.0" BorderPane.alignment="CENTER">
                            <children>
                               <VBox prefHeight="150.0" prefWidth="182.0" spacing="10.0">
                                  <children>

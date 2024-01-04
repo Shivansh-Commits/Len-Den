@@ -251,7 +251,7 @@ public class TableBillingController implements Initializable {
 
 
         //Display Areas & Tables
-        HashMap<String, Integer> areaAndTables = null;
+        LinkedHashMap<String, Integer> areaAndTables = null;
         try
         {
             areaAndTables = daoimpl.fetchAreaAndTables();
@@ -278,13 +278,13 @@ public class TableBillingController implements Initializable {
 
             //Creating Scroll Pane
             ScrollPane scrollPane = new ScrollPane();
-            scrollPane.fitToWidthProperty();
+            scrollPane.setFitToWidth(true);
+            scrollPane.setFitToHeight(true);
+            scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
             scrollPane.setStyle("-fx-background-color: white;");
 
             // Create Anchor Pane
             AnchorPane anchorpane = new AnchorPane();
-            //anchorpane.setPrefSize(730, 620);
-            //anchorpane.setMinSize(500,620);
             anchorpane.setStyle("-fx-background-color: white;");
             anchorpane.setPrefSize(Region.USE_COMPUTED_SIZE,Region.USE_COMPUTED_SIZE);
 
@@ -292,7 +292,6 @@ public class TableBillingController implements Initializable {
             TilePane tilePane = new TilePane();
             tilePane.setLayoutX(15);
             tilePane.setLayoutY(21);
-            //gridPane.setPrefSize(710, 620);
             tilePane.setStyle("-fx-background-color: white;");
             tilePane.setHgap(5);
             tilePane.setVgap(5);
