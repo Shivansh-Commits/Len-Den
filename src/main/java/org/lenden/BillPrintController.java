@@ -6,8 +6,19 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
+
+import javax.print.*;
+import javax.print.attribute.HashPrintRequestAttributeSet;
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Copies;
+import javax.print.attribute.standard.MediaPrintableArea;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.ArrayList;
 
 public class BillPrintController{
     @FXML
@@ -59,6 +70,10 @@ public class BillPrintController{
         billText.append("\n");
         billText.append(String.format("%35s", "Thank You!")).append("\n");
 
+        //FOR THERMAL PRINTING
+        // createBillContent();
+
+        //FOR GENERATING PDF
         billLabel.setText((billText.toString()));
 
     }
@@ -67,7 +82,6 @@ public class BillPrintController{
      *
      * Contains actual printing logic.
      * Displays print window.
-     *
      * **/
     @FXML
     private void printBill()
@@ -92,6 +106,67 @@ public class BillPrintController{
     {
         Stage temp = (Stage) close.getScene().getWindow();
         temp.close();
+    }
+
+
+    //FOR THERMAL PRINTER
+    private void createBillContent() {
+
+        ArrayList<String> items = new ArrayList<>();
+        items.add("Item 1: $10.00");
+        items.add("Item 2: $15.50");
+        items.add("Item 3: $5.25");
+        double totalCost = 30.75;
+
+        StringBuilder billBuilder = new StringBuilder();
+
+        // Header
+        billBuilder.append("************ Bill ************\n\n");
+
+        // Items
+        for (String item : items) {
+            billBuilder.append(item).append("\n");
+        }
+
+        // Separator
+        billBuilder.append("-----------------------------\n");
+
+        // Total Cost
+        billBuilder.append("Total Cost: $").append(totalCost).append("\n");
+
+        printBill(billBuilder.toString());
+    }
+
+    private static void printBill(String billContent) {
+        // Create a PrintRequestAttributeSet with desired print settings
+        PrintRequestAttributeSet attributeSet = new HashPrintRequestAttributeSet();
+        attributeSet.add(new Copies(1)); // Number of copies
+        attributeSet.add(new MediaPrintableArea(0, 0, 80, 100, MediaPrintableArea.MM)); // Page size
+
+        try {
+            // Convert bill content to InputStream
+            byte[] contentBytes = billContent.getBytes();
+            InputStream inputStream = new ByteArrayInputStream(contentBytes);
+
+            // Create a Doc
+            DocFlavor flavor = DocFlavor.INPUT_STREAM.AUTOSENSE;
+            Doc doc = new SimpleDoc(inputStream, flavor, null);
+
+            // Get the default print service
+            PrintService printService = PrintServiceLookup.lookupDefaultPrintService();
+
+            if (printService != null) {
+                // Create a PrintJob
+                DocPrintJob printJob = printService.createPrintJob();
+
+                // Print the document
+                printJob.print(doc, attributeSet);
+            } else {
+                System.out.println("No default print service found.");
+            }
+        } catch (PrintException e) {
+            e.printStackTrace();
+        }
     }
 
 
