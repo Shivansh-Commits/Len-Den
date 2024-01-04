@@ -278,6 +278,7 @@ public class TableBillingController implements Initializable {
 
             //Creating Scroll Pane
             ScrollPane scrollPane = new ScrollPane();
+            scrollPane.fitToWidthProperty();
             scrollPane.setStyle("-fx-background-color: white;");
 
             // Create Anchor Pane
@@ -1410,7 +1411,8 @@ public class TableBillingController implements Initializable {
      * @param ignoredEvent Mouse Event i.e Click
      */
     @FXML
-    public void reserveTable(MouseEvent ignoredEvent) throws SQLException {
+    public void reserveTable(MouseEvent ignoredEvent)
+    {
         String tableNumber = tableNumberLabel.getText();
 
         try {
@@ -1424,53 +1426,71 @@ public class TableBillingController implements Initializable {
             //CASE - Un-Reserve Table
             else if (reservedTables.contains(tableNumber)) {
                 //IF Deletion success , then do UI work
-                if (daoimpl.deleteReservedTable(tableNumber)) {
-                    Pane table = getTableObjectById(accordion, tableNumber);
-                    table.getStyleClass().clear();
-                    table.getStyleClass().add("close-table");
+                try {
+                    if (daoimpl.deleteReservedTable(tableNumber)) {
+                        Pane table = getTableObjectById(accordion, tableNumber);
+                        table.getStyleClass().clear();
+                        table.getStyleClass().add("close-table");
 
-                    Label selectedTableReservedLabel = (Label) table.lookup("#reservedTableLabel");
-                    selectedTableReservedLabel.setId("tableGrandTotalLabel");
-                    selectedTableReservedLabel.setText("_ : _");
+                        Label selectedTableReservedLabel = (Label) table.lookup("#reservedTableLabel");
+                        selectedTableReservedLabel.setId("tableGrandTotalLabel");
+                        selectedTableReservedLabel.setText("_ : _");
 
-                    //Setting "reserve table" button's text to "Un-Reserve Table"
-                    reserveTableButton.setText("Reserve Table");
-                    reserveTableButton.setDisable(true);
+                        //Setting "reserve table" button's text to "Un-Reserve Table"
+                        reserveTableButton.setText("Reserve Table");
+                        reserveTableButton.setDisable(true);
 
-                    //Deleting from reservedTables list
-                    reservedTables.remove(tableNumber);
+                        //Deleting from reservedTables list
+                        reservedTables.remove(tableNumber);
 
-                    //Setting table number label to default
-                    tableNumberLabel.setText("_ : _");
+                        //Setting table number label to default
+                        tableNumberLabel.setText("_ : _");
+                    }
+                }
+                catch(Exception e)
+                {
+                    Alert shiftTableAlert = new Alert(Alert.AlertType.ERROR, "Could not un-reserve Table" + e, ButtonType.OK);
+                    shiftTableAlert.setHeaderText("Error");
+                    shiftTableAlert.setTitle("Alert!");
+                    shiftTableAlert.showAndWait();
                 }
             }
             //CASE - Reserving table
             else {
-                //If Saving success , then do UI Work
-                if (daoimpl.saveReservedTableDetails(tableNumber)) {
-                    Pane table = getTableObjectById(accordion, tableNumber);
-                    table.getStyleClass().clear();
-                    table.getStyleClass().add("reserve-table");
+                try {
+                    //If Saving success , then do UI Work
+                    if (daoimpl.saveReservedTableDetails(tableNumber)) {
+                        Pane table = getTableObjectById(accordion, tableNumber);
+                        table.getStyleClass().clear();
+                        table.getStyleClass().add("reserve-table");
 
-                    Label selectedTableReservedLabel = (Label) table.lookup("#tableGrandTotalLabel");
-                    selectedTableReservedLabel.setId("reservedTableLabel");
-                    selectedTableReservedLabel.setText("RESERVED");
+                        Label selectedTableReservedLabel = (Label) table.lookup("#tableGrandTotalLabel");
+                        selectedTableReservedLabel.setId("reservedTableLabel");
+                        selectedTableReservedLabel.setText("RESERVED");
 
-                    //Setting "reserve Table" button's text to "Un-reserve"
-                    reserveTableButton.setText("Un-Reserve Table");
-                    reserveTableButton.setDisable(true);
+                        //Setting "reserve Table" button's text to "Un-reserve"
+                        reserveTableButton.setText("Un-Reserve Table");
+                        reserveTableButton.setDisable(true);
 
-                    //Adding reserved table num to "reservedTables" list
-                    reservedTables.add(tableNumber);
+                        //Adding reserved table num to "reservedTables" list
+                        reservedTables.add(tableNumber);
 
-                    //Setting table number label (present a-top bill table) to default
-                    tableNumberLabel.setText("_ : _");
+                        //Setting table number label (present a-top bill table) to default
+                        tableNumberLabel.setText("_ : _");
 
 
-                    Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
-                    reserveSuccessAlert.setHeaderText(tableNumber + " Reserved");
-                    reserveSuccessAlert.setTitle("Information");
-                    reserveSuccessAlert.showAndWait();
+                        Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
+                        reserveSuccessAlert.setHeaderText(tableNumber + " Reserved");
+                        reserveSuccessAlert.setTitle("Information");
+                        reserveSuccessAlert.showAndWait();
+                    }
+                }
+                catch(Exception e)
+                {
+                    Alert shiftTableAlert = new Alert(Alert.AlertType.ERROR, "Could not Reserve Table" + e, ButtonType.OK);
+                    shiftTableAlert.setHeaderText("Error");
+                    shiftTableAlert.setTitle("Alert!");
+                    shiftTableAlert.showAndWait();
                 }
             }
         }
