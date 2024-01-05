@@ -3,12 +3,14 @@ package org.lenden;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.TilePane;
 import org.lenden.dao.DaoImpl;
 import java.net.URL;
 import java.sql.SQLException;
@@ -19,7 +21,7 @@ import java.util.ResourceBundle;
 public class TableSettingsController implements Initializable {
 
     @FXML
-    GridPane tableAndAreaGrid;
+    TilePane tableAndAreaTilePane;
     @FXML
     Label totalAreasLabel;
     @FXML
@@ -48,8 +50,10 @@ public class TableSettingsController implements Initializable {
 
         totalAreasLabel.setText(    String.valueOf(areaAndTables.size())    );
 
-        int gridRowCounter = 0;
+        tableAndAreaTilePane.setPadding(new Insets(15,0,0,0));
+
         int totalTables = 0;
+        int Areas=0;
 
         for(Map.Entry<String, Integer> entry : areaAndTables.entrySet())
         {
@@ -57,18 +61,25 @@ public class TableSettingsController implements Initializable {
             int tables = entry.getValue();
             totalTables +=tables;
 
+            HBox mainHbox = new HBox();
+            mainHbox.setPadding(new Insets(5,10,5,10));
+            mainHbox.setStyle("-fx-background-color:white; -fx-border-color:black; -fx-border-width:0.5px; -fx-border-radius:5px");
+
+
             //Adding Text Field
             Label areaName = new Label();
             areaName.setPrefSize(200,55);
+            areaName.setAlignment(Pos.CENTER);
             areaName.getStyleClass().add("area-name-label");
             areaName.setText(area);
 
-            HBox hBox = new HBox();
-            hBox.getChildren().addAll(areaName);
-            //hBox.setStyle("-fx-background-color:grey;"); //just for testing aligment
 
-            GridPane.setMargin(hBox,new Insets(20,0,20,40));
-            tableAndAreaGrid.add(hBox,0,gridRowCounter);
+            HBox hBox = new HBox();
+            hBox.setAlignment(Pos.CENTER);
+            hBox.getChildren().addAll(areaName);
+            //hBox.setStyle("-fx-border-color:grey;"); //just for testing alignment
+
+            mainHbox.getChildren().add(hBox);
 
 
             //Adding Tables label and plus-minus button
@@ -130,14 +141,16 @@ public class TableSettingsController implements Initializable {
 
             HBox hBox1 = new HBox();
             hBox1.setSpacing(35);
+            //hBox1.setStyle("fx-border-color:black");
+
             hBox1.setAlignment(Pos.CENTER);
             hBox1.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
-            GridPane.setMargin(hBox1,new Insets(25,55,25,0));
-            tableAndAreaGrid.add(hBox1,1,gridRowCounter);
+            mainHbox.getChildren().add(hBox1);
+
 
             Button deleteButton = new Button();
-            deleteButton.setPrefSize(300,100);
+            deleteButton.setPrefSize(200,40);
             deleteButton.setText("Delete Area");
             deleteButton.getStyleClass().add("saveEdit-button");
             deleteButton.setOnMouseClicked(event -> {
@@ -199,33 +212,41 @@ public class TableSettingsController implements Initializable {
 
             HBox hBox2 = new HBox();
             hBox2.setSpacing(10);
+            hBox2.setAlignment(Pos.CENTER);
+            hBox2.setPadding(new Insets(5,5,5,15));
             hBox2.getChildren().addAll(deleteButton);
 
-            GridPane.setMargin(hBox2,new Insets(20,20,20,35));
-            tableAndAreaGrid.add(hBox2,2,gridRowCounter);
+            mainHbox.getChildren().add(hBox2);
+            tableAndAreaTilePane.getChildren().add(mainHbox);
 
-            gridRowCounter++;
+            Areas++;
+
         }
 
         totalTablesLabel.setText(String.valueOf(totalTables));
 
-        while(gridRowCounter<5) // Loop for displaying the remaning areas (not being used) fields of the form & Less than 5 means, not more than 5 areas can exist
+        while(Areas<5) // Loop for displaying the remaning areas (not being used) fields of the form & Less than 5 means, not more than 5 areas can exist
         {
             //Adding Text Field
             TextField areaName = new TextField();
-            areaName.setPrefSize(200,55);
+            areaName.setPrefSize(200,40);
             areaName.getStyleClass().add("area-name-textField");
             areaName.setPromptText("Area Name");
             areaName.setDisable(true);
             areaName.setOnAction(event -> areaAndTables.put(areaName.getText(),0));
 
+            HBox mainHbox = new HBox();
+            mainHbox.setPadding(new Insets(5,10,5,10));
+            mainHbox.setStyle("-fx-background-color:white; -fx-border-color:black; -fx-border-width:0.5px; -fx-border-radius:5px");
+
             HBox hBox = new HBox();
             hBox.setSpacing(10);
+            hBox.setAlignment(Pos.CENTER);
+            hBox.setPadding(new Insets(0,10,0,0));
             hBox.getChildren().addAll(areaName);
-            //hBox.setStyle("-fx-background-color:grey;"); just for testing aligment
+            //hBox.setStyle("-fx-background-color:grey;"); just for testing alignment
 
-            GridPane.setMargin(hBox,new Insets(20,0,20,40));
-            tableAndAreaGrid.add(hBox,0,gridRowCounter);
+            mainHbox.getChildren().add(hBox);
 
 
             //Adding Tables label and plus-minus button
@@ -293,13 +314,12 @@ public class TableSettingsController implements Initializable {
             hBox1.setAlignment(Pos.CENTER);
             hBox1.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
-            GridPane.setMargin(hBox1,new Insets(25,55,25,0));
-            tableAndAreaGrid.add(hBox1,1,gridRowCounter);
+            mainHbox.getChildren().add(hBox1);
 
 
             //Adding 'Add Area' Buttons
             Button addAreaButton = new Button();
-            addAreaButton.setPrefSize(300,100);
+            addAreaButton.setPrefSize(200,40);
             addAreaButton.setText("Add Area");
             addAreaButton.getStyleClass().add("saveEdit-button");
             addAreaButton.setOnMouseClicked(event -> {
@@ -320,17 +340,19 @@ public class TableSettingsController implements Initializable {
 
             HBox hBox2 = new HBox();
             hBox2.setSpacing(10);
+            hBox2.setPadding(new Insets(5,5,5,15));
             hBox2.getChildren().addAll(addAreaButton);
 
-            GridPane.setMargin(hBox2,new Insets(20,20,20,35));
-            tableAndAreaGrid.add(hBox2,2,gridRowCounter);
+            mainHbox.getChildren().add(hBox2);
 
-            gridRowCounter++;
+            tableAndAreaTilePane.getChildren().add(mainHbox);
+
+            Areas++;
         }
 
-        //Adding 'Add Area' Buttons
+        //Adding 'Save Area' Buttons
         Button saveButton = new Button();
-        saveButton.setPrefSize(300,100);
+        saveButton.setPrefSize(200,40);
         saveButton.setText("Save");
         saveButton.setCursor(Cursor.HAND);
         saveButton.getStyleClass().add("saveEdit-button");
@@ -384,12 +406,13 @@ public class TableSettingsController implements Initializable {
         });
 
         HBox hBox3 = new HBox();
+        //hBox3.setStyle("-fx-border-color:black");
         hBox3.setSpacing(10);
         hBox3.setAlignment(Pos.CENTER);
         hBox3.getChildren().addAll(saveButton);
 
-        GridPane.setMargin(hBox3,new Insets(15,55,10,0));
-        tableAndAreaGrid.add(hBox3,1,gridRowCounter);
+        tableAndAreaTilePane.getChildren().add(hBox3);
+
     }
 
     public void displayDBConnectionErrorAlert()

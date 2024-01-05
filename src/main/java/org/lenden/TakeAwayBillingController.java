@@ -65,9 +65,13 @@ public class TakeAwayBillingController implements Initializable
     TilePane takeAwayOrdersTilePane;
     @FXML
     ComboBox<String> modeOfPaymentComboBox;
+    @FXML
+    Button placeOrderButton;
+    @FXML
+    Button clearBillButton;
+
 
     HashMap<String,ObservableList<BillItems>> openOrders = new HashMap<>();
-
     Bill bill = new Bill();
     DaoImpl daoimpl = new DaoImpl();
     MainController mainController = new MainController();
@@ -75,7 +79,14 @@ public class TakeAwayBillingController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting Tips for Different Buttons - Will be Visible on Hover
 
+        placeOrderButton.setTooltip(new javafx.scene.control.Tooltip("Create order"));
+
+        clearBillButton.setTooltip(new javafx.scene.control.Tooltip("Clear all items from Bill"));
+
+        //--------------------------------------------------------------------------------------------------------------
         //Setting Category Buttons
         List<String> categories = null;
         try
@@ -677,6 +688,7 @@ public class TakeAwayBillingController implements Initializable
         grandTotal.getStyleClass().add("common-text-font");
 
         Button servedButton = new Button();
+        servedButton.setTooltip(new javafx.scene.control.Tooltip("Order will be Saved"));
         servedButton.setText("Order Served");
         servedButton.setMaxWidth(Integer.MAX_VALUE);
         servedButton.getStyleClass().add("billngButtons");
@@ -721,6 +733,7 @@ public class TakeAwayBillingController implements Initializable
         });
 
         Button cancelButton = new Button();
+        cancelButton.setTooltip(new javafx.scene.control.Tooltip("Bill will be Cancelled"));
         cancelButton.setText("Cancel Order");
         cancelButton.setMaxWidth(Integer.MAX_VALUE);
         cancelButton.getStyleClass().add("billngButtons");

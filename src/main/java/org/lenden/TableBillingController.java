@@ -69,6 +69,12 @@ public class TableBillingController implements Initializable {
     ComboBox<String> modeofpayment;
     @FXML
     Button shiftTableButton;
+    @FXML
+    Button generateInvoiceButton;
+    @FXML
+    Button saveInvoiceButton;
+    @FXML
+    Button clearBillButton;
 
     @FXML
     Accordion accordion;
@@ -96,6 +102,17 @@ public class TableBillingController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle)
     {
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting Tips for Different Buttons - Will be Visible on Hover
+        shiftTableButton.setTooltip(new javafx.scene.control.Tooltip("Shift Current Items to another Table in same Area"));
+
+        reserveTableButton.setTooltip(new javafx.scene.control.Tooltip("Reserve Table (Cannot be used for Billing"));
+
+        generateInvoiceButton.setTooltip(new javafx.scene.control.Tooltip("Print Bill"));
+
+        saveInvoiceButton.setTooltip(new javafx.scene.control.Tooltip("Save Invoice Details to System"));
+
+        clearBillButton.setTooltip(new javafx.scene.control.Tooltip("Clear all items from Bill"));
 
         //--------------------------------------------------------------------------------------------------------------
         //Setting Category Buttons

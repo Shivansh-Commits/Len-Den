@@ -134,7 +134,7 @@
                         </AnchorPane>
                         <VBox prefHeight="146.0" prefWidth="228.0" spacing="10.0" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="2">
                            <children>
-                              <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="37.0" prefWidth="234.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Print Bill &amp; KOT">
+                              <Button fx:id="generateInvoiceButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#printBillAndKOT" prefHeight="37.0" prefWidth="234.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Print Bill">
                                  <font>
                                     <Font name="Segoe UI Symbol" size="12.0" />
                                  </font>
@@ -156,7 +156,7 @@
                                     </Button>
                                  </children>
                               </HBox>
-                              <Button maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="35.0" prefWidth="188.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
+                              <Button fx:id="clearBillButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="35.0" prefWidth="188.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
