@@ -22,7 +22,7 @@
    <center>
       <ScrollPane fitToWidth="true" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="600.0" BorderPane.alignment="CENTER">
          <content>
-            <TilePane maxWidth="1.7976931348623157E308" minWidth="600.0" orientation="VERTICAL" vgap="10.0">
+            <TilePane maxWidth="1.7976931348623157E308" minWidth="600.0" orientation="VERTICAL" prefTileHeight="300.0" vgap="10.0">
                <children>
                   <BorderPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="322.0" prefWidth="1186.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                      <center>
@@ -315,7 +315,10 @@
                   </BorderPane>
                   <BorderPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="322.0" prefWidth="1180.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                      <bottom>
-                        <Button fx:id="saveOutletDetailsButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER" />
+                        <Button fx:id="saveOutletDetailsButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" />
+                           </BorderPane.margin></Button>
                      </bottom>
                      <top>
                         <AnchorPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="46.0" prefWidth="1147.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
