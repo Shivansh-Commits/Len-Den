@@ -5,6 +5,7 @@ module org.lenden {
     requires org.postgresql.jdbc;
     requires com.zaxxer.hikari;
     requires java.desktop;
+    requires com.machinezoo.sourceafis;
 
     opens org.lenden.model to javafx.base;
 

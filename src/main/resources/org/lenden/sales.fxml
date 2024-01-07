@@ -14,185 +14,189 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SalesController">
-   <top>
-      <AnchorPane prefHeight="81.0" prefWidth="200.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
-         <children>
-            <Label layoutX="25.0" layoutY="13.0" prefHeight="59.0" prefWidth="232.0" styleClass="header-label" stylesheets="@../../salesStyleSheet.css" text="Sales Dashboard" textFill="WHITE">
-               <font>
-                  <Font name="Segoe UI Symbol" size="12.0" />
-               </font>
-            </Label>
-         </children>
-      </AnchorPane>
-   </top>
-   <center>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SalesController">
+   <children>
+      <BorderPane fx:id="mainBorderPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
-            <HBox minWidth="1000.0" prefHeight="183.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;" BorderPane.alignment="CENTER">
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="143.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <Label alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Net Sales" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="netSalesLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="44.0" minWidth="200.0" text="_ _" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="42.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="filterIdentifierLabelA" alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Today's" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <Label alignment="CENTER" minWidth="200.0" text="Total Orders" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="totalOrdersLabel" alignment="CENTER" minWidth="200.0" text="_ _" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="42.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="filterIdentifierLabelC" alignment="CENTER" minWidth="200.0" text="Today's" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
-                  <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <Label alignment="CENTER" minWidth="200.0" text="Net Profit" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="24.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="netProfitLabel" alignment="CENTER" minWidth="200.0" text="_ _" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="42.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="filterIdentifierLabelB" alignment="CENTER" minWidth="200.0" text="Today's" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
-                           <font>
-                              <Font name="Segoe UI Semibold" size="14.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </AnchorPane>
+                  <Label layoutX="25.0" layoutY="13.0" styleClass="header-label" stylesheets="@../../salesStyleSheet.css" text="Sales Dashboard" textFill="WHITE" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Segoe UI Symbol" size="12.0" />
+                     </font>
+                  </Label>
                </children>
-               <padding>
-                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
-               </padding>
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
-            </HBox>
+            </AnchorPane>
          </top>
-         <bottom>
-            <TableView fx:id="billsTable" prefHeight="426.0" styleClass="bills-table" stylesheets="@../../salesStyleSheet.css" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
-               <columns>
-                  <TableColumn prefWidth="106.40000081062317" text="Column X" />
-               </columns>
-            </TableView>
-         </bottom>
          <center>
-            <BorderPane minWidth="1000.0" BorderPane.alignment="CENTER">
-               <BorderPane.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
-               <center>
-                  <HBox minWidth="600.0" prefHeight="50.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;">
+            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="500.0" BorderPane.alignment="CENTER">
+               <top>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefHeight="183.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;" BorderPane.alignment="CENTER">
                      <children>
-                        <Label alignment="CENTER" prefHeight="30.0" prefWidth="66.0" text="Filters :">
-                           <font>
-                              <Font name="Segoe UI Symbol" size="17.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="20.0" top="10.0" />
-                           </HBox.margin>
-                        </Label>
-                        <ToggleButton fx:id="todaysFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Today">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                           </HBox.margin>
-                           <toggleGroup>
-                              <ToggleGroup fx:id="filterButtons" />
-                           </toggleGroup>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ToggleButton>
-                        <ToggleButton fx:id="weeklyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Weekly" toggleGroup="$filterButtons">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                           </HBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ToggleButton>
-                        <ToggleButton fx:id="monthlyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Monthly" toggleGroup="$filterButtons">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                           </HBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ToggleButton>
-                        <ToggleButton fx:id="quarterlyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Quaterly" toggleGroup="$filterButtons">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                           </HBox.margin>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </ToggleButton>
-                        <ToggleButton fx:id="yearlyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Yearly" toggleGroup="$filterButtons">
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-                           </HBox.margin>
-                        </ToggleButton>
+                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="143.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Net Sales" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="netSalesLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="44.0" minWidth="200.0" text="_ _" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="42.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="filterIdentifierLabelA" alignment="CENTER" contentDisplay="CENTER" minWidth="200.0" text="Today's" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
+                           <children>
+                              <Label alignment="CENTER" minWidth="200.0" text="Total Orders" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="totalOrdersLabel" alignment="CENTER" minWidth="200.0" text="_ _" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="42.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="filterIdentifierLabelC" alignment="CENTER" minWidth="200.0" text="Today's" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
+                           <children>
+                              <Label alignment="CENTER" minWidth="200.0" text="Net Profit" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="25.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="netProfitLabel" alignment="CENTER" minWidth="200.0" text="_ _" textAlignment="CENTER" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="42.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="filterIdentifierLabelB" alignment="CENTER" minWidth="200.0" text="Today's" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="5.0">
+                                 <font>
+                                    <Font name="Segoe UI Semibold" size="14.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
                      </children>
-                  </HBox>
-               </center>
-               <right>
-                  <HBox minWidth="280.0" prefHeight="49.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.3; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
-                     <children>
-                        <ComboBox fx:id="searchOptionsComboBox" minWidth="80.0" prefHeight="26.0" promptText="--- Search By ---" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.3;">
-                           <HBox.margin>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                           </HBox.margin>
-                        </ComboBox>
-                        <TextField fx:id="searchField" minWidth="150.0" prefHeight="26.0" prefWidth="175.0" promptText="Search ">
-                           <HBox.margin>
-                              <Insets bottom="10.0" right="10.0" top="10.0" />
-                           </HBox.margin>
-                           <padding>
-                              <Insets left="10.0" right="10.0" />
-                           </padding>
-                        </TextField>
-                     </children>
+                     <padding>
+                        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+                     </padding>
                      <BorderPane.margin>
-                        <Insets left="10.0" />
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </BorderPane.margin>
                   </HBox>
-               </right>
+               </top>
+               <bottom>
+                  <TableView fx:id="billsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="459.0" prefWidth="1365.0" styleClass="bills-table" stylesheets="@../../salesStyleSheet.css" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </BorderPane.margin>
+                     <columns>
+                        <TableColumn prefWidth="106.40000081062317" text="Column X" />
+                     </columns>
+                  </TableView>
+               </bottom>
+               <center>
+                  <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefWidth="1365.0" BorderPane.alignment="CENTER">
+                     <BorderPane.margin>
+                        <Insets left="10.0" right="10.0" />
+                     </BorderPane.margin>
+                     <center>
+                        <HBox alignment="CENTER_LEFT" maxHeight="50.0" minWidth="600.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;">
+                           <children>
+                              <Label alignment="CENTER" prefHeight="30.0" prefWidth="66.0" text="Filters :">
+                                 <font>
+                                    <Font name="Segoe UI Symbol" size="17.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="20.0" top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <ToggleButton fx:id="todaysFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Today">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="filterButtons" />
+                                 </toggleGroup>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="weeklyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Weekly" toggleGroup="$filterButtons">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="monthlyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Monthly" toggleGroup="$filterButtons">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="quarterlyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Quaterly" toggleGroup="$filterButtons">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="yearlyFilterToggleButton" minWidth="60.0" mnemonicParsing="false" prefWidth="83.0" styleClass="filter-buttons" stylesheets="@../../salesStyleSheet.css" text="Yearly" toggleGroup="$filterButtons">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
+                                 </HBox.margin>
+                              </ToggleButton>
+                           </children>
+                        </HBox>
+                     </center>
+                     <right>
+                        <HBox alignment="CENTER_LEFT" maxHeight="50.0" minWidth="280.0" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.3; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
+                           <children>
+                              <ComboBox fx:id="searchOptionsComboBox" minWidth="80.0" prefHeight="26.0" promptText="--- Search By ---" style="-fx-background-color: white; -fx-border-color: black; -fx-border-width: 0.3;">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                              </ComboBox>
+                              <TextField fx:id="searchField" minWidth="150.0" prefHeight="26.0" prefWidth="175.0" promptText="Search ">
+                                 <HBox.margin>
+                                    <Insets bottom="10.0" right="10.0" top="10.0" />
+                                 </HBox.margin>
+                                 <padding>
+                                    <Insets left="10.0" right="10.0" />
+                                 </padding>
+                              </TextField>
+                           </children>
+                           <BorderPane.margin>
+                              <Insets left="10.0" />
+                           </BorderPane.margin>
+                        </HBox>
+                     </right>
+                  </BorderPane>
+               </center>
             </BorderPane>
          </center>
       </BorderPane>
-   </center>
-</BorderPane>
+   </children>
+</AnchorPane>

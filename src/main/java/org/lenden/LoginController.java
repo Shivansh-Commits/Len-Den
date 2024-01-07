@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Tenants;
 import java.io.IOException;
@@ -77,6 +78,8 @@ public class LoginController
 
                 //set title for window
                 stage.setTitle("LenDen");
+
+                //stage.initStyle(StageStyle.UNDECORATED);
 
                 //Setting the window logo
                 Image whiteLogo = new Image(getClass().getResource("/logos/png/logo-white.png").toExternalForm());

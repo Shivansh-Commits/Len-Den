@@ -56,6 +56,11 @@
             <artifactId>itext</artifactId>
             <version>4.2.2</version>
         </dependency>
+        <dependency>
+            <groupId>com.machinezoo.sourceafis</groupId>
+            <artifactId>sourceafis</artifactId>
+            <version>3.18.1</version>
+        </dependency>
     </dependencies>
 
 

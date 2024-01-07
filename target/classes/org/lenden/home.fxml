@@ -11,7 +11,7 @@
             <Font size="62.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-11.0" layoutY="407.0" text="Version - Beta 1.1.0" textAlignment="CENTER" AnchorPane.leftAnchor="-11.0" AnchorPane.rightAnchor="11.0">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="-11.0" layoutY="407.0" text="Version - Beta 1.1.2 (For Demo Purpose Only)" textAlignment="CENTER" AnchorPane.leftAnchor="-11.0" AnchorPane.rightAnchor="11.0">
          <font>
             <Font size="30.0" />
          </font>

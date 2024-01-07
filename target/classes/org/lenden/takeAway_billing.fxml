@@ -142,11 +142,11 @@
                                           <Cursor fx:constant="HAND" />
                                        </cursor>
                                     </ComboBox>
-                                    <Button fx:id="placeOrder" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#placeOrder" prefHeight="42.0" prefWidth="195.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Place Order">
+                                    <Button fx:id="placeOrderButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#placeOrder" prefHeight="42.0" prefWidth="195.0" styleClass="billngButtons" stylesheets="@../../billingStyleSheet.css" text="Place Order">
                                        <font>
                                           <Font name="Segoe UI Symbol" size="12.9" />
                                        </font></Button>
-                                    <Button maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="41.0" prefWidth="210.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
+                                    <Button fx:id="clearBillButton" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#clearBill" prefHeight="41.0" prefWidth="210.0" styleClass="clearbill" stylesheets="@../../billingStyleSheet.css" text="Clear Bill">
                                        <font>
                                           <Font name="Segoe UI Symbol" size="14.0" />
                                        </font>

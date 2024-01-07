@@ -12,18 +12,23 @@
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
-            <ScrollPane fitToHeight="true" prefHeight="734.0" prefWidth="163.0" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" prefWidth="163.0" BorderPane.alignment="CENTER">
                <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="695.0" prefWidth="160.0">
+                <AnchorPane prefHeight="695.0" prefWidth="160.0">
                      <children>
-                        <VBox prefHeight="695.0" prefWidth="160.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <VBox alignment="TOP_CENTER" prefWidth="160.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="tableSettingsButton" mnemonicParsing="false" onMouseClicked="#openTableSettings" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Tables">
+                              <Button fx:id="tableSettingsButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openTableSettings" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Area Manager" textAlignment="CENTER">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="billingSettingsButton" mnemonicParsing="false" onMouseClicked="#openBillingSettings" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Billing">
+                              <Button fx:id="billingSettingsButton" mnemonicParsing="false" onMouseClicked="#openBillingManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Billing Manager">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button fx:id="inventorySettingsButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openInventoryManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Inventory Manager">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -35,9 +40,9 @@
             </ScrollPane>
          </left>
          <top>
-            <AnchorPane prefHeight="81.0" prefWidth="1402.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+            <AnchorPane prefHeight="50.0" prefWidth="1402.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
                <children>
-                  <Label layoutX="25.0" layoutY="13.0" prefHeight="59.0" prefWidth="118.0" styleClass="header-label" stylesheets="@../../settingsStyleSheet.css" text="Settings" />
+                  <Label layoutX="25.0" layoutY="13.0" prefHeight="59.0" prefWidth="118.0" styleClass="header-label" stylesheets="@../../settingsStyleSheet.css" text="Settings" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
          </top>

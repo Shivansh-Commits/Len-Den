@@ -1,3 +1,17 @@
+.header-label
+{
+    -fx-text-fill : white;
+    -fx-font-size : 26px;
+    -fx-font-family : "Segoe UI Symbol";
+}
+
+.sub-header-label
+{
+     -fx-text-fill : black;
+     -fx-font-size : 25px;
+     -fx-font-family : "Segoe UI Symbol";
+}
+
 .text-field
 {
     -fx-font-family : "Segoe UI Semibold";
@@ -37,18 +51,28 @@
     -fx-border-radius:3;
 }
 
-.header-label
+
+.add-recipe-button
 {
-    -fx-text-fill : white;
-    -fx-font-size : 30px;
-    -fx-font-family : "Segoe UI Symbol";
+     -fx-background-color: black;
+     -fx-border-color: black;
+     -fx-border-width : 0.5;
+     -fx-text-fill: white;
+     -fx-font-size : 12px;
 }
 
-.sub-header-label
+.add-recipe-button:hover
 {
-     -fx-text-fill : black;
-     -fx-font-size : 25px;
-     -fx-font-family : "Segoe UI Symbol";
+     -fx-background-color: white;
+     -fx-border-color: black;
+     -fx-border-width : 0.5;
+     -fx-text-fill: black;
+     -fx-font-size : 12px;
+}
+
+.remove-raw-material-button
+{
+    -fx-background-color: #f5c9c9;
 }
 
 .add-button
@@ -68,6 +92,7 @@
      -fx-text-fill: black;
      -fx-font-size : 14px;
 }
+
 
 .menu-button
 {

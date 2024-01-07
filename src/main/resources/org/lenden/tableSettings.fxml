@@ -16,7 +16,7 @@
          <top>
             <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="193.0" minWidth="500.0" prefHeight="193.0" prefWidth="1202.0" style="-fx-border-radius: 6; -fx-border-color: grey; -fx-background-color: white; -fx-border-width: 0.5;" BorderPane.alignment="CENTER">
                <children>
-                  <HBox alignment="CENTER" layoutX="357.0" layoutY="21.0" minHeight="150.0" prefWidth="1201.0" spacing="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <HBox alignment="CENTER" layoutX="357.0" layoutY="21.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="150.0" minWidth="800.0" prefWidth="1201.0" spacing="150.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <VBox fillWidth="false">
                            <children>
@@ -58,16 +58,20 @@
             </AnchorPane>
          </top>
          <bottom>
-            <ScrollPane fitToWidth="true" prefHeight="594.0" prefWidth="1202.0" style="-fx-border-color: grey; -fx-background-color: white; -fx-border-width: 0.5; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
+            <ScrollPane fitToHeight="true" fitToWidth="true" prefHeight="594.0" prefWidth="1202.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" />
                </BorderPane.margin>
                <content>
-                  <TilePane fx:id="tableAndAreaTilePane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" vgap="10.0">
-                     <padding>
-                        <Insets top="15.0" />
-                     </padding>
-                  </TilePane>
+                  <AnchorPane>
+                     <children>
+                        <TilePane fx:id="tableAndAreaTilePane" alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" vgap="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <padding>
+                              <Insets top="15.0" />
+                           </padding>
+                        </TilePane>
+                     </children>
+                  </AnchorPane>
                </content>
             </ScrollPane>
          </bottom>
