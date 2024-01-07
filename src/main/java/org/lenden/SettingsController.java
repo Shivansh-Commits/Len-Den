@@ -37,9 +37,19 @@ public class SettingsController implements Initializable {
         mainPane.setCenter(home);
     }
 
-    public void openBillingSettings(MouseEvent ignoredEvent) throws IOException {
+    public void openBillingManager(MouseEvent ignoredEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("billingSettings.fxml"));
         BorderPane home = loader.load();
+
+        Scene scene = billingSettingsButton.getScene();
+        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+
+        mainPane.setCenter(home);
+    }
+
+    public void openInventoryManager(MouseEvent ignoredEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("inventorySettings.fxml"));
+        AnchorPane home = loader.load();
 
         Scene scene = billingSettingsButton.getScene();
         scene.getStylesheets().add("tableSettingsStyleSheet.css");

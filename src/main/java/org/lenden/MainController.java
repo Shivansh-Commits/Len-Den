@@ -149,7 +149,7 @@ public class MainController implements Initializable {
         if(openSalesPageFlag)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("sales.fxml"));
-            BorderPane Sales = loader.load();
+            AnchorPane Sales = loader.load();
 
             Scene scene = homeMenuButton.getScene();
             scene.getStylesheets().add("salesStyleSheet.css");
@@ -170,7 +170,7 @@ public class MainController implements Initializable {
         if(openMenuPageFlag)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
-            BorderPane home = loader.load();
+            AnchorPane home = loader.load();
 
             Scene scene = homeMenuButton.getScene();
             scene.getStylesheets().add("menuStyleSheet.css");

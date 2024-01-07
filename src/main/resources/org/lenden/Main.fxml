@@ -12,143 +12,133 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="mainPane" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MainController">
-   <top>
-      <BorderPane prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
-         <center>
-            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="142.0" text="₹ LenDen" textFill="WHITE" BorderPane.alignment="CENTER">
-               <font>
-                  <Font size="32.0" />
-               </font>
-            </Label>
-         </center>
-      </BorderPane>
-   </top>
-   <left>
-      <AnchorPane fx:id="navBar" prefHeight="700.0" prefWidth="46.0" BorderPane.alignment="CENTER">
-         <children>
-            <AnchorPane fx:id="navMenu" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../mainStyleSheet.css" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <VBox layoutX="-48.0" prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../mainStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                        <Button fx:id="homeMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openHomePage" onMouseEntered="#changeHomeIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Home" textFill="WHITE">
-                           <VBox.margin>
-                              <Insets />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Segoe UI Semilight" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <graphic>
-                              <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/black/home_FILL0_wght400_GRAD0_opsz48.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openSalesPage" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Sales" textFill="WHITE">
-                           <font>
-                              <Font name="Segoe UI Semilight" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <graphic>
-                              <ImageView fx:id="salesIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/black/outline_sales_black_24.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="menuMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openMenuPage" onMouseEntered="#changeMenuIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Menu" textFill="WHITE">
-                           <font>
-                              <Font name="Segoe UI Semilight" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <graphic>
-                              <ImageView fx:id="menuIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/black/outline_restaurant_menu_black_24.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Billing" textFill="WHITE">
-                           <font>
-                              <Font name="Segoe UI Semilight" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <graphic>
-                              <ImageView fx:id="billingIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="settingsMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openSettingsPage" onMouseEntered="#changeSettingsIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Settings" textFill="WHITE">
-                           <font>
-                              <Font name="Segoe UI Semilight" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <graphic>
-                              <ImageView fx:id="settingsIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/black/outline_settings_black_24.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                        <Button fx:id="logoutMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#logout" onMouseEntered="#changeLogoutIcon" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Log-Out" textFill="WHITE">
-                           <font>
-                              <Font name="Segoe UI Semilight" size="16.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                           <graphic>
-                              <ImageView fx:id="logoutIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/black/logout_FILL0_wght400_GRAD0_opsz48.png" />
-                                 </image>
-                              </ImageView>
-                           </graphic>
-                        </Button>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-         </children>
-      </AnchorPane>
-   </left>
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="1385.0" BorderPane.alignment="CENTER" />
    </center>
+   <left>
+      <VBox prefHeight="760.0" prefWidth="151.0" styleClass="menuBar" stylesheets="@../../mainStyleSheet.css" BorderPane.alignment="CENTER">
+         <children>
+            <BorderPane prefHeight="50.0" prefWidth="1126.0" style="-fx-background-color: black;">
+               <center>
+                  <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="48.0" prefWidth="142.0" text="₹ LenDen" textFill="WHITE" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+               </center>
+            </BorderPane>
+            <Button fx:id="homeMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openHomePage" onMouseEntered="#changeHomeIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Home" textFill="WHITE">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <font>
+                  <Font name="Segoe UI Semilight" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <graphic>
+                  <ImageView fx:id="homeIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/black/home_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="salesMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openSalesPage" onMouseEntered="#changeSalesIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Sales" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semilight" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <graphic>
+                  <ImageView fx:id="salesIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/black/outline_sales_black_24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="menuMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openMenuPage" onMouseEntered="#changeMenuIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Menu" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semilight" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <graphic>
+                  <ImageView fx:id="menuIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/black/outline_restaurant_menu_black_24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="billingMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openTableBillingPage" onMouseEntered="#changeBillingIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Billing" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semilight" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <graphic>
+                  <ImageView fx:id="billingIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/black/currency_rupee_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="settingsMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#openSettingsPage" onMouseEntered="#changeSettingsIcon" pickOnBounds="false" prefHeight="57.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Settings" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semilight" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <graphic>
+                  <ImageView fx:id="settingsIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/black/outline_settings_black_24.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            <Button fx:id="logoutMenuButton" accessibleRole="MENU_ITEM" alignment="BASELINE_LEFT" cache="true" graphicTextGap="20.0" mnemonicParsing="false" onMouseClicked="#logout" onMouseEntered="#changeLogoutIcon" pickOnBounds="false" prefHeight="62.0" prefWidth="154.0" styleClass="homeMenuItem" stylesheets="@../../mainStyleSheet.css" text="Log-Out" textFill="WHITE">
+               <font>
+                  <Font name="Segoe UI Semilight" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <graphic>
+                  <ImageView fx:id="logoutIcon" fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/black/logout_FILL0_wght400_GRAD0_opsz48.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </VBox>
+   </left>
 </BorderPane>

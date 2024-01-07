@@ -6,10 +6,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
@@ -40,7 +42,14 @@ public class MenuController implements Initializable
     ComboBox<String> updateItemCategory;
     @FXML
     ComboBox<String> updateItemAvailability;
+    @FXML
+    Button addRecipeItemButton;
+    @FXML
+    VBox recipeVbox;
+    @FXML
+    CheckBox trackRawMaterialCheckbox;
 
+    int recipeItemsCount=1;
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
 
@@ -69,7 +78,7 @@ public class MenuController implements Initializable
 
             button.setOnMouseClicked(this::displayMenuItems);
             button.getStyleClass().add("category-button");
-            button.setPrefWidth(171);
+            button.setPrefWidth(160);
             button.setPrefHeight(80);
             button.setCursor(Cursor.HAND);
             categoriesVBox.getChildren().add(button);
@@ -92,6 +101,9 @@ public class MenuController implements Initializable
 
         addAlphabeticInputFieldValidation(addItemName);
         addAlphabeticInputFieldValidation(updateItemName);
+
+        //Adding event listener to "Track Raw Material Checkbox"
+        trackRawMaterialCheckbox.setOnAction(event -> {recipeVbox.setDisable(!trackRawMaterialCheckbox.isSelected());});
     }
 
     /**
@@ -132,6 +144,44 @@ public class MenuController implements Initializable
         });
     }
 
+
+
+    public void addRecipeItemButtonListener()
+    {
+        TextField rawMaterialTextField = new TextField();
+        rawMaterialTextField.setId("rawMaterial"+recipeItemsCount);
+        rawMaterialTextField.setPrefSize(309,38);
+        rawMaterialTextField.setPromptText("Raw Material *");
+
+        TextField rawMaterialQuantity = new TextField();
+        rawMaterialQuantity.setId("rawMaterialQuantity"+recipeItemsCount);
+        rawMaterialQuantity.setPrefSize(208,38);
+        rawMaterialQuantity.setPromptText("Quantity (Unit) *");
+
+        Button removeRawMaterial = new Button();
+        removeRawMaterial.setId("removeRawMaterial"+recipeItemsCount);
+        removeRawMaterial.setText("X");
+        removeRawMaterial.getStyleClass().add("remove-raw-material-button");
+        removeRawMaterial.setCursor(Cursor.HAND);
+
+
+        HBox hBox = new HBox();
+        hBox.getChildren().addAll(rawMaterialTextField,rawMaterialQuantity,removeRawMaterial);
+        hBox.setSpacing(10);
+
+        removeRawMaterial.setOnAction(e -> {
+            Node parent = removeRawMaterial.getParent();
+
+            if (parent instanceof HBox) {
+                HBox hBoxToRemove = (HBox) parent;
+                recipeVbox.getChildren().remove(hBoxToRemove);
+            }
+        });
+
+        recipeVbox.getChildren().add(recipeVbox.getChildren().size() - 1, hBox); // Add above the button
+
+        recipeItemsCount++;
+    }
     public void displayUpdatedCategoryList()
     {
         //Displaying Updated Category List

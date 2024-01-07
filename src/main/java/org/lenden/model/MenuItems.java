@@ -8,21 +8,15 @@ public class MenuItems {
 
     public String foodItemAvailability;
 
-    public String foodItemCategory;
+    public String foodItemCategory; // Food category ( Main Course / Dessert / Snacks etc..) or Alcohol
+
+    public String stockQuantity; // Amount of stock available
+
+    public String itemType; // Single unit or Dish
+
+    public String itemVariant; // Variant (Half/Full/Regular/Medium)
 
 
-    //TO STRING
-
-
-    @Override
-    public String toString() {
-        return "MenuItems{" +
-                "foodItemName='" + foodItemName + '\'' +
-                ", foodItemPrice=" + foodItemPrice +
-                ", foodItemAvailability='" + foodItemAvailability + '\'' +
-                ", foodItemCategory='" + foodItemCategory + '\'' +
-                '}';
-    }
 
     //GETTERS AND SETTERS
     public String getFoodItemCategory() {
@@ -31,6 +25,7 @@ public class MenuItems {
     public void setFoodItemCategory(String foodItemCategory) {
         this.foodItemCategory = foodItemCategory;
     }
+
 
     public String getFoodItemAvailability() {
         return foodItemAvailability;
@@ -46,6 +41,7 @@ public class MenuItems {
         this.foodItemName = foodItemName;
     }
 
+
     public int getFoodItemPrice() {
         return foodItemPrice;
     }
@@ -54,5 +50,20 @@ public class MenuItems {
     }
 
 
+    public String getStockQuantity() {
+        return stockQuantity;
+    }
 
+    public void setStockQuantity(String stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
+
+
+    public String getItemType() {
+        return itemType;
+    }
+
+    public void setItemType(String itemType) {
+        this.itemType = itemType;
+    }
 }
