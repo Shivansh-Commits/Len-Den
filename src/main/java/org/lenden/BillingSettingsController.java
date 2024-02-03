@@ -143,7 +143,7 @@ public class BillingSettingsController implements Initializable {
 
             //------------------Initially checking & displaying saved Max Discount--------------------------------
             double maxDiscount = daoimpl.fetchMaxDiscount();
-            if(maxDiscount > 0)
+            if(maxDiscount >= 0)
             {
                 setMaxDiscountCheckbox.setSelected(true);
                 maxDiscountTextBox.setText(String.valueOf(maxDiscount));

@@ -52,7 +52,7 @@
 }
 
 
-.add-recipe-button
+.add-variant-button
 {
      -fx-background-color: black;
      -fx-border-color: black;
@@ -61,7 +61,7 @@
      -fx-font-size : 12px;
 }
 
-.add-recipe-button:hover
+.add-variant-button:hover
 {
      -fx-background-color: white;
      -fx-border-color: black;
@@ -70,7 +70,7 @@
      -fx-font-size : 12px;
 }
 
-.remove-raw-material-button
+.remove-variant-button
 {
     -fx-background-color: #f5c9c9;
 }
