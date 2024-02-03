@@ -15,6 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.MenuController">
    <children>
@@ -34,6 +35,7 @@
                       <TableColumn prefWidth="245.60003662109375" text="Name" />
                       <TableColumn prefWidth="209.60003662109375" text="Price" />
                         <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Availability" />
+                        <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Stock Quantity" />
                     </columns>
                   </TableView>
                </top>
@@ -52,7 +54,129 @@
                                           <Insets bottom="10.0" />
                                        </BorderPane.margin>
                                        <center>
-                                          <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" style="-fx-background-color: black;" text="Add Item" textFill="WHITE">
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: black;">
+                                             <children>
+                                                <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" text="Add / Update / Delete" textFill="WHITE">
+                                                   <font>
+                                                      <Font size="20.0" />
+                                                   </font>
+                                                   <padding>
+                                                      <Insets left="15.0" />
+                                                   </padding>
+                                                </Label>
+                                                <Label alignment="CENTER" text="( i ) Only for Food Items and Non-Alcoholic drinks" textFill="#898888" />
+                                             </children>
+                                          </HBox>
+                                       </center>
+                                    </BorderPane>
+                                 </top>
+                                 <padding>
+                                    <Insets bottom="20.0" />
+                                 </padding>
+                                 <bottom>
+                                    <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="38.0" prefWidth="200.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </Button>
+                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#updateItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Update">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </Button>
+                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#deleteItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND" />
+                                             </cursor>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </bottom>
+                                 <left>
+                                    <VBox prefHeight="249.0" prefWidth="571.0" spacing="15.0" BorderPane.alignment="CENTER">
+                                       <children>
+                                          <HBox spacing="5.0">
+                                             <children>
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" />
+                                                <Label fx:id="itemId" text="_ _" />
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <TextField fx:id="itemNameTextField" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Name *" stylesheets="@../../menuStyleSheet.css">
+                                                   <cursor>
+                                                      <Cursor fx:constant="TEXT" />
+                                                   </cursor>
+                                                   <font>
+                                                      <Font name="Segoe UI Black" size="12.5" />
+                                                   </font>
+                                                </TextField>
+                                                <TextField fx:id="itemPriceTextField" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Price *" stylesheets="@../../menuStyleSheet.css">
+                                                   <cursor>
+                                                      <Cursor fx:constant="TEXT" />
+                                                   </cursor>
+                                                   <font>
+                                                      <Font name="Segoe UI Black" size="12.5" />
+                                                   </font>
+                                                </TextField>
+                                                <TextField fx:id="itemStockQuantityTextField" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Stock (Quantity)" stylesheets="@../../menuStyleSheet.css">
+                                                   <cursor>
+                                                      <Cursor fx:constant="TEXT" />
+                                                   </cursor>
+                                                   <font>
+                                                      <Font name="Segoe UI Black" size="12.5" />
+                                                   </font>
+                                                </TextField>
+                                             </children>
+                                          </HBox>
+                                          <HBox spacing="10.0">
+                                             <children>
+                                                <ComboBox fx:id="itemCategoryComboBox" editable="true" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Category *" stylesheets="@../../menuStyleSheet.css">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </ComboBox>
+                                                <ComboBox fx:id="itemAvailabilityComboBox" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Availability *" stylesheets="@../../menuStyleSheet.css">
+                                                   <cursor>
+                                                      <Cursor fx:constant="HAND" />
+                                                   </cursor>
+                                                </ComboBox>
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <Label text="Variants">
+                                                   <font>
+                                                      <Font size="15.0" />
+                                                   </font></Label>
+                                                <Label opacity="0.39" text="( i ) Check only if you want to add Variants" />
+                                             </children>
+                                          </HBox>
+                                          <VBox fx:id="variantVbox" maxHeight="1.7976931348623157E308" spacing="10.0">
+                                             <children>
+                                                <Button fx:id="addVariantButton" mnemonicParsing="false" onMouseClicked="#addVariantButtonListener" prefHeight="34.0" prefWidth="150.0" styleClass="add-variant-button" stylesheets="@../../menuStyleSheet.css" text="+ Add Variant" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                       <padding>
+                                          <Insets left="15.0" right="15.0" top="10.0" />
+                                       </padding>
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" />
+                                       </BorderPane.margin>
+                                    </VBox>
+                                 </left>
+                              </BorderPane>
+                              <BorderPane maxWidth="1.7976931348623157E308" minWidth="800.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
+                                 <top>
+                                    <BorderPane BorderPane.alignment="CENTER">
+                                       <BorderPane.margin>
+                                          <Insets bottom="10.0" />
+                                       </BorderPane.margin>
+                                       <center>
+                                          <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" style="-fx-background-color: black;" text="Add Drinks (Alcoholic)" textFill="WHITE">
                                              <font>
                                                 <Font size="20.0" />
                                              </font>
@@ -74,11 +198,11 @@
                                     </Button>
                                  </bottom>
                                  <left>
-                                    <VBox prefHeight="231.0" prefWidth="571.0" spacing="10.0" BorderPane.alignment="CENTER">
+                                    <VBox prefHeight="234.0" prefWidth="571.0" spacing="10.0" BorderPane.alignment="CENTER">
                                        <children>
                                           <HBox spacing="10.0">
                                              <children>
-                                                <TextField fx:id="addItemName" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Name *" stylesheets="@../../menuStyleSheet.css">
+                                                <TextField fx:id="addItemName1" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Name *" stylesheets="@../../menuStyleSheet.css">
                                                    <cursor>
                                                       <Cursor fx:constant="TEXT" />
                                                    </cursor>
@@ -86,7 +210,7 @@
                                                       <Font name="Segoe UI Black" size="12.5" />
                                                    </font>
                                                 </TextField>
-                                                <TextField fx:id="addItemPrice" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Price *" stylesheets="@../../menuStyleSheet.css">
+                                                <TextField fx:id="addItemPrice1" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Price *" stylesheets="@../../menuStyleSheet.css">
                                                    <cursor>
                                                       <Cursor fx:constant="TEXT" />
                                                    </cursor>
@@ -94,7 +218,7 @@
                                                       <Font name="Segoe UI Black" size="12.5" />
                                                    </font>
                                                 </TextField>
-                                                <TextField fx:id="addItemPrice1" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Stock (Quantity) *" stylesheets="@../../menuStyleSheet.css">
+                                                <TextField fx:id="addItemPrice11" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Stock (Quantity) *" stylesheets="@../../menuStyleSheet.css">
                                                    <cursor>
                                                       <Cursor fx:constant="TEXT" />
                                                    </cursor>
@@ -106,33 +230,33 @@
                                           </HBox>
                                           <HBox spacing="10.0">
                                              <children>
-                                                <ComboBox fx:id="addItemCategory" editable="true" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Category *" stylesheets="@../../menuStyleSheet.css">
+                                                <ComboBox fx:id="addItemCategory1" editable="true" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Category *" stylesheets="@../../menuStyleSheet.css">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
                                                 </ComboBox>
-                                                <ComboBox fx:id="addItemVariant" editable="true" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Variant *" stylesheets="@../../menuStyleSheet.css">
-                                                   <cursor>
-                                                      <Cursor fx:constant="HAND" />
-                                                   </cursor>
-                                                </ComboBox>
-                                                <ComboBox fx:id="addItemAvailability" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" opacity="0.46" prefHeight="38.0" prefWidth="170.0" promptText="Availability *" stylesheets="@../../menuStyleSheet.css">
+                                                <ComboBox fx:id="addItemAvailability1" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="170.0" promptText="Availability *" stylesheets="@../../menuStyleSheet.css">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
                                                 </ComboBox>
                                              </children>
                                           </HBox>
-                                          <CheckBox fx:id="trackRawMaterialCheckbox" mnemonicParsing="false" prefHeight="30.0" text="Track Raw Material Usage">
-                                             <font>
-                                                <Font name="Segoe UI Symbol" size="14.0" />
-                                             </font>
-                                          </CheckBox>
-                                          <VBox fx:id="recipeVbox" disable="true" maxHeight="1.7976931348623157E308" spacing="10.0">
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0">
+                                             <children>
+                                                <CheckBox fx:id="addAlcoholVariantCheckbox" mnemonicParsing="false" prefHeight="30.0" text="Add Variants">
+                                                   <font>
+                                                      <Font name="Segoe UI Symbol" size="14.0" />
+                                                   </font>
+                                                </CheckBox>
+                                                <Label opacity="0.39" text="( i ) Check only if you want to add Variants" />
+                                             </children>
+                                          </HBox>
+                                          <VBox fx:id="alcoholVariantVbox" disable="true" maxHeight="1.7976931348623157E308" spacing="10.0">
                                              <children>
                                                 <HBox spacing="10.0">
                                                    <children>
-                                                      <TextField fx:id="rawMaterial" minWidth="80.0" prefHeight="38.0" prefWidth="309.0" promptText="Raw Material *" stylesheets="@../../menuStyleSheet.css">
+                                                      <TextField fx:id="alcoholVariant" minWidth="80.0" prefHeight="38.0" prefWidth="309.0" promptText="Variant" stylesheets="@../../menuStyleSheet.css">
                                                          <cursor>
                                                             <Cursor fx:constant="TEXT" />
                                                          </cursor>
@@ -140,7 +264,7 @@
                                                             <Font name="Segoe UI Black" size="12.5" />
                                                          </font>
                                                       </TextField>
-                                                      <TextField fx:id="rawMaterialQuantity" maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="38.0" prefWidth="208.0" promptText="Quantity (Unit) *" stylesheets="@../../menuStyleSheet.css">
+                                                      <TextField fx:id="alcoholVariantPrice" maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="38.0" prefWidth="208.0" promptText="Variant Price" stylesheets="@../../menuStyleSheet.css">
                                                          <cursor>
                                                             <Cursor fx:constant="TEXT" />
                                                          </cursor>
@@ -150,9 +274,11 @@
                                                       </TextField>
                                                    </children>
                                                 </HBox>
-                                                <Button fx:id="addRecipeItemButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addRecipeItemButtonListener" prefHeight="38.0" prefWidth="166.0" styleClass="add-recipe-button" stylesheets="@../../menuStyleSheet.css" text="+ Add Recipe Item" />
+                                                <Button fx:id="addAlcoholVariantsButton" alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addAlcoholVariantButtonListener" prefHeight="34.0" prefWidth="150.0" styleClass="add-variant-button" stylesheets="@../../menuStyleSheet.css" text="+ Add Variants" />
                                              </children>
                                           </VBox>
+                                          <HBox alignment="CENTER_LEFT" spacing="10.0" />
+                                          <VBox fx:id="recipeVbox1" disable="true" maxHeight="1.7976931348623157E308" spacing="10.0" />
                                        </children>
                                        <padding>
                                           <Insets left="15.0" right="15.0" />
@@ -162,78 +288,6 @@
                                        </BorderPane.margin>
                                     </VBox>
                                  </left>
-                              </BorderPane>
-                              <BorderPane maxWidth="1.7976931348623157E308" minWidth="800.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
-                                 <center>
-                                    <HBox maxWidth="1.7976931348623157E308" spacing="10.0" BorderPane.alignment="CENTER">
-                                       <children>
-                                          <TextField fx:id="updateItemName" disable="true" minWidth="80.0" prefHeight="38.0" prefWidth="160.0" promptText="Name" stylesheets="@../../menuStyleSheet.css">
-                                             <cursor>
-                                                <Cursor fx:constant="NONE" />
-                                             </cursor>
-                                             <font>
-                                                <Font size="12.5" />
-                                             </font>
-                                          </TextField>
-                                          <TextField fx:id="updateItemPrice" minWidth="80.0" prefHeight="38.0" prefWidth="160.0" promptText="Price" stylesheets="@../../menuStyleSheet.css">
-                                             <cursor>
-                                                <Cursor fx:constant="TEXT" />
-                                             </cursor>
-                                             <font>
-                                                <Font size="12.5" />
-                                             </font>
-                                          </TextField>
-                                          <ComboBox fx:id="updateItemCategory" minWidth="80.0" prefHeight="38.0" prefWidth="160.0" promptText="Category" stylesheets="@../../menuStyleSheet.css">
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </ComboBox>
-                                          <ComboBox fx:id="updateItemAvailability" minWidth="80.0" prefHeight="38.0" prefWidth="160.0" promptText="Availability" stylesheets="@../../menuStyleSheet.css">
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </ComboBox>
-                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#updateItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Update">
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <HBox.margin>
-                                                <Insets left="30.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#deleteItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete">
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                             <HBox.margin>
-                                                <Insets right="10.0" />
-                                             </HBox.margin>
-                                          </Button>
-                                       </children>
-                                       <padding>
-                                          <Insets left="15.0" top="10.0" />
-                                       </padding>
-                                    </HBox>
-                                 </center>
-                                 <top>
-                                    <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" style="-fx-background-color: BLACK;" text="Update / Delete" textFill="WHITE" BorderPane.alignment="CENTER">
-                                       <font>
-                                          <Font size="20.0" />
-                                       </font>
-                                       <BorderPane.margin>
-                                          <Insets bottom="10.0" />
-                                       </BorderPane.margin>
-                                       <padding>
-                                          <Insets left="15.0" />
-                                       </padding>
-                                    </Label>
-                                 </top>
-                                 <padding>
-                                    <Insets bottom="20.0" />
-                                 </padding>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
                               </BorderPane>
                            </children>
                         </VBox>

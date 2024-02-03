@@ -1,7 +1,10 @@
 package org.lenden.model;
 
+import java.util.HashMap;
+
 public class MenuItems {
 
+    public int id;
     public String foodItemName;
 
     public int foodItemPrice;
@@ -10,15 +13,22 @@ public class MenuItems {
 
     public String foodItemCategory; // Food category ( Main Course / Dessert / Snacks etc..) or Alcohol
 
-    public String stockQuantity; // Amount of stock available
+    public int stockQuantity; // Amount of stock available
 
-    public String itemType; // Single unit or Dish
-
-    public String itemVariant; // Variant (Half/Full/Regular/Medium)
+    public HashMap<String,Double> variantData; // Variant (Half/Full/Regular/Medium)
 
 
 
     //GETTERS AND SETTERS
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getFoodItemCategory() {
         return foodItemCategory;
     }
@@ -50,20 +60,19 @@ public class MenuItems {
     }
 
 
-    public String getStockQuantity() {
+    public int getStockQuantity() {
         return stockQuantity;
     }
 
-    public void setStockQuantity(String stockQuantity) {
+    public void setStockQuantity(int stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 
-
-    public String getItemType() {
-        return itemType;
+    public HashMap<String, Double> getVariantData() {
+        return variantData;
     }
 
-    public void setItemType(String itemType) {
-        this.itemType = itemType;
+    public void setVariantData(HashMap<String, Double> variantData) {
+        this.variantData = variantData;
     }
 }

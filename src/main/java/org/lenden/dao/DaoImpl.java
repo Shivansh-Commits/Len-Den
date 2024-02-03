@@ -1,5 +1,8 @@
 package org.lenden.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.lenden.model.*;
@@ -94,16 +97,42 @@ public class DaoImpl
 
             while(rs.next())
             {
-                MenuItems temp = new MenuItems();
-                temp.setFoodItemName(rs.getString("fooditemname"));
-                temp.setFoodItemPrice(rs.getInt("fooditemprice"));
-                temp.setFoodItemCategory(category);
-                if(rs.getBoolean("fooditemavailability"))
-                    temp.setFoodItemAvailability("Available");
-                else
-                    temp.setFoodItemAvailability("NOT Available");
+                MenuItems menuItem = new MenuItems();
 
-                menuItemList.add(temp);
+                //Getting ID
+                menuItem.setId(rs.getInt("id"));
+
+                //Getting Name
+                menuItem.setFoodItemName(rs.getString("fooditemname"));
+
+                //Getting Price
+                menuItem.setFoodItemPrice(rs.getInt("fooditemprice"));
+
+                //Getting Availability
+                menuItem.setFoodItemCategory(category);
+                if(rs.getBoolean("fooditemavailability"))
+                    menuItem.setFoodItemAvailability("Available");
+                else
+                    menuItem.setFoodItemAvailability("NOT Available");
+
+                //Getting Stock Quantity
+                menuItem.setStockQuantity(rs.getInt("stockquantity"));
+
+                //Getting Variant Data
+                String variantDataJson = rs.getString("variants");
+                try {
+                    if (variantDataJson != null && !variantDataJson.isEmpty()) {
+                        ObjectMapper objectMapper = new ObjectMapper();
+                        TypeReference<HashMap<String, Double>> typeReference = new TypeReference<HashMap<String, Double>>() {};
+                        HashMap<String, Double> variantData = objectMapper.readValue(variantDataJson, typeReference);
+                        menuItem.setVariantData(variantData);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+
+                menuItemList.add(menuItem);
             }
 
             if(!menuItemList.isEmpty())
@@ -659,19 +688,36 @@ public class DaoImpl
         }
     }
 
-    public boolean addItemToMenu(MenuItems item) throws SQLException
-    {
+    public boolean addItemToMenu(MenuItems item) throws SQLException, JsonProcessingException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability) VALUES (?,?,?,?) ", tenantId));
+            stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability,stockquantity,variants) VALUES (?,?,?,?,?,?) ", tenantId));
             stmt.setString(1,item.getFoodItemName());
             stmt.setString(2,item.getFoodItemCategory());
             stmt.setInt(3,item.getFoodItemPrice());
 
             String availability = item.getFoodItemAvailability();
             stmt.setBoolean(4, availability.equals("Available"));
+            stmt.setInt(5,item.getStockQuantity());
+            if(item.getVariantData().size()==0)
+            {
+                stmt.setString(6, "");
+            }
+            else
+            {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String variantDataJson = objectMapper.writeValueAsString(item.getVariantData());
+                    stmt.setString(6, variantDataJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+            }
+
+
 
             if(stmt.executeUpdate()==1)
             {
@@ -695,15 +741,15 @@ public class DaoImpl
 
     }
 
-    public boolean deleteMenuItem(MenuItems item) throws SQLException
+    public boolean deleteMenuItem(Integer id) throws SQLException
     {
 
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("DELETE FROM %s.menu WHERE fooditemname = ? ", tenantId));
-            stmt.setString(1,item.getFoodItemName());
+            stmt  = c.prepareStatement(String.format("DELETE FROM %s.menu WHERE id = ? ", tenantId));
+            stmt.setInt(1,id);
 
             int rowsDeleted = stmt.executeUpdate();
 
@@ -716,20 +762,50 @@ public class DaoImpl
         }
     }
 
-    public boolean updateMenuItem(MenuItems item) throws SQLException
-    {
+    public boolean updateMenuItem(MenuItems item) throws SQLException, JsonProcessingException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
 
-            stmt  = c.prepareStatement(String.format("UPDATE %s.menu SET fooditemprice = ?, fooditemavailability = ?, fooditemcategory = ? WHERE fooditemname = ?", tenantId));
+            stmt  = c.prepareStatement(String.format("UPDATE %s.menu SET fooditemname = ? ,fooditemprice = ?, fooditemavailability = ?, fooditemcategory = ? , stockquantity = ?, variants=?  WHERE id = ?", tenantId));
 
-            stmt.setInt(1,item.getFoodItemPrice());
+            //Setting Name
+            stmt.setString(1,item.getFoodItemName());
+
+            //Setting Item Price
+            stmt.setInt(2,item.getFoodItemPrice());
+
+            //Setting Availability
             String availability = item.getFoodItemAvailability();
-            stmt.setBoolean(2, availability.equals("Available"));
-            stmt.setString(3,item.getFoodItemCategory());
-            stmt.setString(4,item.getFoodItemName());
+            stmt.setBoolean(3, availability.equals("Available"));
+
+            //Setting Category Data
+            stmt.setString(4,item.getFoodItemCategory());
+
+            //Setting Stock Data
+            stmt.setInt(5,item.getStockQuantity());
+
+            //Setting Variant Data
+            if(item.getVariantData().size()==0)
+            {
+                stmt.setString(6, "");
+            }
+            else
+            {
+                try {
+                    ObjectMapper objectMapper = new ObjectMapper();
+                    String variantDataJson = objectMapper.writeValueAsString(item.getVariantData());
+                    stmt.setString(6, variantDataJson);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw e;
+                }
+            }
+
+            //Setting ID
+            stmt.setInt(7,item.getId());
+
 
 
             if(stmt.executeUpdate()==1)
