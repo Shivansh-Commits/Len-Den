@@ -54,19 +54,19 @@
 
 .add-variant-button
 {
-     -fx-background-color: black;
+     -fx-background-color: white;
      -fx-border-color: black;
-     -fx-border-width : 0.5;
-     -fx-text-fill: white;
+     -fx-border-width : 1;
+     -fx-text-fill: black;
      -fx-font-size : 12px;
 }
 
 .add-variant-button:hover
 {
-     -fx-background-color: white;
+     -fx-background-color: black;
      -fx-border-color: black;
      -fx-border-width : 0.5;
-     -fx-text-fill: black;
+     -fx-text-fill: white;
      -fx-font-size : 12px;
 }
 

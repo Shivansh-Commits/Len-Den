@@ -30,7 +30,7 @@
          <center>
             <BorderPane minHeight="-Infinity" BorderPane.alignment="CENTER">
                <top>
-                  <TableView fx:id="menuTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#populateUpdateDeleteForm" prefHeight="334.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
+                  <TableView fx:id="menuTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onMouseClicked="#populateAddUpdateDeleteForm" prefHeight="334.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
                     <columns>
                       <TableColumn prefWidth="245.60003662109375" text="Name" />
                       <TableColumn prefWidth="209.60003662109375" text="Price" />
@@ -76,7 +76,7 @@
                                  <bottom>
                                     <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="38.0" prefWidth="200.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu">
+                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>

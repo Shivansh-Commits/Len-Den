@@ -1,5 +1,6 @@
 package org.lenden;
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -22,6 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import com.google.gson.Gson;
+
+
 public class MenuController implements Initializable
 {
     @FXML
@@ -77,7 +81,7 @@ public class MenuController implements Initializable
         {
             Button button = new Button(category); // Create a new button
 
-            button.setOnMouseClicked(this::displayMenuItems);
+            button.setOnMouseClicked(this::displayCategoryItems);
             button.getStyleClass().add("category-button");
             button.setPrefWidth(160);
             button.setPrefHeight(80);
@@ -236,7 +240,7 @@ public class MenuController implements Initializable
             {
                 Button button = new Button(category); // Create a new button
 
-                button.setOnMouseClicked(this::displayMenuItems);
+                button.setOnMouseClicked(this::displayCategoryItems);
                 button.getStyleClass().add("category-button");
                 button.setPrefWidth(171);
                 button.setPrefHeight(80);
@@ -254,7 +258,7 @@ public class MenuController implements Initializable
         }
     }
 
-    public void displayMenuItems(String category)
+    public void displayCategoryItems(String category)
     {
         try {
             menuTableItems = daoimpl.getCategoryItems(category);
@@ -270,7 +274,7 @@ public class MenuController implements Initializable
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
-        nameCol.setPrefWidth(250);
+        nameCol.setPrefWidth(200);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
@@ -282,22 +286,56 @@ public class MenuController implements Initializable
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(200);
+        availCol.setPrefWidth(150);
 
         // Create a cell value factory for the Stock Quantity column
         TableColumn<MenuItems, Integer> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
-        stockCol.setPrefWidth(150);
+        stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
 
+        // Create a cell value factory for the Variant column
+        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variant");
+        variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
+        variantCol.setPrefWidth(200);
+        variantCol.setStyle("-fx-alignment: CENTER;");
 
         // Set the cell value factories for the table columns
-        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol);
-
+        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol);
         menuTable.setItems(menuTableItems);
 
+
+        //Displaying variant data after formating
+        variantCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            Map<String, Double> variantData = menuItem.getVariantData();
+            if (variantData != null && !variantData.isEmpty()) {
+                StringBuilder variants = new StringBuilder();
+                variantData.keySet().forEach(variant -> {
+                    variants.append(variant).append(", ");
+                });
+                // Remove the trailing comma and space
+                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
+
+
+        //Displaying the price value in col, only if variant is not added
+        priceCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
+                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
+            } else {
+                return new SimpleStringProperty("Depends On Variant");
+            }
+        });
+
+
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<MenuItems, String>()
+        {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -314,13 +352,14 @@ public class MenuController implements Initializable
                     } else {
                         // Set the background color of the cell to red if the food item is not available
                         setStyle("-fx-background-color: #f5c9c9;");
+                        setAlignment(Pos.CENTER);
                     }
                 }
             }
         });
     }
 
-    public void displayMenuItems(MouseEvent e)
+    public void displayCategoryItems(MouseEvent e)
     {
         Button clickedButton = (Button) e.getSource();
         String category = clickedButton.getText();
@@ -339,7 +378,7 @@ public class MenuController implements Initializable
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
-        nameCol.setPrefWidth(250);
+        nameCol.setPrefWidth(200);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
@@ -351,21 +390,56 @@ public class MenuController implements Initializable
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(200);
+        availCol.setPrefWidth(150);
 
         // Create a cell value factory for the Stock Quantity column
         TableColumn<MenuItems, Integer> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
-        stockCol.setPrefWidth(150);
+        stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
 
+        // Create a cell value factory for the Variant column
+        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variant");
+        variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
+        variantCol.setPrefWidth(200);
+        variantCol.setStyle("-fx-alignment: CENTER;");
 
         // Set the cell value factories for the table columns
-        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol);
+        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol);
         menuTable.setItems(menuTableItems);
 
+
+        //Displaying variant data after formating
+        variantCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            Map<String, Double> variantData = menuItem.getVariantData();
+            if (variantData != null && !variantData.isEmpty()) {
+                    StringBuilder variants = new StringBuilder();
+                    variantData.keySet().forEach(variant -> {
+                    variants.append(variant).append(", ");
+                    });
+                // Remove the trailing comma and space
+                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
+            } else {
+            return new SimpleStringProperty("");
+            }
+        });
+
+
+        //Displaying the price value in col, only if variant is not added
+        priceCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
+                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
+            } else {
+                return new SimpleStringProperty("Depends On Variant");
+            }
+        });
+
+
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>() {
+        availCol.setCellFactory(column -> new TableCell<MenuItems, String>()
+        {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
@@ -387,32 +461,51 @@ public class MenuController implements Initializable
                 }
             }
         });
+
+
     }
 
     public void addToMenu(MouseEvent ignoredEvent) throws SQLException
     {
-        if(itemNameTextField.getText().isEmpty() || itemPriceTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null )
+
+        //Checking if all field values are filled by the user (except price)
+        if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty", ButtonType.OK);
-            alert.setHeaderText("Values not Entered");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
 
             return;
         }
-        if(itemPriceTextField.getText().length() > 6 )
+
+        //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
+        if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
         {
-            Alert alert = new Alert(Alert.AlertType.WARNING, "The price of a single food item can not be more than 1,00,000", ButtonType.OK);
-            alert.getDialogPane().setMinHeight(Region.USE_COMPUTED_SIZE);
-            alert.getDialogPane().setMaxHeight(Region.USE_COMPUTED_SIZE);
-            alert.setHeaderText("Price Limit Exceeded");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
 
-            itemPriceTextField.setText("");
-            itemPriceTextField.requestFocus();
             return;
         }
+        else
+        {
+            if(itemPriceTextField.getText().length() > 6 )
+            {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "The price of a single food item can not be more than 1,00,000", ButtonType.OK);
+                alert.getDialogPane().setMinHeight(Region.USE_COMPUTED_SIZE);
+                alert.getDialogPane().setMaxHeight(Region.USE_COMPUTED_SIZE);
+                alert.setHeaderText("Price Limit Exceeded");
+                alert.setTitle("Alert!");
+                alert.showAndWait();
+
+                itemPriceTextField.setText("");
+                itemPriceTextField.requestFocus();
+                return;
+            }
+        }
+
 
         String itemName = itemNameTextField.getText();
         int itemPrice = Integer.parseInt(   itemPriceTextField.getText()  );
@@ -425,11 +518,10 @@ public class MenuController implements Initializable
         // Checking and Adding Variants
         HashMap<String,Double> variantData = new HashMap<String,Double>();
         int temp = variantCount;
+        temp--;
 
             while(temp>=0)
             {
-                temp--;
-
                 HBox hBox = (HBox) variantVbox.lookup("#variantHbox"+temp);
 
                 TextField variantName = (TextField) hBox.lookup("#variant"+temp);
@@ -437,6 +529,7 @@ public class MenuController implements Initializable
 
                 variantData.put(variantName.getText(),Double.parseDouble(variantPrice.getText()));
 
+                temp--;
             }
 
 
@@ -480,7 +573,7 @@ public class MenuController implements Initializable
                 clearAllFields(variantCount);
 
                 //Displaying Updated Category List
-                displayMenuItems(itemCategory);
+                displayCategoryItems(itemCategory);
             }
             else
             {
@@ -562,7 +655,7 @@ public class MenuController implements Initializable
         }
     }
 
-    public void populateUpdateDeleteForm(MouseEvent event)
+    public void populateAddUpdateDeleteForm(MouseEvent event)
     {
 
         MenuItems selectedItem = menuTable.getSelectionModel().getSelectedItem();
@@ -570,19 +663,22 @@ public class MenuController implements Initializable
         if(selectedItem == null)
             return;
 
+        //Populating ID Field
         itemId.setText(Integer.toString(selectedItem.getId()));
 
+        //Populating Name Field
         itemNameTextField.setText(selectedItem.getFoodItemName());
 
-        itemPriceTextField.setText( Integer.toString(selectedItem.getFoodItemPrice()) );
-
+        //Populating Category Field
         itemCategoryComboBox.setValue(selectedItem.getFoodItemCategory());
 
+        //Populating Availability Field
         itemAvailabilityComboBox.setValue(selectedItem.getFoodItemAvailability());
 
+        ////Populating Stock Quantity Field
         itemStockQuantityTextField.setText(Integer.toString(selectedItem.getStockQuantity()));
 
-
+        //Displaying Variant Data
         HashMap<String,Double> variantData = selectedItem.getVariantData();
         if(variantData == null)
         {
@@ -594,9 +690,8 @@ public class MenuController implements Initializable
 
             //Clearing Previously Displayed data
             clearPreviousItemsVariantData();
-
  
-            //Displaying Variant Data
+
             variantVbox.setDisable(false);
 
             variantCount=0;
@@ -645,11 +740,24 @@ public class MenuController implements Initializable
 
         }
 
+        //Populating Price Field (if Variants dont Exist)
+        HBox variantHbox = (HBox) variantVbox.lookup("#variantHbox0");
+        if(variantHbox==null)
+        {
+            itemPriceTextField.setDisable(false);
+            itemPriceTextField.setText(Integer.toString(selectedItem.getFoodItemPrice()));
+        }
+        else
+        {
+            itemPriceTextField.setDisable(true);
+            itemPriceTextField.setText(Integer.toString(selectedItem.getFoodItemPrice()));
+        }
     }
 
     public void updateItem(MouseEvent event)
     {
-        if(itemNameTextField.getText().isEmpty() || itemPriceTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null )
+        //Checking if all field values are filled by the user (except price)
+        if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
@@ -658,6 +766,18 @@ public class MenuController implements Initializable
 
             return;
         }
+
+        //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
+        if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            alert.setHeaderText("No Item Selected");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+            return;
+        }
+
 
         Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         updateAlert.setHeaderText("Item will be Updated");
@@ -714,7 +834,7 @@ public class MenuController implements Initializable
                 }
                 else
                 {
-                    displayMenuItems(selectedItem.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
+                    displayCategoryItems(selectedItem.getFoodItemCategory()); //SHOW TABLE WITH UPDATED ITEMS
                 }
             }
             catch (Exception ex)
@@ -730,9 +850,21 @@ public class MenuController implements Initializable
 
     public void deleteItem(MouseEvent ignoredEvent)
     {
-        if(itemNameTextField.getText().isEmpty() || itemPriceTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null )
+        //Checking if all field values are filled by the user (except price)
+        if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item first.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            alert.setHeaderText("No Item Selected");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+            return;
+        }
+
+        //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
+        if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
+        {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
@@ -764,10 +896,12 @@ public class MenuController implements Initializable
                     itemNameTextField.clear();
                     itemPriceTextField.clear();
                     itemAvailabilityComboBox.getSelectionModel().clearSelection();
+                    itemStockQuantityTextField.clear();
+                    itemId.setText("_ _");
                     itemCategoryComboBox.getSelectionModel().clearSelection();
 
                     //SHOW TABLE WITH UPDATED ITEMS
-                    displayMenuItems(selectedItem.getFoodItemCategory());
+                    displayCategoryItems(selectedItem.getFoodItemCategory());
 
                     //SHOW UPDATED CATEGORY LIST
                     displayUpdatedCategoryList();
