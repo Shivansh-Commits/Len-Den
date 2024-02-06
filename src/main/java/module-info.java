@@ -5,8 +5,9 @@ module org.lenden {
     requires org.postgresql.jdbc;
     requires com.zaxxer.hikari; //DB CONNECTION POO:
     requires java.desktop;
-    requires com.machinezoo.sourceafis;
-    requires com.fasterxml.jackson.databind; // FINGERPRINT LIBRARY
+    //requires com.machinezoo.sourceafis;
+    requires com.fasterxml.jackson.databind;
+    requires com.google.gson; // FINGERPRINT LIBRARY
 
     opens org.lenden.model to javafx.base;
 
