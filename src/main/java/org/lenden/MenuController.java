@@ -42,10 +42,14 @@ public class MenuController implements Initializable
     ComboBox<String> itemAvailabilityComboBox;
     @FXML
     TextField itemStockQuantityTextField;
-
+    @FXML
+    Button addToMenuButton;
+    @FXML
+    Button updateMenuItemButton;
+    @FXML
+    Button deleteMenuItemButton;
     @FXML
     VBox variantVbox;
-
     @FXML
     VBox alcoholVariantVbox;
 
@@ -62,6 +66,15 @@ public class MenuController implements Initializable
     public void initialize(URL location, ResourceBundle resources)
     {
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Setting Tips for Different Buttons - Will be Visible on Hover
+        addToMenuButton.setTooltip(new javafx.scene.control.Tooltip("Add Item to Menu"));
+
+        updateMenuItemButton.setTooltip(new javafx.scene.control.Tooltip("Click to Update, after adding new details"));
+
+        deleteMenuItemButton.setTooltip(new javafx.scene.control.Tooltip("Delete selected Menu Item"));
+
+        //--------------------------------------------------------------------------------------------------------------
         //Displaying Categories
         ObservableList<String> categories = null;
         try

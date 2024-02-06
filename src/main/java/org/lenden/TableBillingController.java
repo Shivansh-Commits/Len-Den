@@ -157,19 +157,19 @@ public class TableBillingController implements Initializable {
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
-        nameCol.setPrefWidth(200);
+        nameCol.setPrefWidth(150);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
         TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
-        priceCol.setPrefWidth(200);
+        priceCol.setPrefWidth(150);
         priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
         TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(170);
+        availCol.setPrefWidth(150);
 
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
@@ -448,6 +448,7 @@ public class TableBillingController implements Initializable {
 
 
     public void setMainController(MainController mainController)
+
     {
         this.mainController = mainController;
     }
@@ -938,6 +939,7 @@ public class TableBillingController implements Initializable {
 
         updateTotals(billTableItems);
     }
+
 
     /**
      * Removes all food items from the bill table and closes that Table (No Argument)
