@@ -36,6 +36,7 @@
                       <TableColumn prefWidth="209.60003662109375" text="Price" />
                         <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Availability" />
                         <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Stock Quantity" />
+                        <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Variant" />
                     </columns>
                   </TableView>
                </top>
@@ -76,17 +77,17 @@
                                  <bottom>
                                     <HBox alignment="CENTER" spacing="15.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu">
+                                          <Button fx:id="addToMenuButton" minWidth="80.0" mnemonicParsing="false" onMouseClicked="#addToMenu" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Add to Menu">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                           </Button>
-                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#updateItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Update">
+                                          <Button fx:id="updateMenuItemButton" minWidth="80.0" mnemonicParsing="false" onMouseClicked="#updateItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Update">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                           </Button>
-                                          <Button minWidth="80.0" mnemonicParsing="false" onMouseClicked="#deleteItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete">
+                                          <Button fx:id="deleteMenuItemButton" minWidth="80.0" mnemonicParsing="false" onMouseClicked="#deleteItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete">
                                              <cursor>
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
