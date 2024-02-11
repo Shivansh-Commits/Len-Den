@@ -245,15 +245,18 @@
                   </GridPane>
                </bottom>
                <center>
-                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="635.0" styleClass="food-items-table" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="foodItemsTable" onMouseClicked="#addMenuItemtoBill" prefHeight="265.0" prefWidth="635.0" styleClass="food-items-table" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                      <columns>
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                         <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />
-                        <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Availability" />
+                        <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Variant" />
                      </columns>
                      <columnResizePolicy>
                         <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                      </columnResizePolicy>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </TableView>
                </center>
                <top>

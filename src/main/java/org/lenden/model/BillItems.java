@@ -1,12 +1,17 @@
 package org.lenden.model;
 
+import java.util.HashMap;
+
 public class BillItems {
+
 
     public String foodItemName;
 
     public int foodItemPrice;
 
     public int foodItemQuantity;
+
+    public HashMap variant;
 
     public String getFoodItemName() {
         return foodItemName;
@@ -32,6 +37,14 @@ public class BillItems {
         this.foodItemQuantity = foodItemQuantity;
     }
 
+
+    public HashMap getVariant() {
+        return variant;
+    }
+
+    public void setVariant(HashMap variant) {
+        this.variant = variant;
+    }
 
     public BillItems(String foodItemName, int foodItemPrice, int foodItemQuantity) {
         this.foodItemName = foodItemName;
