@@ -7,7 +7,7 @@ public class BillItems {
 
     public String foodItemName;
 
-    public int foodItemPrice;
+    public Double foodItemPrice;
 
     public int foodItemQuantity;
 
@@ -21,11 +21,11 @@ public class BillItems {
         this.foodItemName = foodItemName;
     }
 
-    public int getFoodItemPrice() {
+    public Double getFoodItemPrice() {
         return foodItemPrice;
     }
 
-    public void setFoodItemPrice(int foodItemPrice) {
+    public void setFoodItemPrice(Double foodItemPrice) {
         this.foodItemPrice = foodItemPrice;
     }
 
@@ -46,7 +46,7 @@ public class BillItems {
         this.variant = variant;
     }
 
-    public BillItems(String foodItemName, int foodItemPrice, int foodItemQuantity) {
+    public BillItems(String foodItemName, Double foodItemPrice, int foodItemQuantity) {
         this.foodItemName = foodItemName;
         this.foodItemPrice = foodItemPrice;
         this.foodItemQuantity = foodItemQuantity;

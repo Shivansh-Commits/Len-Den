@@ -328,7 +328,7 @@ public class TakeAwayBillingController implements Initializable
         }
 
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
-        int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
+        Double selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
         String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
 
         // Create a cell value factory for the Name column

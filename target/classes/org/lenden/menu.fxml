@@ -36,6 +36,7 @@
                       <TableColumn prefWidth="209.60003662109375" text="Price" />
                         <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Availability" />
                         <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Stock Quantity" />
+                        <TableColumn minWidth="0.0" prefWidth="214.4000244140625" text="Variant" />
                     </columns>
                   </TableView>
                </top>
