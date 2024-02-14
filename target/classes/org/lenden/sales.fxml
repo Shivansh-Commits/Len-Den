@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="500.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SalesController">
@@ -29,9 +30,9 @@
             </AnchorPane>
          </top>
          <center>
-            <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="500.0" BorderPane.alignment="CENTER">
-               <top>
-                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefHeight="183.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;" BorderPane.alignment="CENTER">
+            <VBox spacing="10.0" BorderPane.alignment="CENTER">
+               <children>
+                  <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefHeight="183.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;">
                      <children>
                         <AnchorPane maxWidth="1.7976931348623157E308" minWidth="200.0" prefHeight="143.0" style="-fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" HBox.hgrow="SOMETIMES">
                            <children>
@@ -94,26 +95,8 @@
                      <padding>
                         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                      </padding>
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </BorderPane.margin>
                   </HBox>
-               </top>
-               <bottom>
-                  <TableView fx:id="billsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="459.0" prefWidth="1365.0" styleClass="bills-table" stylesheets="@../../salesStyleSheet.css" BorderPane.alignment="CENTER">
-                     <BorderPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </BorderPane.margin>
-                     <columns>
-                        <TableColumn prefWidth="106.40000081062317" text="Column X" />
-                     </columns>
-                  </TableView>
-               </bottom>
-               <center>
-                  <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefWidth="1365.0" BorderPane.alignment="CENTER">
-                     <BorderPane.margin>
-                        <Insets left="10.0" right="10.0" />
-                     </BorderPane.margin>
+                  <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefWidth="1365.0">
                      <center>
                         <HBox alignment="CENTER_LEFT" maxHeight="50.0" minWidth="600.0" spacing="20.0" style="-fx-background-color: white; -fx-border-radius: 5; -fx-border-color: black; -fx-border-width: 0.3;">
                            <children>
@@ -194,9 +177,26 @@
                         </HBox>
                      </right>
                   </BorderPane>
-               </center>
-            </BorderPane>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </VBox>
          </center>
+         <bottom>
+            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+               <children>
+                  <TableView fx:id="billsTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="459.0" prefWidth="1365.0" styleClass="bills-table" stylesheets="@../../salesStyleSheet.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <columns>
+                        <TableColumn prefWidth="106.40000081062317" text="Column X" />
+                     </columns>
+                  </TableView>
+               </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
+            </AnchorPane>
+         </bottom>
       </BorderPane>
    </children>
 </AnchorPane>

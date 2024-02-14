@@ -7,7 +7,7 @@ public class MenuItems {
     public int id;
     public String foodItemName;
 
-    public int foodItemPrice;
+    public Double foodItemPrice;
 
     public String foodItemAvailability;
 
@@ -52,10 +52,10 @@ public class MenuItems {
     }
 
 
-    public int getFoodItemPrice() {
+    public Double getFoodItemPrice() {
         return foodItemPrice;
     }
-    public void setFoodItemPrice(int foodItemPrice) {
+    public void setFoodItemPrice(Double foodItemPrice) {
         this.foodItemPrice = foodItemPrice;
     }
 

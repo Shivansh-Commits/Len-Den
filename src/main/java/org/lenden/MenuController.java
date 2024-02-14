@@ -521,7 +521,7 @@ public class MenuController implements Initializable
 
 
         String itemName = itemNameTextField.getText();
-        int itemPrice = Integer.parseInt(   itemPriceTextField.getText()  );
+        Double itemPrice = Double.parseDouble(   itemPriceTextField.getText()  );
         String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
         String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
         int stockQuantity=0;
@@ -758,12 +758,12 @@ public class MenuController implements Initializable
         if(variantHbox==null)
         {
             itemPriceTextField.setDisable(false);
-            itemPriceTextField.setText(Integer.toString(selectedItem.getFoodItemPrice()));
+            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
         }
         else
         {
             itemPriceTextField.setDisable(true);
-            itemPriceTextField.setText(Integer.toString(selectedItem.getFoodItemPrice()));
+            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
         }
     }
 
@@ -805,7 +805,7 @@ public class MenuController implements Initializable
 
             int id = Integer.parseInt(itemId.getText());
             String itemName = itemNameTextField.getText();
-            int itemPrice = Integer.parseInt(   itemPriceTextField.getText()  );
+            Double itemPrice = Double.parseDouble(   itemPriceTextField.getText()  );
             String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
             String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
             int stockQuantity = Integer.parseInt(itemId.getText());

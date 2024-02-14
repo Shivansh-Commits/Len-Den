@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
@@ -569,7 +570,13 @@ public class TableBillingController implements Initializable {
     public void addMenuItemtoBill()
     {
 
-        MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        MenuItems selectedMenuFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+
+        BillItems selectedFoodItem = new BillItems();
+        selectedFoodItem.setFoodItemName(selectedMenuFoodItem.getFoodItemName());
+        selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
+
+
         String tableNumber = tableNumberLabel.getText();
 
         //Checking if the table is Reserved or not
@@ -609,34 +616,47 @@ public class TableBillingController implements Initializable {
             alert.showAndWait();
         }
 
-        //Variant Selection
-        if(selectedFoodItem.getVariantData() !=null)
-        {
-            TextInputDialog variantDialog = new TextInputDialog();
+        // Variant Selection
+        if (selectedMenuFoodItem.getVariantData() != null) {
+            Dialog<String> variantDialog = new Dialog<>();
             variantDialog.setTitle("Variant Selection");
             variantDialog.setHeaderText("Select Variant");
-            variantDialog.setContentText("Value:");
 
-            ComboBox variantComboBox = new ComboBox();
-            variantComboBox.setPromptText("Select Variant");
-            selectedFoodItem.getVariantData().forEach((key, value) -> {
-                variantComboBox.getItems().add(key+" - "+value);
+            // Create a flow pane to hold the variant buttons
+            FlowPane variantPane = new FlowPane();
+            variantPane.setHgap(10);
+            variantPane.setVgap(5);
 
-            });
-            variantDialog.getDialogPane().setContent(variantComboBox);
+            // Add a button for each variant
+            for (Map.Entry<String, Double> entry : selectedMenuFoodItem.getVariantData().entrySet()) {
+                String variantName = entry.getKey();
+                Double variantPrice = entry.getValue();
+                Button variantButton = new Button(variantName + " - " + variantPrice);
+                variantButton.setOnAction(event -> {
+                    // Set the selected variant and close the dialog
+                    variantDialog.setResult(variantName + " - " + variantPrice);
+                });
+                variantPane.getChildren().add(variantButton);
+            }
 
+            variantDialog.getDialogPane().setContent(variantPane);
 
             // Show the dialog and wait for a response
-            variantDialog.showAndWait().ifPresent(result -> {
-
-                String selectedVariant = variantComboBox.getSelectionModel().getSelectedItem().toString();
+            Optional<String> result = variantDialog.showAndWait();
+            result.ifPresent(selectedVariant -> {
                 String[] variantNameAndPrice = selectedVariant.split(" - ");
                 String variantName = variantNameAndPrice[0];
-                String variantPrice = variantNameAndPrice[1];
+                Double variantPrice = Double.parseDouble(variantNameAndPrice[1]);
+
+                // Process selected variant here
+                System.out.println("Selected Variant: " + variantName + ", Price: " + variantPrice);
+
+                selectedFoodItem.setVariant(new HashMap<String,Double>(){{put(variantName,variantPrice);}});
+                selectedFoodItem.setFoodItemPrice(variantPrice);
             });
         }
 
-
+    //sajeer
 
         // Create a cell value factory for the Name column
         TableColumn<BillItems, String> billTableNameCol = new TableColumn<>("Name");
@@ -652,7 +672,8 @@ public class TableBillingController implements Initializable {
         TableColumn<BillItems, Integer> billTableQuantityCol = new TableColumn<>("Quantity");
         billTableQuantityCol.setMinWidth(60);
         billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
-        billTableQuantityCol.setCellFactory(col -> {
+        billTableQuantityCol.setCellFactory(col ->
+        {
             TableCell<BillItems, Integer> cell = new TableCell<>() {
                 @Override
                 public void updateItem(Integer quantity, boolean empty) {
@@ -750,16 +771,17 @@ public class TableBillingController implements Initializable {
             };
             return cell;
         });
-        billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
+
+        //billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
 
 //----------------------------------------------------------------------------------------------------------------------
 
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
-        int selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
-        String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
+        Double selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
+
 
         //Adding only if the Item in available in Menu
-        if(selectedFoodItemAvailability.equals("NOT Available"))
+        if(selectedMenuFoodItem.getFoodItemAvailability().equals("NOT Available"))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Selected Item Not Available", ButtonType.OK);
             alert.setHeaderText("Item Not Available");
@@ -788,7 +810,8 @@ public class TableBillingController implements Initializable {
                     break;
                 }
             }
-            if (!itemFound) {
+            if (!itemFound)
+            {
                 BillItems newItem = new BillItems(selectedFoodItemName,selectedFoodItemprice,1 );
 
                 //add the item to the bill items list

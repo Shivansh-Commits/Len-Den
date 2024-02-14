@@ -106,7 +106,7 @@ public class DaoImpl
                 menuItem.setFoodItemName(rs.getString("fooditemname"));
 
                 //Getting Price
-                menuItem.setFoodItemPrice(rs.getInt("fooditemprice"));
+                menuItem.setFoodItemPrice(rs.getDouble("fooditemprice"));
 
                 //Getting Availability
                 menuItem.setFoodItemCategory(category);
@@ -398,7 +398,7 @@ public class DaoImpl
             for (BillItems item : bill.getBillItems()) {
                 stmt.setString(1, item.getFoodItemName());
                 stmt.setInt(2, item.getFoodItemQuantity());
-                stmt.setInt(3, item.getFoodItemPrice());
+                stmt.setDouble(3, item.getFoodItemPrice());
                 stmt.setInt(4, bill.getBillnumber());
                 stmt.setString(5,bill.getTableNumber());
 
@@ -494,7 +494,7 @@ public class DaoImpl
                 {
                     stmt.setString(1,item.getFoodItemName());
                     stmt.setInt(2,item.getFoodItemQuantity());
-                    stmt.setInt(3,item.getFoodItemPrice());
+                    stmt.setDouble(3,item.getFoodItemPrice());
 
                     stmt.executeUpdate();
                 }
@@ -540,7 +540,7 @@ public class DaoImpl
                 {
                     if(rs.getString("tablenumber").equals(tableNumber))
                     {
-                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getInt("fooditemprice"),rs.getInt("fooditemquantity"));
+                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getDouble("fooditemprice"),rs.getInt("fooditemquantity"));
                         billitems.add(billItem);
                     }
                 }
@@ -696,7 +696,7 @@ public class DaoImpl
             stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability,stockquantity,variants) VALUES (?,?,?,?,?,?) ", tenantId));
             stmt.setString(1,item.getFoodItemName());
             stmt.setString(2,item.getFoodItemCategory());
-            stmt.setInt(3,item.getFoodItemPrice());
+            stmt.setDouble(3,item.getFoodItemPrice());
 
             String availability = item.getFoodItemAvailability();
             stmt.setBoolean(4, availability.equals("Available"));
@@ -774,7 +774,7 @@ public class DaoImpl
             stmt.setString(1,item.getFoodItemName());
 
             //Setting Item Price
-            stmt.setInt(2,item.getFoodItemPrice());
+            stmt.setDouble(2,item.getFoodItemPrice());
 
             //Setting Availability
             String availability = item.getFoodItemAvailability();
@@ -1005,7 +1005,7 @@ public class DaoImpl
                 {
                     stmt.setString(1,item.getFoodItemName());
                     stmt.setInt(2,item.getFoodItemQuantity());
-                    stmt.setInt(3,item.getFoodItemPrice());
+                    stmt.setDouble(3,item.getFoodItemPrice());
 
                     stmt.executeUpdate();
                 }
@@ -1051,7 +1051,7 @@ public class DaoImpl
                 {
                     if(rs.getString("ordernumber").equals(ordernumber))
                     {
-                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getInt("fooditemprice"),rs.getInt("fooditemquantity"));
+                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getDouble("fooditemprice"),rs.getInt("fooditemquantity"));
                         billitems.add(billItem);
                     }
                 }
