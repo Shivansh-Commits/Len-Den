@@ -43,7 +43,7 @@ public class BillPrintController{
         billText.append("-".repeat(50)).append("\n");
 
         for (BillItems item : bill.getBillItems()) {
-            billText.append(String.format("%-25s %5d %10d %10d", item.getFoodItemName(), item.getFoodItemQuantity(), item.getFoodItemPrice(), (item.getFoodItemQuantity() * item.getFoodItemPrice()) )).append("\n");
+            billText.append(String.format("%-25s %5d %10.2f %10.2f", item.getFoodItemName(), item.getFoodItemQuantity(), item.getFoodItemPrice(), (item.getFoodItemQuantity() * item.getFoodItemPrice()) )).append("\n");
         }
 
         // Add Sub-total price
