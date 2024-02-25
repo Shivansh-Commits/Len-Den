@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SettingsController">
+<AnchorPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SettingsController">
    <children>
       <BorderPane prefHeight="791.0" prefWidth="836.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <left>
@@ -29,6 +29,11 @@
                                  </cursor>
                               </Button>
                               <Button fx:id="inventorySettingsButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openInventoryManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Inventory Manager">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button fx:id="subscriptionInfoButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openInventoryManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Subscription Info">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

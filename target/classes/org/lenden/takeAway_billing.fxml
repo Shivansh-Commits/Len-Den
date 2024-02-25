@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="791.0" prefWidth="1381.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
+<AnchorPane prefHeight="791.0" prefWidth="1381.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.TakeAwayBillingController">
    <children>
       <SplitPane dividerPositions="0.4539116963594113" layoutX="6.0" prefHeight="791.0" prefWidth="1375.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <items>
@@ -38,7 +38,7 @@
                   </ScrollPane>
                </top>
                <center>
-                  <TableView fx:id="foodItemsTable" prefHeight="265.0" prefWidth="614.0" styleClass="food-items-table" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
+                  <TableView fx:id="foodItemsTable" onMouseClicked="#addMenuItemtoBill" prefHeight="265.0" prefWidth="614.0" styleClass="food-items-table" stylesheets="@../../billingStyleSheet.css" tableMenuButtonVisible="true" BorderPane.alignment="CENTER">
                     <columns>
                       <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Name" />
                       <TableColumn maxWidth="-Infinity" minWidth="211.0" prefWidth="211.0" text="Price" />

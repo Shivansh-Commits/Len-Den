@@ -139,6 +139,7 @@ TABLES -
         fooditemname [text]--|
         fooditemquantity [integer]
         fooditemprice[integer]
+        variant[Text]
 
     4)menu
         fooditemname [text] (Primary Key)

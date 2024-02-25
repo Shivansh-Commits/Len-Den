@@ -476,12 +476,12 @@ public class DaoImpl
 
     }
 
-    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException {
+    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException, JsonProcessingException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt = c.prepareStatement(String.format("INSERT INTO %s.opentabledetails (fooditemname,fooditemquantity,fooditemprice,tablenumber) VALUES (?,?,?,?) ON CONFLICT (fooditemname, tablenumber) DO UPDATE SET fooditemquantity = excluded.fooditemquantity, fooditemprice = excluded.fooditemprice", tenantId));
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.opentabledetails (fooditemname,fooditemquantity,fooditemprice,tablenumber,variant) VALUES (?,?,?,?,?) ON CONFLICT (fooditemname, tablenumber) DO UPDATE SET fooditemquantity = excluded.fooditemquantity, fooditemprice = excluded.fooditemprice", tenantId));
 
             for (Map.Entry<String, ObservableList<BillItems>> entry : openTables.entrySet())
             {
@@ -496,20 +496,35 @@ public class DaoImpl
                     stmt.setInt(2,item.getFoodItemQuantity());
                     stmt.setDouble(3,item.getFoodItemPrice());
 
+                    if(item.getVariant() == null)
+                    {
+                        stmt.setString(5, "");
+                    }
+                    else
+                    {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            String variantDataJson = objectMapper.writeValueAsString(item.getVariant());
+                            stmt.setString(5, variantDataJson);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            throw e;
+                        }
+                    }
+
                     stmt.executeUpdate();
                 }
             }
             stmt.close();
         }
-        catch(SQLException e)
+        catch(SQLException | JsonProcessingException e)
         {
             e.printStackTrace();
             throw e;
         }
     }
 
-    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails() throws SQLException
-    {
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails() throws SQLException, JsonProcessingException {
         HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<>();
 
         PreparedStatement stmt;
@@ -538,9 +553,24 @@ public class DaoImpl
                 ObservableList<BillItems> billitems = FXCollections.observableArrayList();
                 while(rs.next())
                 {
+
                     if(rs.getString("tablenumber").equals(tableNumber))
                     {
-                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getDouble("fooditemprice"),rs.getInt("fooditemquantity"));
+                        //Processing Variant Data
+                        String variantDataJson = rs.getString("variant");
+                        HashMap<String, Double> variantData = new HashMap<>();
+                        try {
+                            if (variantDataJson != null && !variantDataJson.isEmpty()) {
+                                ObjectMapper objectMapper = new ObjectMapper();
+                                TypeReference<HashMap<String, Double>> typeReference = new TypeReference<HashMap<String, Double>>() {};
+                                variantData = objectMapper.readValue(variantDataJson, typeReference);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            throw e;
+                        }
+
+                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getDouble("fooditemprice"),rs.getInt("fooditemquantity"),variantData);
                         billitems.add(billItem);
                     }
                 }
@@ -552,7 +582,7 @@ public class DaoImpl
             return openTableDetails;
 
         }
-        catch(SQLException e)
+        catch(SQLException | JsonProcessingException e)
         {
             e.printStackTrace();
             throw e;
@@ -990,12 +1020,12 @@ public class DaoImpl
         }
     }
 
-    public void saveTakeAwayOrderDetails(int orderNumber, ObservableList<BillItems> takeAwayOrders,String status) throws SQLException {
+    public void saveTakeAwayOrderDetails(int orderNumber, ObservableList<BillItems> takeAwayOrders,String status) throws SQLException, JsonProcessingException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt = c.prepareStatement(String.format("INSERT INTO %s.takeawayordersdetails (fooditemname,fooditemquantity,fooditemprice,ordernumber,status) VALUES (?,?,?,?,?)", tenantId));
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.takeawayordersdetails (fooditemname,fooditemquantity,fooditemprice,ordernumber,status,variant) VALUES (?,?,?,?,?,?)", tenantId));
 
                 int ordernumber = orderNumber;
                 stmt.setInt(4,ordernumber);
@@ -1007,20 +1037,35 @@ public class DaoImpl
                     stmt.setInt(2,item.getFoodItemQuantity());
                     stmt.setDouble(3,item.getFoodItemPrice());
 
+                    if(item.getVariant()==null)
+                    {
+                        stmt.setString(6, "");
+                    }
+                    else
+                    {
+                        try {
+                            ObjectMapper objectMapper = new ObjectMapper();
+                            String variantDataJson = objectMapper.writeValueAsString(item.getVariant());
+                            stmt.setString(6, variantDataJson);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            throw e;
+                        }
+                    }
+
                     stmt.executeUpdate();
                 }
 
             stmt.close();
         }
-        catch(SQLException e)
+        catch(SQLException | JsonProcessingException e)
         {
             e.printStackTrace();
             throw e;
         }
     }
 
-    public HashMap<String,ObservableList<BillItems>> fetchOpenTakeAwayOrders() throws SQLException
-    {
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTakeAwayOrders() throws SQLException, JsonProcessingException {
         HashMap<String,ObservableList<BillItems>> pendingOrdersDetails = new HashMap<>();
 
         PreparedStatement stmt;
@@ -1051,7 +1096,21 @@ public class DaoImpl
                 {
                     if(rs.getString("ordernumber").equals(ordernumber))
                     {
-                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getDouble("fooditemprice"),rs.getInt("fooditemquantity"));
+                            //Processing Variant Data
+                            String variantDataJson = rs.getString("variant");
+                            HashMap<String, Double> variantData = new HashMap<>();
+                            try {
+                                if (variantDataJson != null && !variantDataJson.isEmpty()) {
+                                    ObjectMapper objectMapper = new ObjectMapper();
+                                    TypeReference<HashMap<String, Double>> typeReference = new TypeReference<HashMap<String, Double>>() {};
+                                    variantData = objectMapper.readValue(variantDataJson, typeReference);
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                throw e;
+                            }
+
+                        BillItems billItem = new BillItems(rs.getString("fooditemname"),rs.getDouble("fooditemprice"),rs.getInt("fooditemquantity"),variantData);
                         billitems.add(billItem);
                     }
                 }

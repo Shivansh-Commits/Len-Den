@@ -5,6 +5,7 @@ import java.util.HashMap;
 public class BillItems {
 
 
+    public int id;
     public String foodItemName;
 
     public Double foodItemPrice;
@@ -12,6 +13,14 @@ public class BillItems {
     public int foodItemQuantity;
 
     public HashMap variant;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getFoodItemName() {
         return foodItemName;
@@ -46,10 +55,20 @@ public class BillItems {
         this.variant = variant;
     }
 
-    public BillItems(String foodItemName, Double foodItemPrice, int foodItemQuantity) {
+
+    public BillItems(int id,String foodItemName, Double foodItemPrice, int foodItemQuantity, HashMap variant) {
+        this.id = id;
         this.foodItemName = foodItemName;
         this.foodItemPrice = foodItemPrice;
         this.foodItemQuantity = foodItemQuantity;
+        this.variant = variant;
+    }
+
+    public BillItems(String foodItemName, Double foodItemPrice, int foodItemQuantity, HashMap variant) {
+        this.foodItemName = foodItemName;
+        this.foodItemPrice = foodItemPrice;
+        this.foodItemQuantity = foodItemQuantity;
+        this.variant = variant;
     }
 
     public BillItems() {

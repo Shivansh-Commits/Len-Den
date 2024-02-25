@@ -1,6 +1,7 @@
 package org.lenden;
 
 
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -8,13 +9,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -127,7 +125,7 @@ public class TakeAwayBillingController implements Initializable
 
         TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
-        nameCol.setPrefWidth(200);
+        nameCol.setPrefWidth(150);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
@@ -135,52 +133,42 @@ public class TakeAwayBillingController implements Initializable
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
-
-        // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
-        availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(170);
-
-        // Set the cell value factories for the table columns
-        foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
-
-        foodItemsTable.setItems(menuTableItems);
-
-        // Adding Add button
-        availCol.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty || item.equals("NOT Available"))
-                {
-                    setText("");
-                    setStyle("");
-                    setGraphic(null);
-                }
-                else {
-                    MenuItems selectedMenuItem = getTableRow().getItem();
-
-                    Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ");
-                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
-                    ImageView add_icon = new ImageView(add_image);
-                    add_icon.setFitHeight(20);
-                    add_icon.setFitWidth(20);
-                    addItemToBill.setGraphic(add_icon);
-                    addItemToBill.setCursor(Cursor.HAND);
-                    addItemToBill.setPrefSize(150, 25);
-                    addItemToBill.getStyleClass().add("menu-add-button");
-                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
-
-                    HBox hBox = new HBox();
-                    hBox.setAlignment(Pos.CENTER);
-                    hBox.getChildren().add(addItemToBill);
-
-                    setGraphic(hBox);
-                }
-
+        //Displaying the price value in col, only if variant is not added
+        priceCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
+                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
+            } else {
+                return new SimpleStringProperty("Depends On Variant");
             }
         });
+
+
+        // Create a cell value factory for the Price column
+        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variants");
+        variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
+        variantCol.setPrefWidth(200);
+        variantCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying variant data after formating
+        variantCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            Map<String, Double> variantData = menuItem.getVariantData();
+            if (variantData != null && !variantData.isEmpty()) {
+                StringBuilder variants = new StringBuilder();
+                variantData.keySet().forEach(variant -> {
+                    variants.append(variant).append(", ");
+                });
+                // Remove the trailing comma and space
+                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
+
+        // Set the cell value factories for the table columns
+        foodItemsTable.getColumns().setAll(nameCol, priceCol, variantCol);
+        foodItemsTable.setItems(menuTableItems);
+
 
 
         //--------------------------------------------------------------------------------------------------------------
@@ -256,57 +244,53 @@ public class TakeAwayBillingController implements Initializable
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying the price value in col, only if variant is not added
+        priceCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
+                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
+            } else {
+                return new SimpleStringProperty("Depends On Variant");
+            }
+        });
 
-        // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
-        availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(170);
+        // Create a cell value factory for the Variant column
+        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variants");
+        variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
+        variantCol.setPrefWidth(200);
+        variantCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying variant data after formating
+        variantCol.setCellValueFactory(cellData -> {
+            MenuItems menuItem = cellData.getValue();
+            Map<String, Double> variantData = menuItem.getVariantData();
+            if (variantData != null && !variantData.isEmpty()) {
+                StringBuilder variants = new StringBuilder();
+                variantData.keySet().forEach(variant -> {
+                    variants.append(variant).append(", ");
+                });
+                // Remove the trailing comma and space
+                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
+            } else {
+                return new SimpleStringProperty("");
+            }
+        });
 
         // Set the cell value factories for the table columns
-        foodItemsTable.getColumns().setAll(nameCol, priceCol, availCol);
+        foodItemsTable.getColumns().setAll(nameCol, priceCol, variantCol);
 
         foodItemsTable.setItems(menuTableItems);
 
-        // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-
-                if (item == null || empty || item.equals("NOT Available"))
-                {
-                    setText("");
-                    setStyle("");
-                    setGraphic(null);
-                }
-                else
-                {
-                    MenuItems selectedMenuItem = getTableRow().getItem();
-
-                    Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ");
-                    Image add_image = new Image(getClass().getResource("/images/white/outline_add_white_36pt_2x.png").toExternalForm());
-                    ImageView add_icon = new ImageView(add_image);
-                    add_icon.setFitHeight(20);
-                    add_icon.setFitWidth(20);
-                    addItemToBill.setGraphic(add_icon);
-                    addItemToBill.setCursor(Cursor.HAND);
-                    addItemToBill.setPrefSize(150, 25);
-                    addItemToBill.getStyleClass().add("menu-add-button");
-                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
-
-                    HBox hBox = new HBox();
-                    hBox.setAlignment(Pos.CENTER);
-                    hBox.getChildren().add(addItemToBill);
-
-                    setGraphic(hBox);
-
-                }
-            }
-        });
     }
-    public void addMenuItemtoBill(MenuItems selectedFoodItem)
+    public void addMenuItemtoBill()
     {
+        MenuItems selectedMenuFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+
+        BillItems selectedFoodItem = new BillItems();
+        selectedFoodItem.setId(selectedMenuFoodItem.getId());
+        selectedFoodItem.setFoodItemName(selectedMenuFoodItem.getFoodItemName());
+        selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
+        selectedFoodItem.setFoodItemPrice(selectedMenuFoodItem.getFoodItemPrice());
+
         //MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
         if(selectedFoodItem == null)
         {
@@ -327,9 +311,46 @@ public class TakeAwayBillingController implements Initializable
             alert.showAndWait();
         }
 
-        String selectedFoodItemName = selectedFoodItem.getFoodItemName();
-        Double selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
-        String selectedFoodItemAvailability = selectedFoodItem.getFoodItemAvailability();
+        // Variant Selection
+        if (selectedMenuFoodItem.getVariantData() != null) {
+            Dialog<String> variantDialog = new Dialog<>();
+            variantDialog.setTitle("Variant Selection");
+            variantDialog.setHeaderText("Select Variant");
+
+            // Create a flow pane to hold the variant buttons
+            FlowPane variantPane = new FlowPane();
+            variantPane.setHgap(10);
+            variantPane.setVgap(5);
+
+            // Add a button for each variant
+            for (Map.Entry<String, Double> entry : selectedMenuFoodItem.getVariantData().entrySet()) {
+                String variantName = entry.getKey();
+                Double variantPrice = entry.getValue();
+                Button variantButton = new Button(variantName + " - " + variantPrice);
+                variantButton.setOnAction(event -> {
+                    // Set the selected variant and close the dialog
+                    variantDialog.setResult(variantName + " - " + variantPrice);
+                });
+                variantPane.getChildren().add(variantButton);
+            }
+
+            variantDialog.getDialogPane().setContent(variantPane);
+
+            // Show the dialog and wait for a response
+            Optional<String> result = variantDialog.showAndWait();
+            result.ifPresent(selectedVariant -> {
+                String[] variantNameAndPrice = selectedVariant.split(" - ");
+                String variantName = variantNameAndPrice[0];
+                Double variantPrice = Double.parseDouble(variantNameAndPrice[1]);
+
+                // Process selected variant here
+                System.out.println("Selected Variant: " + variantName + ", Price: " + variantPrice);
+
+                selectedFoodItem.setVariant(new HashMap<String,Double>(){{put(variantName,variantPrice);}});
+                selectedFoodItem.setFoodItemPrice(variantPrice);
+                selectedFoodItem.setFoodItemName(selectedFoodItem.getFoodItemName()+" (" + variantName + ")");
+            });
+        }
 
         // Create a cell value factory for the Name column
         TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
@@ -407,8 +428,22 @@ public class TakeAwayBillingController implements Initializable
 
 //----------------------------------------------------------------------------------------------------------------------
 
+        int selectedFoodItemId = selectedFoodItem.getId();
+        String selectedFoodItemName = selectedFoodItem.getFoodItemName();
+        Double selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
+
+        HashMap selectedVariant = selectedFoodItem.getVariant();
+        String selectedVariantName="";
+        Double selectedVariantPrice;
+        if(selectedVariant != null)
+        {
+            selectedVariantName = (String) selectedVariant.keySet().iterator().next();
+            selectedVariantPrice = (Double) selectedVariant.get(selectedVariantName);
+        }
+
+
         //Adding only if the Item in available in Menu
-        if(selectedFoodItemAvailability.equals("NOT Available"))
+        if(selectedMenuFoodItem.getFoodItemAvailability().equals("NOT Available"))
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Selected Item Not Available", ButtonType.OK);
             alert.setHeaderText("Item Not Available");
@@ -438,7 +473,7 @@ public class TakeAwayBillingController implements Initializable
                 }
             }
             if (!itemFound) {
-                BillItems newItem = new BillItems(selectedFoodItemName,selectedFoodItemprice,1 );
+                BillItems newItem = new BillItems(selectedFoodItemId,selectedFoodItemName,selectedFoodItemprice,1,selectedVariant );
 
                 //add the item to the bill items list
                 billTableItems.add(newItem);

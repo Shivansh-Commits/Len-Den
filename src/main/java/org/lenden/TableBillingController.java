@@ -1,5 +1,6 @@
 package org.lenden;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,14 +15,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
@@ -199,51 +197,7 @@ public class TableBillingController implements Initializable {
             }
         });
 
-        /*
-        // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
-        availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
-        availCol.setPrefWidth(150);
-        // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
 
-                if (item == null || empty || item.equals("NOT Available"))
-                {
-                    setText("");
-                    setStyle("");
-                    setGraphic(null);
-                }
-                else
-                {
-                    MenuItems selectedMenuItem = getTableRow().getItem();
-
-                    Button addItemToBill = new Button();
-                    addItemToBill.setText("Add ");
-                    Image add_image = new Image(Objects.requireNonNull(getClass().getResource("/images/white/outline_add_white_36pt_2x.png")).toExternalForm());
-                    ImageView add_icon = new ImageView(add_image);
-                    add_icon.setFitHeight(20);
-                    add_icon.setFitWidth(20);
-                    addItemToBill.setGraphic(add_icon);
-                    addItemToBill.setCursor(Cursor.HAND);
-                    addItemToBill.setPrefSize(150, 25);
-                    addItemToBill.getStyleClass().add("menu-add-button");
-                    addItemToBill.setOnMouseClicked(event -> addMenuItemtoBill(selectedMenuItem));
-
-                    HBox hBox = new HBox();
-                    hBox.setAlignment(Pos.CENTER);
-                    hBox.getChildren().add(addItemToBill);
-
-                    setGraphic(hBox);
-
-                }
-            }
-        });
-
-
-         */
         // Set the cell value factories for the table columns
         foodItemsTable.getColumns().setAll(nameCol, priceCol, variantCol);
         foodItemsTable.setItems(menuTableItems);
@@ -533,7 +487,7 @@ public class TableBillingController implements Initializable {
         });
 
 
-        // Create a cell value factory for the Price column
+        // Create a cell value factory for the Variant column
         TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variants");
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
@@ -573,8 +527,10 @@ public class TableBillingController implements Initializable {
         MenuItems selectedMenuFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
 
         BillItems selectedFoodItem = new BillItems();
+        selectedFoodItem.setId(selectedMenuFoodItem.getId());
         selectedFoodItem.setFoodItemName(selectedMenuFoodItem.getFoodItemName());
         selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
+        selectedFoodItem.setFoodItemPrice(selectedMenuFoodItem.getFoodItemPrice());
 
 
         String tableNumber = tableNumberLabel.getText();
@@ -653,10 +609,10 @@ public class TableBillingController implements Initializable {
 
                 selectedFoodItem.setVariant(new HashMap<String,Double>(){{put(variantName,variantPrice);}});
                 selectedFoodItem.setFoodItemPrice(variantPrice);
+                selectedFoodItem.setFoodItemName(selectedFoodItem.getFoodItemName()+" (" + variantName + ")");
             });
         }
 
-    //sajeer
 
         // Create a cell value factory for the Name column
         TableColumn<BillItems, String> billTableNameCol = new TableColumn<>("Name");
@@ -670,6 +626,7 @@ public class TableBillingController implements Initializable {
 
         // Create a cell value factory for the Quantity column
         TableColumn<BillItems, Integer> billTableQuantityCol = new TableColumn<>("Quantity");
+        billTableQuantityCol.setPrefWidth(80);
         billTableQuantityCol.setMinWidth(60);
         billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
         billTableQuantityCol.setCellFactory(col ->
@@ -685,7 +642,7 @@ public class TableBillingController implements Initializable {
                     }
                     else
                     {
-                        HBox hbox = new HBox(18);
+                        HBox hbox = new HBox(10);
 
                         Text txtQuantity = new Text(quantity.toString());
 
@@ -776,8 +733,18 @@ public class TableBillingController implements Initializable {
 
 //----------------------------------------------------------------------------------------------------------------------
 
+        int selectedFoodItemId = selectedFoodItem.getId();
         String selectedFoodItemName = selectedFoodItem.getFoodItemName();
         Double selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
+
+        HashMap selectedVariant = selectedFoodItem.getVariant();
+        String selectedVariantName="";
+        Double selectedVariantPrice;
+        if(selectedVariant != null)
+        {
+             selectedVariantName = (String) selectedVariant.keySet().iterator().next();
+             selectedVariantPrice = (Double) selectedVariant.get(selectedVariantName);
+        }
 
 
         //Adding only if the Item in available in Menu
@@ -792,27 +759,23 @@ public class TableBillingController implements Initializable {
         {
             boolean itemFound = false;
             for (BillItems item : billTableItems) {
-                if (item.getFoodItemName().equals(selectedFoodItemName))
-                {
-                    //updating quantity in object
+                if (item.getFoodItemName().equals(selectedFoodItemName) &&
+                        (item.getVariant() == null ||
+                                (item.getVariant() != null && item.getVariant().containsKey(selectedVariantName)))) {
                     item.setFoodItemQuantity(item.getFoodItemQuantity() + 1);
-
-                    //update Grand Total
                     updateTotals(billTableItems);
-
-                    //finding index of item in list
                     int index = billTableItems.indexOf(item);
-
-                    //updating updated quantity object in list
                     billTableItems.set(index, item);
-
                     itemFound = true;
                     break;
                 }
             }
+
+
+            //IF ITEM BEING ADDED IS NEW i.e. NOT PREVIOUSLY PRESENT IN BILL TABLE
             if (!itemFound)
             {
-                BillItems newItem = new BillItems(selectedFoodItemName,selectedFoodItemprice,1 );
+                BillItems newItem = new BillItems(selectedFoodItemId,selectedFoodItemName,selectedFoodItemprice,1,selectedVariant);
 
                 //add the item to the bill items list
                 billTableItems.add(newItem);
@@ -1350,7 +1313,8 @@ public class TableBillingController implements Initializable {
 
             // Create a cell value factory for the Quantity column
             TableColumn<BillItems, Integer> quantColB = new TableColumn<>("Quantity");
-            quantColB.setMinWidth(100);
+            quantColB.setPrefWidth(80);
+            quantColB.setMinWidth(60);
             quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
             quantColB.setCellFactory(col -> {
                 TableCell<BillItems, Integer> cell = new TableCell<>() {
@@ -1364,7 +1328,7 @@ public class TableBillingController implements Initializable {
                         }
                         else
                         {
-                            HBox hbox = new HBox(18);
+                            HBox hbox = new HBox(10);
                             Text txtQuantity = new Text(quantity.toString());
 
                             Button btnMinus = new Button("-");
@@ -1724,7 +1688,7 @@ public class TableBillingController implements Initializable {
                     shiftTableAlert.showAndWait();
                 }
             }
-            catch (SQLException ex)
+            catch (SQLException | JsonProcessingException ex)
             {
                 Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Table could not be Shifted, Check you network Connection. If this keeps occurring Contact Customer Support"+ex.getMessage(), ButtonType.OK);
                 shiftTableAlert.setHeaderText("Could not Shift Table");
