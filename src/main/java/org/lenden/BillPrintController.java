@@ -51,7 +51,7 @@ public class BillPrintController{
         billText.append(String.format("%30s %10.2f", "Sub-Total", bill.getSubTotal())).append("\n");
 
         // Add Discount
-        billText.append(String.format("%30s %10.2f", "Discount (%)", bill.getDiscount() )).append("\n");
+        billText.append(String.format("%30s %10.2f", "Discount", bill.getDiscount() * (bill.getSubTotal()/100) )).append("\n");
 
         // Add total price
         billText.append(String.format("%30s %10.2f", "Total", bill.getTotal() )).append("\n");

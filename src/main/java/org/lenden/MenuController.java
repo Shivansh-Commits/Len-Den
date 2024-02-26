@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import com.google.gson.Gson;
 
 
 public class MenuController implements Initializable
@@ -484,7 +483,7 @@ public class MenuController implements Initializable
         //Checking if all field values are filled by the user (except price)
         if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
@@ -495,7 +494,7 @@ public class MenuController implements Initializable
         //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
         if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
@@ -521,7 +520,7 @@ public class MenuController implements Initializable
 
 
         String itemName = itemNameTextField.getText();
-        Double itemPrice = Double.parseDouble(   itemPriceTextField.getText()  );
+        Double itemPrice =  itemPriceTextField.getText()  == null ? Double.parseDouble(   itemPriceTextField.getText()  ) : 0.0 ;
         String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
         String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
         int stockQuantity=0;
@@ -531,19 +530,33 @@ public class MenuController implements Initializable
         // Checking and Adding Variants
         HashMap<String,Double> variantData = new HashMap<String,Double>();
         int temp = variantCount;
-        temp--;
+        //temp--;
 
-            while(temp>=0)
+        while(temp>=0)
+        {
+            HBox hBox = (HBox) variantVbox.lookup("#variantHbox" + temp);
+            if(hBox != null)
             {
-                HBox hBox = (HBox) variantVbox.lookup("#variantHbox"+temp);
+                TextField variantNameField = (TextField) hBox.lookup("#variant" + temp);
+                TextField variantPriceField = (TextField) hBox.lookup("#variantPrice" + temp);
 
-                TextField variantName = (TextField) hBox.lookup("#variant"+temp);
-                TextField variantPrice = (TextField) hBox.lookup("#variantPrice"+temp);
+                if( variantNameField.getText().isEmpty() || variantPriceField.getText().isEmpty() )
+                {
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "Variants Name or Price fields cannot be empty", ButtonType.OK);
+                    alert.setHeaderText("Can not Add item!");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
 
-                variantData.put(variantName.getText(),Double.parseDouble(variantPrice.getText()));
-
-                temp--;
+                    return;
+                }
+                else
+                {
+                    variantData.put( variantNameField.getText() , Double.parseDouble(variantPriceField.getText()) );
+                }
             }
+
+            temp--;
+        }
 
 
         ObservableList<String> categories = daoimpl.getCategories();
@@ -773,7 +786,7 @@ public class MenuController implements Initializable
         if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
-            alert.setHeaderText("No Item Selected");
+            alert.setHeaderText("Empty fields found!");
             alert.setTitle("Alert!");
             alert.showAndWait();
 
@@ -784,7 +797,7 @@ public class MenuController implements Initializable
         if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
-            alert.setHeaderText("No Item Selected");
+            alert.setHeaderText("Empty fields found!");
             alert.setTitle("Alert!");
             alert.showAndWait();
 
@@ -808,21 +821,35 @@ public class MenuController implements Initializable
             Double itemPrice = Double.parseDouble(   itemPriceTextField.getText()  );
             String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
             String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
-            int stockQuantity = Integer.parseInt(itemId.getText());
+            int stockQuantity = Integer.parseInt(itemStockQuantityTextField.getText());
 
             // Checking and Adding Variants
             HashMap<String,Double> variantData = new HashMap<String,Double>();
             int temp = variantCount;
-            temp--;
+            //temp--;
 
             while(temp>=0)
             {
                 HBox hBox = (HBox) variantVbox.lookup("#variantHbox" + temp);
+                if(hBox != null)
+                {
+                    TextField variantNameField = (TextField) hBox.lookup("#variant" + temp);
+                    TextField variantPriceField = (TextField) hBox.lookup("#variantPrice" + temp);
 
-                TextField variantName = (TextField) hBox.lookup("#variant" + temp);
-                TextField variantPrice = (TextField) hBox.lookup("#variantPrice" + temp);
+                    if( variantNameField.getText().isEmpty() || variantPriceField.getText().isEmpty() )
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Variants Name or Price fields cannot be empty", ButtonType.OK);
+                        alert.setHeaderText("Item not Updated!");
+                        alert.setTitle("Alert!");
+                        alert.showAndWait();
 
-                variantData.put(variantName.getText(), Double.parseDouble(variantPrice.getText()));
+                        return;
+                    }
+                    else
+                    {
+                        variantData.put( variantNameField.getText() , Double.parseDouble(variantPriceField.getText()) );
+                    }
+                }
 
                 temp--;
             }
