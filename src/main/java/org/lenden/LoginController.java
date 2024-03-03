@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Tenants;
 import java.io.IOException;
@@ -49,7 +48,7 @@ public class LoginController
             {
 
                 //Fetching Subscription Info and Checking
-                Map.Entry<String, String> subscriptionDates = daoimpl.getSubscriptionInfo(tenant);
+                Map.Entry<String, String> subscriptionDates = daoimpl.fetchSubscriptionInfo(tenant);
                 String startDate = subscriptionDates.getKey();
                 String endDate = subscriptionDates.getValue();
 

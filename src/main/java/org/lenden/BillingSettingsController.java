@@ -78,7 +78,7 @@ public class BillingSettingsController implements Initializable {
         try
         {
             //----------------Initially checking saved GST values--------------------------------
-            double defaultGst = 2*daoimpl.getTax("sgst"); // sgst + cgst = GST  (sgst = cgst)
+            double defaultGst = 2*daoimpl.fetchTax("sgst"); // sgst + cgst = GST  (sgst = cgst)
             if(defaultGst == 5)
             {
                 fivePercentGstRadioButton.setSelected(true);
@@ -96,7 +96,7 @@ public class BillingSettingsController implements Initializable {
 
 
             //----------------Initially checking saved VAT values--------------------------------
-            double defaultVat = daoimpl.getTax("vat");
+            double defaultVat = daoimpl.fetchTax("vat");
             if(defaultVat == 5)
             {
                 fivePercentVatRadioButton.setSelected(true);
@@ -110,7 +110,7 @@ public class BillingSettingsController implements Initializable {
 
 
             //----------------Initially checking saved Service Charge values--------------------------------
-            double serviceCharge = daoimpl.getTax("servicecharge"); // sgst + cgst = GST  (sgst = cgst)
+            double serviceCharge = daoimpl.fetchTax("servicecharge"); // sgst + cgst = GST  (sgst = cgst)
             if(serviceCharge == 5)
             {
                 fivePercentServiceChargeRadioButton.setSelected(true);
@@ -171,10 +171,10 @@ public class BillingSettingsController implements Initializable {
             }
 
             //------------------Initially displaying saved Outlet Details--------------------------------
-            String outletName = daoimpl.getOutletDetails("name");
-            String outletAddress = daoimpl.getOutletDetails("address");
-            String outletContact = daoimpl.getOutletDetails("phone");
-            String outletGstNumber = daoimpl.getOutletDetails("gstnumber");
+            String outletName = daoimpl.fetchOutletDetails("name");
+            String outletAddress = daoimpl.fetchOutletDetails("address");
+            String outletContact = daoimpl.fetchOutletDetails("phone");
+            String outletGstNumber = daoimpl.fetchOutletDetails("gstnumber");
 
             if(outletName!=null)
             {
