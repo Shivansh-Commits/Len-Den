@@ -12,7 +12,15 @@ public class Inventory {
 
     private double inventoryItemQuantity;
 
+    public Inventory(String newName, Double newPrice, String newUnit, Double newQuantity)
+    {
+        this.inventoryItemName = newName;
+        this.inventoryItemPrice = newPrice;
+        this.inventoryItemUnit = newUnit;
+        this.inventoryItemQuantity = newQuantity;
+    }
 
+    public Inventory() {}
 
     public int getId() {
         return id;

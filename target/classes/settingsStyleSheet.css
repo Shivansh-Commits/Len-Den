@@ -6,7 +6,6 @@
 }
 
 .setting-button {
-    -fx-background-color: white;
     -fx-border-color: white;
     -fx-border-width : 0.5;
     -fx-text-fill : black ;
@@ -22,4 +21,91 @@
     -fx-text-fill : white ;
     -fx-font-size : 17px;
     -fx-font-family : "Segoe UI Symbol";
+}
+
+.edit-table-label {
+
+    -fx-font-size : 30px;
+    -fx-font-family : "Segoe UI Symbol";
+
+}
+
+.delete-button {
+    -fx-background-color: #e58787;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #ea4747;
+    -fx-border-color: white;
+    -fx-border-width : 0.5;
+    -fx-text-fill: white;
+    -fx-font-size : 14px;
+}
+
+.update-button {
+    -fx-background-color: #b5efaf;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #329a23;
+    -fx-border-color: white;
+    -fx-border-width : 0.5;
+    -fx-text-fill: white;
+    -fx-font-size : 14px;
+}
+
+.saveEdit-button {
+    -fx-background-color: black;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: white;
+    -fx-font-size : 14px;
+    -fx-border-radius: 2px;
+}
+
+.saveEdit-button:hover {
+    -fx-background-color: white;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: black;
+    -fx-font-size : 14px;
+}
+
+.area-name-label{
+    -fx-font-family : "Segoe UI Semibold";
+    -fx-font-size : 20px;
+}
+
+.area-name-textField{
+    -fx-font-family : "Segoe UI Semibold";
+    -fx-font-size : 16px;
+}
+
+.plus-table-button{
+    -fx-background-color: #96fa84;
+    -fx-border-width : 0.5;
+    -fx-text-fill : #026113;
+    -fx-font-size : 16px;
+}
+
+.minus-table-button{
+    -fx-background-color: #fa8484;
+    -fx-border-width : 0.5;
+    -fx-text-fill : #570d0d;
+    -fx-font-size : 15px;
+}
+
+.tables-label{
+    -fx-font-family : "Segoe UI Semibold";
+    -fx-font-size : 16px;
 }

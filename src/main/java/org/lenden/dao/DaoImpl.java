@@ -1366,5 +1366,45 @@ public class DaoImpl
         }
     }
 
+    public boolean updateInventoryItem(Inventory inventoryItem) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try (Connection c = ConnectionManager.getConnection()) {
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET name=?, cost=?, unit=?, quantity=? WHERE id=?", tenantId));
+            stmt.setString(1, inventoryItem.getInventoryItemName());
+            stmt.setDouble(2, inventoryItem.getInventoryItemPrice());
+            stmt.setString(3, inventoryItem.getInventoryItemUnit());
+            stmt.setDouble(4, inventoryItem.getInventoryItemQuantity());
+            stmt.setInt(5, inventoryItem.getId());
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            return (rowsUpdated > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public boolean addInventoryItem(Inventory newItem) throws SQLException {
+        PreparedStatement stmt;
+
+        try (Connection c = ConnectionManager.getConnection()) {
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.inventory (name, cost, unit, quantity) VALUES (?, ?, ?, ?)", tenantId));
+            stmt.setString(1, newItem.getInventoryItemName());
+            stmt.setDouble(2, newItem.getInventoryItemPrice());
+            stmt.setString(3, newItem.getInventoryItemUnit());
+            stmt.setDouble(4, newItem.getInventoryItemQuantity());
+
+            int rowsInserted = stmt.executeUpdate();
+
+            return (rowsInserted > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
 
 }
