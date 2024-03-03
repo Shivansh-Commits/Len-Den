@@ -32,7 +32,7 @@ public class SettingsController implements Initializable {
         AnchorPane home = loader.load();
 
         Scene scene = tableSettingsButton.getScene();
-        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+        scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
@@ -42,7 +42,7 @@ public class SettingsController implements Initializable {
         BorderPane home = loader.load();
 
         Scene scene = billingSettingsButton.getScene();
-        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+        scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
@@ -52,7 +52,7 @@ public class SettingsController implements Initializable {
         BorderPane home = loader.load();
 
         Scene scene = billingSettingsButton.getScene();
-        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+        scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
@@ -62,7 +62,7 @@ public class SettingsController implements Initializable {
         BorderPane home = loader.load();
 
         Scene scene = billingSettingsButton.getScene();
-        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+        scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
