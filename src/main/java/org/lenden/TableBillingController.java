@@ -171,7 +171,7 @@ public class TableBillingController implements Initializable {
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
-                return new SimpleStringProperty("Depends On Variant");
+                return new SimpleStringProperty("N/A");
             }
         });
 
@@ -193,7 +193,7 @@ public class TableBillingController implements Initializable {
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty("N/A");
             }
         });
 
@@ -482,7 +482,7 @@ public class TableBillingController implements Initializable {
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
-                return new SimpleStringProperty("Depends On Variant");
+                return new SimpleStringProperty("N/A");
             }
         });
 
@@ -504,7 +504,7 @@ public class TableBillingController implements Initializable {
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty("N/A");
             }
         });
 

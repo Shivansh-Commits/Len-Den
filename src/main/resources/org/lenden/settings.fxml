@@ -33,7 +33,7 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="subscriptionInfoButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openInventoryManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Subscription Info">
+                              <Button fx:id="subscriptionInfoButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openSubscriptionInfo" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Subscription Info">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

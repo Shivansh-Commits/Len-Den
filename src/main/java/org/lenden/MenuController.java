@@ -49,15 +49,12 @@ public class MenuController implements Initializable
     Button deleteMenuItemButton;
     @FXML
     VBox variantVbox;
-    @FXML
-    VBox alcoholVariantVbox;
 
 
     @FXML
     Label itemId;
 
     int variantCount=0;
-    int alcoholVariantCount=0;
     ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
 
@@ -202,43 +199,6 @@ public class MenuController implements Initializable
         variantCount++;
 
     }
-    public void addAlcoholVariantButtonListener()
-    {
-        TextField alcoholVariant = new TextField();
-        alcoholVariant.setId("variant"+variantCount);
-        alcoholVariant.setPrefSize(309,38);
-        alcoholVariant.setPromptText("Variants");
-
-        TextField alcoholVariantPrice = new TextField();
-        alcoholVariantPrice.setId("variantPrice"+variantCount);
-        alcoholVariantPrice.setPrefSize(208,38);
-        alcoholVariantPrice.setPromptText("Variant Price");
-
-        Button removeAlcoholVariantButton = new Button();
-        removeAlcoholVariantButton.setId("removeVariant"+variantCount);
-        removeAlcoholVariantButton.setText("X");
-        removeAlcoholVariantButton.getStyleClass().add("remove-variant-button");
-        removeAlcoholVariantButton.setCursor(Cursor.HAND);
-
-
-        HBox hBox = new HBox();
-        hBox.getChildren().addAll(alcoholVariant,alcoholVariantPrice,removeAlcoholVariantButton);
-        hBox.setSpacing(10);
-
-        removeAlcoholVariantButton.setOnAction(e -> {
-            Node parent = removeAlcoholVariantButton.getParent();
-
-            if (parent instanceof HBox) {
-                HBox hBoxToRemove = (HBox) parent;
-                alcoholVariantVbox.getChildren().remove(hBoxToRemove);
-            }
-        });
-
-        alcoholVariantVbox.getChildren().add(alcoholVariantVbox.getChildren().size() - 1, hBox); // Add above the button
-
-        alcoholVariantCount++;
-    }
-
 
     public void displayUpdatedCategoryList()
     {
@@ -329,7 +289,7 @@ public class MenuController implements Initializable
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty(" N/A");
             }
         });
 
@@ -340,7 +300,7 @@ public class MenuController implements Initializable
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
-                return new SimpleStringProperty("Depends On Variant");
+                return new SimpleStringProperty("N/A");
             }
         });
 
@@ -433,7 +393,7 @@ public class MenuController implements Initializable
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-            return new SimpleStringProperty("");
+            return new SimpleStringProperty("N/A");
             }
         });
 
@@ -444,7 +404,7 @@ public class MenuController implements Initializable
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
-                return new SimpleStringProperty("Depends On Variant");
+                return new SimpleStringProperty("N/A");
             }
         });
 
@@ -893,7 +853,7 @@ public class MenuController implements Initializable
         //Checking if all field values are filled by the user (except price)
         if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item to delete", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
@@ -904,7 +864,7 @@ public class MenuController implements Initializable
         //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
         if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item to delete", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
             alert.showAndWait();
@@ -933,12 +893,24 @@ public class MenuController implements Initializable
                 }
                 else
                 {
+                    //Clearing Fields
                     itemNameTextField.clear();
                     itemPriceTextField.clear();
+                    itemPriceTextField.setDisable(false);
                     itemAvailabilityComboBox.getSelectionModel().clearSelection();
                     itemStockQuantityTextField.clear();
                     itemId.setText("_ _");
                     itemCategoryComboBox.getSelectionModel().clearSelection();
+
+                    //Clearing variants
+                    for (int i = 0; i < variantVbox.getChildren().size(); i++) {
+                        Node child = variantVbox.getChildren().get(i);
+                        if (child instanceof HBox) {
+                            variantVbox.getChildren().remove(i);
+                            i--; // Decrement i since we removed an element
+                        }
+                    }
+
 
                     //SHOW TABLE WITH UPDATED ITEMS
                     displayCategoryItems(selectedItem.getFoodItemCategory());
