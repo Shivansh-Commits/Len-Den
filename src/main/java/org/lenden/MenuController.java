@@ -15,7 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
-import org.lenden.model.MenuItems;
+import org.lenden.model.Menu;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -29,7 +29,7 @@ public class MenuController implements Initializable
     @FXML
     VBox categoriesVBox;
     @FXML
-    TableView<MenuItems> menuTable;
+    TableView<Menu> menuTable;
     @FXML
     TextField itemNameTextField;
     @FXML
@@ -54,7 +54,7 @@ public class MenuController implements Initializable
     Label itemId;
 
     int variantCount=0;
-    ObservableList<MenuItems> menuTableItems =  FXCollections.observableArrayList();
+    ObservableList<Menu> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
 
     @Override
@@ -74,7 +74,7 @@ public class MenuController implements Initializable
         ObservableList<String> categories = null;
         try
         {
-            categories = daoimpl.getCategories();
+            categories = daoimpl.fetchCategories();
         }
         catch(Exception e)
         {
@@ -219,7 +219,7 @@ public class MenuController implements Initializable
     {
         //Displaying Updated Category List
         try {
-            ObservableList<String> categories = daoimpl.getCategories();
+            ObservableList<String> categories = daoimpl.fetchCategories();
 
             categoriesVBox.getChildren().clear();
 
@@ -247,8 +247,9 @@ public class MenuController implements Initializable
 
     public void displayCategoryItems(String category)
     {
-        try {
-            menuTableItems = daoimpl.getCategoryItems(category);
+        try
+        {
+            menuTableItems = daoimpl.fetchCategoryItems(category);
         }
         catch (Exception ex)
         {
@@ -259,30 +260,30 @@ public class MenuController implements Initializable
         }
 
         // Create a cell value factory for the Name column
-        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Menu, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Menu, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
+        TableColumn<Menu, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
         availCol.setPrefWidth(150);
 
         // Create a cell value factory for the Stock Quantity column
-        TableColumn<MenuItems, Integer> stockCol = new TableColumn<>("Stock Quantity");
+        TableColumn<Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Variant column
-        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variant");
+        TableColumn<Menu, String> variantCol = new TableColumn<>("Variant");
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
@@ -294,7 +295,7 @@ public class MenuController implements Initializable
 
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             Map<String, Double> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
@@ -311,7 +312,7 @@ public class MenuController implements Initializable
 
         //Displaying the price value in col, only if variant is not added
         priceCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
@@ -321,7 +322,7 @@ public class MenuController implements Initializable
 
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>()
+        availCol.setCellFactory(column -> new TableCell<Menu, String>()
         {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -352,7 +353,7 @@ public class MenuController implements Initializable
         String category = clickedButton.getText();
 
         try {
-            menuTableItems = daoimpl.getCategoryItems(category);
+            menuTableItems = daoimpl.fetchCategoryItems(category);
         }
         catch (Exception ex)
         {
@@ -363,30 +364,30 @@ public class MenuController implements Initializable
         }
 
         // Create a cell value factory for the Name column
-        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Menu, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Menu, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Availability column
-        TableColumn<MenuItems, String> availCol = new TableColumn<>("Availability");
+        TableColumn<Menu, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
         availCol.setPrefWidth(150);
 
         // Create a cell value factory for the Stock Quantity column
-        TableColumn<MenuItems, Integer> stockCol = new TableColumn<>("Stock Quantity");
+        TableColumn<Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Variant column
-        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variant");
+        TableColumn<Menu, String> variantCol = new TableColumn<>("Variant");
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
@@ -398,7 +399,7 @@ public class MenuController implements Initializable
 
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             Map<String, Double> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                     StringBuilder variants = new StringBuilder();
@@ -415,7 +416,7 @@ public class MenuController implements Initializable
 
         //Displaying the price value in col, only if variant is not added
         priceCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
@@ -425,7 +426,7 @@ public class MenuController implements Initializable
 
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<MenuItems, String>()
+        availCol.setCellFactory(column -> new TableCell<Menu, String>()
         {
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -534,9 +535,9 @@ public class MenuController implements Initializable
         }
 
 
-        ObservableList<String> categories = daoimpl.getCategories();
+        ObservableList<String> categories = daoimpl.fetchCategories();
 
-        MenuItems item = new MenuItems();
+        Menu item = new Menu();
         item.setFoodItemName(   itemName   );
         item.setFoodItemPrice(   itemPrice   );
         item.setFoodItemAvailability(   itemAvailability    );
@@ -659,7 +660,7 @@ public class MenuController implements Initializable
     public void populateAddUpdateDeleteForm(MouseEvent event)
     {
 
-        MenuItems selectedItem = menuTable.getSelectionModel().getSelectedItem();
+        Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
 
         if(selectedItem == null)
             return;
@@ -787,7 +788,7 @@ public class MenuController implements Initializable
 
         if(updateAlert.getResult() == ButtonType.YES)
         {
-            MenuItems selectedItem = menuTable.getSelectionModel().getSelectedItem();
+            Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
             if(selectedItem == null)
                 return;
 
@@ -829,7 +830,7 @@ public class MenuController implements Initializable
                 temp--;
             }
 
-            MenuItems item = new MenuItems();
+            Menu item = new Menu();
             item.setId(id);
             item.setFoodItemName(itemName);
             item.setFoodItemPrice(itemPrice);
@@ -894,7 +895,7 @@ public class MenuController implements Initializable
 
         if(deleteAlert.getResult() == ButtonType.YES)
         {
-            MenuItems selectedItem = menuTable.getSelectionModel().getSelectedItem();
+            Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
             if(selectedItem == null)
                 return;
 

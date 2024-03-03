@@ -99,7 +99,10 @@
                                        <children>
                                           <HBox spacing="5.0">
                                              <children>
-                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:" />
+                                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="ID:">
+                                                   <font>
+                                                      <Font name="System Bold" size="13.0" />
+                                                   </font></Text>
                                                 <Label fx:id="itemId" text="_ _" />
                                              </children>
                                           </HBox>

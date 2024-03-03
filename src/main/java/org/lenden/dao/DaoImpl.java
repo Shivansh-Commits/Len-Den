@@ -57,7 +57,7 @@ public class DaoImpl
         }
     }
 
-    public Map.Entry<String, String> getSubscriptionInfo(Tenants tenant) throws SQLException
+    public Map.Entry<String, String> fetchSubscriptionInfo(Tenants tenant) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -84,9 +84,9 @@ public class DaoImpl
         }
     }
 
-    public ObservableList<MenuItems> getCategoryItems(String category) throws Exception
+    public ObservableList<Menu> fetchCategoryItems(String category) throws Exception
     {
-        ObservableList<MenuItems> menuItemList = FXCollections.observableArrayList();
+        ObservableList<Menu> menuItemList = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -97,7 +97,7 @@ public class DaoImpl
 
             while(rs.next())
             {
-                MenuItems menuItem = new MenuItems();
+                Menu menuItem = new Menu();
 
                 //Getting ID
                 menuItem.setId(rs.getInt("id"));
@@ -155,7 +155,7 @@ public class DaoImpl
         return null;
     }
 
-    public double getTax(String tax) throws SQLException
+    public double fetchTax(String tax) throws SQLException
     {
         try(Connection c = ConnectionManager.getConnection())
         {
@@ -232,7 +232,7 @@ public class DaoImpl
         }
     }
 
-    public int getNextBillNumber() throws SQLException
+    public int fetchNextBillNumber() throws SQLException
     {
         PreparedStatement stmt;
 
@@ -414,7 +414,7 @@ public class DaoImpl
         }
     }
 
-    public String getOutletDetails(String detail) throws SQLException
+    public String fetchOutletDetails(String detail) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -647,7 +647,7 @@ public class DaoImpl
         }
     }
 
-    public ObservableList<String> getCategories() throws SQLException
+    public ObservableList<String> fetchCategories() throws SQLException
     {
         PreparedStatement stmt;
 
@@ -718,7 +718,7 @@ public class DaoImpl
         }
     }
 
-    public boolean addItemToMenu(MenuItems item) throws SQLException, JsonProcessingException {
+    public boolean addItemToMenu(Menu item) throws SQLException, JsonProcessingException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -792,7 +792,7 @@ public class DaoImpl
         }
     }
 
-    public boolean updateMenuItem(MenuItems item) throws SQLException, JsonProcessingException {
+    public boolean updateMenuItem(Menu item) throws SQLException, JsonProcessingException {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -1292,4 +1292,79 @@ public class DaoImpl
         }
 
     }
+
+    public ObservableList<Inventory> fetchInventoryItems() throws Exception
+    {
+        ObservableList<Inventory> inventoryItems = FXCollections.observableArrayList();
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.inventory", tenantId));
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+            {
+                Inventory inventoryItem = new Inventory();
+
+                //Getting ID
+                inventoryItem.setId(rs.getInt("id"));
+
+                //Getting Name
+                inventoryItem.setInventoryItemName(rs.getString("name"));
+
+                //Getting Price
+                inventoryItem.setInventoryItemPrice(rs.getDouble("cost"));
+
+                //Getting unit
+                inventoryItem.setInventoryItemUnit(rs.getString("unit"));
+
+                //Getting Stock Quantity
+                inventoryItem.setInventoryItemQuantity(rs.getInt("quantity"));
+
+
+                inventoryItems.add(inventoryItem);
+            }
+
+            if(!inventoryItems.isEmpty())
+            {
+                rs.close();
+                stmt.close();
+                c.close();
+                return inventoryItems;
+            }
+
+            rs.close();
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return null;
+    }
+    public boolean deleteInventoryItem(Integer id) throws SQLException
+    {
+
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("DELETE FROM %s.inventory WHERE id = ? ", tenantId));
+            stmt.setInt(1,id);
+
+            int rowsDeleted = stmt.executeUpdate();
+
+            return (rowsDeleted > 0);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
 }

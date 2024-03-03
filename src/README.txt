@@ -126,7 +126,7 @@ TABLES -
         field as the starting number for generating bill numbers.
 
     2)billdetails
-        id [bigserial] (i.e autoincrementing) (Primary Key) // because billnumber will repeat and cannot be set as Pkey
+        id [Bigint] (i.e autoincrementing) (Primary Key) // because billnumber will repeat and cannot be set as Pkey
         billnumber [integer]
         tablenumber [text]
         fooditemname [text]
@@ -142,10 +142,13 @@ TABLES -
         variant[Text]
 
     4)menu
-        fooditemname [text] (Primary Key)
+        id [Bigint] (Primary Key)
+        fooditemname [text]
         fooditemcateogry [text]
         fooditemprice [integer]
         fooditemavaiability [boolean]
+        stockquantity [integer]
+        variants [text]
 
     5)outletdetails
         outletname [text] (Primary Key)
@@ -174,13 +177,20 @@ TABLES -
         [---NOTE---] : Mention GST Values and default Discount
 
     9)takeawayorderdetails
-        ordernumber[integer] (Primary Key)
-        fooditemname [text] (Primary Key)
+        ordernumber [integer]---|
+                                |--> (Composite Primary Key)
+        fooditemname [text] ----|
         fooditemquantity [integer]
         fooditemprice [numeric]
         status [text]
         variant [text]
 
+    10)inventory
+        id [bigint] (Primary Key)
+        name [text]
+        cost [integer]
+        unit [text]
+        quantity [integer]
 
 
 

@@ -5,9 +5,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import org.lenden.dao.DaoImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class Bill {
 
@@ -36,14 +33,14 @@ public class Bill {
          {
              DaoImpl daoimpl = new DaoImpl();
 
-             this.cgst = daoimpl.getTax("cgst");
-             this.sgst = daoimpl.getTax("sgst");
-             this.vat = daoimpl.getTax("vat");
-             this.serviceCharge = daoimpl.getTax("servicecharge");
-             this.outletName = daoimpl.getOutletDetails("name");
-             this.outletAddress = daoimpl.getOutletDetails("address");
-             this.phone = daoimpl.getOutletDetails("phone");
-             this.gstNumber = daoimpl.getOutletDetails("gstnumber");
+             this.cgst = daoimpl.fetchTax("cgst");
+             this.sgst = daoimpl.fetchTax("sgst");
+             this.vat = daoimpl.fetchTax("vat");
+             this.serviceCharge = daoimpl.fetchTax("servicecharge");
+             this.outletName = daoimpl.fetchOutletDetails("name");
+             this.outletAddress = daoimpl.fetchOutletDetails("address");
+             this.phone = daoimpl.fetchOutletDetails("phone");
+             this.gstNumber = daoimpl.fetchOutletDetails("gstnumber");
              this.discount = 0;
          }
          catch(Exception e)

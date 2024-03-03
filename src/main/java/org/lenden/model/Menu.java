@@ -2,7 +2,7 @@ package org.lenden.model;
 
 import java.util.HashMap;
 
-public class MenuItems {
+public class Menu {
 
     public int id;
     public String foodItemName;

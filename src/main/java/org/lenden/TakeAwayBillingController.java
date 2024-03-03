@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
-import org.lenden.model.MenuItems;
+import org.lenden.model.Menu;
 
 import java.io.IOException;
 import java.net.URL;
@@ -41,10 +41,10 @@ public class TakeAwayBillingController implements Initializable
     AnchorPane categoryAnchorPane;
     @FXML
     ScrollPane categoryScrollPane;
-    ObservableList<MenuItems> menuTableItems;
+    ObservableList<Menu> menuTableItems;
     ObservableList<BillItems> billTableItems = FXCollections.observableArrayList();
     @FXML
-    TableView<MenuItems> foodItemsTable;
+    TableView<Menu> foodItemsTable;
     @FXML
     TableView billTable;
     @FXML
@@ -89,7 +89,7 @@ public class TakeAwayBillingController implements Initializable
         List<String> categories = null;
         try
         {
-            categories = daoimpl.getCategories();
+            categories = daoimpl.fetchCategories();
         }
         catch(Exception e)
         {
@@ -113,7 +113,7 @@ public class TakeAwayBillingController implements Initializable
 
         try {
             //FOR MENU TABLE
-            menuTableItems = daoimpl.getCategoryItems("Main Course");
+            menuTableItems = daoimpl.fetchCategoryItems("Main Course");
         }
         catch (Exception ex)
         {
@@ -123,19 +123,19 @@ public class TakeAwayBillingController implements Initializable
             alert.showAndWait();
         }
 
-        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Menu, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(150);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Menu, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
         //Displaying the price value in col, only if variant is not added
         priceCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
@@ -145,13 +145,13 @@ public class TakeAwayBillingController implements Initializable
 
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variants");
+        TableColumn<Menu, String> variantCol = new TableColumn<>("Variants");
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             Map<String, Double> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
@@ -224,7 +224,7 @@ public class TakeAwayBillingController implements Initializable
         String category = clickedButton.getText();
 
         try {
-            menuTableItems = daoimpl.getCategoryItems(category);
+            menuTableItems = daoimpl.fetchCategoryItems(category);
         }
         catch (Exception ex)
         {
@@ -234,19 +234,19 @@ public class TakeAwayBillingController implements Initializable
             alert.showAndWait();
         }
 
-        TableColumn<MenuItems, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Menu, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Menu, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
         //Displaying the price value in col, only if variant is not added
         priceCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
@@ -255,13 +255,13 @@ public class TakeAwayBillingController implements Initializable
         });
 
         // Create a cell value factory for the Variant column
-        TableColumn<MenuItems, String> variantCol = new TableColumn<>("Variants");
+        TableColumn<Menu, String> variantCol = new TableColumn<>("Variants");
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
-            MenuItems menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             Map<String, Double> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
@@ -283,7 +283,7 @@ public class TakeAwayBillingController implements Initializable
     }
     public void addMenuItemtoBill()
     {
-        MenuItems selectedMenuFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
+        Menu selectedMenuFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
 
         BillItems selectedFoodItem = new BillItems();
         selectedFoodItem.setId(selectedMenuFoodItem.getId());
@@ -353,12 +353,12 @@ public class TakeAwayBillingController implements Initializable
         }
 
         // Create a cell value factory for the Name column
-        TableColumn<MenuItems, String> nameColB = new TableColumn<>("Name");
+        TableColumn<Menu, String> nameColB = new TableColumn<>("Name");
         nameColB.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameColB.setMinWidth(150);
 
         // Create a cell value factory for the Price column
-        TableColumn<MenuItems, String> priceColB = new TableColumn<>("Price");
+        TableColumn<Menu, String> priceColB = new TableColumn<>("Price");
         priceColB.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceColB.setMinWidth(150);
 
@@ -629,7 +629,7 @@ public class TakeAwayBillingController implements Initializable
         //Setting bill details
         try
         {
-            bill.setBillnumber(daoimpl.getNextBillNumber());
+            bill.setBillnumber(daoimpl.fetchNextBillNumber());
         }
         catch (Exception ex)
         {
