@@ -44,6 +44,23 @@
     -fx-font-family : "Segoe UI Symbol";
 }
 
+.delete-button {
+    -fx-background-color: #e58787;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 2px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #ea4747;
+    -fx-border-color: white;
+    -fx-border-width : 0.5;
+    -fx-text-fill: white;
+    -fx-font-size : 14px;
+}
+
 .add-update-menu-items
 {
     -fx-border-color:grey;

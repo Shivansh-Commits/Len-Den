@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -272,7 +273,6 @@ public class InventorySettingsController implements Initializable {
         });
 
 
-
         //Create col for Buttons col
         TableColumn<Inventory,Void> buttonCol = new TableColumn<>("");
         buttonCol.setCellFactory(param -> new TableCell<Inventory, Void>() {
@@ -286,7 +286,10 @@ public class InventorySettingsController implements Initializable {
                 else
                 {
                     Button updateButton = new Button("Update");
+                    updateButton.setCursor(Cursor.HAND);
+                    updateButton.setPrefWidth(100);
                     Button deleteButton = new Button("Delete");
+                    deleteButton.setCursor(Cursor.HAND);
 
                     {
                         updateButton.getStyleClass().add("update-button");

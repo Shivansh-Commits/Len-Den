@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
@@ -67,8 +68,6 @@ public class MenuController implements Initializable
 
         updateMenuItemButton.setTooltip(new javafx.scene.control.Tooltip("Click to Update, after adding new details"));
 
-        deleteMenuItemButton.setTooltip(new javafx.scene.control.Tooltip("Delete selected Menu Item"));
-
         //--------------------------------------------------------------------------------------------------------------
         //Displaying Categories
         ObservableList<String> categories = null;
@@ -121,10 +120,14 @@ public class MenuController implements Initializable
 
         menuTable.setOnKeyPressed(event ->
         {
+            /*
+
             if(event.getCode()==KeyCode.BACK_SPACE || event.getCode()==KeyCode.DELETE) // DELETE KEY FOR DELETING ITEM
             {
                 deleteItem(fakeEvent);
             }
+
+             */
             if(event.getCode() == KeyCode.ENTER) //ENTER KEY FOR SELECTING A ITEM
             {
                 populateAddUpdateDeleteForm(fakeEvent);
@@ -288,8 +291,45 @@ public class MenuController implements Initializable
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
 
+        //Create col for Buttons
+        TableColumn<Menu,Void> buttonCol = new TableColumn<>("");
+        buttonCol.setCellFactory(param -> new TableCell<Menu, Void>()
+        {
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty)
+                {
+                    setGraphic(null);
+                }
+                else
+                {
+                    Button deleteButton = new Button("Delete");
+
+                    {
+                        deleteButton.getStyleClass().add("delete-button");
+                        deleteButton.setTooltip(new javafx.scene.control.Tooltip("Delete the Menu Item"));
+                        deleteButton.setOnAction(event ->
+                        {
+                            Menu selectedItem = getTableView().getItems().get(getIndex());
+
+                            deleteItem(selectedItem);
+
+                        });
+                    }
+
+                    // Set buttons into cell
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(10);
+                    hBox.setPadding(new Insets(10,10,10,10));
+                    hBox.getChildren().addAll(deleteButton);
+                    setGraphic(hBox);
+                }
+            }
+        });
+
         // Set the cell value factories for the table columns
-        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol);
+        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol, buttonCol);
         menuTable.setItems(menuTableItems);
 
 
@@ -322,12 +362,10 @@ public class MenuController implements Initializable
 
 
         // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<Menu, String>()
-        {
+        availCol.setCellFactory(column -> new TableCell<Menu, String>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
-
                 if (item == null || empty) {
                     setText("");
                     setStyle("");
@@ -392,8 +430,46 @@ public class MenuController implements Initializable
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
 
+        //Create col for Buttons
+        TableColumn<Menu,Void> buttonCol = new TableColumn<>("");
+        buttonCol.setCellFactory(param -> new TableCell<Menu, Void>()
+        {
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty)
+                {
+                    setGraphic(null);
+                }
+                else
+                {
+                    Button deleteButton = new Button("Delete");
+                    deleteButton.setCursor(Cursor.HAND);
+
+                    {
+                        deleteButton.getStyleClass().add("delete-button");
+                        deleteButton.setTooltip(new javafx.scene.control.Tooltip("Delete the Menu Item"));
+                        deleteButton.setOnAction(event ->
+                        {
+                            Menu selectedItem = getTableView().getItems().get(getIndex());
+
+                            deleteItem(selectedItem);
+
+                        });
+                    }
+
+                    // Set buttons into cell
+                    HBox hBox = new HBox();
+                    hBox.setSpacing(10);
+                    hBox.setPadding(new Insets(10,10,10,10));
+                    hBox.getChildren().addAll(deleteButton);
+                    setGraphic(hBox);
+                }
+            }
+        });
+
         // Set the cell value factories for the table columns
-        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol);
+        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol, buttonCol);
         menuTable.setItems(menuTableItems);
 
 
@@ -496,7 +572,7 @@ public class MenuController implements Initializable
 
 
         String itemName = itemNameTextField.getText();
-        Double itemPrice =  itemPriceTextField.getText()  == null ? 0.0 : Double.parseDouble(   itemPriceTextField.getText()  ) ;
+        Double itemPrice =  itemPriceTextField.getText()  == null ||  itemPriceTextField.getText().isEmpty() ? 0.0 : Double.parseDouble(   itemPriceTextField.getText()  ) ;
         String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
         String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
         int stockQuantity=0;
@@ -864,29 +940,8 @@ public class MenuController implements Initializable
 
     }
 
-    public void deleteItem(MouseEvent ignoredEvent)
+    public void deleteItem(Menu selectedItem)
     {
-        //Checking if all field values are filled by the user (except price)
-        if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item to delete", ButtonType.OK);
-            alert.setHeaderText("No Item Selected");
-            alert.setTitle("Alert!");
-            alert.showAndWait();
-
-            return;
-        }
-
-        //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
-        if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
-        {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item to delete", ButtonType.OK);
-            alert.setHeaderText("No Item Selected");
-            alert.setTitle("Alert!");
-            alert.showAndWait();
-
-            return;
-        }
 
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Item will be deleted");
@@ -895,7 +950,6 @@ public class MenuController implements Initializable
 
         if(deleteAlert.getResult() == ButtonType.YES)
         {
-            Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
             if(selectedItem == null)
                 return;
 

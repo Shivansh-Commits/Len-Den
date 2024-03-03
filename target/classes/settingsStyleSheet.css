@@ -36,7 +36,7 @@
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
     -fx-font-size : 14px;
-    -fx-border-radius: 5px;
+    -fx-border-radius: 2px;
 }
 
 .delete-button:hover {

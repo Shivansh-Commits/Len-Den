@@ -86,11 +86,6 @@
                                                 <Cursor fx:constant="HAND" />
                                              </cursor>
                                           </Button>
-                                          <Button fx:id="deleteMenuItemButton" minWidth="80.0" mnemonicParsing="false" onMouseClicked="#deleteItem" prefHeight="38.0" prefWidth="140.0" styleClass="add-button" stylesheets="@../../menuStyleSheet.css" text="Delete">
-                                             <cursor>
-                                                <Cursor fx:constant="HAND" />
-                                             </cursor>
-                                          </Button>
                                        </children>
                                     </HBox>
                                  </bottom>
