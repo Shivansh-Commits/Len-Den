@@ -49,7 +49,7 @@ public class SettingsController implements Initializable {
 
     public void openInventoryManager(MouseEvent ignoredEvent) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("inventorySettings.fxml"));
-        AnchorPane home = loader.load();
+        BorderPane home = loader.load();
 
         Scene scene = billingSettingsButton.getScene();
         scene.getStylesheets().add("tableSettingsStyleSheet.css");
@@ -57,5 +57,14 @@ public class SettingsController implements Initializable {
         mainPane.setCenter(home);
     }
 
+    public void openSubscriptionInfo(MouseEvent ignoredEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("subscriptionInfo.fxml"));
+        BorderPane home = loader.load();
+
+        Scene scene = billingSettingsButton.getScene();
+        scene.getStylesheets().add("tableSettingsStyleSheet.css");
+
+        mainPane.setCenter(home);
+    }
 
 }

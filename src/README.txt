@@ -179,6 +179,7 @@ TABLES -
         fooditemquantity [integer]
         fooditemprice [numeric]
         status [text]
+        variant [text]
 
 
 
