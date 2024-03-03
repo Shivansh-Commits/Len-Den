@@ -10,8 +10,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
@@ -115,6 +114,22 @@ public class MenuController implements Initializable
 
         addAlphabeticInputFieldValidation(itemNameTextField);
         addAlphabeticInputFieldValidation(itemNameTextField);
+
+
+        //Binding keyboard keys with respective function
+        MouseEvent fakeEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false, false, false, false, false, false, false, false, false, null);
+
+        menuTable.setOnKeyPressed(event ->
+        {
+            if(event.getCode()==KeyCode.BACK_SPACE || event.getCode()==KeyCode.DELETE) // DELETE KEY FOR DELETING ITEM
+            {
+                deleteItem(fakeEvent);
+            }
+            if(event.getCode() == KeyCode.ENTER) //ENTER KEY FOR SELECTING A ITEM
+            {
+                populateAddUpdateDeleteForm(fakeEvent);
+            }
+        });
 
 
     }
@@ -480,7 +495,7 @@ public class MenuController implements Initializable
 
 
         String itemName = itemNameTextField.getText();
-        Double itemPrice =  itemPriceTextField.getText()  == null ? Double.parseDouble(   itemPriceTextField.getText()  ) : 0.0 ;
+        Double itemPrice =  itemPriceTextField.getText()  == null ? 0.0 : Double.parseDouble(   itemPriceTextField.getText()  ) ;
         String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
         String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
         int stockQuantity=0;
