@@ -18,17 +18,22 @@
                      <children>
                         <VBox alignment="TOP_CENTER" prefWidth="160.0" style="-fx-background-color: white;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Button fx:id="tableSettingsButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openTableSettings" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Area Manager" textAlignment="CENTER">
+                              <Button fx:id="AreaSettingsButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openAreaSettings" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Area Manager" textAlignment="CENTER">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="billingSettingsButton" mnemonicParsing="false" onMouseClicked="#openBillingManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Billing Manager">
+                              <Button fx:id="billingManagerButton" mnemonicParsing="false" onMouseClicked="#openBillingManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Billing Manager">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </Button>
-                              <Button fx:id="inventorySettingsButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openInventoryManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Inventory Manager">
+                              <Button fx:id="inventoryManagerButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openInventoryManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Inventory Manager">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Button>
+                              <Button fx:id="recepieManagerButton" alignment="CENTER" mnemonicParsing="false" onMouseClicked="#openRecepieManager" prefHeight="70.0" prefWidth="160.0" styleClass="setting-button" stylesheets="@../../settingsStyleSheet.css" text="Recepie Manager">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>

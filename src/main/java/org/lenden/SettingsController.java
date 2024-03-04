@@ -17,54 +17,61 @@ public class SettingsController implements Initializable {
     @FXML
     BorderPane mainPane;
     @FXML
-    Button tableSettingsButton;
-    @FXML
-    Button billingSettingsButton;
+    Button AreaSettingsButton;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
     }
 
-    public void openTableSettings(MouseEvent ignoredEvent) throws IOException
+    public void openAreaSettings(MouseEvent ignoredEvent) throws IOException
     {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("tableSettings.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("area_manager.fxml"));
         AnchorPane home = loader.load();
 
-        Scene scene = tableSettingsButton.getScene();
+        Scene scene = AreaSettingsButton.getScene();
         scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
 
     public void openBillingManager(MouseEvent ignoredEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("billingSettings.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("billing_manager.fxml"));
         BorderPane home = loader.load();
 
-        Scene scene = billingSettingsButton.getScene();
+        Scene scene = AreaSettingsButton.getScene();
         scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
 
     public void openInventoryManager(MouseEvent ignoredEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("inventorySettings.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("inventory_manager.fxml"));
         BorderPane home = loader.load();
 
-        Scene scene = billingSettingsButton.getScene();
+        Scene scene = AreaSettingsButton.getScene();
         scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
 
     public void openSubscriptionInfo(MouseEvent ignoredEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("subscriptionInfo.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("subscription_Info.fxml"));
         BorderPane home = loader.load();
 
-        Scene scene = billingSettingsButton.getScene();
+        Scene scene = AreaSettingsButton.getScene();
         scene.getStylesheets().add("settingsStyleSheet.css");
 
         mainPane.setCenter(home);
     }
 
+    public void openRecepieManager(MouseEvent ignoredEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("recepie_manager.fxml"));
+        BorderPane home = loader.load();
+
+        Scene scene = AreaSettingsButton.getScene();
+        scene.getStylesheets().add("settingsStyleSheet.css");
+
+        mainPane.setCenter(home);
+    }
 }

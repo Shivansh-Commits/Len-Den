@@ -31,7 +31,7 @@
 }
 
 .delete-button {
-    -fx-background-color: #e58787;
+    -fx-background-color: #b96a6a;
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
@@ -48,7 +48,7 @@
 }
 
 .update-button {
-    -fx-background-color: #b5efaf;
+    -fx-background-color: #80af7d;
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
@@ -57,7 +57,7 @@
 }
 
 .update-button:hover {
-    -fx-background-color: #329a23;
+    -fx-background-color: #3e9b30;
     -fx-border-color: white;
     -fx-border-width : 0.5;
     -fx-text-fill: white;

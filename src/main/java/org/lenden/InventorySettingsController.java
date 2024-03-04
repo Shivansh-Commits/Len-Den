@@ -10,18 +10,20 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Inventory;
 
 import java.net.URL;
+import java.sql.SQLException;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class InventorySettingsController implements Initializable {
 
-    @FXML
-    Label inventoryItemId;
 
     @FXML
     TextField inventoryItemNameTextField;
@@ -65,7 +67,25 @@ public class InventorySettingsController implements Initializable {
         addNumericInputFieldValidation(inventoryItemPurchaseCostTextField);
         addNumericInputFieldValidation(inventoryItemStockQuantityTextField);
 
+        //--------------------------------------------------------------------------------------------------------------
+        //Populating unit combo box
+
+        final ObservableList<String> items;
+        try
+        {
+            items = daoimpl.fetchUnits();
+            inventoryItemUnitComboBox.setItems(items);
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        
+        //Search functionality for combobox
+
+
     }
+
 
     /**
      *
@@ -212,27 +232,37 @@ public class InventorySettingsController implements Initializable {
         unitCol.setStyle("-fx-alignment: CENTER;");
         unitCol.setCellFactory(column -> {
             return new TableCell<Inventory, String>() {
-                private TextField textField;
+                private ComboBox comboBox;
                 private HBox hBox = new HBox();
 
                 {
-                    textField = new TextField();
-                    textField.setEditable(true);
-                    textField.setId("unit");
+                    comboBox = new ComboBox<String>();
+                    comboBox.setEditable(true);
+                    comboBox.setId("unit");
+                    try
+                    {
+                        comboBox.setItems(daoimpl.fetchUnits());
+                    }
+                    catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
 
                     hBox.setPadding(new Insets(10,10,10,10));
-                    hBox.getChildren().add(textField);
+                    hBox.getChildren().add(comboBox);
                 }
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
                     super.updateItem(item, empty);
 
-                    if (empty || item == null) {
+                    if (empty || item == null)
+                    {
                         setText(null);
                         setGraphic(null);
-                    } else {
-                        textField.setText(item);
+                    }
+                    else
+                    {
+                        comboBox.setValue(item);
                         setGraphic(hBox);
                     }
                 }
@@ -275,7 +305,8 @@ public class InventorySettingsController implements Initializable {
 
         //Create col for Buttons col
         TableColumn<Inventory,Void> buttonCol = new TableColumn<>("");
-        buttonCol.setCellFactory(param -> new TableCell<Inventory, Void>() {
+        buttonCol.setCellFactory(param -> new TableCell<Inventory, Void>()
+        {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -288,8 +319,20 @@ public class InventorySettingsController implements Initializable {
                     Button updateButton = new Button("Update");
                     updateButton.setCursor(Cursor.HAND);
                     updateButton.setPrefWidth(100);
+                    Image update_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/publish_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                    ImageView imageView = new ImageView(update_symbol);
+                    imageView.setFitWidth(16); // Adjust the width as needed
+                    imageView.setFitHeight(16);
+                    updateButton.setGraphic(imageView);
+
                     Button deleteButton = new Button("Delete");
                     deleteButton.setCursor(Cursor.HAND);
+                    updateButton.setPrefWidth(100);
+                    Image delete_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/delete_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                    ImageView imageView1 = new ImageView(delete_symbol);
+                    imageView1.setFitWidth(16); // Adjust the width as needed
+                    imageView1.setFitHeight(16);
+                    deleteButton.setGraphic(imageView1);
 
                     {
                         updateButton.getStyleClass().add("update-button");
@@ -344,6 +387,7 @@ public class InventorySettingsController implements Initializable {
         // Set the cell value factories for the table columns
         inventoryTable.getColumns().setAll(nameCol, priceCol, unitCol, quantityCol,buttonCol);
         inventoryTable.setItems(inventoryTableItems);
+
     }
 
     public void deleteInventoryItem(Inventory inventoryItem)
@@ -374,8 +418,6 @@ public class InventorySettingsController implements Initializable {
                     inventoryItemPurchaseCostTextField.clear();
                     inventoryItemUnitComboBox.getSelectionModel().clearSelection();
                     inventoryItemStockQuantityTextField.clear();
-                    inventoryItemId.setText("_ _");
-
 
                     //SHOW TABLE WITH UPDATED ITEMS
                     populateTable();
@@ -461,7 +503,6 @@ public class InventorySettingsController implements Initializable {
                 inventoryItemPurchaseCostTextField.clear();
                 inventoryItemUnitComboBox.getSelectionModel().clearSelection();
                 inventoryItemStockQuantityTextField.clear();
-                inventoryItemId.setText("_ _");
 
                 // Refresh the table with updated items
                 populateTable();

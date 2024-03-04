@@ -1406,5 +1406,30 @@ public class DaoImpl
         }
     }
 
+    public ObservableList<String> fetchUnits() throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT DISTINCT unit FROM %s.inventory", tenantId));
+            ResultSet rs = stmt.executeQuery();
+            ObservableList<String> units = FXCollections.observableArrayList();
+            while(rs.next())
+            {
+                units.add(rs.getString("unit"));
+            }
+
+            stmt.close();
+
+            return units;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
 
 }
