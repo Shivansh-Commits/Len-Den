@@ -21,7 +21,6 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -40,13 +39,9 @@ public class MenuController implements Initializable
     @FXML
     ComboBox<String> itemAvailabilityComboBox;
     @FXML
-    TextField itemStockQuantityTextField;
-    @FXML
     Button addToMenuButton;
     @FXML
     Button updateMenuItemButton;
-    @FXML
-    Button deleteMenuItemButton;
     @FXML
     VBox variantVbox;
 
@@ -339,9 +334,7 @@ public class MenuController implements Initializable
             Map<String, Double> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> {
-                    variants.append(variant).append(", ");
-                });
+                variantData.keySet().forEach(variant -> variants.append(variant).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
@@ -575,9 +568,6 @@ public class MenuController implements Initializable
         Double itemPrice =  itemPriceTextField.getText()  == null ||  itemPriceTextField.getText().isEmpty() ? 0.0 : Double.parseDouble(   itemPriceTextField.getText()  ) ;
         String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
         String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
-        int stockQuantity=0;
-        if(itemStockQuantityTextField.getText() != null || !Objects.equals(itemStockQuantityTextField.getText(), ""))
-            stockQuantity = Integer.parseInt(itemStockQuantityTextField.getText());
 
         // Checking and Adding Variants
         HashMap<String,Double> variantData = new HashMap<String,Double>();
@@ -618,7 +608,6 @@ public class MenuController implements Initializable
         item.setFoodItemPrice(   itemPrice   );
         item.setFoodItemAvailability(   itemAvailability    );
         item.setFoodItemCategory(   itemCategory    );
-        item.setStockQuantity(  stockQuantity   );
         item.setVariantData(    variantData   );
 
 
@@ -717,7 +706,6 @@ public class MenuController implements Initializable
         itemPriceTextField.clear();
         itemCategoryComboBox.getSelectionModel().clearSelection();
         itemAvailabilityComboBox.getSelectionModel().clearSelection();
-        itemStockQuantityTextField.clear();
 
 
         int temp = variantCount;
@@ -752,9 +740,6 @@ public class MenuController implements Initializable
 
         //Populating Availability Field
         itemAvailabilityComboBox.setValue(selectedItem.getFoodItemAvailability());
-
-        ////Populating Stock Quantity Field
-        itemStockQuantityTextField.setText(Integer.toString(selectedItem.getStockQuantity()));
 
         //Displaying Variant Data
         HashMap<String,Double> variantData = selectedItem.getVariantData();
@@ -873,7 +858,6 @@ public class MenuController implements Initializable
             Double itemPrice = Double.parseDouble(   itemPriceTextField.getText()  );
             String itemCategory = itemCategoryComboBox.getSelectionModel().getSelectedItem().toString();
             String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
-            int stockQuantity = Integer.parseInt(itemStockQuantityTextField.getText());
 
             // Checking and Adding Variants
             HashMap<String,Double> variantData = new HashMap<String,Double>();
@@ -912,7 +896,6 @@ public class MenuController implements Initializable
             item.setFoodItemPrice(itemPrice);
             item.setFoodItemCategory(itemCategory);
             item.setFoodItemAvailability(itemAvailability);
-            item.setStockQuantity(stockQuantity);
             item.setVariantData(variantData);
 
 
@@ -968,7 +951,6 @@ public class MenuController implements Initializable
                     itemPriceTextField.clear();
                     itemPriceTextField.setDisable(false);
                     itemAvailabilityComboBox.getSelectionModel().clearSelection();
-                    itemStockQuantityTextField.clear();
                     itemId.setText("_ _");
                     itemCategoryComboBox.getSelectionModel().clearSelection();
 
