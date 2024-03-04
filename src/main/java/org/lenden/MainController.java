@@ -149,7 +149,7 @@ public class MainController implements Initializable {
         if(openSalesPageFlag)
         {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("sales.fxml"));
-            AnchorPane Sales = loader.load();
+            BorderPane Sales = loader.load();
 
             Scene scene = homeMenuButton.getScene();
             scene.getStylesheets().add("salesStyleSheet.css");
