@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class BillingSettingsController implements Initializable {
+public class BillingManagerController implements Initializable {
 
     @FXML
     CheckBox setDefaultDiscountCheckbox;

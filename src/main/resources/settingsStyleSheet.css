@@ -81,14 +81,10 @@
     -fx-font-size : 14px;
 }
 
-.area-name-label{
-    -fx-font-family : "Segoe UI Semibold";
-    -fx-font-size : 20px;
-}
 
 .area-name-textField{
     -fx-font-family : "Segoe UI Semibold";
-    -fx-font-size : 16px;
+    -fx-font-size : 18px;
 }
 
 .plus-table-button{

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.InventorySettingsController">
+<BorderPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.InventoryManagerController">
    <center>
       <BorderPane minHeight="-Infinity" BorderPane.alignment="CENTER">
          <BorderPane.margin>
