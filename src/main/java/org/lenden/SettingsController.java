@@ -27,7 +27,7 @@ public class SettingsController implements Initializable {
     public void openAreaSettings(MouseEvent ignoredEvent) throws IOException
     {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("area_manager.fxml"));
-        AnchorPane home = loader.load();
+        BorderPane home = loader.load();
 
         Scene scene = AreaSettingsButton.getScene();
         scene.getStylesheets().add("settingsStyleSheet.css");

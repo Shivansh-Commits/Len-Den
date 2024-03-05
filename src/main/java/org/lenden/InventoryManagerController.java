@@ -22,7 +22,7 @@ import java.sql.SQLException;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
-public class InventorySettingsController implements Initializable {
+public class InventoryManagerController implements Initializable {
 
 
     @FXML
@@ -80,9 +80,6 @@ public class InventorySettingsController implements Initializable {
         {
             throw new RuntimeException(e);
         }
-        
-        //Search functionality for combobox
-
 
     }
 
