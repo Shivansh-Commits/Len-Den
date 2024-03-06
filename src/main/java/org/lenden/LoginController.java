@@ -32,7 +32,7 @@ public class LoginController
         tenant.setUsername(username.getText());
         tenant.setPassword(password.getText());
 
-        if(tenant.getUsername().equals("") || tenant.getUsername().equals(null) || tenant.getPassword().equals("") || tenant.getPassword().equals(null))
+        if(tenant.getUsername().isEmpty() || tenant.getUsername() == null || tenant.getPassword().isEmpty() || tenant.getPassword() == null)
         {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Enter Username & Password", ButtonType.OK);
             alert.setHeaderText("Fields can not be Empty");
@@ -44,7 +44,7 @@ public class LoginController
         DaoImpl daoimpl = new DaoImpl();
 
         try {
-            if (daoimpl.login(tenant))
+            if(daoimpl.login(tenant))
             {
 
                 //Fetching Subscription Info and Checking
@@ -67,6 +67,9 @@ public class LoginController
                     alert.showAndWait();
                     return;
                 }
+
+                tenant.setSubscriptionEndDate(subscriptionEndDate);
+                tenant.setSubscriptionStartDate(subscriptionStartDate);
 
                 //Opening up new Window (Home Screen)
                 FXMLLoader fxmlLoader = new FXMLLoader();
@@ -126,9 +129,9 @@ public class LoginController
         alert.showAndWait();
     }
 
-    public static String getTenant()
+    public static Tenants getTenant()
     {
-        return tenant.getUsername();
+        return tenant;
     }
 
 
