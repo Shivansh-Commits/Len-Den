@@ -14,7 +14,8 @@ import java.util.*;
 public class DaoImpl
 {
 
-    public String tenantId = getTenant();
+    public Tenants tenant = getTenant();
+    public String tenantId = tenant.getUsername();
 
     public boolean login(Tenants tenantInfo) throws SQLException
     {
@@ -865,26 +866,21 @@ public class DaoImpl
         try(Connection c = ConnectionManager.getConnection())
         {
 
+            //Deleting previous areas and tables data
+            stmt  = c.prepareStatement(String.format("DELETE FROM %s.tableandarea", tenantId));
+            stmt.executeUpdate();
+
             for(Map.Entry<String, Integer> entry : areaAndTables.entrySet())
             {
                 String area = entry.getKey();
                 int tables = entry.getValue();
 
-                stmt  = c.prepareStatement(String.format("UPDATE %s.tableandarea SET tables = ? WHERE area = ?", tenantId));
-
-                stmt.setInt(1, tables);
-                stmt.setString(2,area);
-
-                int rowsUpdated = stmt.executeUpdate();
-
-                if (rowsUpdated == 0) {
-                    // Area does not exist, insert a new row
-                    stmt = c.prepareStatement(String.format("INSERT INTO %s.tableandarea (area, tables) VALUES (?, ?)", tenantId));
-                    stmt.setString(1, area);
-                    stmt.setInt(2, tables);
-                    if(stmt.executeUpdate()!=1)
-                        return false;
-                }
+                // Area does not exist, insert a new row
+                stmt = c.prepareStatement(String.format("INSERT INTO %s.tableandarea (area, tables) VALUES (?, ?)", tenantId));
+                stmt.setString(1, area);
+                stmt.setInt(2, tables);
+                if(stmt.executeUpdate()!=1)
+                    return false;
             }
             return true;
         }

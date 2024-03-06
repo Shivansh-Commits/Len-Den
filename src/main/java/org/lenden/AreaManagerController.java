@@ -133,21 +133,24 @@ public class AreaManagerController implements Initializable {
             minusButton.setCursor(Cursor.HAND);
             minusButton.setOnAction( event -> {
 
-                //Updating Total Tables Label
-                int updatedTaables = Integer.parseInt(totalTablesLabel.getText())-1;
-                totalTablesLabel.setText(   String.valueOf(  updatedTaables<0 ? 0 : updatedTaables) );
-
                 int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
 
-                int newNumOfTables = numOfTables - 1;
-                if(newNumOfTables<0)
-                    newNumOfTables=0;
+                if(numOfTables!=0)
+                {
+                    //Updating Total Tables Label
+                    int updatedTaables = Integer.parseInt(totalTablesLabel.getText()) - 1;
+                    totalTablesLabel.setText(String.valueOf(updatedTaables < 0 ? 0 : updatedTaables));
 
-                //Updating the Label
-                numOfTablesLabel.setText(newNumOfTables+" Tables");
+                    int newNumOfTables = numOfTables - 1;
+                    if (newNumOfTables < 0)
+                        newNumOfTables = 0;
 
-                //Updating Unsaved Label Visibility
-                unsavedChangesLabel.setVisible(true);
+                    //Updating the Label
+                    numOfTablesLabel.setText(newNumOfTables + " Tables");
+
+                    //Updating Unsaved Label Visibility
+                    unsavedChangesLabel.setVisible(true);
+                }
 
             });
 
@@ -307,21 +310,24 @@ public class AreaManagerController implements Initializable {
         minusButton.setCursor(Cursor.HAND);
         minusButton.setOnAction( event -> {
 
-            //Updating Total Tables Label
-            int updatedTaables = Integer.parseInt(totalTablesLabel.getText())-1;
-            totalTablesLabel.setText(   String.valueOf(  updatedTaables<0 ? 0 : updatedTaables) );
-
             int numOfTables = Integer.parseInt(numOfTablesLabel.getText().split(" ")[0]);
 
-            int newNumOfTables = numOfTables - 1;
-            if(newNumOfTables<0)
-                newNumOfTables=0;
+            if(numOfTables!=0)
+            {
+                //Updating Total Tables Label
+                int updatedTaables = Integer.parseInt(totalTablesLabel.getText()) - 1;
+                totalTablesLabel.setText(String.valueOf(updatedTaables < 0 ? 0 : updatedTaables));
 
-            //Updating the Tables Label
-            numOfTablesLabel.setText(newNumOfTables+" Tables");
+                int newNumOfTables = numOfTables - 1;
+                if (newNumOfTables < 0)
+                    newNumOfTables = 0;
 
-            //Updating Unsaved Label Visibility
-            unsavedChangesLabel.setVisible(true);
+                //Updating the Tables Label
+                numOfTablesLabel.setText(newNumOfTables + " Tables");
+
+                //Updating Unsaved Label Visibility
+                unsavedChangesLabel.setVisible(true);
+            }
         });
 
         HBox tablesCountHbox = new HBox();
@@ -441,7 +447,7 @@ public class AreaManagerController implements Initializable {
         if(areasVbox.getChildren().size()<=0)
         {
             Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "No Areas Added", ButtonType.OK);
-            deleteAlert.setHeaderText("Add Areas and Tables to be viewd in the table billing Page ");
+            deleteAlert.setHeaderText("Add Areas and Tables to be viewed in the table billing Page ");
             deleteAlert.setTitle("Alert!");
             deleteAlert.showAndWait();
             return;
