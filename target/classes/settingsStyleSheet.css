@@ -30,6 +30,24 @@
 
 }
 
+.hollow-delete-button{
+    -fx-background-color: #ffffff;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 2px;
+}
+
+.hollow-delete-button:hover{
+    -fx-background-color: #da3f3f;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #ffffff;
+    -fx-font-size : 14px;
+    -fx-border-radius: 2px;
+}
+
 .delete-button {
     -fx-background-color: #b96a6a;
     -fx-border-color: black;

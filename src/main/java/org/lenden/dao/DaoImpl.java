@@ -13,7 +13,6 @@ import java.util.*;
 
 public class DaoImpl
 {
-    //Dao dao = new Dao(); //Connection manager class w/o connection pool
 
     public String tenantId = getTenant();
 

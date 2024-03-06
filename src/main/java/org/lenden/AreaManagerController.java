@@ -51,7 +51,6 @@ public class AreaManagerController implements Initializable {
         }
 
 
-
         //un-Saved changes label
         unsavedChangesLabel.setVisible(false);
 
@@ -155,7 +154,7 @@ public class AreaManagerController implements Initializable {
             HBox tablesCountHbox = new HBox();
             tablesCountHbox.setSpacing(35);
             tablesCountHbox.setAlignment(Pos.CENTER);
-            tablesCountHbox.setMargin(plusButton,new Insets(00, 30, 00, 00));
+            tablesCountHbox.setMargin(plusButton,new Insets(0, 30, 0, 0));
             tablesCountHbox.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
             //Adding Delete button
@@ -328,7 +327,7 @@ public class AreaManagerController implements Initializable {
         HBox tablesCountHbox = new HBox();
         tablesCountHbox.setSpacing(35);
         tablesCountHbox.setAlignment(Pos.CENTER);
-        tablesCountHbox.setMargin(plusButton,new Insets(00, 30, 00, 00));
+        tablesCountHbox.setMargin(plusButton,new Insets(0, 30, 0, 0));
         tablesCountHbox.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
         //Adding delete button
