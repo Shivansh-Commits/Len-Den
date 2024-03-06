@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
@@ -62,10 +63,16 @@
                </padding>
                <children>
                   <Label fx:id="unsavedChangesLabel" text="You have un-saved Changes *" textFill="#a80101" visible="false" />
-                  <HBox alignment="CENTER" prefHeight="46.0" prefWidth="1178.0" spacing="20.0">
+                  <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1178.0" spacing="20.0">
                      <children>
-                        <Button minHeight="38.0" mnemonicParsing="false" onMouseClicked="#saveButtonListener" prefHeight="38.0" prefWidth="150.0" styleClass="saveEdit-button" stylesheets="@../../settingsStyleSheet.css" text="Save " />
-                        <Button minHeight="38.0" mnemonicParsing="false" onMouseClicked="#addAreaButtonListener" prefHeight="38.0" prefWidth="150.0" styleClass="saveEdit-button" stylesheets="@../../settingsStyleSheet.css" text="Add Area" />
+                        <Button fx:id="saveButton" graphicTextGap="10.0" minHeight="43.0" mnemonicParsing="false" onMouseClicked="#saveButtonListener" prefHeight="50.0" prefWidth="209.0" styleClass="saveEdit-button" stylesheets="@../../settingsStyleSheet.css" text="Save ">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
+                        <Button fx:id="addAreaButton" graphicTextGap="10.0" minHeight="43.0" mnemonicParsing="false" onMouseClicked="#addAreaButtonListener" prefHeight="50.0" prefWidth="209.0" styleClass="saveEdit-button" stylesheets="@../../settingsStyleSheet.css" text="Add Area">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                      </children>
                      <VBox.margin>
                         <Insets bottom="20.0" />
