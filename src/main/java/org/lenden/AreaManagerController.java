@@ -1,7 +1,5 @@
 package org.lenden;
 
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
@@ -9,12 +7,15 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.lenden.dao.DaoImpl;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class AreaManagerController implements Initializable {
@@ -27,7 +28,6 @@ public class AreaManagerController implements Initializable {
     Label totalTablesLabel;
     @FXML
     Label unsavedChangesLabel;
-
 
     DaoImpl daoimpl = new DaoImpl();
 
@@ -50,6 +50,9 @@ public class AreaManagerController implements Initializable {
             alert.showAndWait();
         }
 
+
+
+        //un-Saved changes label
         unsavedChangesLabel.setVisible(false);
 
         totalAreasLabel.setText(    String.valueOf(areaAndTables.size())    );
@@ -152,15 +155,21 @@ public class AreaManagerController implements Initializable {
             HBox tablesCountHbox = new HBox();
             tablesCountHbox.setSpacing(35);
             tablesCountHbox.setAlignment(Pos.CENTER);
+            tablesCountHbox.setMargin(plusButton,new Insets(00, 30, 00, 00));
             tablesCountHbox.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
             //Adding Delete button
             Button deleteButton = new Button();
-            deleteButton.setPrefWidth(200);
-            deleteButton.setPrefHeight(43);
+            deleteButton.setPrefWidth(20);
+            deleteButton.setPrefHeight(20);
             deleteButton.setMaxHeight(Double.MAX_VALUE);
-            deleteButton.setText("Delete Area");
-            deleteButton.getStyleClass().add("saveEdit-button");
+            deleteButton.getStyleClass().add("hollow-delete-button");
+            deleteButton.setCursor(Cursor.HAND);
+            Image delete_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/delete_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+            ImageView imageView2 = new ImageView(delete_symbol);
+            imageView2.setFitWidth(20); // Adjust the width as needed
+            imageView2.setFitHeight(20);
+            deleteButton.setGraphic(imageView2);
             deleteButton.setOnMouseClicked(event -> {
 
                 try
@@ -205,6 +214,9 @@ public class AreaManagerController implements Initializable {
                                 HBox hBoxToRemove = (HBox) parent;
                                 areasVbox.getChildren().remove(hBoxToRemove);
                             }
+
+                            //Updating un-Saved Label
+                            unsavedChangesLabel.setVisible(false);
 
                         }
                     }
@@ -316,15 +328,21 @@ public class AreaManagerController implements Initializable {
         HBox tablesCountHbox = new HBox();
         tablesCountHbox.setSpacing(35);
         tablesCountHbox.setAlignment(Pos.CENTER);
+        tablesCountHbox.setMargin(plusButton,new Insets(00, 30, 00, 00));
         tablesCountHbox.getChildren().addAll(minusButton,numOfTablesLabel,plusButton);
 
         //Adding delete button
         Button deleteButton = new Button();
-        deleteButton.setPrefWidth(200);
-        deleteButton.setPrefHeight(43);
+        deleteButton.setPrefWidth(20);
+        deleteButton.setPrefHeight(20);
         deleteButton.setMaxHeight(Double.MAX_VALUE);
-        deleteButton.setText("Delete Area");
-        deleteButton.getStyleClass().add("saveEdit-button");
+        deleteButton.getStyleClass().add("hollow-delete-button");
+        deleteButton.setCursor(Cursor.HAND);
+        Image delete_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/delete_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+        ImageView imageView = new ImageView(delete_symbol);
+        imageView.setFitWidth(20); // Adjust the width as needed
+        imageView.setFitHeight(20);
+        deleteButton.setGraphic(imageView);
         deleteButton.setOnMouseClicked(event -> {
 
             try
@@ -370,6 +388,9 @@ public class AreaManagerController implements Initializable {
                             HBox hBoxToRemove = (HBox) parent;
                             areasVbox.getChildren().remove(hBoxToRemove);
                         }
+
+                        //Updating un-Saved Label
+                        unsavedChangesLabel.setVisible(false);
 
                     }
                     else if(daoimpl.deleteArea(areaName.getText()))

@@ -11,6 +11,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -21,6 +23,7 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 
@@ -300,6 +303,11 @@ public class MenuController implements Initializable
                 else
                 {
                     Button deleteButton = new Button("Delete");
+                    Image delete_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/delete_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                    ImageView imageView = new ImageView(delete_symbol);
+                    imageView.setFitWidth(16); // Adjust the width as needed
+                    imageView.setFitHeight(16);
+                    deleteButton.setGraphic(imageView);
 
                     {
                         deleteButton.getStyleClass().add("delete-button");
@@ -437,6 +445,11 @@ public class MenuController implements Initializable
                 else
                 {
                     Button deleteButton = new Button("Delete");
+                    Image delete_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/delete_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                    ImageView imageView = new ImageView(delete_symbol);
+                    imageView.setFitWidth(16); // Adjust the width as needed
+                    imageView.setFitHeight(16);
+                    deleteButton.setGraphic(imageView);
                     deleteButton.setCursor(Cursor.HAND);
 
                     {

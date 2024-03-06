@@ -167,13 +167,16 @@
                         </AnchorPane>
                      </top>
                      <bottom>
-                        <Button fx:id="saveTaxSettingsButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
+                        <Button fx:id="saveTaxSettingsButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
                            <font>
                               <Font name="Segoe UI Semibold" size="12.0" />
                            </font>
                            <BorderPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </BorderPane.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </bottom>
                      <padding>
@@ -248,10 +251,13 @@
                         </AnchorPane>
                      </top>
                      <bottom>
-                        <Button fx:id="saveDiscountSettingsButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
+                        <Button fx:id="saveDiscountSettingsButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </BorderPane.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </bottom>
                      <padding>
@@ -263,10 +269,13 @@
                   </BorderPane>
                   <BorderPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefWidth="1186.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                      <bottom>
-                        <Button fx:id="saveModeOfPaymentSettingsButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
+                        <Button fx:id="saveModeOfPaymentSettingsButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" />
                            </BorderPane.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
                         </Button>
                      </bottom>
                      <top>
@@ -324,10 +333,13 @@
                   </BorderPane>
                   <BorderPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="322.0" prefWidth="1180.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                      <bottom>
-                        <Button fx:id="saveOutletDetailsButton" mnemonicParsing="false" prefHeight="33.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
+                        <Button fx:id="saveOutletDetailsButton" mnemonicParsing="false" prefHeight="40.0" prefWidth="215.0" styleClass="save-button" stylesheets="@../../billingSettingsStyleSheet.css" text="Save" BorderPane.alignment="CENTER">
                            <BorderPane.margin>
                               <Insets bottom="10.0" />
-                           </BorderPane.margin></Button>
+                           </BorderPane.margin>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor></Button>
                      </bottom>
                      <top>
                         <AnchorPane maxWidth="1.7976931348623157E308" minWidth="600.0" prefHeight="46.0" prefWidth="1147.0" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
