@@ -341,13 +341,13 @@ public class InventoryManagerController implements Initializable {
                             if (row != null) {
                                 TextField nameField = (TextField) row.lookup("#name");
                                 TextField priceField = (TextField) row.lookup("#price");
-                                TextField unitField = (TextField) row.lookup("#unit");
+                                ComboBox unitComboBox = (ComboBox) row.lookup("#unit");
                                 TextField quantityField = (TextField) row.lookup("#quantity");
 
-                                if (nameField != null && priceField != null && unitField != null && quantityField != null) {
+                                if (nameField != null && priceField != null && unitComboBox != null && quantityField != null) {
                                     String newName = nameField.getText();
                                     Double newPrice = Double.valueOf(priceField.getText());
-                                    String newUnit = unitField.getText();
+                                    String newUnit = unitComboBox.getSelectionModel().getSelectedItem().toString();
                                     Double newQuantity = Double.valueOf(quantityField.getText());
 
                                     selectedItem.setInventoryItemName(newName);
