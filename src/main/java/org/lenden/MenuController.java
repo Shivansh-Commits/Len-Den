@@ -543,7 +543,7 @@ public class MenuController implements Initializable
         }
 
         //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
-        if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
+        if(itemPriceTextField.getText().isEmpty() && variantCount <= 0 )
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
@@ -578,7 +578,6 @@ public class MenuController implements Initializable
         // Checking and Adding Variants
         HashMap<String,Double> variantData = new HashMap<String,Double>();
         int temp = variantCount;
-        //temp--;
 
         while(temp>=0)
         {
@@ -715,7 +714,7 @@ public class MenuController implements Initializable
 
 
         int temp = variantCount;
-        while(temp>=1)
+        while(temp>=0)
         {
             HBox hboxToRemove = (HBox) variantVbox.lookup("#variantHbox"+temp);
 
