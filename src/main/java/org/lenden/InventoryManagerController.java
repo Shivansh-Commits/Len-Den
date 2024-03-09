@@ -61,11 +61,8 @@ public class InventoryManagerController implements Initializable {
     Button addPurchaseButton;
     @FXML
     Label newInventoryItemNameInfoLabel;
-    @FXML
-    Label newInventoryItemUnitInfoLabel;
 
     ObservableList<Inventory> inventoryTableItems =  FXCollections.observableArrayList();
-    ObservableList<InventoryPurchase> inventoryPurchaseItems = FXCollections.observableArrayList();
 
     DaoImpl daoimpl = new DaoImpl();
 
@@ -473,7 +470,7 @@ public class InventoryManagerController implements Initializable {
 
                     Button viewPurchases = new Button("View Purchases");
                     viewPurchases.setCursor(Cursor.HAND);
-                    viewPurchases.setPrefWidth(150);
+                    viewPurchases.setPrefWidth(135);
                     viewPurchases.getStyleClass().add("view-purchases-button");
                     viewPurchases.setTooltip(new Tooltip("View all Purchases of this item"));
                     Image view_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/outline_visibility_black_24dp.png")).toExternalForm());
