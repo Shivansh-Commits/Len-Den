@@ -188,9 +188,17 @@ TABLES -
     10)inventory
         id [bigint] (Primary Key)
         name [text]
-        cost [integer]
+        rate [integer]
         unit [text]
         quantity [integer]
+
+    11)inventorypurchase
+        purchaseid [bigserial] (Primary Key)
+        inventoryitemid [integer]
+        inventoryitemname [text]
+        inventoryitemcost [integer]
+        inventoryitemquantity [integer]
+        inventoryitemunit [text]
 
 
 
