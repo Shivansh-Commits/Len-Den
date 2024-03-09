@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import org.lenden.model.*;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.*;
 
 
@@ -1309,13 +1310,13 @@ public class DaoImpl
                 inventoryItem.setInventoryItemName(rs.getString("name"));
 
                 //Getting Price
-                inventoryItem.setInventoryItemPrice(rs.getDouble("cost"));
+                inventoryItem.setInventoryItemRate(rs.getDouble("rate"));
 
                 //Getting unit
                 inventoryItem.setInventoryItemUnit(rs.getString("unit"));
 
                 //Getting Stock Quantity
-                inventoryItem.setInventoryItemQuantity(rs.getInt("quantity"));
+                inventoryItem.setInventoryItemQuantity(rs.getDouble("quantity"));
 
 
                 inventoryItems.add(inventoryItem);
@@ -1340,7 +1341,7 @@ public class DaoImpl
 
         return null;
     }
-    public boolean deleteInventoryItem(Integer id) throws SQLException
+    public boolean deleteInventoryItem(int id) throws SQLException
     {
 
         PreparedStatement stmt;
@@ -1366,12 +1367,12 @@ public class DaoImpl
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
-            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET name=?, cost=?, unit=?, quantity=? WHERE id=?", tenantId));
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET name=?, rate=?, unit=?, quantity=? WHERE id=?", tenantId));
             stmt.setString(1, inventoryItem.getInventoryItemName());
-            stmt.setDouble(2, inventoryItem.getInventoryItemPrice());
+            stmt.setDouble(2, inventoryItem.getInventoryItemRate());
             stmt.setString(3, inventoryItem.getInventoryItemUnit());
             stmt.setDouble(4, inventoryItem.getInventoryItemQuantity());
-            stmt.setInt(5, inventoryItem.getId());
+            stmt.setLong(5, inventoryItem.getId());
 
             int rowsUpdated = stmt.executeUpdate();
 
@@ -1382,13 +1383,13 @@ public class DaoImpl
         }
     }
 
-    public boolean addInventoryItem(Inventory newItem) throws SQLException {
+    public boolean addNewInventoryItem(Inventory newItem) throws SQLException {
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
-            stmt = c.prepareStatement(String.format("INSERT INTO %s.inventory (name, cost, unit, quantity) VALUES (?, ?, ?, ?)", tenantId));
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.inventory (name, rate, unit, quantity) VALUES (?, ?, ?, ?)", tenantId));
             stmt.setString(1, newItem.getInventoryItemName());
-            stmt.setDouble(2, newItem.getInventoryItemPrice());
+            stmt.setDouble(2, newItem.getInventoryItemRate());
             stmt.setString(3, newItem.getInventoryItemUnit());
             stmt.setDouble(4, newItem.getInventoryItemQuantity());
 
@@ -1401,6 +1402,135 @@ public class DaoImpl
         }
     }
 
+    public boolean addInventoryItemPurchase(InventoryPurchase inventorypurchase) throws SQLException {
+        PreparedStatement stmt;
+
+        try (Connection c = ConnectionManager.getConnection()) {
+
+            //UPDATING Inventory Purchase Table
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.inventorypurchases (inventoryitemid, inventoryitemname, inventoryitemcost, inventoryitemunit, inventoryitemquantity, purchasedate) VALUES (?, ?, ?, ? ,? ,?)", tenantId));
+            stmt.setLong(1,inventorypurchase.getInventoryItemId());
+            stmt.setString(2, inventorypurchase.getInventoryItemName());
+            stmt.setDouble(3, inventorypurchase.getInventoryItemPrice());
+            stmt.setString(4, inventorypurchase.getInventoryItemUnit());
+            stmt.setDouble(5, inventorypurchase.getInventoryItemQuantity());
+            stmt.setString(6, String.valueOf(LocalDate.now()));
+
+            int rowsInserted = stmt.executeUpdate();
+
+            //UPDATING quantity in Inventory Item
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET quantity = ? + quantity WHERE id = ?",tenantId));
+            stmt.setDouble(1,inventorypurchase.getInventoryItemQuantity());
+            stmt.setInt(2,inventorypurchase.getInventoryItemId());
+            stmt.executeUpdate();
+
+            //UPDATING Avg Rate/Unit in Inventory Item
+            stmt = c.prepareStatement(String.format("SELECT inventoryitemcost,inventoryitemquantity FROM %s.inventorypurchases WHERE inventoryitemid = ?",tenantId));
+            stmt.setInt(1,inventorypurchase.getInventoryItemId());
+
+            ResultSet rs = stmt.executeQuery();
+
+            double totalCost = 0.0;
+            double totalQuantity = 0.0;
+            double avgRatePerUnit;
+            while(rs.next())
+            {
+                totalCost = totalCost + rs.getDouble("inventoryitemcost");
+                totalQuantity = totalQuantity + rs.getDouble("inventoryitemquantity");
+            }
+            avgRatePerUnit = totalCost/totalQuantity;
+
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET rate = ? WHERE id = ?",tenantId));
+            stmt.setDouble(1,avgRatePerUnit);
+            stmt.setDouble(2,inventorypurchase.getInventoryItemId());
+            stmt.executeUpdate();
+
+            return (rowsInserted > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public ObservableList<InventoryPurchase> fetchInventoryPurchaseItems(int inventoryItemId) throws SQLException {
+        ObservableList<InventoryPurchase> inventoryItems = FXCollections.observableArrayList();
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.inventorypurchases WHERE inventoryitemid = ?", tenantId));
+            stmt.setInt(1,inventoryItemId);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+            {
+                InventoryPurchase inventoryPurchaseItem = new InventoryPurchase();
+
+                //Getting Purchase ID
+                inventoryPurchaseItem.setPurchaseId(rs.getInt("purchaseid"));
+
+                //Getting Inventory Item ID
+                inventoryPurchaseItem.setInventoryItemId(rs.getInt("inventoryitemid"));
+
+                //Getting Name
+                inventoryPurchaseItem.setInventoryItemName(rs.getString("inventoryitemname"));
+
+                //Getting Price
+                inventoryPurchaseItem.setInventoryItemPrice(rs.getDouble("inventoryitemcost"));
+
+                //Getting unit
+                inventoryPurchaseItem.setInventoryItemUnit(rs.getString("inventoryitemunit"));
+
+                //Getting Stock Quantity
+                inventoryPurchaseItem.setInventoryItemQuantity(rs.getDouble("inventoryitemquantity"));
+
+                //Getting Purchase Date
+                inventoryPurchaseItem.setPurchaseDate(rs.getString("purchasedate"));
+
+
+                inventoryItems.add(inventoryPurchaseItem);
+            }
+
+            if(!inventoryItems.isEmpty())
+            {
+                rs.close();
+                stmt.close();
+                c.close();
+                return inventoryItems;
+            }
+
+            rs.close();
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return null;
+    }
+
+    public boolean updateInventoryPurchaseItem(InventoryPurchase inventoryItem) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try (Connection c = ConnectionManager.getConnection()) {
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventorypurchases SET inventoryitemname=?, inventoryitemcost=?, inventoryitemunit=?, inventoryitemquantity=? WHERE purchaseid=?", tenantId));
+            stmt.setString(1, inventoryItem.getInventoryItemName());
+            stmt.setDouble(2, inventoryItem.getInventoryItemPrice());
+            stmt.setString(3, inventoryItem.getInventoryItemUnit());
+            stmt.setDouble(4, inventoryItem.getInventoryItemQuantity());
+            stmt.setLong(5, inventoryItem.getPurchaseId());
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            return (rowsUpdated > 0);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
     public ObservableList<String> fetchUnits() throws SQLException
     {
         PreparedStatement stmt;

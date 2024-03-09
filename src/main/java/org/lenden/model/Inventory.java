@@ -6,16 +6,16 @@ public class Inventory {
 
     private String inventoryItemName;
 
-    private double inventoryItemPrice;
+    private double inventoryItemRate;
 
     private String inventoryItemUnit;
 
     private double inventoryItemQuantity;
 
-    public Inventory(String newName, Double newPrice, String newUnit, Double newQuantity)
+    public Inventory(String newName, Double newRate, String newUnit, Double newQuantity)
     {
         this.inventoryItemName = newName;
-        this.inventoryItemPrice = newPrice;
+        this.inventoryItemRate = newRate;
         this.inventoryItemUnit = newUnit;
         this.inventoryItemQuantity = newQuantity;
     }
@@ -38,12 +38,12 @@ public class Inventory {
         this.inventoryItemName = inventoryItemName;
     }
 
-    public double getInventoryItemPrice() {
-        return inventoryItemPrice;
+    public double getInventoryItemRate() {
+        return inventoryItemRate;
     }
 
-    public void setInventoryItemPrice(double inventoryItemPrice) {
-        this.inventoryItemPrice = inventoryItemPrice;
+    public void setInventoryItemRate(double inventoryItemPrice) {
+        this.inventoryItemRate = inventoryItemPrice;
     }
 
     public String getInventoryItemUnit() {
