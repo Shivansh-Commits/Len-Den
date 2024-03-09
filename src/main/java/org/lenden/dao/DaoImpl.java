@@ -1427,4 +1427,30 @@ public class DaoImpl
 
     }
 
+    public ObservableList<String> fetchInventoryItemsNames() throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT DISTINCT name FROM %s.inventory", tenantId));
+            ResultSet rs = stmt.executeQuery();
+            ObservableList<String> units = FXCollections.observableArrayList();
+            while(rs.next())
+            {
+                units.add(rs.getString("name"));
+            }
+
+            stmt.close();
+
+            return units;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
 }

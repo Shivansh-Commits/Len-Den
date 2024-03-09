@@ -1,5 +1,6 @@
 package org.lenden;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -26,7 +27,7 @@ public class InventoryManagerController implements Initializable {
 
 
     @FXML
-    TextField inventoryItemNameTextField;
+    ComboBox<String> inventoryItemNameComboBox;
 
     @FXML
     TextField inventoryItemPurchaseCostTextField;
@@ -61,26 +62,63 @@ public class InventoryManagerController implements Initializable {
 
         //--------------------------------------------------------------------------------------------------------------
         //Input Validation
-        addAlphabeticInputFieldValidation(inventoryItemNameTextField);
+        addAlphabeticInputFieldValidation(inventoryItemNameComboBox);
         addAlphabeticInputFieldValidation(inventoryItemUnitComboBox);
 
         addNumericInputFieldValidation(inventoryItemPurchaseCostTextField);
         addNumericInputFieldValidation(inventoryItemStockQuantityTextField);
 
         //--------------------------------------------------------------------------------------------------------------
-        //Populating unit combo box
-
-        final ObservableList<String> items;
+        //Populating item name text field
+        final ObservableList<String> inventoryItemNames;
         try
         {
-            items = daoimpl.fetchUnits();
-            inventoryItemUnitComboBox.setItems(items);
+            inventoryItemNames = daoimpl.fetchInventoryItemsNames();
+            inventoryItemNameComboBox.setItems(inventoryItemNames);
+            makeComboBoxSearchable(inventoryItemNameComboBox,inventoryItemNames);
+
         }
         catch (SQLException e)
         {
             throw new RuntimeException(e);
         }
 
+
+        //Populating unit combo box & making it searchable
+        final ObservableList<String> inventoryItemUnits;
+        try
+        {
+            inventoryItemUnits = daoimpl.fetchUnits();
+            inventoryItemUnitComboBox.setItems(inventoryItemUnits);
+            makeComboBoxSearchable(inventoryItemUnitComboBox,inventoryItemUnits);
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+
+    private void makeComboBoxSearchable(ComboBox<String> comboBox, ObservableList<String> originalItems) {
+        comboBox.setEditable(true);
+
+        // Event listener for when the user types in the combo box editor
+        comboBox.getEditor().setOnKeyReleased(event -> {
+            String filter = comboBox.getEditor().getText().toLowerCase();
+            ObservableList<String> filteredItems = originalItems.filtered(item -> item.toLowerCase().contains(filter));
+            comboBox.setItems(filteredItems);
+        });
+
+        // Event listener for when the user selects an item from the drop-down list
+        comboBox.setOnAction(event -> comboBox.setItems(originalItems));
+
+        // Event listener for when the combo box editor loses focus
+        comboBox.getEditor().focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) {
+                comboBox.setItems(originalItems);
+            }
+        });
     }
 
 
@@ -114,7 +152,7 @@ public class InventoryManagerController implements Initializable {
             String input = event.getCharacter();
 
             // Use a regular expression to check if the input is alphabetic or a hyphen
-            if (!input.matches("[a-zA-Z]")) {
+            if (!input.matches("[a-zA-Z0-9 ]")) {
                 event.consume(); // Ignore the input if it's not alphabetic or a hyphen
             }
         });
@@ -411,7 +449,7 @@ public class InventoryManagerController implements Initializable {
                 else
                 {
                     //Clearing Fields
-                    inventoryItemNameTextField.clear();
+                    inventoryItemNameComboBox.getSelectionModel().clearSelection();
                     inventoryItemPurchaseCostTextField.clear();
                     inventoryItemUnitComboBox.getSelectionModel().clearSelection();
                     inventoryItemStockQuantityTextField.clear();
@@ -472,7 +510,7 @@ public class InventoryManagerController implements Initializable {
     public void addInventoryItem()
     {
         //Checking if all field values are filled by the user
-        if (inventoryItemNameTextField.getText().isEmpty() || inventoryItemUnitComboBox.getSelectionModel().getSelectedItem() == null || inventoryItemPurchaseCostTextField.getText().isEmpty() || inventoryItemStockQuantityTextField.getText().isEmpty())
+        if (inventoryItemNameComboBox.getSelectionModel().getSelectedItem().toString().isEmpty() || inventoryItemUnitComboBox.getSelectionModel().getSelectedItem() == null || inventoryItemPurchaseCostTextField.getText().isEmpty() || inventoryItemStockQuantityTextField.getText().isEmpty())
         {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
@@ -483,9 +521,9 @@ public class InventoryManagerController implements Initializable {
         }
 
         // Assuming you have fields for the new item's details such as name, price, unit, and quantity
-        String newName = inventoryItemNameTextField.getText();
+        String newName = inventoryItemNameComboBox.getSelectionModel().getSelectedItem();
         Double newPrice = Double.valueOf(inventoryItemPurchaseCostTextField.getText());
-        String newUnit = (String) inventoryItemUnitComboBox.getSelectionModel().getSelectedItem();
+        String newUnit =  inventoryItemUnitComboBox.getSelectionModel().getSelectedItem();
         Double newQuantity = Double.valueOf(inventoryItemStockQuantityTextField.getText());
 
         // Create a new Inventory object with the provided details
@@ -496,13 +534,19 @@ public class InventoryManagerController implements Initializable {
             if (daoimpl.addInventoryItem(newItem))
             {
                 // If successful, clear the input fields and refresh the table
-                inventoryItemNameTextField.clear();
+                inventoryItemNameComboBox.getSelectionModel().clearSelection();
                 inventoryItemPurchaseCostTextField.clear();
                 inventoryItemUnitComboBox.getSelectionModel().clearSelection();
                 inventoryItemStockQuantityTextField.clear();
 
                 // Refresh the table with updated items
                 populateTable();
+
+                //Show success alert
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Inventory Item added successfully", ButtonType.OK);
+                alert.setHeaderText("Item Added");
+                alert.setTitle("Success!");
+                alert.showAndWait();
             }
             else
             {
@@ -520,7 +564,6 @@ public class InventoryManagerController implements Initializable {
             alert.showAndWait();
         }
     }
-
 
 
 }
