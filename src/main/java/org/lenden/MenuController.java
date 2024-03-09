@@ -66,6 +66,7 @@ public class MenuController implements Initializable
 
         updateMenuItemButton.setTooltip(new javafx.scene.control.Tooltip("Click to Update, after adding new details"));
 
+
         //--------------------------------------------------------------------------------------------------------------
         //Displaying Categories
         ObservableList<String> categories = null;
@@ -100,38 +101,30 @@ public class MenuController implements Initializable
         //Populating availability drop down menu (ADD ITEM)
         itemAvailabilityComboBox.setItems(FXCollections.observableArrayList("Available","NOT Available"));
 
-        //Populating category drop down menu (UPDATE ITEM)
-        itemCategoryComboBox.setItems(categories);
-
-        //Populating availability drop down menu (UPDATE ITEM)
-        itemAvailabilityComboBox.setItems(FXCollections.observableArrayList("Available","NOT Available"));
-
-        addNumericInputFieldValidation(itemPriceTextField);
+        //Adding Input Validation
         addNumericInputFieldValidation(itemPriceTextField);
 
-        addAlphabeticInputFieldValidation(itemNameTextField);
+        //Adding Input Validation
         addAlphabeticInputFieldValidation(itemNameTextField);
 
 
+        /*
         //Binding keyboard keys with respective function
         MouseEvent fakeEvent = new MouseEvent(MouseEvent.MOUSE_CLICKED, 0, 0, 0, 0, MouseButton.PRIMARY, 1, false, false, false, false, false, false, false, false, false, false, null);
 
         menuTable.setOnKeyPressed(event ->
         {
-            /*
-
             if(event.getCode()==KeyCode.BACK_SPACE || event.getCode()==KeyCode.DELETE) // DELETE KEY FOR DELETING ITEM
             {
                 deleteItem(fakeEvent);
             }
 
-             */
             if(event.getCode() == KeyCode.ENTER) //ENTER KEY FOR SELECTING A ITEM
             {
                 populateAddUpdateDeleteForm(fakeEvent);
             }
         });
-
+        */
 
     }
 

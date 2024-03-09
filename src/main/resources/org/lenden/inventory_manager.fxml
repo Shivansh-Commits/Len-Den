@@ -69,14 +69,7 @@
                                           <Font name="System Bold" size="13.0" />
                                        </font>
                                     </Label>
-                                    <TextField fx:id="inventoryItemNameTextField" minHeight="35.0" minWidth="80.0" prefHeight="35.0" prefWidth="215.0" promptText="Name *" stylesheets="@../../menuStyleSheet.css">
-                                       <cursor>
-                                          <Cursor fx:constant="TEXT" />
-                                       </cursor>
-                                       <font>
-                                          <Font name="Segoe UI Black" size="12.5" />
-                                       </font>
-                                    </TextField>
+                                    <ComboBox fx:id="inventoryItemNameComboBox" editable="true" prefHeight="38.0" prefWidth="215.0" promptText="Name *" />
                                  </children>
                               </VBox>
                               <VBox spacing="10.0">
