@@ -604,9 +604,6 @@ public class TableBillingController implements Initializable {
                 String variantName = variantNameAndPrice[0];
                 Double variantPrice = Double.parseDouble(variantNameAndPrice[1]);
 
-                // Process selected variant here
-                System.out.println("Selected Variant: " + variantName + ", Price: " + variantPrice);
-
                 selectedFoodItem.setVariant(new HashMap<String,Double>(){{put(variantName,variantPrice);}});
                 selectedFoodItem.setFoodItemPrice(variantPrice);
                 selectedFoodItem.setFoodItemName(selectedFoodItem.getFoodItemName()+" (" + variantName + ")");

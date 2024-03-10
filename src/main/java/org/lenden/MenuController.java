@@ -172,12 +172,16 @@ public class MenuController implements Initializable
         TextField variant = new TextField();
         variant.setId("variant"+variantCount);
         variant.setPrefSize(309,38);
+        variant.setMinHeight(38);
         variant.setPromptText("Variants");
+        addAlphabeticInputFieldValidation(variant);
 
         TextField variantPrice = new TextField();
         variantPrice.setId("variantPrice"+variantCount);
         variantPrice.setPrefSize(208,38);
+        variantPrice.setMinHeight(38);
         variantPrice.setPromptText("Variant Price");
+        addNumericInputFieldValidation(variantPrice);
 
         Button removeVariantButton = new Button();
         removeVariantButton.setId("removeVariant"+variantCount);
@@ -188,6 +192,7 @@ public class MenuController implements Initializable
 
         HBox hBox = new HBox();
         hBox.setId("variantHbox"+variantCount);
+        hBox.setMinHeight(40);
         hBox.getChildren().addAll(variant,variantPrice,removeVariantButton);
         hBox.setSpacing(10);
 
@@ -768,14 +773,18 @@ public class MenuController implements Initializable
                     TextField variantName = new TextField();
                     variantName.setId("variant"+variantCount);
                     variantName.setPrefSize(309,38);
+                    variantName.setMinHeight(38);
                     variantName.setPromptText("Variants");
                     variantName.setText(variant.getKey());
+                    addAlphabeticInputFieldValidation(variantName);
 
                     TextField variantPrice = new TextField();
                     variantPrice.setId("variantPrice"+variantCount);
                     variantPrice.setPrefSize(208,38);
+                    variantPrice.setMinHeight(38);
                     variantPrice.setPromptText("Variant Price");
                     variantPrice.setText(String.valueOf(variant.getValue()));
+                    addNumericInputFieldValidation(variantPrice);
 
                     Button removeVariantButton = new Button();
                     removeVariantButton.setId("removeVariant"+variantCount);
@@ -786,6 +795,7 @@ public class MenuController implements Initializable
 
                     HBox hBox = new HBox();
                     hBox.setId("variantHbox"+variantCount);
+                    hBox.setMinHeight(38);
                     hBox.getChildren().addAll(variantName,variantPrice,removeVariantButton);
                     hBox.setSpacing(10);
 
@@ -846,6 +856,17 @@ public class MenuController implements Initializable
             return;
         }
 
+        //Checking if user has selected any item to be updated or not
+        Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
+        if(selectedItem == null)
+        {
+            Alert updateAlert = new Alert(Alert.AlertType.WARNING, "Select an item from Menu to Update", ButtonType.OK);
+            updateAlert.setHeaderText("No item selected to update.");
+            updateAlert.setTitle("Warning!");
+            updateAlert.showAndWait();
+
+            return;
+        }
 
         Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         updateAlert.setHeaderText("Item will be Updated");
@@ -854,9 +875,6 @@ public class MenuController implements Initializable
 
         if(updateAlert.getResult() == ButtonType.YES)
         {
-            Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
-            if(selectedItem == null)
-                return;
 
             int id = Integer.parseInt(itemId.getText());
             String itemName = itemNameTextField.getText();

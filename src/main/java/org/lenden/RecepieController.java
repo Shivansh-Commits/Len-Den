@@ -13,9 +13,6 @@ import java.util.ResourceBundle;
 
 public class RecepieController implements Initializable {
 
-    @FXML
-    ComboBox<String> comboBox;
-
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
