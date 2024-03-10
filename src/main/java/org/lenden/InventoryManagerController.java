@@ -247,7 +247,6 @@ public class InventoryManagerController implements Initializable {
 
     public void populateTable()
     {
-
         try
         {
             inventoryTableItems = daoimpl.fetchInventoryItems();
@@ -272,6 +271,7 @@ public class InventoryManagerController implements Initializable {
         nameCol.setCellValueFactory(new PropertyValueFactory<>("inventoryItemName"));
         nameCol.setPrefWidth(150);
         nameCol.setStyle("-fx-alignment: CENTER;");
+
         /*
         nameCol.setCellFactory(column -> {
             return new TableCell<Inventory, String>() {
@@ -362,6 +362,7 @@ public class InventoryManagerController implements Initializable {
         unitCol.setCellValueFactory(new PropertyValueFactory<>("inventoryItemUnit"));
         unitCol.setPrefWidth(120);
         unitCol.setStyle("-fx-alignment: CENTER;");
+
         /*
         unitCol.setCellFactory(column -> {
             return new TableCell<Inventory, String>() {
@@ -413,6 +414,7 @@ public class InventoryManagerController implements Initializable {
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("inventoryItemQuantity"));
         quantityCol.setPrefWidth(150);
         quantityCol.setStyle("-fx-alignment: CENTER;");
+
         /*
         quantityCol.setCellFactory(column -> {
             return new TableCell<Inventory, Double>() {
@@ -478,6 +480,17 @@ public class InventoryManagerController implements Initializable {
                     imageView.setFitWidth(16); // Adjust the width as needed
                     imageView.setFitHeight(16);
                     viewPurchases.setGraphic(imageView);
+                    viewPurchases.setOnAction(event -> {
+
+                        try {
+
+                            Inventory selectedItem = getTableView().getItems().get(getIndex());
+                            viewPurchasesTablePopup(selectedItem.getId());
+
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 
 
                     Button deleteButton = new Button("Delete");
@@ -490,10 +503,23 @@ public class InventoryManagerController implements Initializable {
                     imageView1.setFitWidth(16); // Adjust the width as needed
                     imageView1.setFitHeight(16);
                     deleteButton.setGraphic(imageView1);
+                    deleteButton.setOnAction(event -> {
+
+                        Inventory selectedItem = getTableView().getItems().get(getIndex());
+
+                        //Database Operation
+                        deleteInventoryItem(selectedItem);
+
+                        //Remove deletes item from list
+                        inventoryTableItems.remove(selectedItem);
+
+                        //Refresh table
+                        inventoryTable.refresh();
+                    });
 
 
-                    {
-                        /*
+
+                    /*
                         updateButton.getStyleClass().add("update-button");
                         updateButton.setTooltip(new javafx.scene.control.Tooltip("Update the Inventory Item Details"));
                         updateButton.setOnAction(event ->
@@ -523,26 +549,6 @@ public class InventoryManagerController implements Initializable {
                         });
                          */
 
-
-                        deleteButton.setOnAction(event -> {
-                            Inventory selectedItem = getTableView().getItems().get(getIndex());
-
-                            deleteInventoryItem(selectedItem);
-
-                        });
-
-                        viewPurchases.setOnAction(event -> {
-
-                            try {
-
-                                Inventory selectedItem = getTableView().getItems().get(getIndex());
-                                showPurchasesTablePopup(selectedItem.getId());
-
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
-                    }
 
                     // Set buttons into cell
                     HBox hBox = new HBox();
@@ -589,9 +595,6 @@ public class InventoryManagerController implements Initializable {
                     inventoryItemUnitComboBox.getSelectionModel().clearSelection();
                     inventoryItemStockQuantityTextField.clear();
 
-                    //SHOW TABLE WITH UPDATED ITEMS
-                    populateTable();
-
                 }
             }
             catch (Exception ex)
@@ -633,6 +636,7 @@ public class InventoryManagerController implements Initializable {
             {
                 // If successful, clear the input fields and refresh the table
                 newInventoryItemNameTextField.clear();
+                newInventoryItemUnitComboBox.getSelectionModel().clearSelection();
 
                 // Refresh the table with updated items
                 populateTable();
@@ -743,18 +747,6 @@ public class InventoryManagerController implements Initializable {
                         alert.setTitle("Alert!");
                         alert.showAndWait();
                     }
-                    else
-                    {
-                        //Updating table
-                        populateTable();
-
-                        //Update inventory item combobox values
-                        inventoryItemUnitComboBox.getSelectionModel().clearSelection();
-                        ObservableList<String> inventoryItemUnits = daoimpl.fetchUnits();
-                        inventoryItemUnitComboBox.setItems(inventoryItemUnits);
-                        makeComboBoxSearchable(inventoryItemUnitComboBox, inventoryItemUnits);
-
-                    }
                 }
                 catch (Exception ex)
                 {
@@ -767,7 +759,40 @@ public class InventoryManagerController implements Initializable {
         }
     }
 
-    private void showPurchasesTablePopup(int inventoryItemId) throws SQLException {
+    public void deleteInventoryPurchaseItem(InventoryPurchase inventoryItem)
+    {
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
+        deleteAlert.setHeaderText("Item will be deleted");
+        deleteAlert.setTitle("Alert!");
+        deleteAlert.showAndWait();
+
+        if(deleteAlert.getResult() == ButtonType.YES)
+        {
+
+            if(inventoryItem == null)
+                return;
+
+            try {
+                if (!daoimpl.deleteInventoryPurchaseItem(inventoryItem.getPurchaseId()))
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could not delete Purchase. If this error keeps occurring contact customer support.", ButtonType.OK);
+                    alert.setHeaderText("Item not deleted!");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
+                }
+            }
+            catch (Exception ex)
+            {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "Database delete operation Exception - "+ex.getMessage(), ButtonType.OK);
+                alert.setHeaderText("Failed");
+                alert.setTitle("Error!");
+                alert.showAndWait();
+            }
+        }
+
+    }
+
+    private void viewPurchasesTablePopup(int inventoryItemId) throws SQLException {
         // Create a new stage for the popup window
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
@@ -775,23 +800,28 @@ public class InventoryManagerController implements Initializable {
 
 
         // Create a table
-        TableView<InventoryPurchase> table = new TableView<>();
+        TableView<InventoryPurchase> purchaseTable = new TableView<>();
+        final ObservableList<InventoryPurchase> purchaseItems = daoimpl.fetchInventoryPurchaseItems(inventoryItemId);
 
         TableColumn<InventoryPurchase, Object> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("purchaseId"));
+        idCol.setPrefWidth(50);
         idCol.setStyle("-fx-alignment: CENTER;");
 
         TableColumn<InventoryPurchase, Object> dateCol = new TableColumn<>("Purchase Date");
         dateCol.setCellValueFactory(new PropertyValueFactory<>("purchaseDate"));
         dateCol.setStyle("-fx-alignment: CENTER;");
+        dateCol.setPrefWidth(100);
 
         TableColumn<InventoryPurchase, Object> nameCol = new TableColumn<>("Raw Material");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("inventoryItemName"));
         nameCol.setStyle("-fx-alignment: CENTER;");
+        nameCol.setPrefWidth(150);
 
         TableColumn<InventoryPurchase, Object> purchaseCostCol = new TableColumn<>("Purchase Cost");
         purchaseCostCol.setCellValueFactory(new PropertyValueFactory<>("inventoryItemPrice"));
         purchaseCostCol.setStyle("-fx-alignment: CENTER;");
+        purchaseCostCol.setPrefWidth(120);
         purchaseCostCol.setCellFactory(column -> {
             return new TableCell<InventoryPurchase, Object>()
             {
@@ -824,6 +854,7 @@ public class InventoryManagerController implements Initializable {
         TableColumn<InventoryPurchase, Object> quantityCol = new TableColumn<>("Quantity");
         quantityCol.setCellValueFactory(new PropertyValueFactory<>("inventoryItemQuantity"));
         quantityCol.setStyle("-fx-alignment: CENTER;");
+        quantityCol.setPrefWidth(120);
         quantityCol.setCellFactory(column -> {
             return new TableCell<InventoryPurchase, Object>()
             {
@@ -880,9 +911,8 @@ public class InventoryManagerController implements Initializable {
                     updateButton.setGraphic(imageView);
                     updateButton.getStyleClass().add("update-button");
                     updateButton.setTooltip(new javafx.scene.control.Tooltip("Update the Inventory Item Details"));
-
-                        updateButton.setOnAction(event ->
-                        {
+                    updateButton.setOnAction(event ->
+                    {
                             InventoryPurchase selectedItem = getTableView().getItems().get(getIndex());
                             TableRow<InventoryPurchase> row = getTableRow();
                             if (row != null) {
@@ -903,25 +933,46 @@ public class InventoryManagerController implements Initializable {
                             }
                         });
 
+                    Button deleteButton = new Button("Delete");
+                    deleteButton.setCursor(Cursor.HAND);
+                    deleteButton.setPrefWidth(100);
+                    deleteButton.getStyleClass().add("delete-button");
+                    deleteButton.setTooltip(new Tooltip("Delete the Inventory Item"));
+                    Image delete_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/delete_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                    ImageView imageView1 = new ImageView(delete_symbol);
+                    imageView1.setFitWidth(16); // Adjust the width as needed
+                    imageView1.setFitHeight(16);
+                    deleteButton.setGraphic(imageView1);
+                    deleteButton.setOnAction(event -> {
+
+                        InventoryPurchase selectedItem = getTableView().getItems().get(getIndex());
+
+                        deleteInventoryPurchaseItem(selectedItem);
+
+                        purchaseItems.remove(selectedItem);
+
+                        purchaseTable.refresh();
+
+                    });
+
 
 
                     // Set buttons into cell
                     HBox hBox = new HBox();
                     hBox.setSpacing(10);
                     hBox.setPadding(new Insets(10,10,10,10));
-                    hBox.getChildren().addAll(updateButton);
+                    hBox.getChildren().addAll(updateButton,deleteButton);
                     setGraphic(hBox);
                 }
             }
         });
 
-        table.getColumns().addAll(idCol,dateCol,nameCol,purchaseCostCol,quantityCol,unitCol,buttonCol);
-        ObservableList<InventoryPurchase> items = daoimpl.fetchInventoryPurchaseItems(inventoryItemId);
-        table.setItems(items);
+        purchaseTable.getColumns().addAll(idCol,dateCol,nameCol,purchaseCostCol,quantityCol,unitCol,buttonCol);
+        purchaseTable.setItems(purchaseItems);
 
         // Add the table to the popup window
         StackPane root = new StackPane();
-        root.getChildren().add(table);
+        root.getChildren().add(purchaseTable);
         Scene scene = new Scene(root, 900, 600);
         scene.getStylesheets().add("settingsStyleSheet.css");
         popupStage.setScene(scene);
