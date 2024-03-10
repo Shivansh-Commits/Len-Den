@@ -21,7 +21,7 @@
             <Insets />
          </BorderPane.margin>
          <bottom>
-            <ScrollPane fitToWidth="true" maxHeight="331.0" prefHeight="331.0" prefWidth="1365.0" style="-fx-border-color: white;" BorderPane.alignment="CENTER">
+            <ScrollPane fitToWidth="true" maxHeight="368.0" prefHeight="368.0" prefWidth="1365.0" style="-fx-border-color: white;" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="10.0" top="10.0" />
                </BorderPane.margin>
@@ -30,9 +30,9 @@
                      <children>
                         <BorderPane maxWidth="1.7976931348623157E308">
                            <center>
-                              <TextField fx:id="searchTextField" prefHeight="30.0" prefWidth="1345.0" promptText="Search Inventory Item " style="-fx-border-color: grey; -fx-border-radius: 5px; -fx-border-width: 0.5;" BorderPane.alignment="CENTER">
+                              <TextField fx:id="searchTextField" prefHeight="40.0" prefWidth="1345.0" promptText="Search Inventory Item " style="-fx-border-color: grey; -fx-border-radius: 5px; -fx-border-width: 0.5; -fx-background-color: white;" BorderPane.alignment="CENTER">
                                  <font>
-                                    <Font name="System Bold" size="15.0" />
+                                    <Font name="System Bold" size="16.0" />
                                  </font>
                               </TextField>
                            </center>
@@ -144,7 +144,7 @@
                                                       <Label fx:id="inventoryItemUnitInfoLabel" text="ⓘ" />
                                                    </children>
                                                 </HBox>
-                                                <ComboBox fx:id="inventoryItemUnitComboBox" editable="true" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="215.0" promptText="Unit *" stylesheets="@../../menuStyleSheet.css">
+                                                <ComboBox fx:id="inventoryItemUnitComboBox" maxWidth="1.7976931348623157E308" minHeight="35.0" minWidth="80.0" prefHeight="38.0" prefWidth="215.0" promptText="Unit *" stylesheets="@../../menuStyleSheet.css">
                                                    <cursor>
                                                       <Cursor fx:constant="HAND" />
                                                    </cursor>
@@ -259,7 +259,7 @@
             </ScrollPane>
          </bottom>
          <center>
-            <TableView fx:id="inventoryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="436.0" prefWidth="1365.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
+            <TableView fx:id="inventoryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="407.0" prefWidth="1365.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn prefWidth="200.0" text="Raw Material" />
                   <TableColumn prefWidth="173.0" text="Avg Rate/Unit" />

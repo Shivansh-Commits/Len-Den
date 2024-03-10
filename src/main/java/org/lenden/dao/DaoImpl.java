@@ -1531,6 +1531,28 @@ public class DaoImpl
             throw e;
         }
     }
+
+    public boolean deleteInventoryPurchaseItem(int purchaseid) throws SQLException
+    {
+
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("DELETE FROM %s.inventorypurchases WHERE purchaseid = ? ", tenantId));
+            stmt.setInt(1,purchaseid);
+
+            int rowsDeleted = stmt.executeUpdate();
+
+            return (rowsDeleted > 0);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
     public ObservableList<String> fetchUnits() throws SQLException
     {
         PreparedStatement stmt;
