@@ -16,29 +16,39 @@
 
 <BorderPane prefHeight="806.0" prefWidth="1385.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.InventoryManagerController">
    <center>
-      <VBox spacing="10.0" BorderPane.alignment="CENTER">
-         <children>
-            <TableView fx:id="inventoryTable" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="407.0" prefWidth="1365.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css">
+      <BorderPane BorderPane.alignment="CENTER">
+         <top>
+            <TableView fx:id="inventoryTable" prefHeight="407.0" prefWidth="1365.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
                <columns>
                   <TableColumn prefWidth="200.0" text="Raw Material" />
                   <TableColumn prefWidth="173.0" text="Avg Rate/Unit" />
                   <TableColumn minWidth="0.0" prefWidth="148.5" text="Units" />
                   <TableColumn minWidth="0.0" prefWidth="160.5" text="Quantity" />
                </columns>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
+               </BorderPane.margin>
             </TableView>
-            <ScrollPane fitToWidth="true" maxHeight="368.0" prefHeight="368.0" prefWidth="1365.0" style="-fx-border-color: white;">
+         </top>
+         <center>
+            <BorderPane maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+               <center>
+                  <TextField fx:id="searchTextField" minHeight="45.0" prefHeight="40.0" prefWidth="1365.0" promptText="Search Inventory Item " style="-fx-border-color: grey; -fx-border-radius: 5px; -fx-border-width: 2; -fx-background-color: white;" BorderPane.alignment="CENTER">
+                     <font>
+                        <Font name="Symbol" size="16.0" />
+                     </font>
+                  </TextField>
+               </center>
+               <BorderPane.margin>
+                  <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
+               </BorderPane.margin>
+            </BorderPane>
+         </center>
+         <bottom>
+            <ScrollPane fitToWidth="true" maxHeight="368.0" prefHeight="368.0" prefWidth="1365.0" style="-fx-border-color: white;" BorderPane.alignment="CENTER">
                <content>
                   <VBox spacing="10.0" style="-fx-border-color: white;">
                      <children>
-                        <BorderPane maxWidth="1.7976931348623157E308">
-                           <center>
-                              <TextField fx:id="searchTextField" prefHeight="38.0" prefWidth="1345.0" promptText="Search Inventory Item " style="-fx-border-color: grey; -fx-border-radius: 5px; -fx-border-width: 0.5; -fx-background-color: white;" BorderPane.alignment="CENTER">
-                                 <font>
-                                    <Font name="System Bold" size="16.0" />
-                                 </font>
-                              </TextField>
-                           </center>
-                        </BorderPane>
                         <BorderPane maxWidth="1.7976931348623157E308" minWidth="800.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;">
                            <top>
                               <BorderPane BorderPane.alignment="CENTER">
@@ -46,7 +56,7 @@
                                     <Insets bottom="10.0" />
                                  </BorderPane.margin>
                                  <center>
-                                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: black;">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="42.0" spacing="10.0" style="-fx-background-color: black;">
                                        <children>
                                           <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" text="Add Inventory Purchase" textFill="WHITE">
                                              <font>
@@ -183,7 +193,7 @@
                                     <Insets bottom="10.0" />
                                  </BorderPane.margin>
                                  <center>
-                                    <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-background-color: black;">
+                                    <HBox alignment="CENTER_LEFT" prefHeight="42.0" spacing="10.0" style="-fx-background-color: black;">
                                        <children>
                                           <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" text="Add new item Purchase" textFill="WHITE">
                                              <font>
@@ -258,11 +268,11 @@
                      </children>
                   </VBox>
                </content>
+               <BorderPane.margin>
+                  <Insets left="10.0" right="10.0" top="5.0" />
+               </BorderPane.margin>
             </ScrollPane>
-         </children>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-      </VBox>
+         </bottom>
+      </BorderPane>
    </center>
 </BorderPane>
