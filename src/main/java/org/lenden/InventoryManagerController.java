@@ -553,7 +553,7 @@ public class InventoryManagerController implements Initializable {
                     // Set buttons into cell
                     HBox hBox = new HBox();
                     hBox.setSpacing(10);
-                    hBox.setPadding(new Insets(10,10,10,10));
+                    hBox.setPadding(new Insets(5,10,5,10));
                     hBox.getChildren().addAll(viewPurchases, deleteButton);
                     setGraphic(hBox);
                 }
@@ -960,7 +960,7 @@ public class InventoryManagerController implements Initializable {
                     // Set buttons into cell
                     HBox hBox = new HBox();
                     hBox.setSpacing(10);
-                    hBox.setPadding(new Insets(10,10,10,10));
+                    hBox.setPadding(new Insets(5,10,5,10));
                     hBox.getChildren().addAll(updateButton,deleteButton);
                     setGraphic(hBox);
                 }

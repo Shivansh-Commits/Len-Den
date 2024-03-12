@@ -49,7 +49,7 @@
 }
 
 .delete-button {
-    -fx-background-color: #b96a6a;
+    -fx-background-color: #e08484;
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
@@ -141,6 +141,42 @@
     -fx-font-family : "Segoe UI Semibold";
     -fx-font-size : 16px;
 }
+
+.activate-tracking-button {
+    -fx-background-color: #80c975;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 5px;
+}
+
+.activate-tracking-button:hover {
+    -fx-background-color: #5b8c52;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 5px;
+}
+
+.deactivate-tracking-button {
+    -fx-background-color: #e08484;
+    -fx-border-color: white;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 2px;
+}
+
+.deactivate-tracking-button:hover {
+    -fx-background-color: #c03c3c;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: white;
+    -fx-font-size : 14px;
+}
+
 
 /*  CSS FOR SCROLL BARS */
 .scroll-bar:horizontal .track,

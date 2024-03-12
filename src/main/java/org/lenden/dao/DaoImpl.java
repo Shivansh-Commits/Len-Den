@@ -5,6 +5,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.lenden.model.*;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
@@ -103,6 +105,9 @@ public class DaoImpl
                 //Getting ID
                 menuItem.setId(rs.getInt("id"));
 
+                //Getting Category
+                menuItem.setFoodItemCategory("fooditemcategory");
+
                 //Getting Name
                 menuItem.setFoodItemName(rs.getString("fooditemname"));
 
@@ -151,6 +156,33 @@ public class DaoImpl
         {
             e.printStackTrace();
             throw e;
+        }
+
+        return null;
+    }
+
+    public ObservableList<Menu> fetchAllCategoryItems() throws Exception
+    {
+        ObservableList<Menu> menuItemList = FXCollections.observableArrayList();
+        try
+        {
+            ObservableList<String> categories = FXCollections.observableArrayList();
+            categories = fetchCategories();
+
+            for(String category : categories)
+            {
+                menuItemList.addAll(fetchCategoryItems(category));
+            }
+
+            return menuItemList;
+
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
         }
 
         return null;
@@ -1585,17 +1617,17 @@ public class DaoImpl
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("SELECT DISTINCT name FROM %s.inventory", tenantId));
+            stmt  = c.prepareStatement(String.format("SELECT DISTINCT name,id FROM %s.inventory", tenantId));
             ResultSet rs = stmt.executeQuery();
-            ObservableList<String> units = FXCollections.observableArrayList();
+            ObservableList<String> names = FXCollections.observableArrayList();
             while(rs.next())
             {
-                units.add(rs.getString("name"));
+                names.add(rs.getString("name")+" "+"["+rs.getInt("id")+"]");
             }
 
             stmt.close();
 
-            return units;
+            return names;
         }
         catch(SQLException e)
         {

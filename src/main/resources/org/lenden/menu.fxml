@@ -67,7 +67,7 @@
                                        <center>
                                           <HBox alignment="CENTER_LEFT" prefHeight="42.0" prefWidth="1200.0" spacing="10.0" style="-fx-background-color: black;">
                                              <children>
-                                                <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" text="Add / Update / Delete" textFill="WHITE">
+                                                <Label maxWidth="1.7976931348623157E308" minWidth="80.0" prefHeight="35.0" text="Add / Update Menu Items" textFill="WHITE">
                                                    <font>
                                                       <Font size="20.0" />
                                                    </font>

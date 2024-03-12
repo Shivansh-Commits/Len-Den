@@ -5,7 +5,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 import java.io.IOException;
@@ -65,8 +64,8 @@ public class SettingsController implements Initializable {
         mainPane.setCenter(home);
     }
 
-    public void openRecepieManager(MouseEvent ignoredEvent) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("recepie_manager.fxml"));
+    public void openRecipeManager(MouseEvent ignoredEvent) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("recipe_manager.fxml"));
         BorderPane home = loader.load();
 
         Scene scene = AreaSettingsButton.getScene();
