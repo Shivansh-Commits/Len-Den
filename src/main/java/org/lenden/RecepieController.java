@@ -43,6 +43,8 @@ public class RecepieController implements Initializable {
     @FXML
     VBox rawMaterialVbox;
     @FXML
+    Label recipeIdLabel;
+    @FXML
     Button addRawMaterialButton;
 
     ObservableList<Menu> menuTableItems =  FXCollections.observableArrayList();
@@ -371,7 +373,64 @@ public class RecepieController implements Initializable {
         removeVariantButton.setText("X");
         removeVariantButton.getStyleClass().add("delete-button");
         removeVariantButton.setCursor(Cursor.HAND);
+        removeVariantButton.setOnAction(e -> {
 
+            if(rawMaterialCount < 2)
+            {
+                Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete this Recipe?", ButtonType.YES,ButtonType.NO);
+                alert.setHeaderText("Recipe will be deleted");
+                alert.setTitle("Alert!");
+                alert.showAndWait();
+
+                if(alert.getResult() == ButtonType.YES)
+                {
+                    //DELETE FROM UI
+                    rawMaterialCount--;
+
+                    Node parent = removeVariantButton.getParent();
+
+                    if (parent instanceof HBox) {
+                        HBox hBoxToRemove = (HBox) parent;
+                        rawMaterialVbox.getChildren().remove(hBoxToRemove);
+                    }
+
+                    //DELETE FROM DB
+                    try
+                    {
+                        if( !daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) )
+                        {
+                            Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.",ButtonType.OK);
+                            delete_alert.setHeaderText("Could not delete Recipe");
+                            delete_alert.setTitle("Alert!");
+                            delete_alert.showAndWait();
+                        }
+                    }
+                    catch (SQLException ex)
+                    {
+                        Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.Exception : "+ ex.getMessage(),ButtonType.OK);
+                        delete_alert.setHeaderText("Could not delete Recipe.");
+                        delete_alert.setTitle("Alert!");
+                        delete_alert.showAndWait();
+                        throw new RuntimeException(ex);
+                    }
+
+                    recipeIdLabel.setText("");
+                }
+            }
+            else
+            {
+
+                //DELETE FROM UI   (WIll be updated in DB on click of save Recipe Button)
+                rawMaterialCount--;
+
+                Node parent = removeVariantButton.getParent();
+
+                if (parent instanceof HBox) {
+                    HBox hBoxToRemove = (HBox) parent;
+                    rawMaterialVbox.getChildren().remove(hBoxToRemove);
+                }
+            }
+        });
 
         HBox hBox = new HBox();
         hBox.setId("rawMaterialHbox"+rawMaterialCount);
@@ -379,25 +438,14 @@ public class RecepieController implements Initializable {
         hBox.getChildren().addAll(rawMaterialNameComboBox,rawMaterialQuantity,rawMaterialUnitComboBox,removeVariantButton);
         hBox.setSpacing(10);
 
-        removeVariantButton.setOnAction(e -> {
 
-            rawMaterialCount--;
-
-            Node parent = removeVariantButton.getParent();
-
-            if (parent instanceof HBox) {
-                HBox hBoxToRemove = (HBox) parent;
-                rawMaterialVbox.getChildren().remove(hBoxToRemove);
-            }
-        });
 
         rawMaterialVbox.getChildren().add(rawMaterialVbox.getChildren().size() - 1, hBox); // Add above the button
 
         rawMaterialCount++;
 
     }
-    public void populateFieldsAndRecipeData(MouseEvent event)
-    {
+    public void populateFieldsAndRecipeData(MouseEvent event) throws SQLException {
 
         Menu selectedItem = menuItemsTable.getSelectionModel().getSelectedItem();
 
@@ -458,94 +506,172 @@ public class RecepieController implements Initializable {
         //Populating Category Field
         categoryLabel.setText(selectedItem.getFoodItemCategory());
 
-
-
-       /*
-        //Displaying Recipe Data
-        HashMap<String,Double> variantData = selectedItem.getVariantData();
-
-        //Clearing Previously Displayed data
-        clearPreviousItemsVariantData();
-
-        if(variantData != null)
+        //Populating Recipe items
+        Recipe recipe = new Recipe();
+        if(variantLabel.getText().equals("N/A"))
         {
+            recipe = daoimpl.fetchRecipe(selectedItem.getId(),"N/A");
+        }
+        else
+        {
+            recipe = daoimpl.fetchRecipe(selectedItem.getId(),variantLabel.getText());
+        }
 
-            //Clearing Previously Displayed data
-            clearPreviousItemsVariantData();
+        clearPreviousItemsVariantData(); //Clearing Previously Displayed data
+
+        if(recipe != null)
+        {
 
             rawMaterialVbox.setDisable(false);
 
-            rawMaterialCount=0;
+            rawMaterialCount = 0;
 
-            for(Map.Entry<String,Double> variant : variantData.entrySet())
+            recipeIdLabel.setText(String.valueOf(recipe.getId()));
+
+            for(Inventory rawMaterial : recipe.getRawMaterials())
             {
-                TextField variantName = new TextField();
-                variantName.setId("variant"+variantCount);
-                variantName.setPrefSize(309,38);
-                variantName.setMinHeight(38);
-                variantName.setPromptText("Variants");
-                variantName.setText(variant.getKey());
-                addAlphabeticInputFieldValidation(variantName);
+                ComboBox rawMaterialNameComboBox = new ComboBox();
+                rawMaterialNameComboBox.setValue(rawMaterial.getInventoryItemName());
+                rawMaterialNameComboBox.setId("rawMaterial"+rawMaterialCount);
+                rawMaterialNameComboBox.setPrefSize(215,38);
+                rawMaterialNameComboBox.setMinHeight(38);
+                rawMaterialNameComboBox.setPromptText("Raw Material *");
+                rawMaterialNameComboBox.setEditable(true);
+                addAlphabeticInputFieldValidation(rawMaterialNameComboBox);
+                //Populating unit combo box & making it searchable
+                final ObservableList<String> rawMaterialNamesList;
+                try
+                {
+                    rawMaterialNamesList = daoimpl.fetchInventoryItemsNames();
 
-                TextField variantPrice = new TextField();
-                variantPrice.setId("variantPrice"+variantCount);
-                variantPrice.setPrefSize(208,38);
-                variantPrice.setMinHeight(38);
-                variantPrice.setPromptText("Variant Price");
-                variantPrice.setText(String.valueOf(variant.getValue()));
-                addNumericInputFieldValidation(variantPrice);
+                    rawMaterialNameComboBox.setItems(rawMaterialNamesList);
+                    makeComboBoxSearchable(rawMaterialNameComboBox,rawMaterialNamesList);
+
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(e);
+                }
+
+                TextField rawMaterialQuantity = new TextField();
+                rawMaterialQuantity.setText( String.valueOf(rawMaterial.getInventoryItemQuantity()) );
+                rawMaterialQuantity.setId("rawMaterialQuantity"+rawMaterialCount);
+                rawMaterialQuantity.setPrefSize(215,38);
+                rawMaterialQuantity.setMinHeight(38);
+                rawMaterialQuantity.setPromptText("Quantity *");
+                addNumericInputFieldValidation(rawMaterialQuantity);
+
+                ComboBox rawMaterialUnitComboBox = new ComboBox();
+                rawMaterialUnitComboBox.setValue(rawMaterial.getInventoryItemUnit());
+                rawMaterialUnitComboBox.setId("rawMaterialUnit"+rawMaterialCount);
+                rawMaterialUnitComboBox.setPrefSize(215,38);
+                rawMaterialUnitComboBox.setMinHeight(38);
+                rawMaterialUnitComboBox.setPromptText("Unit *");
+                rawMaterialUnitComboBox.setEditable(true);
+                addAlphabeticInputFieldValidation(rawMaterialUnitComboBox);
+                //Populating unit combo box & making it searchable
+                final ObservableList<String> rawMaterialUnitsList;
+                try
+                {
+                    rawMaterialUnitsList = daoimpl.fetchUnits();
+
+                    rawMaterialUnitComboBox.setItems(rawMaterialUnitsList);
+                    makeComboBoxSearchable(rawMaterialUnitComboBox,rawMaterialUnitsList);
+
+                }
+                catch (SQLException e)
+                {
+                    throw new RuntimeException(e);
+                }
+
 
                 Button removeVariantButton = new Button();
-                removeVariantButton.setId("removeVariant"+variantCount);
+                removeVariantButton.setId("removeRawMaterial"+rawMaterialCount);
                 removeVariantButton.setText("X");
-                removeVariantButton.getStyleClass().add("remove-variant-button");
+                removeVariantButton.getStyleClass().add("delete-button");
                 removeVariantButton.setCursor(Cursor.HAND);
+                removeVariantButton.setOnAction(e -> {
+
+                    if(rawMaterialCount < 2)
+                    {
+                        Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete this Recipe?", ButtonType.YES,ButtonType.NO);
+                        alert.setHeaderText("Recipe will be deleted");
+                        alert.setTitle("Alert!");
+                        alert.showAndWait();
+
+                        if(alert.getResult() == ButtonType.YES)
+                        {
+                            //DELETE FROM UI
+                            rawMaterialCount--;
+
+                            Node parent = removeVariantButton.getParent();
+
+                            if (parent instanceof HBox) {
+                                HBox hBoxToRemove = (HBox) parent;
+                                rawMaterialVbox.getChildren().remove(hBoxToRemove);
+                            }
+
+                            //DELETE FROM DB
+                            try
+                            {
+                                if( !daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) )
+                                {
+                                    Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.",ButtonType.OK);
+                                    delete_alert.setHeaderText("Could not delete Recipe");
+                                    delete_alert.setTitle("Alert!");
+                                    delete_alert.showAndWait();
+                                }
+                            }
+                            catch (SQLException ex)
+                            {
+                                Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.Exception : "+ ex.getMessage(),ButtonType.OK);
+                                delete_alert.setHeaderText("Could not delete Recipe.");
+                                delete_alert.setTitle("Alert!");
+                                delete_alert.showAndWait();
+                                throw new RuntimeException(ex);
+                            }
+
+                            recipeIdLabel.setText("");
+                        }
+                    }
+                    else
+                    {
+
+                        //DELETE FROM UI   (WIll be updated in DB on click of save Recipe Button)
+                        rawMaterialCount--;
+
+                        Node parent = removeVariantButton.getParent();
+
+                        if (parent instanceof HBox) {
+                            HBox hBoxToRemove = (HBox) parent;
+                            rawMaterialVbox.getChildren().remove(hBoxToRemove);
+                        }
+                    }
+
+
+
+                });
 
 
                 HBox hBox = new HBox();
-                hBox.setId("variantHbox"+variantCount);
-                hBox.setMinHeight(38);
-                hBox.getChildren().addAll(variantName,variantPrice,removeVariantButton);
+                hBox.setId("rawMaterialHbox"+rawMaterialCount);
+                hBox.setMinHeight(40);
+                hBox.getChildren().addAll(rawMaterialNameComboBox,rawMaterialQuantity,rawMaterialUnitComboBox,removeVariantButton);
                 hBox.setSpacing(10);
 
-                removeVariantButton.setOnAction(e -> {
+                rawMaterialVbox.getChildren().add(rawMaterialVbox.getChildren().size() - 1, hBox); // Add above the button
 
-                    variantCount--;
+                rawMaterialCount++;
 
-                    Node parent = removeVariantButton.getParent();
-
-                    if (parent instanceof HBox) {
-                        HBox hBoxToRemove = (HBox) parent;
-                        variantVbox.getChildren().remove(hBoxToRemove);
-                    }
-                });
-
-                variantVbox.getChildren().add(variantVbox.getChildren().size() - 1, hBox); // Add above the button
-
-                variantCount++;
             }
 
         }
 
-        //Populating Price Field (if Variants dont Exist)
-        HBox variantHbox = (HBox) variantVbox.lookup("#variantHbox0");
-        if(variantHbox==null)
-        {
-            itemPriceTextField.setDisable(false);
-            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
-        }
-        else
-        {
-            itemPriceTextField.setDisable(true);
-            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
-        }
-
-        */
     }
 
     public void saveRecipe(MouseEvent event)
     {
-        //Checking if all field values are filled by the user (except price)
+        //Checking if all field values are filled by the user
         if (menuItemIdLabel.getText().equals("_ _") || menuItemIdLabel.getText().equals("_ _") || variantLabel.getText().isEmpty() || categoryLabel.getText().equals("_ _") )
         {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Select a Menu item to add Recipe", ButtonType.OK);
@@ -570,9 +696,9 @@ public class RecepieController implements Initializable {
                 TextField rawMaterialQuantityTextField = (TextField) hBox.lookup("#rawMaterialQuantity" + temp);
                 ComboBox rawMaterialUnitComboBox = (ComboBox) hBox.lookup("#rawMaterialUnit" + temp);
 
-                if( rawMaterialComboBox.getSelectionModel().isEmpty() || rawMaterialQuantityTextField.getText().isEmpty() || rawMaterialUnitComboBox.getSelectionModel().isEmpty())
+                if( rawMaterialComboBox.getValue() == null || rawMaterialComboBox.getSelectionModel().getSelectedItem() == "" || rawMaterialQuantityTextField.getText().isEmpty() || rawMaterialUnitComboBox.getSelectionModel().getSelectedItem() == "" || rawMaterialUnitComboBox.getValue() == null)
                 {
-                    Alert alert = new Alert(Alert.AlertType.WARNING, "Variants Name or Price fields cannot be empty", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.WARNING, "Raw material Name , Quantity or Unit fields cannot be empty", ButtonType.OK);
                     alert.setHeaderText("Can not Add item!");
                     alert.setTitle("Alert!");
                     alert.showAndWait();
@@ -584,7 +710,7 @@ public class RecepieController implements Initializable {
                    Inventory rawMaterial = new Inventory();
                    String rawMaterialName = rawMaterialComboBox.getSelectionModel().getSelectedItem().toString();
                    rawMaterial.setId( Integer.parseInt(rawMaterialName.split("\\[")[1].split("]")[0]));
-                   rawMaterial.setInventoryItemName(rawMaterialName.split("\\[")[0].trim());
+                   rawMaterial.setInventoryItemName(rawMaterialName);
                    rawMaterial.setInventoryItemQuantity(Double.parseDouble( rawMaterialQuantityTextField.getText() ));
                    rawMaterial.setInventoryItemUnit(rawMaterialUnitComboBox.getSelectionModel().getSelectedItem().toString());
 
@@ -602,6 +728,61 @@ public class RecepieController implements Initializable {
         recipe.setMenuItemId(Integer.parseInt( menuItemIdLabel.getText() ));
         recipe.setVariant(variantLabel.getText());
         recipe.setRawMaterials(rawMaterialData);
+
+        try
+        {
+            if(recipeIdLabel.getText()=="" || recipeIdLabel.getText().isEmpty())
+            {
+                if (daoimpl.addRecipe(recipe)) {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Recipe added Successfully", ButtonType.OK);
+                    alert.setHeaderText("Recipe Added");
+                    alert.setTitle("Success!");
+                    alert.showAndWait();
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be saved!", ButtonType.OK);
+                    alert.setHeaderText("Can not Add Recipe!");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
+                }
+            }
+            else
+            {
+                recipe.setId(Integer.parseInt( recipeIdLabel.getText()) );
+
+                if (daoimpl.updateRecipe(recipe))
+                {
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Recipe Updated Successfully", ButtonType.OK);
+                    alert.setHeaderText("Recipe Updated");
+                    alert.setTitle("Success!");
+                    alert.showAndWait();
+                }
+                else
+                {
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be Updated!", ButtonType.OK);
+                    alert.setHeaderText("Can not Update Recipe!");
+                    alert.setTitle("Alert!");
+                    alert.showAndWait();
+                }
+            }
+        }
+        catch(SQLException e)
+        {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Database operation exception : " + e.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Database Exception");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Exception occured : " + e.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Database Exception");
+            alert.setTitle("Alert!");
+            alert.showAndWait();
+
+
+        }
     }
 
     public void clearPreviousItemsVariantData()
@@ -612,6 +793,8 @@ public class RecepieController implements Initializable {
             HBox variantHbox = (HBox) rawMaterialVbox.lookup("#rawMaterialHbox"+i);
             rawMaterialVbox.getChildren().remove(variantHbox);
         }
+
+        recipeIdLabel.setText("");
 
         rawMaterialCount=0;
     }

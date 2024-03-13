@@ -25,10 +25,11 @@ public class LoginController
     private Button logInButton;
 
     static Tenants tenant = new Tenants();
+    DaoImpl daoimpl = new DaoImpl();
 
     @FXML
-    public void onLogIn(ActionEvent event) throws IOException
-    {
+    public void onLogIn(ActionEvent event) throws IOException, SQLException {
+
         tenant.setUsername(username.getText());
         tenant.setPassword(password.getText());
 
@@ -41,12 +42,12 @@ public class LoginController
             return;
         }
 
-        DaoImpl daoimpl = new DaoImpl();
 
-        try {
+        try
+        {
+
             if(daoimpl.login(tenant))
             {
-
                 //Fetching Subscription Info and Checking
                 Map.Entry<String, String> subscriptionDates = daoimpl.fetchSubscriptionInfo(tenant);
                 String startDate = subscriptionDates.getKey();
@@ -133,6 +134,7 @@ public class LoginController
     {
         return tenant;
     }
+
 
 
 }

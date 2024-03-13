@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Recipe
 {
+    int id;
     int menuItemId;
 
     String variant;
@@ -12,6 +13,14 @@ public class Recipe
 
 
     public Recipe() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getMenuItemId() {

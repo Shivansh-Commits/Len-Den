@@ -2,15 +2,17 @@ package org.lenden.model;
 
 public class Inventory {
 
-    private int id;
+    public int id;
 
-    private String inventoryItemName;
+    public String inventoryItemName;
 
-    private double inventoryItemRate;
+    public double inventoryItemRate;
 
-    private String inventoryItemUnit;
+    public String inventoryItemUnit;
 
-    private double inventoryItemQuantity;
+    public double inventoryItemQuantity;
+
+
 
     public Inventory(String newName, Double newRate, String newUnit, Double newQuantity)
     {
@@ -20,7 +22,14 @@ public class Inventory {
         this.inventoryItemQuantity = newQuantity;
     }
 
-    public Inventory() {}
+    public Inventory() {
+
+    }
+
+    @Override
+    public String toString() {
+        return this.inventoryItemName; // Display only the name in the ComboBox
+    }
 
     public int getId() {
         return id;

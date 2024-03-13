@@ -1,4 +1,5 @@
 module org.lenden {
+
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
@@ -13,4 +14,5 @@ module org.lenden {
     opens org.lenden to javafx.base, javafx.fxml;
 
     exports org.lenden;
+    exports org.lenden.model;
 }
