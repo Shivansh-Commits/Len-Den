@@ -269,11 +269,43 @@ public class MenuController implements Initializable
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying the price value in col, only if variant is not added
+        priceCol.setCellValueFactory(cellData -> {
+            Menu menuItem = cellData.getValue();
+            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
+                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
+            } else {
+                return new SimpleStringProperty("N/A");
+            }
+        });
 
         // Create a cell value factory for the Availability column
         TableColumn<Menu, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
         availCol.setPrefWidth(150);
+        // Set the background color of the "Availability" cell based on its content
+        availCol.setCellFactory(column -> new TableCell<Menu, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText("");
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("Available")) {
+                        // Set the background color of the cell to green if the food item is available
+                        setStyle("-fx-background-color: #c9f5c9;");
+                        setAlignment(Pos.CENTER);
+                    } else {
+                        // Set the background color of the cell to red if the food item is not available
+                        setStyle("-fx-background-color: #f5c9c9;");
+                        setAlignment(Pos.CENTER);
+                    }
+                }
+            }
+        });
 
         // Create a cell value factory for the Stock Quantity column
         TableColumn<Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
@@ -286,6 +318,19 @@ public class MenuController implements Initializable
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying variant data after formating
+        variantCol.setCellValueFactory(cellData -> {
+            Menu menuItem = cellData.getValue();
+            Map<String, Double> variantData = menuItem.getVariantData();
+            if (variantData != null && !variantData.isEmpty()) {
+                StringBuilder variants = new StringBuilder();
+                variantData.keySet().forEach(variant -> variants.append(variant).append(", "));
+                // Remove the trailing comma and space
+                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
+            } else {
+                return new SimpleStringProperty(" N/A");
+            }
+        });
 
         //Create col for Buttons
         TableColumn<Menu,Void> buttonCol = new TableColumn<>("");
@@ -334,54 +379,6 @@ public class MenuController implements Initializable
         menuTable.setItems(menuTableItems);
 
 
-        //Displaying variant data after formating
-        variantCol.setCellValueFactory(cellData -> {
-            Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
-            if (variantData != null && !variantData.isEmpty()) {
-                StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> variants.append(variant).append(", "));
-                // Remove the trailing comma and space
-                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
-            } else {
-                return new SimpleStringProperty(" N/A");
-            }
-        });
-
-
-        //Displaying the price value in col, only if variant is not added
-        priceCol.setCellValueFactory(cellData -> {
-            Menu menuItem = cellData.getValue();
-            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
-                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
-            } else {
-                return new SimpleStringProperty("N/A");
-            }
-        });
-
-
-        // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<Menu, String>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (item == null || empty) {
-                    setText("");
-                    setStyle("");
-                } else {
-                    setText(item);
-                    if (item.equals("Available")) {
-                        // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #c9f5c9;");
-                        setAlignment(Pos.CENTER);
-                    } else {
-                        // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #f5c9c9;");
-                        setAlignment(Pos.CENTER);
-                    }
-                }
-            }
-        });
     }
 
     public void displayCategoryItems(MouseEvent e)

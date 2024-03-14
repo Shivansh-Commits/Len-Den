@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SubscriptionInfoController">
+<BorderPane prefHeight="400.0" prefWidth="1222.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.SubscriptionInfoController">
    <bottom>
       <TilePane alignment="TOP_CENTER" orientation="VERTICAL" prefHeight="184.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>

@@ -149,6 +149,7 @@ TABLES -
         fooditemavaiability [boolean]
         stockquantity [integer]
         variants [text]
+        istracked[text]
 
     5)outletdetails
         outletname [text] (Primary Key)
