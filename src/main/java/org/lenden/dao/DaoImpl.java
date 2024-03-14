@@ -139,6 +139,9 @@ public class DaoImpl
                     throw e;
                 }
 
+                //Getting isInventoryTracked
+                menuItem.setIsInventoryTracked(rs.getString("isInventoryTracked"));
+
                 menuItemList.add(menuItem);
             }
 
@@ -757,7 +760,7 @@ public class DaoImpl
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability,stockquantity,variants) VALUES (?,?,?,?,?,?) ", tenantId));
+            stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability,stockquantity,variants,isinventorytracked) VALUES (?,?,?,?,?,?,OFF) ", tenantId));
             stmt.setString(1,item.getFoodItemName());
             stmt.setString(2,item.getFoodItemCategory());
             stmt.setDouble(3,item.getFoodItemPrice());
@@ -1758,6 +1761,77 @@ public class DaoImpl
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public boolean changeTrackingStatus(int id,String status) throws SQLException {
+        PreparedStatement stmt;
+
+        try (Connection c = ConnectionManager.getConnection()) {
+            stmt = c.prepareStatement(String.format("UPDATE %s.menu SET isinventorytracked = ? WHERE id = ?", tenantId));
+
+            stmt.setString(1, status);
+            stmt.setInt(2, id);
+
+
+            int rowsUpdated = stmt.executeUpdate();
+
+            return (rowsUpdated > 0);
+        }
+        catch (SQLException e)
+        {
+            e.getMessage();
+            throw e;
+        }
+    }
+
+    public boolean checkIfRecipeExists(int menuItemId,String variant) throws SQLException {
+
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            if(variant == null)
+            {
+                stmt = c.prepareStatement(String.format("SELECT id FROM %s.recipe WHERE menuitemid = ? ", tenantId));
+                stmt.setInt(1,menuItemId);
+                ResultSet rs = stmt.executeQuery();
+
+                if(rs.next())
+                {
+                    stmt.close();
+                    return true;
+                }
+                else
+                {
+                    stmt.close();
+                    return false;
+                }
+            }
+            else
+            {
+                stmt = c.prepareStatement(String.format("SELECT id FROM %s.recipe WHERE menuitemid = ? and variant = ?", tenantId));
+                stmt.setInt(1,menuItemId);
+                stmt.setString(2,variant);
+                ResultSet rs = stmt.executeQuery();
+
+                if(rs.next())
+                {
+                    stmt.close();
+                    return true;
+                }
+                else
+                {
+                    stmt.close();
+                    return false;
+                }
+            }
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
     }
 
 }

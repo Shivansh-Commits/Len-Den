@@ -165,7 +165,8 @@ public class RecepieController implements Initializable {
     }
 
 
-    public void displayAllMenuItems() throws Exception {
+    public void displayAllMenuItems() throws Exception
+    {
 
         try
         {
@@ -237,18 +238,19 @@ public class RecepieController implements Initializable {
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty(" N/A");
+                return new SimpleStringProperty("N/A");
             }
         });
 
 
 
         //Create col for Buttons
-        TableColumn<org.lenden.model.Menu,Void> buttonCol = new TableColumn<>("Raw Material Usage");
-        buttonCol.setCellFactory(param -> new TableCell<org.lenden.model.Menu, Void>()
+        TableColumn<org.lenden.model.Menu,String> isInventoryTrackedCol = new TableColumn<>("Inventory Tracking");
+        isInventoryTrackedCol.setCellValueFactory(new PropertyValueFactory<>("isInventoryTracked"));
+        isInventoryTrackedCol.setCellFactory(param -> new TableCell<Menu, String>()
         {
             @Override
-            protected void updateItem(Void item, boolean empty) {
+            protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty)
                 {
@@ -256,44 +258,138 @@ public class RecepieController implements Initializable {
                 }
                 else
                 {
-                    Button activateTrackingButton = new Button("Activate Tracking");
-                    activateTrackingButton.setCursor(Cursor.HAND);
-                    activateTrackingButton.setPrefWidth(170);
-                    activateTrackingButton.getStyleClass().add("activate-tracking-button");
-                    activateTrackingButton.setTooltip(new Tooltip("Activate raw material usage and automatically deduct from Inventory"));
-                    Image view_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_on_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
-                    ImageView imageView = new ImageView(view_symbol);
-                    imageView.setFitWidth(16); // Adjust the width as needed
-                    imageView.setFitHeight(16);
-                    activateTrackingButton.setGraphic(imageView);
-                    activateTrackingButton.setOnAction(event -> {
+                    Menu selectedItem = getTableView().getItems().get(getIndex());
 
-                    if(activateTrackingButton.getStyleClass().contains("activate-tracking-button"))
+                    Button inventoryTrackingButton = new Button();
+                    if(item.equals("ON"))
                     {
-                        activateTrackingButton.getStyleClass().remove("activate-tracking-button");
-                        activateTrackingButton.getStyleClass().add("deactivate-tracking-button");
+                        inventoryTrackingButton.setCursor(Cursor.HAND);
+                        inventoryTrackingButton.setId("inventoryTrackingButton"+selectedItem.getId());
+                        inventoryTrackingButton.setPrefWidth(170);
+                        inventoryTrackingButton.setText("Tracking ON");
+                        inventoryTrackingButton.getStyleClass().add("tracking-on-button");
+                        inventoryTrackingButton.setTooltip(new Tooltip("Activate raw material usage and automatically deduct from Inventory"));
+                        Image view_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_on_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                        ImageView imageView = new ImageView(view_symbol);
+                        imageView.setFitWidth(28); // Adjust the width as needed
+                        imageView.setFitHeight(28);
+                        inventoryTrackingButton.setGraphic(imageView);
+                    }
+                    else
+                    {
+                        inventoryTrackingButton.setCursor(Cursor.HAND);
+                        inventoryTrackingButton.setId("inventoryTrackingButton"+selectedItem.getId());
+                        inventoryTrackingButton.setPrefWidth(170);
+                        inventoryTrackingButton.setText("Tracking OFF");
+                        inventoryTrackingButton.getStyleClass().add("tracking-off-button");
+                        inventoryTrackingButton.setTooltip(new Tooltip("De-activate raw material usage and don't deduct from Inventory"));
+                        Image view_symbol = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_off_black_48pt_3x.png")).toExternalForm());
+                        ImageView imageView = new ImageView(view_symbol);
+                        imageView.setFitWidth(28); // Adjust the width as needed
+                        imageView.setFitHeight(28);
+                        inventoryTrackingButton.setGraphic(imageView);
+                    }
 
-                        activateTrackingButton.setText("Deactivate Tracking");
+                    inventoryTrackingButton.setOnAction(event -> {
 
-                        Image view_symbol1 = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_off_black_48pt_3x.png")).toExternalForm());
-                        ImageView imageView1 = new ImageView(view_symbol1);
-                        imageView1.setFitWidth(16); // Adjust the width as needed
-                        imageView1.setFitHeight(16);
-                        activateTrackingButton.setGraphic(imageView1);
+                    if(inventoryTrackingButton.getStyleClass().contains("tracking-off-button"))
+                    {
+                        try
+                        {
+                            //Checking if variants exists or not and IF they do/do not exists, does recipe for them exists
+                            HashMap<String,Double> variants = selectedItem.getVariantData();
+                            if(variants == null)
+                            {
+                                if(daoimpl.checkIfRecipeExists(selectedItem.getId(),null))
+                                {
+                                    // DB OPERATIONS
+                                    daoimpl.changeTrackingStatus(selectedItem.getId(), "ON");
+
+                                    // UI CHANGES
+                                    inventoryTrackingButton.getStyleClass().remove("tracking-off-button");
+                                    inventoryTrackingButton.getStyleClass().add("tracking-on-button");
+                                    inventoryTrackingButton.setText("Tracking ON");
+                                    Image view_symbol1 = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_on_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                                    ImageView imageView1 = new ImageView(view_symbol1);
+                                    imageView1.setFitWidth(28); // Adjust the width as needed
+                                    imageView1.setFitHeight(28);
+                                    inventoryTrackingButton.setGraphic(imageView1);
+                                }
+                                else
+                                {
+                                    Alert delete_alert = new Alert(Alert.AlertType.WARNING, "Add a Recipe to Turn on Inventory Tracking ",ButtonType.OK);
+                                    delete_alert.setHeaderText("No Recipe Found");
+                                    delete_alert.setTitle("Alert!");
+                                    delete_alert.showAndWait();
+                                }
+
+                            }
+                            else
+                            {
+                                boolean doesVariantRecipeExists = true;
+                                for (Map.Entry<String, Double> variant : variants.entrySet())
+                                {
+                                    if(!daoimpl.checkIfRecipeExists(selectedItem.getId(),variant.getKey()))
+                                    {
+                                        Alert delete_alert = new Alert(Alert.AlertType.WARNING, "All Variants should have a Recipe to Activate Inventory Tracking",ButtonType.OK);
+                                        delete_alert.setHeaderText("Recipe of '"+ variant.getKey() + "' variant Not Found");
+                                        delete_alert.setTitle("Alert!");
+                                        delete_alert.showAndWait();
+                                        doesVariantRecipeExists = false;
+                                        break;
+                                    }
+                                }
+
+                                if(doesVariantRecipeExists)
+                                {
+                                    // DB OPERATIONS
+                                    daoimpl.changeTrackingStatus(selectedItem.getId(), "ON");
+
+                                    // UI CHANGES
+                                    inventoryTrackingButton.getStyleClass().remove("tracking-off-button");
+                                    inventoryTrackingButton.getStyleClass().add("tracking-on-button");
+                                    inventoryTrackingButton.setText("Tracking ON");
+                                    Image view_symbol1 = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_on_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                                    ImageView imageView1 = new ImageView(view_symbol1);
+                                    imageView1.setFitWidth(28); // Adjust the width as needed
+                                    imageView1.setFitHeight(28);
+                                    inventoryTrackingButton.setGraphic(imageView1);
+                                }
+                            }
+
+
+                        }
+                        catch (SQLException e)
+                        {
+                            Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Database Operation Exception : "+e.getMessage(),ButtonType.OK);
+                            delete_alert.setHeaderText("Database Exception");
+                            delete_alert.setTitle("Error!");
+                            delete_alert.showAndWait();
+
+                            throw new RuntimeException(e);
+                        }
 
                     }
                     else
                     {
-                        activateTrackingButton.getStyleClass().remove("deactivate-tracking-button");
-                        activateTrackingButton.getStyleClass().add("activate-tracking-button");
-
-                        activateTrackingButton.setText("Activate Tracking");
-
-                        Image view_symbol2 = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_on_FILL0_wght400_GRAD0_opsz48.png")).toExternalForm());
+                        inventoryTrackingButton.getStyleClass().remove("tracking-on-button");
+                        inventoryTrackingButton.getStyleClass().add("tracking-off-button");
+                        inventoryTrackingButton.setText("Tracking OFF");
+                        Image view_symbol2 = new Image(Objects.requireNonNull(getClass().getResource("/images/black/toggle_off_black_48pt_3x.png")).toExternalForm());
                         ImageView imageView2 = new ImageView(view_symbol2);
-                        imageView2.setFitWidth(16); // Adjust the width as needed
-                        imageView2.setFitHeight(16);
-                        activateTrackingButton.setGraphic(imageView2);
+                        imageView2.setFitWidth(28); // Adjust the width as needed
+                        imageView2.setFitHeight(28);
+                        inventoryTrackingButton.setGraphic(imageView2);
+
+                        // DB OPERATIONS
+                        try
+                        {
+                            daoimpl.changeTrackingStatus(selectedItem.getId(),"OFF");
+                        }
+                        catch (SQLException e)
+                        {
+                            throw new RuntimeException(e);
+                        }
 
                     }
 
@@ -301,22 +397,24 @@ public class RecepieController implements Initializable {
 
                     // Set buttons into cell
                     HBox hBox = new HBox();
-                    hBox.setSpacing(10);
-                    hBox.setPadding(new Insets(5,10,5,10));
-                    hBox.getChildren().addAll(activateTrackingButton);
+                    hBox.setSpacing(15);
+                    hBox.setPadding(new Insets(5,5,5,5));
+                    hBox.getChildren().addAll(inventoryTrackingButton);
                     setGraphic(hBox);
                 }
             }
         });
 
+
         // Set the cell value factories for the table columns
-        menuItemsTable.getColumns().setAll(idCol, categoryCol, nameCol, priceCol, stockCol, variantCol, buttonCol);
+        menuItemsTable.getColumns().setAll(idCol, categoryCol, nameCol, priceCol, stockCol, variantCol, isInventoryTrackedCol);
         menuItemsTable.setItems(menuTableItems);
 
     }
 
     public void addRawMaterialButtonListener()
     {
+
         ComboBox rawMaterialNameComboBox = new ComboBox();
         rawMaterialNameComboBox.setId("rawMaterial"+rawMaterialCount);
         rawMaterialNameComboBox.setPrefSize(215,38);
@@ -331,6 +429,7 @@ public class RecepieController implements Initializable {
             rawMaterialNamesList = daoimpl.fetchInventoryItemsNames();
 
             rawMaterialNameComboBox.setItems(rawMaterialNamesList);
+
             makeComboBoxSearchable(rawMaterialNameComboBox,rawMaterialNamesList);
 
         }
@@ -384,20 +483,26 @@ public class RecepieController implements Initializable {
 
                 if(alert.getResult() == ButtonType.YES)
                 {
-                    //DELETE FROM UI
-                    rawMaterialCount--;
-
-                    Node parent = removeVariantButton.getParent();
-
-                    if (parent instanceof HBox) {
-                        HBox hBoxToRemove = (HBox) parent;
-                        rawMaterialVbox.getChildren().remove(hBoxToRemove);
-                    }
-
-                    //DELETE FROM DB
                     try
                     {
-                        if( !daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) )
+                        //DELETE FROM DB
+                        if( daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) )
+                        {
+                            //DELETE FROM UI
+                            rawMaterialCount--;
+
+                            Node parent = removeVariantButton.getParent();
+
+                            if (parent instanceof HBox) {
+                                HBox hBoxToRemove = (HBox) parent;
+                                rawMaterialVbox.getChildren().remove(hBoxToRemove);
+                            }
+
+                            //TURN OF TRACKING IF 'ON'
+
+                            // ----- PENDING -----
+                        }
+                        else
                         {
                             Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.",ButtonType.OK);
                             delete_alert.setHeaderText("Could not delete Recipe");
@@ -443,6 +548,7 @@ public class RecepieController implements Initializable {
         rawMaterialVbox.getChildren().add(rawMaterialVbox.getChildren().size() - 1, hBox); // Add above the button
 
         rawMaterialCount++;
+
 
     }
     public void populateFieldsAndRecipeData(MouseEvent event) throws SQLException {
@@ -685,6 +791,7 @@ public class RecepieController implements Initializable {
 
         // Checking and Adding Variants
         ArrayList<Inventory> rawMaterialData = new ArrayList<Inventory>();
+        Set<String> selectedRawMaterials = new HashSet<>();
         int temp = rawMaterialCount;
 
         while(temp>=0)
@@ -707,12 +814,22 @@ public class RecepieController implements Initializable {
                 }
                 else
                 {
+
                    Inventory rawMaterial = new Inventory();
                    String rawMaterialName = rawMaterialComboBox.getSelectionModel().getSelectedItem().toString();
                    rawMaterial.setId( Integer.parseInt(rawMaterialName.split("\\[")[1].split("]")[0]));
                    rawMaterial.setInventoryItemName(rawMaterialName);
                    rawMaterial.setInventoryItemQuantity(Double.parseDouble( rawMaterialQuantityTextField.getText() ));
                    rawMaterial.setInventoryItemUnit(rawMaterialUnitComboBox.getSelectionModel().getSelectedItem().toString());
+
+                    if (!selectedRawMaterials.add(rawMaterialName)) {
+                        // Duplicate raw material selected
+                        Alert alert = new Alert(Alert.AlertType.ERROR, "Each Raw material can be only used once in a single recipe.", ButtonType.OK);
+                        alert.setHeaderText("Duplicate Raw Materials found in Recipe");
+                        alert.setTitle("Error!");
+                        alert.showAndWait();
+                        return;
+                    }
 
                    rawMaterialData.add(rawMaterial);
                 }
@@ -733,12 +850,15 @@ public class RecepieController implements Initializable {
         {
             if(recipeIdLabel.getText()=="" || recipeIdLabel.getText().isEmpty())
             {
-                if (daoimpl.addRecipe(recipe)) {
+                if (daoimpl.addRecipe(recipe))
+                {
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Recipe added Successfully", ButtonType.OK);
                     alert.setHeaderText("Recipe Added");
                     alert.setTitle("Success!");
                     alert.showAndWait();
-                } else {
+                }
+                else
+                {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be saved!", ButtonType.OK);
                     alert.setHeaderText("Can not Add Recipe!");
                     alert.setTitle("Alert!");

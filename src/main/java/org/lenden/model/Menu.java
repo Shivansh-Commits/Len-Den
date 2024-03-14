@@ -17,6 +17,8 @@ public class Menu {
 
     public HashMap<String,Double> variantData; // Variant (Half/Full/Regular/Medium)
 
+    public String isInventoryTracked;
+
 
 
     //GETTERS AND SETTERS
@@ -75,4 +77,13 @@ public class Menu {
     public void setVariantData(HashMap<String, Double> variantData) {
         this.variantData = variantData;
     }
+
+    public String getIsInventoryTracked() {
+        return isInventoryTracked;
+    }
+
+    public void setIsInventoryTracked(String isInventoryTracked) {
+        this.isInventoryTracked = isInventoryTracked;
+    }
+
 }
