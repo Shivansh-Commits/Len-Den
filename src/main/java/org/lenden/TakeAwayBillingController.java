@@ -22,6 +22,7 @@ import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.Menu;
+import org.lenden.model.Variant;
 
 import java.io.IOException;
 import java.net.URL;
@@ -152,16 +153,14 @@ public class TakeAwayBillingController implements Initializable
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
             Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> {
-                    variants.append(variant).append(", ");
-                });
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty(" N/A");
             }
         });
 
@@ -262,16 +261,14 @@ public class TakeAwayBillingController implements Initializable
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
             Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> {
-                    variants.append(variant).append(", ");
-                });
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("");
+                return new SimpleStringProperty(" N/A");
             }
         });
 
@@ -288,7 +285,7 @@ public class TakeAwayBillingController implements Initializable
         BillItems selectedFoodItem = new BillItems();
         selectedFoodItem.setId(selectedMenuFoodItem.getId());
         selectedFoodItem.setFoodItemName(selectedMenuFoodItem.getFoodItemName());
-        selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
+        //selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
         selectedFoodItem.setFoodItemPrice(selectedMenuFoodItem.getFoodItemPrice());
 
         //MenuItems selectedFoodItem = foodItemsTable.getSelectionModel().getSelectedItem();
@@ -323,11 +320,11 @@ public class TakeAwayBillingController implements Initializable
             variantPane.setVgap(5);
 
             // Add a button for each variant
-            for (Map.Entry<String, Double> entry : selectedMenuFoodItem.getVariantData().entrySet()) {
-                String variantName = entry.getKey();
-                Double variantPrice = entry.getValue();
+            for (Variant variant : selectedMenuFoodItem.getVariantData()) {
+                String variantName = variant.getVariantName();
+                Double variantPrice = variant.getVariantPrice();
                 Button variantButton = new Button(variantName + " - " + variantPrice);
-                variantButton.setOnAction(event -> {
+                variantButton.setOnAction(e -> {
                     // Set the selected variant and close the dialog
                     variantDialog.setResult(variantName + " - " + variantPrice);
                 });

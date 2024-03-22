@@ -51,14 +51,14 @@
                   </TableView>
                </center>
                <bottom>
-                  <ScrollPane fitToHeight="true" maxHeight="1.7976931348623157E308" prefHeight="341.0" prefWidth="1203.0" BorderPane.alignment="CENTER">
+                  <ScrollPane fitToHeight="true" fitToWidth="true" maxHeight="1.7976931348623157E308" prefHeight="341.0" prefWidth="1203.0" BorderPane.alignment="CENTER">
                      <BorderPane.margin>
                         <Insets top="10.0" />
                      </BorderPane.margin>
                      <content>
-                        <AnchorPane prefHeight="375.0" prefWidth="1201.0">
+                        <AnchorPane maxWidth="1.7976931348623157E308">
                            <children>
-                              <BorderPane layoutY="-22.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" prefHeight="361.0" prefWidth="1201.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <BorderPane layoutY="-22.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" style="-fx-background-color: white; -fx-border-color: grey; -fx-border-width: 0.5; -fx-border-radius: 5;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <top>
                                     <BorderPane BorderPane.alignment="CENTER">
                                        <BorderPane.margin>
@@ -101,7 +101,7 @@
                                     </HBox>
                                  </bottom>
                                  <left>
-                                    <VBox prefHeight="225.0" prefWidth="783.0" spacing="15.0" BorderPane.alignment="CENTER">
+                                    <VBox maxWidth="1.7976931348623157E308" prefHeight="225.0" prefWidth="783.0" spacing="15.0" BorderPane.alignment="CENTER">
                                        <children>
                                           <HBox spacing="5.0">
                                              <children>

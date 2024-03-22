@@ -63,8 +63,8 @@ public class InventoryManagerController implements Initializable {
     Label newInventoryItemNameInfoLabel;
 
     ObservableList<Inventory> inventoryTableItems =  FXCollections.observableArrayList();
-
     DaoImpl daoimpl = new DaoImpl();
+    Stage currentStage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -257,13 +257,15 @@ public class InventoryManagerController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
         // Create a cell value factory for the ID column
         TableColumn<Inventory, String> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idCol.setPrefWidth(50);
+        idCol.setPrefWidth(80);
         idCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Name column
@@ -571,6 +573,8 @@ public class InventoryManagerController implements Initializable {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Item will be deleted");
         deleteAlert.setTitle("Alert!");
+        currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        deleteAlert.initOwner(currentStage);
         deleteAlert.showAndWait();
 
         if(deleteAlert.getResult() == ButtonType.YES)
@@ -585,6 +589,8 @@ public class InventoryManagerController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT DELETE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
                     alert.setHeaderText("Item not deleted!");
                     alert.setTitle("Alert!");
+                    currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
                 else
@@ -602,6 +608,8 @@ public class InventoryManagerController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Database delete operation Exception - "+ex.getMessage(), ButtonType.OK);
                 alert.setHeaderText("Failed");
                 alert.setTitle("Error!");
+                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         }
@@ -613,9 +621,11 @@ public class InventoryManagerController implements Initializable {
         //Checking if all field values are filled by the user
         if (newInventoryItemNameTextField.getText().isEmpty())
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
+            currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -648,6 +658,8 @@ public class InventoryManagerController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Inventory Item added successfully", ButtonType.OK);
                 alert.setHeaderText("Item Added");
                 alert.setTitle("Success!");
+                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
             else
@@ -656,6 +668,8 @@ public class InventoryManagerController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not add item. If this error keeps occurring, please contact customer support.", ButtonType.OK);
                 alert.setHeaderText("Item not added!");
                 alert.setTitle("Alert!");
+                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         } catch (Exception ex) {
@@ -663,6 +677,8 @@ public class InventoryManagerController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - " + ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
     }
@@ -672,9 +688,11 @@ public class InventoryManagerController implements Initializable {
         //Checking if all field values are filled by the user
         if (inventoryItemNameTextField.getText().isEmpty() || inventoryItemUnitComboBox.getSelectionModel().getSelectedItem() == null || inventoryItemPurchaseCostTextField.getText().isEmpty() || inventoryItemStockQuantityTextField.getText().isEmpty())
         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.WARNING, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
+            currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -707,6 +725,8 @@ public class InventoryManagerController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Purchase Item added successfully", ButtonType.OK);
                 alert.setHeaderText("Item Added");
                 alert.setTitle("Success!");
+                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
             else
@@ -715,6 +735,8 @@ public class InventoryManagerController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Could not add item. If this error keeps occurring, please contact customer support.", ButtonType.OK);
                 alert.setHeaderText("Item not added!");
                 alert.setTitle("Alert!");
+                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         } catch (Exception ex) {
@@ -722,6 +744,8 @@ public class InventoryManagerController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - " + ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
     }
@@ -731,6 +755,8 @@ public class InventoryManagerController implements Initializable {
         Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         updateAlert.setHeaderText("Item will be Updated");
         updateAlert.setTitle("Alert!");
+        currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        updateAlert.initOwner(currentStage);
         updateAlert.showAndWait();
 
         if(updateAlert.getResult() == ButtonType.YES)
@@ -745,6 +771,8 @@ public class InventoryManagerController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occurring contact customer support.", ButtonType.OK);
                         alert.setHeaderText("Item not Update!");
                         alert.setTitle("Alert!");
+                        currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                        alert.initOwner(currentStage);
                         alert.showAndWait();
                     }
                 }
@@ -753,6 +781,8 @@ public class InventoryManagerController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Database update operation Exception - "+ex.getMessage(), ButtonType.OK);
                     alert.setHeaderText("Failed");
                     alert.setTitle("Error!");
+                    currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
             }
@@ -764,6 +794,8 @@ public class InventoryManagerController implements Initializable {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Item will be deleted");
         deleteAlert.setTitle("Alert!");
+        currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        deleteAlert.initOwner(currentStage);
         deleteAlert.showAndWait();
 
         if(deleteAlert.getResult() == ButtonType.YES)
@@ -778,6 +810,8 @@ public class InventoryManagerController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could not delete Purchase. If this error keeps occurring contact customer support.", ButtonType.OK);
                     alert.setHeaderText("Item not deleted!");
                     alert.setTitle("Alert!");
+                    currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
             }
@@ -786,6 +820,8 @@ public class InventoryManagerController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Database delete operation Exception - "+ex.getMessage(), ButtonType.OK);
                 alert.setHeaderText("Failed");
                 alert.setTitle("Error!");
+                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         }

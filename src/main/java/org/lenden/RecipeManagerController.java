@@ -17,16 +17,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Inventory;
 import org.lenden.model.Menu;
 import org.lenden.model.Recipe;
+import org.lenden.model.Variant;
 
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.*;
 
-public class RecepieController implements Initializable {
+public class RecipeManagerController implements Initializable {
 
     @FXML
     TableView<Menu> menuItemsTable;
@@ -50,10 +52,10 @@ public class RecepieController implements Initializable {
     ObservableList<Menu> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
     int rawMaterialCount = 0;
-
-
+    Stage currentStage;
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize(URL location, ResourceBundle resources)
+    {
 
         //Displaying All Menu Items
         try
@@ -62,9 +64,11 @@ public class RecepieController implements Initializable {
         }
         catch (Exception e)
         {
+
             Alert alert = new Alert(Alert.AlertType.ERROR, "Could not display Menu Items." + e.getMessage(), ButtonType.OK);
             alert.setHeaderText("Exception in displaying itmes");
             alert.setTitle("Exception!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
 
@@ -177,37 +181,38 @@ public class RecepieController implements Initializable {
              Alert alert = new Alert(Alert.AlertType.ERROR, "Could not display Menu Items. Database Exception" + e.getMessage(), ButtonType.OK);
              alert.setHeaderText("Exception in displaying itmes");
              alert.setTitle("Exception!");
+             alert.initOwner(currentStage);
              alert.showAndWait();
          }
 
 
         // Create a cell value factory for the ID column
-        TableColumn<org.lenden.model.Menu, String> idCol = new TableColumn<>("ID");
+        TableColumn<Menu, String> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        idCol.setPrefWidth(50);
+        idCol.setPrefWidth(80);
         idCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Category column
-        TableColumn<org.lenden.model.Menu, String> categoryCol = new TableColumn<>("Category");
+        TableColumn<Menu, String> categoryCol = new TableColumn<>("Category");
         categoryCol.setCellValueFactory(new PropertyValueFactory<>("foodItemCategory"));
         categoryCol.setPrefWidth(100);
         categoryCol.setStyle("-fx-alignment: CENTER;");
 
         // Create a cell value factory for the Name column
-        TableColumn<org.lenden.model.Menu, String> nameCol = new TableColumn<>("Name");
+        TableColumn<Menu, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
         nameCol.setStyle("-fx-alignment: CENTER;");
 
 
         // Create a cell value factory for the Price column
-        TableColumn<org.lenden.model.Menu, String> priceCol = new TableColumn<>("Price");
+        TableColumn<Menu, String> priceCol = new TableColumn<>("Price");
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(100);
         priceCol.setStyle("-fx-alignment: CENTER;");
         //Displaying the price value in col, only if variant is not added
         priceCol.setCellValueFactory(cellData -> {
-            org.lenden.model.Menu menuItem = cellData.getValue();
+            Menu menuItem = cellData.getValue();
             if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
                 return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
             } else {
@@ -217,35 +222,35 @@ public class RecepieController implements Initializable {
 
 
         // Create a cell value factory for the Stock Quantity column
-        TableColumn<org.lenden.model.Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
+        TableColumn<Menu, String> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
 
 
         // Create a cell value factory for the Variant column
-        TableColumn<org.lenden.model.Menu, String> variantCol = new TableColumn<>("Variants");
+        TableColumn<Menu, String> variantCol = new TableColumn<>("Variants");
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
-            org.lenden.model.Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
+            Menu menuItem = cellData.getValue();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> variants.append(variant).append(", "));
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("N/A");
+                return new SimpleStringProperty(" N/A");
             }
         });
 
 
 
         //Create col for Buttons
-        TableColumn<org.lenden.model.Menu,String> isInventoryTrackedCol = new TableColumn<>("Inventory Tracking");
+        TableColumn<Menu,String> isInventoryTrackedCol = new TableColumn<>("Inventory Tracking");
         isInventoryTrackedCol.setCellValueFactory(new PropertyValueFactory<>("isInventoryTracked"));
         isInventoryTrackedCol.setCellFactory(param -> new TableCell<Menu, String>()
         {
@@ -261,7 +266,7 @@ public class RecepieController implements Initializable {
                     Menu selectedItem = getTableView().getItems().get(getIndex());
 
                     Button inventoryTrackingButton = new Button();
-                    if(item.equals("ON"))
+                    if(item.equals("ON") )
                     {
                         inventoryTrackingButton.setCursor(Cursor.HAND);
                         inventoryTrackingButton.setId("inventoryTrackingButton"+selectedItem.getId());
@@ -297,13 +302,29 @@ public class RecepieController implements Initializable {
                         try
                         {
                             //Checking if variants exists or not and IF they do/do not exists, does recipe for them exists
-                            HashMap<String,Double> variants = selectedItem.getVariantData();
+                            ObservableList<Variant> variants = selectedItem.getVariantData();
+
                             if(variants == null)
                             {
-                                if(daoimpl.checkIfRecipeExists(selectedItem.getId(),null))
+                                int recipeId = daoimpl.checkIfRecipeExists(selectedItem.getId(),null);
+                                if( recipeId > 0)
                                 {
                                     // DB OPERATIONS
-                                    daoimpl.changeTrackingStatus(selectedItem.getId(), "ON");
+
+                                    // Change Tracking status in MENU Table
+                                    daoimpl.changeTrackingStatus( selectedItem.getId(), "ON" );
+
+                                    //Fetch Raw material Stock and Update menu item quantity in Table
+                                    Double quantity = daoimpl.calculateStockQuantity( selectedItem,recipeId,"N/A" );
+                                    selectedItem.setStockQuantity(String.valueOf(quantity));
+                                    menuItemsTable.refresh();
+
+                                    //Updating quantity in MENU table
+                                    Menu updatedQuantityMenuObject = new Menu();
+                                    updatedQuantityMenuObject.setId(selectedItem.getId());
+                                    updatedQuantityMenuObject.setStockQuantity(String.valueOf(quantity));
+                                    daoimpl.updateMenuItem(updatedQuantityMenuObject);
+
 
                                     // UI CHANGES
                                     inventoryTrackingButton.getStyleClass().remove("tracking-off-button");
@@ -314,36 +335,66 @@ public class RecepieController implements Initializable {
                                     imageView1.setFitWidth(28); // Adjust the width as needed
                                     imageView1.setFitHeight(28);
                                     inventoryTrackingButton.setGraphic(imageView1);
+
+                                    selectedItem.setIsInventoryTracked("ON");
+                                    menuItemsTable.refresh();
                                 }
                                 else
                                 {
+                                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
                                     Alert delete_alert = new Alert(Alert.AlertType.WARNING, "Add a Recipe to Turn on Inventory Tracking ",ButtonType.OK);
                                     delete_alert.setHeaderText("No Recipe Found");
                                     delete_alert.setTitle("Alert!");
+                                    delete_alert.initOwner(currentStage);
                                     delete_alert.showAndWait();
                                 }
 
                             }
                             else
                             {
-                                boolean doesVariantRecipeExists = true;
-                                for (Map.Entry<String, Double> variant : variants.entrySet())
+                                boolean doesAllVariantRecipeExists = true;
+                                for (Variant variant : variants)
                                 {
-                                    if(!daoimpl.checkIfRecipeExists(selectedItem.getId(),variant.getKey()))
+                                    int recipeId = daoimpl.checkIfRecipeExists(selectedItem.getId(),variant.getVariantName());
+                                    if( recipeId <= 0)
                                     {
+                                        currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                                         Alert delete_alert = new Alert(Alert.AlertType.WARNING, "All Variants should have a Recipe to Activate Inventory Tracking",ButtonType.OK);
-                                        delete_alert.setHeaderText("Recipe of '"+ variant.getKey() + "' variant Not Found");
+                                        delete_alert.setHeaderText("Recipe of '"+ variant.getVariantName() + "' variant Not Found");
                                         delete_alert.setTitle("Alert!");
+                                        delete_alert.initOwner(currentStage);
                                         delete_alert.showAndWait();
-                                        doesVariantRecipeExists = false;
-                                        break;
+                                        doesAllVariantRecipeExists = false;
+                                        return;
                                     }
                                 }
 
-                                if(doesVariantRecipeExists)
+                                if(doesAllVariantRecipeExists)
                                 {
                                     // DB OPERATIONS
+
+                                    // Change Tracking status in MENU Table
                                     daoimpl.changeTrackingStatus(selectedItem.getId(), "ON");
+
+                                    //Fetch Raw material Stock and Update menu item quantity in Table
+                                    String variantsAndQuantity = "";
+                                    for(Variant variant:variants)
+                                    {
+                                        int recipeId = daoimpl.checkIfRecipeExists(selectedItem.getId(),variant.getVariantName());
+
+                                        Double quantity = daoimpl.calculateStockQuantity( selectedItem,recipeId,variant.getVariantName());
+                                        variantsAndQuantity = variantsAndQuantity + quantity + ", ";
+                                    }
+                                    selectedItem.setStockQuantity(variantsAndQuantity);
+                                    menuItemsTable.refresh();
+
+                                    //-------------PENDING HERE---------------
+
+                                    //Updating quantity in DB table
+
+
+                                    //-------------PENDING HERE---------------
 
                                     // UI CHANGES
                                     inventoryTrackingButton.getStyleClass().remove("tracking-off-button");
@@ -354,16 +405,32 @@ public class RecepieController implements Initializable {
                                     imageView1.setFitWidth(28); // Adjust the width as needed
                                     imageView1.setFitHeight(28);
                                     inventoryTrackingButton.setGraphic(imageView1);
+
+                                    selectedItem.setIsInventoryTracked("ON");
+                                    menuItemsTable.refresh();
                                 }
+
                             }
-
-
                         }
                         catch (SQLException e)
                         {
+                            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
                             Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Database Operation Exception : "+e.getMessage(),ButtonType.OK);
                             delete_alert.setHeaderText("Database Exception");
                             delete_alert.setTitle("Error!");
+                            delete_alert.initOwner(currentStage);
+                            delete_alert.showAndWait();
+
+                            throw new RuntimeException(e);
+                        }
+                        catch (Exception e)
+                        {
+
+                            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+                            Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Database Operation Exception : "+e.getMessage(),ButtonType.OK);
+                            delete_alert.setHeaderText("Database Exception");
+                            delete_alert.setTitle("Error!");
+                            delete_alert.initOwner(currentStage);
                             delete_alert.showAndWait();
 
                             throw new RuntimeException(e);
@@ -397,7 +464,7 @@ public class RecepieController implements Initializable {
 
                     // Set buttons into cell
                     HBox hBox = new HBox();
-                    hBox.setSpacing(15);
+                    hBox.setSpacing(5);
                     hBox.setPadding(new Insets(5,5,5,5));
                     hBox.getChildren().addAll(inventoryTrackingButton);
                     setGraphic(hBox);
@@ -467,18 +534,21 @@ public class RecepieController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        Button removeVariantButton = new Button();
-        removeVariantButton.setId("removeRawMaterial"+rawMaterialCount);
-        removeVariantButton.setText("X");
-        removeVariantButton.getStyleClass().add("delete-button");
-        removeVariantButton.setCursor(Cursor.HAND);
-        removeVariantButton.setOnAction(e -> {
+        Button removeRawMaterialButton = new Button();
+        removeRawMaterialButton.setId("removeRawMaterial"+rawMaterialCount);
+        removeRawMaterialButton.setText("X");
+        removeRawMaterialButton.getStyleClass().add("delete-button");
+        removeRawMaterialButton.setCursor(Cursor.HAND);
+        removeRawMaterialButton.setOnAction(e -> {
 
             if(rawMaterialCount < 2)
             {
+                currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                 Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete this Recipe?", ButtonType.YES,ButtonType.NO);
                 alert.setHeaderText("Recipe will be deleted");
                 alert.setTitle("Alert!");
+                alert.initOwner(currentStage);
                 alert.showAndWait();
 
                 if(alert.getResult() == ButtonType.YES)
@@ -486,40 +556,46 @@ public class RecepieController implements Initializable {
                     try
                     {
                         //DELETE FROM DB
-                        if( daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) )
+                        if( daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) && daoimpl.changeTrackingStatus( Integer.parseInt(menuItemIdLabel.getText()),"OFF") )
                         {
                             //DELETE FROM UI
                             rawMaterialCount--;
 
-                            Node parent = removeVariantButton.getParent();
+                            Node parent = removeRawMaterialButton.getParent();
 
                             if (parent instanceof HBox) {
                                 HBox hBoxToRemove = (HBox) parent;
                                 rawMaterialVbox.getChildren().remove(hBoxToRemove);
                             }
 
-                            //TURN OF TRACKING IF 'ON'
+                            // UPDATE THE STYLE CLASS OF THE INVENTORYTRACKINGBUTTON IN INVENTORY TRACKING COLUMN OF MENU ITEMS CELL WHOSE RECIPE ITEM IS DELETED
 
-                            // ----- PENDING -----
+
                         }
                         else
                         {
+                            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                             Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.",ButtonType.OK);
                             delete_alert.setHeaderText("Could not delete Recipe");
                             delete_alert.setTitle("Alert!");
+                            alert.initOwner(currentStage);
                             delete_alert.showAndWait();
                         }
                     }
                     catch (SQLException ex)
                     {
+                        currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                         Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.Exception : "+ ex.getMessage(),ButtonType.OK);
                         delete_alert.setHeaderText("Could not delete Recipe.");
                         delete_alert.setTitle("Alert!");
+                        alert.initOwner(currentStage);
                         delete_alert.showAndWait();
                         throw new RuntimeException(ex);
                     }
 
-                    recipeIdLabel.setText("");
+                    recipeIdLabel.setText("_ _");
                 }
             }
             else
@@ -528,7 +604,7 @@ public class RecepieController implements Initializable {
                 //DELETE FROM UI   (WIll be updated in DB on click of save Recipe Button)
                 rawMaterialCount--;
 
-                Node parent = removeVariantButton.getParent();
+                Node parent = removeRawMaterialButton.getParent();
 
                 if (parent instanceof HBox) {
                     HBox hBoxToRemove = (HBox) parent;
@@ -540,7 +616,7 @@ public class RecepieController implements Initializable {
         HBox hBox = new HBox();
         hBox.setId("rawMaterialHbox"+rawMaterialCount);
         hBox.setMinHeight(40);
-        hBox.getChildren().addAll(rawMaterialNameComboBox,rawMaterialQuantity,rawMaterialUnitComboBox,removeVariantButton);
+        hBox.getChildren().addAll(rawMaterialNameComboBox,rawMaterialQuantity,rawMaterialUnitComboBox,removeRawMaterialButton);
         hBox.setSpacing(10);
 
 
@@ -551,7 +627,9 @@ public class RecepieController implements Initializable {
 
 
     }
-    public void populateFieldsAndRecipeData(MouseEvent event) throws SQLException {
+
+    public void populateFieldsAndRecipeData(MouseEvent event) throws SQLException
+    {
 
         Menu selectedItem = menuItemsTable.getSelectionModel().getSelectedItem();
 
@@ -567,6 +645,8 @@ public class RecepieController implements Initializable {
             Dialog<String> variantDialog = new Dialog<>();
             variantDialog.setTitle("Variant Selection");
             variantDialog.setHeaderText("Select Variant");
+            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+            variantDialog.initOwner(currentStage);
 
             // Create a flow pane to hold the variant buttons
             FlowPane variantPane = new FlowPane();
@@ -574,9 +654,9 @@ public class RecepieController implements Initializable {
             variantPane.setVgap(5);
 
             // Add a button for each variant
-            for (Map.Entry<String, Double> entry : selectedItem.getVariantData().entrySet()) {
-                String variantName = entry.getKey();
-                Double variantPrice = entry.getValue();
+            for (Variant variant : selectedItem.getVariantData()) {
+                String variantName = variant.getVariantName();
+                Double variantPrice = variant.getVariantPrice();
                 Button variantButton = new Button(variantName + " - " + variantPrice);
                 variantButton.setOnAction(e -> {
                     // Set the selected variant and close the dialog
@@ -700,44 +780,59 @@ public class RecepieController implements Initializable {
 
                     if(rawMaterialCount < 2)
                     {
+                        currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                         Alert alert = new Alert(Alert.AlertType.WARNING, "Do you want to delete this Recipe?", ButtonType.YES,ButtonType.NO);
                         alert.setHeaderText("Recipe will be deleted");
                         alert.setTitle("Alert!");
+                        alert.initOwner(currentStage);
                         alert.showAndWait();
 
                         if(alert.getResult() == ButtonType.YES)
                         {
-                            //DELETE FROM UI
-                            rawMaterialCount--;
-
-                            Node parent = removeVariantButton.getParent();
-
-                            if (parent instanceof HBox) {
-                                HBox hBoxToRemove = (HBox) parent;
-                                rawMaterialVbox.getChildren().remove(hBoxToRemove);
-                            }
-
-                            //DELETE FROM DB
                             try
                             {
-                                if( !daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) )
+                                //DELETE FROM DB
+                                if( daoimpl.deleteRecipe(Integer.parseInt(recipeIdLabel.getText())) && daoimpl.changeTrackingStatus( Integer.parseInt(menuItemIdLabel.getText()),"OFF") )
                                 {
+
+                                    //DELETE FROM UI
+                                    rawMaterialCount--;
+
+                                    Node parent = removeVariantButton.getParent();
+
+                                    if (parent instanceof HBox) {
+                                        HBox hBoxToRemove = (HBox) parent;
+                                        rawMaterialVbox.getChildren().remove(hBoxToRemove);
+                                    }
+
+                                    // UPDATE THE STYLE CLASS OF THE INVENTORYTRACKINGBUTTON IN INVENTORY TRACKING COLUMN OF MENU ITEMS CELL WHOSE RECIPE ITEM IS DELETED
+
+                                }
+                                else
+                                {
+                                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                                     Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.",ButtonType.OK);
                                     delete_alert.setHeaderText("Could not delete Recipe");
                                     delete_alert.setTitle("Alert!");
+                                    alert.initOwner(currentStage);
                                     delete_alert.showAndWait();
                                 }
                             }
                             catch (SQLException ex)
                             {
+                                currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                                 Alert delete_alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be deleted.Exception : "+ ex.getMessage(),ButtonType.OK);
                                 delete_alert.setHeaderText("Could not delete Recipe.");
                                 delete_alert.setTitle("Alert!");
+                                alert.initOwner(currentStage);
                                 delete_alert.showAndWait();
                                 throw new RuntimeException(ex);
                             }
 
-                            recipeIdLabel.setText("");
+                            recipeIdLabel.setText("_ _");
                         }
                     }
                     else
@@ -753,8 +848,6 @@ public class RecepieController implements Initializable {
                             rawMaterialVbox.getChildren().remove(hBoxToRemove);
                         }
                     }
-
-
 
                 });
 
@@ -777,12 +870,16 @@ public class RecepieController implements Initializable {
 
     public void saveRecipe(MouseEvent event)
     {
+
+
         //Checking if all field values are filled by the user
         if (menuItemIdLabel.getText().equals("_ _") || menuItemIdLabel.getText().equals("_ _") || variantLabel.getText().isEmpty() || categoryLabel.getText().equals("_ _") )
         {
+            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.WARNING, "Select a Menu item to add Recipe", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -805,9 +902,12 @@ public class RecepieController implements Initializable {
 
                 if( rawMaterialComboBox.getValue() == null || rawMaterialComboBox.getSelectionModel().getSelectedItem() == "" || rawMaterialQuantityTextField.getText().isEmpty() || rawMaterialUnitComboBox.getSelectionModel().getSelectedItem() == "" || rawMaterialUnitComboBox.getValue() == null)
                 {
+                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                     Alert alert = new Alert(Alert.AlertType.WARNING, "Raw material Name , Quantity or Unit fields cannot be empty", ButtonType.OK);
                     alert.setHeaderText("Can not Add item!");
                     alert.setTitle("Alert!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
 
                     return;
@@ -824,9 +924,12 @@ public class RecepieController implements Initializable {
 
                     if (!selectedRawMaterials.add(rawMaterialName)) {
                         // Duplicate raw material selected
+                        currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                         Alert alert = new Alert(Alert.AlertType.ERROR, "Each Raw material can be only used once in a single recipe.", ButtonType.OK);
                         alert.setHeaderText("Duplicate Raw Materials found in Recipe");
                         alert.setTitle("Error!");
+                        alert.initOwner(currentStage);
                         alert.showAndWait();
                         return;
                     }
@@ -846,22 +949,33 @@ public class RecepieController implements Initializable {
         recipe.setVariant(variantLabel.getText());
         recipe.setRawMaterials(rawMaterialData);
 
+        if(rawMaterialData.size() <=0)
+            return;
+        
         try
         {
-            if(recipeIdLabel.getText()=="" || recipeIdLabel.getText().isEmpty())
+            if(recipeIdLabel.getText().equals("_ _") || recipeIdLabel.getText().isEmpty())
             {
-                if (daoimpl.addRecipe(recipe))
+                long generatedRecipeID = daoimpl.addRecipe(recipe);
+                if ( generatedRecipeID > 0 )
                 {
+                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Recipe added Successfully", ButtonType.OK);
                     alert.setHeaderText("Recipe Added");
                     alert.setTitle("Success!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
+
+                    recipeIdLabel.setText(String.valueOf(generatedRecipeID) );
                 }
                 else
                 {
+                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
+
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be saved!", ButtonType.OK);
                     alert.setHeaderText("Can not Add Recipe!");
                     alert.setTitle("Alert!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
             }
@@ -871,34 +985,40 @@ public class RecepieController implements Initializable {
 
                 if (daoimpl.updateRecipe(recipe))
                 {
+                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Recipe Updated Successfully", ButtonType.OK);
                     alert.setHeaderText("Recipe Updated");
                     alert.setTitle("Success!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
                 else
                 {
+                    currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Recipe could not be Updated!", ButtonType.OK);
                     alert.setHeaderText("Can not Update Recipe!");
                     alert.setTitle("Alert!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
             }
         }
         catch(SQLException e)
         {
+            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.WARNING, "Database operation exception : " + e.getMessage(), ButtonType.OK);
             alert.setHeaderText("Database Exception");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
         catch (Exception e)
         {
-            System.out.println(e.getMessage());
-
+            currentStage = (Stage) rawMaterialVbox.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.WARNING, "Exception occured : " + e.getMessage(), ButtonType.OK);
             alert.setHeaderText("Database Exception");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
 
@@ -914,7 +1034,7 @@ public class RecepieController implements Initializable {
             rawMaterialVbox.getChildren().remove(variantHbox);
         }
 
-        recipeIdLabel.setText("");
+        recipeIdLabel.setText("_ _");
 
         rawMaterialCount=0;
     }

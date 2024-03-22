@@ -19,10 +19,10 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Menu;
+import org.lenden.model.Variant;
+
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
@@ -319,18 +319,20 @@ public class MenuController implements Initializable
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
         //Displaying variant data after formating
-        variantCol.setCellValueFactory(cellData -> {
+        variantCol.setCellValueFactory(cellData ->
+        {
             Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> variants.append(variant).append(", "));
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
                 return new SimpleStringProperty(" N/A");
             }
         });
+
 
         //Create col for Buttons
         TableColumn<Menu,Void> buttonCol = new TableColumn<>("");
@@ -408,11 +410,44 @@ public class MenuController implements Initializable
         priceCol.setCellValueFactory(new PropertyValueFactory<>("foodItemPrice"));
         priceCol.setPrefWidth(200);
         priceCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying the price value in col, only if variant is not added
+        priceCol.setCellValueFactory(cellData -> {
+            Menu menuItem = cellData.getValue();
+            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
+                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
+            } else {
+                return new SimpleStringProperty("N/A");
+            }
+        });
 
         // Create a cell value factory for the Availability column
         TableColumn<Menu, String> availCol = new TableColumn<>("Availability");
         availCol.setCellValueFactory(new PropertyValueFactory<>("foodItemAvailability"));
         availCol.setPrefWidth(150);
+        // Set the background color of the "Availability" cell based on its content
+        availCol.setCellFactory(column -> new TableCell<Menu, String>()
+        {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+
+                if (item == null || empty) {
+                    setText("");
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("Available")) {
+                        // Set the background color of the cell to green if the food item is available
+                        setStyle("-fx-background-color: #c9f5c9;");
+                        setAlignment(Pos.CENTER);
+                    } else {
+                        // Set the background color of the cell to red if the food item is not available
+                        setStyle("-fx-background-color: #f5c9c9;");
+                        setAlignment(Pos.CENTER);
+                    }
+                }
+            }
+        });
 
         // Create a cell value factory for the Stock Quantity column
         TableColumn<Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
@@ -425,6 +460,19 @@ public class MenuController implements Initializable
         variantCol.setCellValueFactory(new PropertyValueFactory<>("variantData"));
         variantCol.setPrefWidth(200);
         variantCol.setStyle("-fx-alignment: CENTER;");
+        //Displaying variant data after formating
+        variantCol.setCellValueFactory(cellData -> {
+            Menu menuItem = cellData.getValue();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
+            if (variantData != null && !variantData.isEmpty()) {
+                StringBuilder variants = new StringBuilder();
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
+                // Remove the trailing comma and space
+                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
+            } else {
+                return new SimpleStringProperty(" N/A");
+            }
+        });
 
         //Create col for Buttons
         TableColumn<Menu,Void> buttonCol = new TableColumn<>("");
@@ -473,61 +521,107 @@ public class MenuController implements Initializable
         menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol, buttonCol);
         menuTable.setItems(menuTableItems);
 
+    }
 
-        //Displaying variant data after formating
-        variantCol.setCellValueFactory(cellData -> {
-            Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
-            if (variantData != null && !variantData.isEmpty()) {
-                    StringBuilder variants = new StringBuilder();
-                    variantData.keySet().forEach(variant -> {
-                    variants.append(variant).append(", ");
-                    });
-                // Remove the trailing comma and space
-                return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
-            } else {
-            return new SimpleStringProperty("N/A");
-            }
-        });
+    public void populateAddUpdateDeleteForm(MouseEvent event)
+    {
 
+        Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
 
-        //Displaying the price value in col, only if variant is not added
-        priceCol.setCellValueFactory(cellData -> {
-            Menu menuItem = cellData.getValue();
-            if (menuItem.getVariantData() == null || menuItem.getVariantData().isEmpty()) {
-                return new SimpleStringProperty(String.valueOf(menuItem.getFoodItemPrice()));
-            } else {
-                return new SimpleStringProperty("N/A");
-            }
-        });
+        if(selectedItem == null)
+            return;
 
+        //Populating ID Field
+        itemId.setText(Integer.toString(selectedItem.getId()));
 
-        // Set the background color of the "Availability" cell based on its content
-        availCol.setCellFactory(column -> new TableCell<Menu, String>()
+        //Populating Name Field
+        itemNameTextField.setText(selectedItem.getFoodItemName());
+
+        //Populating Category Field
+        itemCategoryComboBox.setValue(selectedItem.getFoodItemCategory());
+
+        //Populating Availability Field
+        itemAvailabilityComboBox.setValue(selectedItem.getFoodItemAvailability());
+
+        //Displaying Variant Data
+        ObservableList<Variant> variantData = selectedItem.getVariantData();
+        if(variantData == null)
         {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
+            //Clearing Previously Displayed data
+            clearPreviousItemsVariantData();
+        }
+        else
+        {
 
-                if (item == null || empty) {
-                    setText("");
-                    setStyle("");
-                } else {
-                    setText(item);
-                    if (item.equals("Available")) {
-                        // Set the background color of the cell to green if the food item is available
-                        setStyle("-fx-background-color: #c9f5c9;");
-                        setAlignment(Pos.CENTER);
-                    } else {
-                        // Set the background color of the cell to red if the food item is not available
-                        setStyle("-fx-background-color: #f5c9c9;");
-                        setAlignment(Pos.CENTER);
+            //Clearing Previously Displayed data
+            clearPreviousItemsVariantData();
+
+
+            variantVbox.setDisable(false);
+
+            variantCount=0;
+            for(Variant variant : variantData)
+            {
+                TextField variantName = new TextField();
+                variantName.setId("variant"+variantCount);
+                variantName.setPrefSize(309,38);
+                variantName.setMinHeight(38);
+                variantName.setPromptText("Variants");
+                variantName.setText(variant.getVariantName());
+                addAlphabeticInputFieldValidation(variantName);
+
+                TextField variantPrice = new TextField();
+                variantPrice.setId("variantPrice"+variantCount);
+                variantPrice.setPrefSize(208,38);
+                variantPrice.setMinHeight(38);
+                variantPrice.setPromptText("Variant Price");
+                variantPrice.setText(String.valueOf(variant.getVariantPrice()));
+                addNumericInputFieldValidation(variantPrice);
+
+                Button removeVariantButton = new Button();
+                removeVariantButton.setId("removeVariant"+variantCount);
+                removeVariantButton.setText("X");
+                removeVariantButton.getStyleClass().add("remove-variant-button");
+                removeVariantButton.setCursor(Cursor.HAND);
+
+
+                HBox hBox = new HBox();
+                hBox.setId("variantHbox"+variantCount);
+                hBox.setMinHeight(38);
+                hBox.getChildren().addAll(variantName,variantPrice,removeVariantButton);
+                hBox.setSpacing(10);
+
+                removeVariantButton.setOnAction(e -> {
+
+                    variantCount--;
+
+                    Node parent = removeVariantButton.getParent();
+
+                    if (parent instanceof HBox) {
+                        HBox hBoxToRemove = (HBox) parent;
+                        variantVbox.getChildren().remove(hBoxToRemove);
                     }
-                }
+                });
+
+                variantVbox.getChildren().add(variantVbox.getChildren().size() - 1, hBox); // Add above the button
+
+                variantCount++;
             }
-        });
 
+        }
 
+        //Populating Price Field (if Variants dont Exist)
+        HBox variantHbox = (HBox) variantVbox.lookup("#variantHbox0");
+        if(variantHbox==null)
+        {
+            itemPriceTextField.setDisable(false);
+            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
+        }
+        else
+        {
+            itemPriceTextField.setDisable(true);
+            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
+        }
     }
 
     public void addToMenu(MouseEvent ignoredEvent) throws SQLException
@@ -578,7 +672,7 @@ public class MenuController implements Initializable
         String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
 
         // Checking and Adding Variants
-        HashMap<String,Double> variantData = new HashMap<String,Double>();
+        ObservableList<Variant> variantData = FXCollections.observableArrayList();
         int temp = variantCount;
 
         while(temp>=0)
@@ -600,7 +694,7 @@ public class MenuController implements Initializable
                 }
                 else
                 {
-                    variantData.put( variantNameField.getText() , Double.parseDouble(variantPriceField.getText()) );
+                    variantData.add( new Variant( variantNameField.getText() , Double.parseDouble(variantPriceField.getText()) ,"0") );
                 }
             }
 
@@ -616,6 +710,7 @@ public class MenuController implements Initializable
         item.setFoodItemAvailability(   itemAvailability    );
         item.setFoodItemCategory(   itemCategory    );
         item.setVariantData(    variantData   );
+        item.setStockQuantity(String.valueOf(0.0));
 
 
         //Checking if user has Entered pre-existing category
@@ -707,128 +802,6 @@ public class MenuController implements Initializable
         }
     }
 
-    public void clearAllFields(int variantCount)
-    {
-        itemNameTextField.clear();
-        itemPriceTextField.clear();
-        itemCategoryComboBox.getSelectionModel().clearSelection();
-        itemAvailabilityComboBox.getSelectionModel().clearSelection();
-
-
-        int temp = variantCount;
-        while(temp>=0)
-        {
-            HBox hboxToRemove = (HBox) variantVbox.lookup("#variantHbox"+temp);
-
-            if (hboxToRemove != null)
-            {
-                variantVbox.getChildren().remove(hboxToRemove);
-            }
-            temp--;
-        }
-    }
-
-    public void populateAddUpdateDeleteForm(MouseEvent event)
-    {
-
-        Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
-
-        if(selectedItem == null)
-            return;
-
-        //Populating ID Field
-        itemId.setText(Integer.toString(selectedItem.getId()));
-
-        //Populating Name Field
-        itemNameTextField.setText(selectedItem.getFoodItemName());
-
-        //Populating Category Field
-        itemCategoryComboBox.setValue(selectedItem.getFoodItemCategory());
-
-        //Populating Availability Field
-        itemAvailabilityComboBox.setValue(selectedItem.getFoodItemAvailability());
-
-        //Displaying Variant Data
-        HashMap<String,Double> variantData = selectedItem.getVariantData();
-        if(variantData == null)
-        {
-            //Clearing Previously Displayed data
-            clearPreviousItemsVariantData();
-        }
-        else
-        {
-
-            //Clearing Previously Displayed data
-            clearPreviousItemsVariantData();
- 
-
-            variantVbox.setDisable(false);
-
-            variantCount=0;
-            for(Map.Entry<String,Double> variant : variantData.entrySet())
-            {
-                    TextField variantName = new TextField();
-                    variantName.setId("variant"+variantCount);
-                    variantName.setPrefSize(309,38);
-                    variantName.setMinHeight(38);
-                    variantName.setPromptText("Variants");
-                    variantName.setText(variant.getKey());
-                    addAlphabeticInputFieldValidation(variantName);
-
-                    TextField variantPrice = new TextField();
-                    variantPrice.setId("variantPrice"+variantCount);
-                    variantPrice.setPrefSize(208,38);
-                    variantPrice.setMinHeight(38);
-                    variantPrice.setPromptText("Variant Price");
-                    variantPrice.setText(String.valueOf(variant.getValue()));
-                    addNumericInputFieldValidation(variantPrice);
-
-                    Button removeVariantButton = new Button();
-                    removeVariantButton.setId("removeVariant"+variantCount);
-                    removeVariantButton.setText("X");
-                    removeVariantButton.getStyleClass().add("remove-variant-button");
-                    removeVariantButton.setCursor(Cursor.HAND);
-
-
-                    HBox hBox = new HBox();
-                    hBox.setId("variantHbox"+variantCount);
-                    hBox.setMinHeight(38);
-                    hBox.getChildren().addAll(variantName,variantPrice,removeVariantButton);
-                    hBox.setSpacing(10);
-
-                    removeVariantButton.setOnAction(e -> {
-
-                        variantCount--;
-
-                        Node parent = removeVariantButton.getParent();
-
-                        if (parent instanceof HBox) {
-                            HBox hBoxToRemove = (HBox) parent;
-                            variantVbox.getChildren().remove(hBoxToRemove);
-                        }
-                    });
-
-                    variantVbox.getChildren().add(variantVbox.getChildren().size() - 1, hBox); // Add above the button
-
-                    variantCount++;
-            }
-
-        }
-
-        //Populating Price Field (if Variants dont Exist)
-        HBox variantHbox = (HBox) variantVbox.lookup("#variantHbox0");
-        if(variantHbox==null)
-        {
-            itemPriceTextField.setDisable(false);
-            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
-        }
-        else
-        {
-            itemPriceTextField.setDisable(true);
-            itemPriceTextField.setText(Double.toString(selectedItem.getFoodItemPrice()));
-        }
-    }
-
     public void updateItem(MouseEvent event)
     {
         //Checking if all field values are filled by the user (except price)
@@ -880,7 +853,7 @@ public class MenuController implements Initializable
             String itemAvailability = itemAvailabilityComboBox.getSelectionModel().getSelectedItem().toString();
 
             // Checking and Adding Variants
-            HashMap<String,Double> variantData = new HashMap<String,Double>();
+            ObservableList<Variant> variantData = FXCollections.observableArrayList();
             int temp = variantCount;
             //temp--;
 
@@ -903,7 +876,7 @@ public class MenuController implements Initializable
                     }
                     else
                     {
-                        variantData.put( variantNameField.getText() , Double.parseDouble(variantPriceField.getText()) );
+                        variantData.add( new Variant( variantNameField.getText() , Double.parseDouble(variantPriceField.getText()) , "0") );
                     }
                 }
 
@@ -911,18 +884,18 @@ public class MenuController implements Initializable
             }
 
             Menu item = new Menu();
-            item.setId(id);
-            item.setFoodItemName(itemName);
-            item.setFoodItemPrice(itemPrice);
-            item.setFoodItemCategory(itemCategory);
-            item.setFoodItemAvailability(itemAvailability);
-            item.setVariantData(variantData);
+            item.setId( id  );
+            item.setFoodItemName(   itemName    );
+            item.setFoodItemPrice(  itemPrice   );
+            item.setFoodItemCategory(   itemCategory    );
+            item.setFoodItemAvailability(   itemAvailability    );
+            item.setVariantData(    variantData    );
 
 
             try {
                 if (!daoimpl.updateMenuItem(item))
                 {
-                    Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
+                    Alert alert = new Alert(Alert.AlertType.ERROR, "Could not Update Item. If this error keeps occurring contact customer support.", ButtonType.OK);
                     alert.setHeaderText("Item not Update!");
                     alert.setTitle("Alert!");
                     alert.showAndWait();
@@ -1012,5 +985,26 @@ public class MenuController implements Initializable
         }
 
         variantCount=0;
+    }
+
+    public void clearAllFields(int variantCount)
+    {
+        itemNameTextField.clear();
+        itemPriceTextField.clear();
+        itemCategoryComboBox.getSelectionModel().clearSelection();
+        itemAvailabilityComboBox.getSelectionModel().clearSelection();
+
+
+        int temp = variantCount;
+        while(temp>=0)
+        {
+            HBox hboxToRemove = (HBox) variantVbox.lookup("#variantHbox"+temp);
+
+            if (hboxToRemove != null)
+            {
+                variantVbox.getChildren().remove(hboxToRemove);
+            }
+            temp--;
+        }
     }
 }
