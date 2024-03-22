@@ -142,39 +142,41 @@
     -fx-font-size : 16px;
 }
 
-.activate-tracking-button {
+.tracking-off-button {
+    -fx-background-color: #e08484;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: #000000;
+    -fx-font-size : 14px;
+    -fx-border-radius: 5px;
+}
+
+.tracking-off-button:hover {
+    -fx-background-color: #bd4e4e;
+    -fx-border-color: black;
+    -fx-border-width : 0.5;
+    -fx-text-fill: white;
+    -fx-font-size : 14px;
+}
+
+.tracking-on-button {
     -fx-background-color: #80c975;
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
     -fx-font-size : 14px;
     -fx-border-radius: 5px;
+
+
 }
 
-.activate-tracking-button:hover {
+.tracking-on-button:hover {
     -fx-background-color: #5b8c52;
     -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
     -fx-font-size : 14px;
     -fx-border-radius: 5px;
-}
-
-.deactivate-tracking-button {
-    -fx-background-color: #e08484;
-    -fx-border-color: white;
-    -fx-border-width : 0.5;
-    -fx-text-fill: #000000;
-    -fx-font-size : 14px;
-    -fx-border-radius: 2px;
-}
-
-.deactivate-tracking-button:hover {
-    -fx-background-color: #c03c3c;
-    -fx-border-color: black;
-    -fx-border-width : 0.5;
-    -fx-text-fill: white;
-    -fx-font-size : 14px;
 }
 
 

@@ -35,9 +35,11 @@ public class LoginController
 
         if(tenant.getUsername().isEmpty() || tenant.getUsername() == null || tenant.getPassword().isEmpty() || tenant.getPassword() == null)
         {
+            Stage currentStage = (Stage) logInButton.getScene().getWindow();
             Alert alert = new Alert(Alert.AlertType.ERROR, "Enter Username & Password", ButtonType.OK);
             alert.setHeaderText("Fields can not be Empty");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
             return;
         }
@@ -111,8 +113,6 @@ public class LoginController
         }
         catch(SQLException e)
         {
-            //e.printStackTrace();
-
             Alert alert = new Alert(Alert.AlertType.WARNING, "LenDen Was unable to connect to the Database. Check you network Connection. If this error keeps occurring, contact Customer Support.", ButtonType.OK);
             alert.setHeaderText("Database Connection Error");
             alert.setTitle("Alert!");

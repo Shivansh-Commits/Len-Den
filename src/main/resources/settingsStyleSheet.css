@@ -144,11 +144,11 @@
 
 .tracking-off-button {
     -fx-background-color: #e08484;
-    -fx-border-color: white;
+    -fx-border-color: black;
     -fx-border-width : 0.5;
     -fx-text-fill: #000000;
     -fx-font-size : 14px;
-    -fx-border-radius: 2px;
+    -fx-border-radius: 5px;
 }
 
 .tracking-off-button:hover {

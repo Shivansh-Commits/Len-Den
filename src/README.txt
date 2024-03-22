@@ -201,6 +201,12 @@ TABLES -
         inventoryitemquantity [integer]
         inventoryitemunit [text]
 
+    12)variants
+        id [bigint]
+        menuitemid [Integer]
+        variantname [text]
+        variantprice [double precision]
+
 
 
 

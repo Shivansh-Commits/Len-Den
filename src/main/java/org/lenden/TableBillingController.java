@@ -25,6 +25,8 @@ import org.lenden.dao.DaoImpl;
 import org.lenden.model.Bill;
 import org.lenden.model.BillItems;
 import org.lenden.model.Menu;
+import org.lenden.model.Variant;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -83,6 +85,8 @@ public class TableBillingController implements Initializable {
     HashMap<String,ObservableList<BillItems>> openTables = new HashMap<>();
     ArrayList<String> reservedTables = new ArrayList<>();
     MainController mainController = new MainController();
+
+    Stage currentStage;
 
     /**
      * Used to pre-populate, display and set all necessary items before page is loaded, like :-
@@ -184,16 +188,14 @@ public class TableBillingController implements Initializable {
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
             Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> {
-                    variants.append(variant).append(", ");
-                });
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("N/A");
+                return new SimpleStringProperty(" N/A");
             }
         });
 
@@ -463,6 +465,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -495,16 +499,14 @@ public class TableBillingController implements Initializable {
         //Displaying variant data after formating
         variantCol.setCellValueFactory(cellData -> {
             Menu menuItem = cellData.getValue();
-            Map<String, Double> variantData = menuItem.getVariantData();
+            ObservableList<Variant> variantData = menuItem.getVariantData();
             if (variantData != null && !variantData.isEmpty()) {
                 StringBuilder variants = new StringBuilder();
-                variantData.keySet().forEach(variant -> {
-                    variants.append(variant).append(", ");
-                });
+                variantData.forEach(variant -> variants.append(variant.getVariantName()).append(", "));
                 // Remove the trailing comma and space
                 return new SimpleStringProperty(variants.substring(0, variants.length() - 2));
             } else {
-                return new SimpleStringProperty("N/A");
+                return new SimpleStringProperty(" N/A");
             }
         });
 
@@ -529,7 +531,7 @@ public class TableBillingController implements Initializable {
         BillItems selectedFoodItem = new BillItems();
         selectedFoodItem.setId(selectedMenuFoodItem.getId());
         selectedFoodItem.setFoodItemName(selectedMenuFoodItem.getFoodItemName());
-        selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
+        //selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
         selectedFoodItem.setFoodItemPrice(selectedMenuFoodItem.getFoodItemPrice());
 
 
@@ -569,6 +571,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -577,6 +581,8 @@ public class TableBillingController implements Initializable {
             Dialog<String> variantDialog = new Dialog<>();
             variantDialog.setTitle("Variant Selection");
             variantDialog.setHeaderText("Select Variant");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            variantDialog.initOwner(currentStage);
 
             // Create a flow pane to hold the variant buttons
             FlowPane variantPane = new FlowPane();
@@ -584,11 +590,11 @@ public class TableBillingController implements Initializable {
             variantPane.setVgap(5);
 
             // Add a button for each variant
-            for (Map.Entry<String, Double> entry : selectedMenuFoodItem.getVariantData().entrySet()) {
-                String variantName = entry.getKey();
-                Double variantPrice = entry.getValue();
+            for (Variant variant : selectedMenuFoodItem.getVariantData()) {
+                String variantName = variant.getVariantName();
+                Double variantPrice = variant.getVariantPrice();
                 Button variantButton = new Button(variantName + " - " + variantPrice);
-                variantButton.setOnAction(event -> {
+                variantButton.setOnAction(e -> {
                     // Set the selected variant and close the dialog
                     variantDialog.setResult(variantName + " - " + variantPrice);
                 });
@@ -685,6 +691,8 @@ public class TableBillingController implements Initializable {
                                         Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
                                         alert.setHeaderText("Failed");
                                         alert.setTitle("Error!");
+                                        currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                                        alert.initOwner(currentStage);
                                         alert.showAndWait();
                                     }
 
@@ -750,6 +758,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Selected Item Not Available", ButtonType.OK);
             alert.setHeaderText("Item Not Available");
             alert.setTitle("Sorry!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
         else
@@ -819,6 +829,8 @@ public class TableBillingController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Invalid Discount Value", ButtonType.OK);
                 alert.setHeaderText("Discount should be more than/equal to 0.0 & less than "+maxDiscount);
                 alert.setTitle("Attention!");
+                currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
 
                 discountField.setText("");
@@ -889,6 +901,8 @@ public class TableBillingController implements Initializable {
             Alert updateAlert = new Alert(Alert.AlertType.WARNING, "Not able to update Totals, Check you network Connection. If this keeps occurring Contact Customer Support"+e.getMessage(), ButtonType.OK);
             updateAlert.setHeaderText("Totals Not updated");
             updateAlert.setTitle("Alert!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            updateAlert.initOwner(currentStage);
             updateAlert.showAndWait();
         }
     }
@@ -939,6 +953,8 @@ public class TableBillingController implements Initializable {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Table will be closed and bill items will be deleted");
         deleteAlert.setTitle("Alert!");
+        currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        deleteAlert.initOwner(currentStage);
         deleteAlert.showAndWait();
 
         if(deleteAlert.getResult() != ButtonType.YES)
@@ -960,6 +976,8 @@ public class TableBillingController implements Initializable {
             Alert closeTableFailedAlert = new Alert(Alert.AlertType.ERROR, "Could not Close table - DB Exception", ButtonType.OK);
             closeTableFailedAlert.setHeaderText("Failed");
             closeTableFailedAlert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            closeTableFailedAlert.initOwner(currentStage);
             closeTableFailedAlert.showAndWait();
         }
 
@@ -1004,6 +1022,8 @@ public class TableBillingController implements Initializable {
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Table will be closed and bill items will be deleted");
         deleteAlert.setTitle("Alert!");
+        currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        deleteAlert.initOwner(currentStage);
         deleteAlert.showAndWait();
 
         if(deleteAlert.getResult() != ButtonType.YES)
@@ -1026,6 +1046,8 @@ public class TableBillingController implements Initializable {
             Alert closeTableFailedAlert = new Alert(Alert.AlertType.ERROR, "Could not Close table - DB Exception", ButtonType.OK);
             closeTableFailedAlert.setHeaderText("Failed");
             closeTableFailedAlert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            closeTableFailedAlert.initOwner(currentStage);
             closeTableFailedAlert.showAndWait();
         }
 
@@ -1061,6 +1083,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
             alert.setHeaderText("Can't Generate Invoice");
             alert.setTitle("Sorry!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
             return;
         }
@@ -1073,6 +1097,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -1112,6 +1138,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Items Added. Invoice can not be generated", ButtonType.OK);
             alert.setHeaderText("Can't Generate Invoice");
             alert.setTitle("Alert!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
             return;
         }
@@ -1122,6 +1150,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Select a valid mode of payment", ButtonType.OK);
             alert.setHeaderText("Mode of Payment not Selected");
             alert.setTitle("Alert!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
             modeofpayment.requestFocus();
             return;
@@ -1142,6 +1172,8 @@ public class TableBillingController implements Initializable {
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
                 alert.setHeaderText("Failed");
                 alert.setTitle("Error!");
+                currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         }
@@ -1169,6 +1201,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -1177,6 +1211,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bill Settled & Added Successfully", ButtonType.OK);
             alert.setHeaderText("Bill Settled Successfully");
             alert.setTitle("Success!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             billTableItems.clear(); //Clearing the bill table
@@ -1192,6 +1228,8 @@ public class TableBillingController implements Initializable {
                 Alert closeTableFailedAlert = new Alert(Alert.AlertType.ERROR, "Could not Close table DB Exception", ButtonType.OK);
                 closeTableFailedAlert.setHeaderText("Failed");
                 closeTableFailedAlert.setTitle("Error!");
+                currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                alert.initOwner(currentStage);
                 closeTableFailedAlert.showAndWait();
             }
 
@@ -1216,6 +1254,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Bill Not Added", ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
     }
@@ -1369,6 +1409,8 @@ public class TableBillingController implements Initializable {
                                             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
                                             alert.setHeaderText("Failed");
                                             alert.setTitle("Error!");
+                                            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                                            alert.initOwner(currentStage);
                                             alert.showAndWait();
                                         }
 
@@ -1482,6 +1524,8 @@ public class TableBillingController implements Initializable {
                 Alert reserveAlert = new Alert(Alert.AlertType.WARNING, "Select a Table to Reserve it.", ButtonType.OK);
                 reserveAlert.setHeaderText("No Table Selected");
                 reserveAlert.setTitle("Alert!");
+                currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                reserveAlert.initOwner(currentStage);
                 reserveAlert.showAndWait();
             }
             //CASE - Un-Reserve Table
@@ -1513,6 +1557,8 @@ public class TableBillingController implements Initializable {
                     Alert shiftTableAlert = new Alert(Alert.AlertType.ERROR, "Could not un-reserve Table" + e, ButtonType.OK);
                     shiftTableAlert.setHeaderText("Error");
                     shiftTableAlert.setTitle("Alert!");
+                    currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    shiftTableAlert.initOwner(currentStage);
                     shiftTableAlert.showAndWait();
                 }
             }
@@ -1543,6 +1589,8 @@ public class TableBillingController implements Initializable {
                         Alert reserveSuccessAlert = new Alert(Alert.AlertType.INFORMATION, "Reservation Success", ButtonType.OK);
                         reserveSuccessAlert.setHeaderText(tableNumber + " Reserved");
                         reserveSuccessAlert.setTitle("Information");
+                        currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                        reserveSuccessAlert.initOwner(currentStage);
                         reserveSuccessAlert.showAndWait();
                     }
                 }
@@ -1551,6 +1599,8 @@ public class TableBillingController implements Initializable {
                     Alert shiftTableAlert = new Alert(Alert.AlertType.ERROR, "Could not Reserve Table" + e, ButtonType.OK);
                     shiftTableAlert.setHeaderText("Error");
                     shiftTableAlert.setTitle("Alert!");
+                    currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    shiftTableAlert.initOwner(currentStage);
                     shiftTableAlert.showAndWait();
                 }
             }
@@ -1560,6 +1610,8 @@ public class TableBillingController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -1592,6 +1644,8 @@ public class TableBillingController implements Initializable {
             Alert noExpandedPaneAlert = new Alert(Alert.AlertType.WARNING, "Select an area to shift the table from", ButtonType.OK);
             noExpandedPaneAlert.setHeaderText("No area is selected");
             noExpandedPaneAlert.setTitle("Alert!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            noExpandedPaneAlert.initOwner(currentStage);
             noExpandedPaneAlert.showAndWait();
         }
 
@@ -1609,6 +1663,8 @@ public class TableBillingController implements Initializable {
             Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "No Items Present in bill", ButtonType.OK);
             shiftTableAlert.setHeaderText("Can not Shift Table");
             shiftTableAlert.setTitle("Alert!");
+            currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+            shiftTableAlert.initOwner(currentStage);
             shiftTableAlert.showAndWait();
             return;
         }
@@ -1682,6 +1738,8 @@ public class TableBillingController implements Initializable {
                     Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Select a Closed Table for Shifting", ButtonType.OK);
                     shiftTableAlert.setHeaderText("Invalid Destination Table Selected");
                     shiftTableAlert.setTitle("Alert!");
+                    currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    shiftTableAlert.initOwner(currentStage);
                     shiftTableAlert.showAndWait();
                 }
             }
@@ -1690,6 +1748,8 @@ public class TableBillingController implements Initializable {
                 Alert shiftTableAlert = new Alert(Alert.AlertType.WARNING, "Table could not be Shifted, Check you network Connection. If this keeps occurring Contact Customer Support"+ex.getMessage(), ButtonType.OK);
                 shiftTableAlert.setHeaderText("Could not Shift Table");
                 shiftTableAlert.setTitle("Alert!");
+                currentStage = (Stage) foodItemsTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                shiftTableAlert.initOwner(currentStage);
                 shiftTableAlert.showAndWait();
             }
         });

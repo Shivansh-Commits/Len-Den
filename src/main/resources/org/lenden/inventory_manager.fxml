@@ -31,7 +31,7 @@
             </TableView>
          </top>
          <center>
-            <BorderPane maxWidth="1.7976931348623157E308" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
+            <BorderPane maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <center>
                   <TextField fx:id="searchTextField" minHeight="45.0" prefHeight="40.0" prefWidth="1365.0" promptText="Search Inventory Item " style="-fx-border-color: grey; -fx-border-radius: 5px; -fx-border-width: 2; -fx-background-color: white;" BorderPane.alignment="CENTER">
                      <font>

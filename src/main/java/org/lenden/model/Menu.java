@@ -1,6 +1,6 @@
 package org.lenden.model;
 
-import java.util.HashMap;
+import javafx.collections.ObservableList;
 
 public class Menu {
 
@@ -13,9 +13,9 @@ public class Menu {
 
     public String foodItemCategory; // Food category ( Main Course / Dessert / Snacks etc..) or Alcohol
 
-    public int stockQuantity; // Amount of stock available
+    public String stockQuantity; // Amount of stock available
 
-    public HashMap<String,Double> variantData; // Variant (Half/Full/Regular/Medium)
+    public ObservableList<Variant> variantData; // Variant (Half/Full/Regular/Medium etc..)
 
     public String isInventoryTracked;
 
@@ -62,19 +62,19 @@ public class Menu {
     }
 
 
-    public int getStockQuantity() {
+    public String getStockQuantity() {
         return stockQuantity;
     }
 
-    public void setStockQuantity(int stockQuantity) {
+    public void setStockQuantity(String stockQuantity) {
         this.stockQuantity = stockQuantity;
     }
 
-    public HashMap<String, Double> getVariantData() {
+    public ObservableList<Variant> getVariantData() {
         return variantData;
     }
 
-    public void setVariantData(HashMap<String, Double> variantData) {
+    public void setVariantData(ObservableList<Variant> variantData) {
         this.variantData = variantData;
     }
 

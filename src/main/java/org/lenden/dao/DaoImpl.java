@@ -9,6 +9,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import org.lenden.model.*;
+
+import static java.util.Collections.min;
 import static org.lenden.LoginController.getTenant;
 import java.sql.*;
 import java.time.LocalDate;
@@ -86,110 +88,6 @@ public class DaoImpl
             e.printStackTrace();
             throw e;
         }
-    }
-
-    public ObservableList<Menu> fetchCategoryItems(String category) throws Exception
-    {
-        ObservableList<Menu> menuItemList = FXCollections.observableArrayList();
-        PreparedStatement stmt;
-
-        try(Connection c = ConnectionManager.getConnection())
-        {
-            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.menu WHERE fooditemcategory = ?", tenantId));
-            stmt.setString(1,category);
-            ResultSet rs = stmt.executeQuery();
-
-            while(rs.next())
-            {
-                Menu menuItem = new Menu();
-
-                //Getting ID
-                menuItem.setId(rs.getInt("id"));
-
-                //Getting Category
-                menuItem.setFoodItemCategory("fooditemcategory");
-
-                //Getting Name
-                menuItem.setFoodItemName(rs.getString("fooditemname"));
-
-                //Getting Price
-                menuItem.setFoodItemPrice(rs.getDouble("fooditemprice"));
-
-                //Getting Availability
-                menuItem.setFoodItemCategory(category);
-                if(rs.getBoolean("fooditemavailability"))
-                    menuItem.setFoodItemAvailability("Available");
-                else
-                    menuItem.setFoodItemAvailability("NOT Available");
-
-                //Getting Stock Quantity
-                menuItem.setStockQuantity(rs.getInt("stockquantity"));
-
-                //Getting Variant Data
-                String variantDataJson = rs.getString("variants");
-                try {
-                    if (variantDataJson != null && !variantDataJson.isEmpty()) {
-                        ObjectMapper objectMapper = new ObjectMapper();
-                        TypeReference<HashMap<String, Double>> typeReference = new TypeReference<HashMap<String, Double>>() {};
-                        HashMap<String, Double> variantData = objectMapper.readValue(variantDataJson, typeReference);
-                        menuItem.setVariantData(variantData);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw e;
-                }
-
-                //Getting isInventoryTracked
-                menuItem.setIsInventoryTracked(rs.getString("isInventoryTracked"));
-
-                menuItemList.add(menuItem);
-            }
-
-            if(!menuItemList.isEmpty())
-            {
-                rs.close();
-                stmt.close();
-                c.close();
-                return menuItemList;
-            }
-
-            rs.close();
-            stmt.close();
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-            throw e;
-        }
-
-        return null;
-    }
-
-    public ObservableList<Menu> fetchAllCategoryItems() throws Exception
-    {
-        ObservableList<Menu> menuItemList = FXCollections.observableArrayList();
-        try
-        {
-            ObservableList<String> categories = FXCollections.observableArrayList();
-            categories = fetchCategories();
-
-            for(String category : categories)
-            {
-                menuItemList.addAll(fetchCategoryItems(category));
-            }
-
-            return menuItemList;
-
-        }
-        catch (Exception ex)
-        {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
-            alert.setHeaderText("Failed");
-            alert.setTitle("Error!");
-            alert.showAndWait();
-        }
-
-        return null;
     }
 
     public double fetchTax(String tax) throws SQLException
@@ -427,7 +325,6 @@ public class DaoImpl
     {
         PreparedStatement stmt;
 
-
         try(Connection c = ConnectionManager.getConnection())
         {
             stmt = c.prepareStatement(String.format("INSERT INTO %s.billdetails (fooditemname,fooditemquantity,fooditemprice,billnumber,tablenumber) VALUES (?,?,?,?,?)", tenantId));
@@ -513,7 +410,8 @@ public class DaoImpl
 
     }
 
-    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException, JsonProcessingException {
+    public void saveOpenTableDetails(HashMap<String,ObservableList<BillItems>> openTables) throws SQLException, JsonProcessingException
+    {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -561,7 +459,8 @@ public class DaoImpl
         }
     }
 
-    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails() throws SQLException, JsonProcessingException {
+    public HashMap<String,ObservableList<BillItems>> fetchOpenTableDetails() throws SQLException, JsonProcessingException
+    {
         HashMap<String,ObservableList<BillItems>> openTableDetails = new HashMap<>();
 
         PreparedStatement stmt;
@@ -684,32 +583,6 @@ public class DaoImpl
         }
     }
 
-    public ObservableList<String> fetchCategories() throws SQLException
-    {
-        PreparedStatement stmt;
-
-        try(Connection c = ConnectionManager.getConnection())
-        {
-            stmt  = c.prepareStatement(String.format("SELECT DISTINCT fooditemcategory FROM %s.menu", tenantId));
-            ResultSet rs = stmt.executeQuery();
-            ObservableList<String> categories = FXCollections.observableArrayList();
-            while(rs.next())
-            {
-                categories.add(rs.getString("fooditemcategory"));
-            }
-
-            stmt.close();
-
-            return categories;
-        }
-        catch(SQLException e)
-        {
-            e.printStackTrace();
-            throw e;
-        }
-
-    }
-
     public void closeTable(String openTable) throws SQLException {
         PreparedStatement stmt;
 
@@ -755,42 +628,207 @@ public class DaoImpl
         }
     }
 
-    public boolean addItemToMenu(Menu item) throws SQLException, JsonProcessingException {
+    public ObservableList<String> fetchCategories() throws SQLException
+    {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
         {
-            stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability,stockquantity,variants,isinventorytracked) VALUES (?,?,?,?,?,?,OFF) ", tenantId));
+            stmt  = c.prepareStatement(String.format("SELECT DISTINCT fooditemcategory FROM %s.menu", tenantId));
+            ResultSet rs = stmt.executeQuery();
+            ObservableList<String> categories = FXCollections.observableArrayList();
+            while(rs.next())
+            {
+                categories.add(rs.getString("fooditemcategory"));
+            }
+
+            stmt.close();
+
+            return categories;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+    }
+
+    public ObservableList<Menu> fetchCategoryItems(String category) throws Exception
+    {
+        ObservableList<Menu> menuItemList = FXCollections.observableArrayList();
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.menu WHERE fooditemcategory = ?", tenantId));
+            stmt.setString(1,category);
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+            {
+                Menu menuItem = new Menu();
+
+                //Getting ID
+                menuItem.setId(rs.getInt("id"));
+
+                //Getting Category
+                menuItem.setFoodItemCategory("fooditemcategory");
+
+                //Getting Name
+                menuItem.setFoodItemName(rs.getString("fooditemname"));
+
+                //Getting Price
+                menuItem.setFoodItemPrice(rs.getDouble("fooditemprice"));
+
+                //Getting Availability
+                menuItem.setFoodItemCategory(category);
+                if(rs.getBoolean("fooditemavailability"))
+                    menuItem.setFoodItemAvailability("Available");
+                else
+                    menuItem.setFoodItemAvailability("NOT Available");
+
+                //Getting Stock Quantity
+                menuItem.setStockQuantity(rs.getString("stockquantity"));
+
+                //Getting Variant Data
+                if(rs.getString("isvariantexists").equals("NO"))
+                {
+                    menuItem.setVariantData(null);
+                }
+                else
+                {
+                    try {
+                        menuItem.setVariantData(fetchVariants(menuItem.getId()));
+                    } catch (Exception e) {
+                        e.getMessage();
+                        throw e;
+                    }
+                }
+
+                //Getting isInventoryTracked
+                menuItem.setIsInventoryTracked(rs.getString("isInventoryTracked"));
+
+                menuItemList.add(menuItem);
+            }
+
+            if(!menuItemList.isEmpty())
+            {
+                rs.close();
+                stmt.close();
+                c.close();
+                return menuItemList;
+            }
+
+            rs.close();
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.getMessage();
+            throw e;
+        }
+
+        return null;
+    }
+
+    public ObservableList<Menu> fetchAllCategoryItems() throws Exception
+    {
+        ObservableList<Menu> menuItemList = FXCollections.observableArrayList();
+        try
+        {
+            ObservableList<String> categories = FXCollections.observableArrayList();
+            categories = fetchCategories();
+
+            for(String category : categories)
+            {
+                menuItemList.addAll(fetchCategoryItems(category));
+            }
+
+            return menuItemList;
+
+        }
+        catch (Exception ex)
+        {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
+            alert.setHeaderText("Failed");
+            alert.setTitle("Error!");
+            alert.showAndWait();
+        }
+
+        return null;
+    }
+
+    public boolean addItemToMenu(Menu item) throws SQLException, JsonProcessingException
+    {
+        PreparedStatement stmt;
+        boolean isVariantExistFlag = false;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("INSERT INTO %s.menu (fooditemname,fooditemcategory,fooditemprice,fooditemavailability,stockquantity,isvariantexists,isinventorytracked) VALUES (?,?,?,?,?,?,?) RETURNING id", tenantId));
+
             stmt.setString(1,item.getFoodItemName());
+
             stmt.setString(2,item.getFoodItemCategory());
+
             stmt.setDouble(3,item.getFoodItemPrice());
 
             String availability = item.getFoodItemAvailability();
+
             stmt.setBoolean(4, availability.equals("Available"));
-            stmt.setInt(5,item.getStockQuantity());
-            if(item.getVariantData().size()==0)
+
+            stmt.setString(5,item.getStockQuantity());
+
+            if(item.getVariantData() == null || item.getVariantData().size() == 0)
             {
-                stmt.setString(6, "");
+                stmt.setString(6,"NO");
             }
             else
             {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    String variantDataJson = objectMapper.writeValueAsString(item.getVariantData());
-                    stmt.setString(6, variantDataJson);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw e;
-                }
+                stmt.setString(6,"YES");
+                isVariantExistFlag = true;
             }
 
+            stmt.setString(7,"OFF");
 
+            boolean isInserted = stmt.execute();
 
-            if(stmt.executeUpdate()==1)
-            {
-                stmt.close();
-                c.close();
-                return true;
+            if(isInserted) {
+
+                //IF Variants Exist
+                if(isVariantExistFlag) {
+
+                    // Get the generated ID from the ResultSet
+                    ResultSet generatedKeys = stmt.getResultSet();
+                    if (generatedKeys.next()) {
+
+                        int menuItemId = generatedKeys.getInt("id");
+                        if (addVariant(menuItemId, item.getVariantData()) || isInserted) {
+
+                            stmt.close();
+                            c.close();
+                            return true;
+                        }
+                        else {
+
+                            stmt.close();
+                            c.close();
+                            return false;
+                        }
+                    }
+                    else {
+
+                        throw new SQLException("Failed to retrieve generated ID for newly added Menu Item");
+                    }
+                }
+                else {
+
+                    if(isInserted) {
+
+                        return true;
+                    }
+                }
             }
             else
             {
@@ -804,13 +842,116 @@ public class DaoImpl
             e.printStackTrace();
             throw e;
         }
-
+    return false;
 
     }
 
+    public ObservableList<Variant> fetchVariants(int menuItemId) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.variants WHERE menuitemid = ?", tenantId));
+            stmt.setInt(1,menuItemId);
+            ResultSet rs = stmt.executeQuery();
+
+            ObservableList<Variant> variants = FXCollections.observableArrayList();
+            while(rs.next())
+            {
+                Variant variant = new Variant();
+
+                variant.setId(rs.getInt("id"));
+                variant.setMenuItemId(rs.getInt("menuitemid"));
+                variant.setVariantName(rs.getString("variantname"));
+                variant.setVariantPrice(rs.getDouble("variantprice"));
+                variant.setStockQuantity(rs.getString("stockquantity"));
+
+                variants.add(variant);
+            }
+
+            stmt.close();
+
+            return variants;
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public boolean addVariant(int menuItemId,ObservableList<Variant> variants) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.variants (variantname,variantprice,menuitemid,stockquantity) VALUES (?,?,?,?)", tenantId));
+
+            for(Variant variant : variants)
+            {
+                stmt.setString(1, variant.getVariantName());
+                stmt.setDouble(2, variant.getVariantPrice());
+                stmt.setInt(3, menuItemId);
+                stmt.setString(4, variant.getStockQuantity());
+
+                if(stmt.execute() == false)
+                {
+                    return false;
+                }
+            }
+
+            stmt.close();
+            return true;
+
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    public boolean updateVariants(int menuItemId, ObservableList<Variant> variants) throws SQLException {
+
+        PreparedStatement stmt;
+
+        try (Connection c = ConnectionManager.getConnection())
+        {
+
+            stmt = c.prepareStatement(String.format("DELETE FROM %s.variants WHERE menuitemid = ?",tenantId));
+            // Delete existing variants for the specified menuItemId
+            stmt.setInt(1, menuItemId);
+            stmt.executeUpdate();
+
+
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.variants (menuitemid, variantname, variantprice,stockquantity) VALUES (?, ?, ? .?)",tenantId));
+            // Insert updated variants
+            for (Variant variant : variants) {
+
+                stmt.setInt(1, menuItemId);
+                stmt.setString(2, variant.getVariantName());
+                stmt.setDouble(3, variant.getVariantPrice());
+                stmt.setString(4, variant.getStockQuantity());
+                if(stmt.executeUpdate()<0)
+                    {
+                        return false;
+                    }
+            }
+            return true;
+        }
+        catch (SQLException e) {
+
+            e.getMessage();
+            throw e;
+        }
+    }
+
+
     public boolean deleteMenuItem(Integer id) throws SQLException
     {
-
+        int rowsDeleted = 0;
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -818,7 +959,18 @@ public class DaoImpl
             stmt  = c.prepareStatement(String.format("DELETE FROM %s.menu WHERE id = ? ", tenantId));
             stmt.setInt(1,id);
 
-            int rowsDeleted = stmt.executeUpdate();
+            rowsDeleted = rowsDeleted +  stmt.executeUpdate();
+
+            stmt  = c.prepareStatement(String.format("DELETE FROM %s.recipe WHERE menuitemid = ? ", tenantId));
+            stmt.setInt(1,id);
+
+            rowsDeleted = rowsDeleted +  stmt.executeUpdate();
+
+            stmt  = c.prepareStatement(String.format("DELETE FROM %s.variants WHERE menuitemid = ? ", tenantId));
+            stmt.setInt(1,id);
+
+            rowsDeleted = rowsDeleted +  stmt.executeUpdate();
+
 
             return (rowsDeleted > 0);
         }
@@ -829,68 +981,76 @@ public class DaoImpl
         }
     }
 
-    public boolean updateMenuItem(Menu item) throws SQLException, JsonProcessingException {
-        PreparedStatement stmt;
+    public boolean updateMenuItem(Menu item) throws SQLException, JsonProcessingException
+    {
+        try (Connection c = ConnectionManager.getConnection()) {
+            String tableName = tenantId + ".menu";
+            StringBuilder queryBuilder = new StringBuilder("UPDATE ").append(tableName).append(" SET ");
 
-        try(Connection c = ConnectionManager.getConnection())
-        {
+            Map<String, Object> fieldsToUpdate = new HashMap<>();
 
-            stmt  = c.prepareStatement(String.format("UPDATE %s.menu SET fooditemname = ? ,fooditemprice = ?, fooditemavailability = ?, fooditemcategory = ? , stockquantity = ?, variants=?  WHERE id = ?", tenantId));
+            // Add non-null fields to the fieldsToUpdate map
+            if (item.getStockQuantity() != null) fieldsToUpdate.put("stockquantity", item.getStockQuantity());
+            if (item.getFoodItemCategory() != null) fieldsToUpdate.put("fooditemcategory", item.getFoodItemCategory());
+            if (item.getFoodItemName() != null) fieldsToUpdate.put("fooditemname", item.getFoodItemName());
+            if (item.getFoodItemPrice() != null) fieldsToUpdate.put("fooditemprice", item.getFoodItemPrice());
+            if (item.getIsInventoryTracked() != null) fieldsToUpdate.put("isinventorytracked", item.getIsInventoryTracked());
 
-            //Setting Name
-            stmt.setString(1,item.getFoodItemName());
-
-            //Setting Item Price
-            stmt.setDouble(2,item.getFoodItemPrice());
-
-            //Setting Availability
-            String availability = item.getFoodItemAvailability();
-            stmt.setBoolean(3, availability.equals("Available"));
-
-            //Setting Category Data
-            stmt.setString(4,item.getFoodItemCategory());
-
-            //Setting Stock Data
-            stmt.setInt(5,item.getStockQuantity());
-
-            //Setting Variant Data
-            if(item.getVariantData().size()==0)
-            {
-                stmt.setString(6, "");
+            // Handle fooditemavailability specially
+            if (item.getFoodItemAvailability() != null) {
+                // Use a ternary operator to convert the availability string to a boolean
+                boolean isAvailable = item.getFoodItemAvailability().equals("Available");
+                fieldsToUpdate.put("fooditemavailability", isAvailable);
             }
-            else
-            {
-                try {
-                    ObjectMapper objectMapper = new ObjectMapper();
-                    String variantDataJson = objectMapper.writeValueAsString(item.getVariantData());
-                    stmt.setString(6, variantDataJson);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    throw e;
+
+            // Append field updates to the query
+            int index = 0;
+            for (Map.Entry<String, Object> entry : fieldsToUpdate.entrySet()) {
+                if (index > 0) {
+                    queryBuilder.append(", ");
+                }
+                queryBuilder.append(entry.getKey()).append(" = ?");
+                index++;
+            }
+
+            // Append WHERE clause
+            queryBuilder.append(" WHERE id = ?");
+
+            // Create and execute the prepared statement
+            PreparedStatement stmt = c.prepareStatement(queryBuilder.toString());
+
+            // Set parameter values for fieldsToUpdate
+            int parameterIndex = 1;
+            for (Object value : fieldsToUpdate.values()) {
+                if (value instanceof Boolean) {
+                    stmt.setBoolean(parameterIndex++, (Boolean) value);
+                } else if (value instanceof Double) {
+                    stmt.setDouble(parameterIndex++, (Double) value);
+                } else {
+                    stmt.setString(parameterIndex++, value.toString());
                 }
             }
 
-            //Setting ID
-            stmt.setInt(7,item.getId());
+            // Set parameter value for id
+            stmt.setInt(parameterIndex, item.getId());
+
+            // Execute the update
+            int rowsUpdated = stmt.executeUpdate();
+            stmt.close();
+            c.close();
 
 
-
-            if(stmt.executeUpdate()==1)
-            {
-                stmt.close();
-                c.close();
-                return true;
+            // Update variant properties if variant data is not null
+            if (item.getVariantData() != null && !item.getVariantData().isEmpty()) {
+                boolean variantsUpdated = updateVariants(item.getId(), item.getVariantData());
+                if (!variantsUpdated) {
+                    // Handle failure to update variants
+                    return false;
+                }
             }
-            else
-            {
-                stmt.close();
-                c.close();
-                return false;
-            }
 
-        }
-        catch(Exception e)
-        {
+            return rowsUpdated == 1;
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -916,6 +1076,8 @@ public class DaoImpl
                 stmt = c.prepareStatement(String.format("INSERT INTO %s.tableandarea (area, tables) VALUES (?, ?)", tenantId));
                 stmt.setString(1, area);
                 stmt.setInt(2, tables);
+
+
                 if(stmt.executeUpdate()!=1)
                     return false;
             }
@@ -986,6 +1148,7 @@ public class DaoImpl
             if(stmt.executeUpdate()>0)
             {
                 stmt.close();
+                c.close();
                 return true;
             }
             return false;
@@ -1009,6 +1172,7 @@ public class DaoImpl
             if(stmt.executeUpdate()>0)
             {
                 stmt.close();
+                c.close();
                 return true;
             }
             else
@@ -1377,6 +1541,58 @@ public class DaoImpl
 
         return null;
     }
+
+    public Inventory fetchSpecificInventoryItem(int id) throws Exception
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt  = c.prepareStatement(String.format("SELECT * FROM %s.inventory WHERE id = ?", tenantId));
+            stmt.setInt(1,id);
+            ResultSet rs = stmt.executeQuery();
+
+            Inventory inventoryItem = new Inventory();
+
+            while(rs.next())
+            {
+                //Getting ID
+                inventoryItem.setId(rs.getInt("id"));
+
+                //Getting Name
+                inventoryItem.setInventoryItemName(rs.getString("name"));
+
+                //Getting Price
+                inventoryItem.setInventoryItemRate(rs.getDouble("rate"));
+
+                //Getting unit
+                inventoryItem.setInventoryItemUnit(rs.getString("unit"));
+
+                //Getting Stock Quantity
+                inventoryItem.setInventoryItemQuantity(rs.getDouble("quantity"));
+
+            }
+
+            if(inventoryItem != null)
+            {
+                rs.close();
+                stmt.close();
+                c.close();
+                return inventoryItem;
+            }
+
+            rs.close();
+            stmt.close();
+        }
+        catch(SQLException e)
+        {
+            e.printStackTrace();
+            throw e;
+        }
+
+        return null;
+    }
+
     public boolean deleteInventoryItem(int id) throws SQLException
     {
 
@@ -1419,7 +1635,8 @@ public class DaoImpl
         }
     }
 
-    public boolean addNewInventoryItem(Inventory newItem) throws SQLException {
+    public boolean addNewInventoryItem(Inventory newItem) throws SQLException
+    {
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
@@ -1438,7 +1655,8 @@ public class DaoImpl
         }
     }
 
-    public boolean addInventoryItemPurchase(InventoryPurchase inventorypurchase) throws SQLException {
+    public boolean addInventoryItemPurchase(InventoryPurchase inventorypurchase) throws SQLException
+    {
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
@@ -1488,7 +1706,8 @@ public class DaoImpl
         }
     }
 
-    public ObservableList<InventoryPurchase> fetchInventoryPurchaseItems(int inventoryItemId) throws SQLException {
+    public ObservableList<InventoryPurchase> fetchInventoryPurchaseItems(int inventoryItemId) throws SQLException
+    {
         ObservableList<InventoryPurchase> inventoryItems = FXCollections.observableArrayList();
         PreparedStatement stmt;
 
@@ -1641,11 +1860,13 @@ public class DaoImpl
 
     }
 
-    public boolean addRecipe(Recipe recipe) throws SQLException {
+    public long addRecipe(Recipe recipe) throws SQLException
+    {
         PreparedStatement stmt;
+        ResultSet generatedKeys; // ResultSet to hold the generated keys
 
         try (Connection c = ConnectionManager.getConnection()) {
-            stmt = c.prepareStatement(String.format("INSERT INTO %s.recipe (menuitemid, variant, rawmaterials) VALUES (?, ?, ?)", tenantId));
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.recipe (menuitemid, variant, rawmaterials) VALUES (?, ?, ?) RETURNING id", tenantId));
             stmt.setInt(1, recipe.getMenuItemId());
             stmt.setString(2, recipe.getVariant());
 
@@ -1654,24 +1875,38 @@ public class DaoImpl
             String rawMaterialsJson = mapper.writeValueAsString(recipe.getRawMaterials());
             stmt.setString(3, rawMaterialsJson);
 
+            boolean inserted = stmt.execute();
 
-            int rowsInserted = stmt.executeUpdate();
+            // Check if the insert was successful
+            if (inserted)
+            {
+                generatedKeys = stmt.getResultSet(); // Retrieve the generated keys
 
-            return (rowsInserted > 0);
-        }
-        catch (SQLException e)
-        {
-            e.getMessage();
+                if (generatedKeys.next()) {
+                    // Get the generated ID from the ResultSet
+                    long generatedId = generatedKeys.getLong("id");
+                    return generatedId;
+                }
+                else
+                {
+                    throw new SQLException("Failed to retrieve generated ID for recipe");
+                }
+            }
+            else
+            {
+                throw new SQLException("Failed to insert recipe");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
             throw e;
-        }
-        catch (JsonProcessingException e)
-        {
-            e.getMessage();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace(); // Handle the exception appropriately
             throw new RuntimeException(e);
         }
     }
 
-    public boolean updateRecipe(Recipe recipe) throws SQLException {
+    public boolean updateRecipe(Recipe recipe) throws SQLException
+    {
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
@@ -1703,7 +1938,8 @@ public class DaoImpl
         }
     }
 
-    public boolean deleteRecipe(int recipeId) throws SQLException {
+    public boolean deleteRecipe(int recipeId) throws SQLException
+    {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -1722,7 +1958,8 @@ public class DaoImpl
         }
     }
 
-    public Recipe fetchRecipe(int menuItemId,String variant) throws SQLException {
+    public Recipe fetchRecipe(int menuItemId,String variant) throws SQLException
+    {
         PreparedStatement stmt;
 
         try(Connection c = ConnectionManager.getConnection())
@@ -1763,7 +2000,8 @@ public class DaoImpl
         }
     }
 
-    public boolean changeTrackingStatus(int id,String status) throws SQLException {
+    public boolean changeTrackingStatus(int id,String status) throws SQLException
+    {
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
@@ -1784,7 +2022,8 @@ public class DaoImpl
         }
     }
 
-    public boolean checkIfRecipeExists(int menuItemId,String variant) throws SQLException {
+    public int checkIfRecipeExists(int menuItemId,String variant) throws SQLException
+    {
 
         PreparedStatement stmt;
 
@@ -1798,13 +2037,12 @@ public class DaoImpl
 
                 if(rs.next())
                 {
-                    stmt.close();
-                    return true;
+                    return rs.getInt("id");
                 }
                 else
                 {
                     stmt.close();
-                    return false;
+                    return 0;
                 }
             }
             else
@@ -1816,13 +2054,12 @@ public class DaoImpl
 
                 if(rs.next())
                 {
-                    stmt.close();
-                    return true;
+                    return rs.getInt("id");
                 }
                 else
                 {
                     stmt.close();
-                    return false;
+                    return 0;
                 }
             }
         }
@@ -1834,4 +2071,24 @@ public class DaoImpl
 
     }
 
+    public Double calculateStockQuantity(Menu menuItem,int recipeId,String variant) throws Exception
+    {
+        ArrayList<Double> stock = new ArrayList<Double>();
+
+        Recipe recipe = fetchRecipe(menuItem.getId(), variant);
+        ArrayList<Inventory> recipeRawMaterials = recipe.getRawMaterials();
+
+        for(Inventory recipeRawMaterial :recipeRawMaterials)
+        {
+            Inventory inventoryItem = fetchSpecificInventoryItem(recipeRawMaterial.getId());
+
+            double inventoryItemStockQuantity = (int)(inventoryItem.getInventoryItemQuantity() / recipeRawMaterial.getInventoryItemQuantity());
+            if( inventoryItemStockQuantity >= 0)
+            {
+                stock.add(inventoryItemStockQuantity);
+            }
+        }
+
+        return min(stock);
+    }
 }
