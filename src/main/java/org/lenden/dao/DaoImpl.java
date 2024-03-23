@@ -2,7 +2,6 @@ package org.lenden.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -2015,9 +2014,10 @@ public class DaoImpl
         {
             e.getMessage();
             throw e;
-        } catch (JsonMappingException e) {
-            throw new RuntimeException(e);
-        } catch (JsonProcessingException e) {
+        }
+        catch (JsonProcessingException e)
+        {
+            e.getMessage();
             throw new RuntimeException(e);
         }
     }
@@ -2091,6 +2091,45 @@ public class DaoImpl
             throw e;
         }
 
+    }
+
+    public int checkIfRawMaterialIsUsedInRecipe(int rawMaterialId) throws SQLException
+    {
+        PreparedStatement stmt;
+
+        try(Connection c = ConnectionManager.getConnection())
+        {
+            stmt = c.prepareStatement(String.format("SELECT menuitemid,rawmaterials FROM %s.recipe  ", tenantId));
+            ResultSet rs = stmt.executeQuery();
+
+            while(rs.next())
+            {
+                ObjectMapper mapper = new ObjectMapper();
+                ArrayList<Inventory> rawMaterials = mapper.readValue(rs.getString("rawmaterials"), new TypeReference<ArrayList<Inventory>>() {});
+                for(Inventory rawMaterial : rawMaterials)
+                {
+                    if(rawMaterial.getId()==rawMaterialId)
+                    {
+                        return rs.getInt("menuitemid");
+                    }
+                }
+            }
+
+            rs.close();
+            c.close();
+            stmt.close();
+            return -1;
+        }
+        catch(SQLException e)
+        {
+            e.getMessage();
+            throw e;
+        }
+        catch (JsonProcessingException e)
+        {
+
+            throw new RuntimeException(e);
+        }
     }
 
     public Integer calculateStockQuantity(Menu menuItem,String variant) throws Exception
