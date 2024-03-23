@@ -17,6 +17,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import org.lenden.dao.DaoImpl;
 import org.lenden.model.Menu;
 import org.lenden.model.Variant;
@@ -47,14 +48,14 @@ public class MenuController implements Initializable
     Button updateMenuItemButton;
     @FXML
     VBox variantVbox;
-
-
     @FXML
     Label itemId;
+
 
     int variantCount=0;
     ObservableList<Menu> menuTableItems =  FXCollections.observableArrayList();
     DaoImpl daoimpl = new DaoImpl();
+    Stage currentStage;
 
     @Override
     public void initialize(URL location, ResourceBundle resources)
@@ -77,9 +78,11 @@ public class MenuController implements Initializable
         catch(Exception e)
         {
             e.printStackTrace();
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -237,9 +240,11 @@ public class MenuController implements Initializable
         catch(Exception e)
         {
             e.printStackTrace();
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert exAlert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
             exAlert.setHeaderText("Failed");
             exAlert.setTitle("Error!");
+            exAlert.initOwner(currentStage);
             exAlert.showAndWait();
         }
     }
@@ -252,9 +257,11 @@ public class MenuController implements Initializable
         }
         catch (Exception ex)
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -308,10 +315,41 @@ public class MenuController implements Initializable
         });
 
         // Create a cell value factory for the Stock Quantity column
-        TableColumn<Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
+        TableColumn<Menu, String> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
+        stockCol.setCellValueFactory(cellData ->
+        {
+            Menu menuItem = cellData.getValue();
+            ObservableList<Variant> variants = menuItem.getVariantData();
+
+            if (variants == null || variants.isEmpty()) {
+                // If variantData is null or empty, display default stock quantity
+                return new SimpleStringProperty(String.valueOf(menuItem.getStockQuantity()));
+            } else {
+
+                try {
+                    //Fetch variants stock
+                    String variantsAndQuantity = "";
+                    for(Variant variant:variants)
+                    {
+                        int quantity = 0;
+
+                        quantity = daoimpl.calculateStockQuantity( menuItem,variant.getVariantName());
+
+                        variantsAndQuantity = variantsAndQuantity + quantity + ", ";
+                        variant.setStockQuantity(String.valueOf(quantity));
+                    }
+
+                    return new SimpleStringProperty(variantsAndQuantity);
+                }
+                catch (Exception e) {
+
+                    throw new RuntimeException(e);
+                }
+            }
+        });
 
         // Create a cell value factory for the Variant column
         TableColumn<Menu, String> variantCol = new TableColumn<>("Variant");
@@ -393,9 +431,11 @@ public class MenuController implements Initializable
         }
         catch (Exception ex)
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+ex.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
             alert.setTitle("Error!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
         }
 
@@ -450,10 +490,41 @@ public class MenuController implements Initializable
         });
 
         // Create a cell value factory for the Stock Quantity column
-        TableColumn<Menu, Integer> stockCol = new TableColumn<>("Stock Quantity");
+        TableColumn<Menu, String> stockCol = new TableColumn<>("Stock Quantity");
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
+        stockCol.setCellValueFactory(cellData ->
+        {
+            Menu menuItem = cellData.getValue();
+            ObservableList<Variant> variants = menuItem.getVariantData();
+
+            if (variants == null || variants.isEmpty()) {
+                // If variantData is null or empty, display default stock quantity
+                return new SimpleStringProperty(String.valueOf(menuItem.getStockQuantity()));
+            } else {
+
+                try {
+                    //Fetch variants stock
+                    String variantsAndQuantity = "";
+                    for(Variant variant:variants)
+                    {
+                        int quantity = 0;
+
+                        quantity = daoimpl.calculateStockQuantity( menuItem,variant.getVariantName());
+
+                        variantsAndQuantity = variantsAndQuantity + quantity + " , ";
+                        variant.setStockQuantity(String.valueOf(quantity));
+                    }
+
+                    return new SimpleStringProperty(variantsAndQuantity);
+                }
+                catch (Exception ex) {
+
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
         // Create a cell value factory for the Variant column
         TableColumn<Menu, String> variantCol = new TableColumn<>("Variant");
@@ -630,9 +701,11 @@ public class MenuController implements Initializable
         //Checking if all field values are filled by the user (except price)
         if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -641,9 +714,11 @@ public class MenuController implements Initializable
         //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
         if(itemPriceTextField.getText().isEmpty() && variantCount <= 0 )
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, populate all fields", ButtonType.OK);
             alert.setHeaderText("No Item Selected");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -652,11 +727,13 @@ public class MenuController implements Initializable
         {
             if(itemPriceTextField.getText().length() > 6 )
             {
+                currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 Alert alert = new Alert(Alert.AlertType.WARNING, "The price of a single food item can not be more than 1,00,000", ButtonType.OK);
                 alert.getDialogPane().setMinHeight(Region.USE_COMPUTED_SIZE);
                 alert.getDialogPane().setMaxHeight(Region.USE_COMPUTED_SIZE);
                 alert.setHeaderText("Price Limit Exceeded");
                 alert.setTitle("Alert!");
+                alert.initOwner(currentStage);
                 alert.showAndWait();
 
                 itemPriceTextField.setText("");
@@ -685,9 +762,11 @@ public class MenuController implements Initializable
 
                 if( variantNameField.getText().isEmpty() || variantPriceField.getText().isEmpty() )
                 {
+                    currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.WARNING, "Variants Name or Price fields cannot be empty", ButtonType.OK);
                     alert.setHeaderText("Can not Add item!");
                     alert.setTitle("Alert!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
 
                     return;
@@ -725,17 +804,21 @@ public class MenuController implements Initializable
             catch(Exception e)
             {
                 e.printStackTrace();
+                currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
                 alert.setHeaderText("Failed");
                 alert.setTitle("Error!");
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
 
             if (isSuccess)
             {
+                currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 Alert alert = new Alert(Alert.AlertType.INFORMATION, "Item added Successfully", ButtonType.OK);
                 alert.setHeaderText("Success");
                 alert.setTitle("Information");
+                alert.initOwner(currentStage);
                 alert.showAndWait();
 
                 //Clearing All fields after adding successfully
@@ -746,19 +829,23 @@ public class MenuController implements Initializable
             }
             else
             {
+                currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Item Already Exists! If item does not already exist and you are still seeing this error, Contact customer Support!", ButtonType.OK);
                 alert.getDialogPane().setMinHeight(Region.USE_COMPUTED_SIZE);
                 alert.getDialogPane().setMaxHeight(Region.USE_COMPUTED_SIZE);
                 alert.setHeaderText("Duplicate Item Entry");
                 alert.setTitle("Information");
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         }
         else //If category DOES NOT already exist asking user ,If user wants NEW cateogry to be created
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to add a new Category - "+ item.getFoodItemCategory() +" ?", ButtonType.YES,ButtonType.NO);
             confirmationAlert.setHeaderText("Alert! ");
             confirmationAlert.setTitle("Information");
+            confirmationAlert.initOwner(currentStage);
             confirmationAlert.showAndWait();
 
             if(confirmationAlert.getResult() == ButtonType.YES)//Checking if user has selected YES or NO
@@ -771,17 +858,21 @@ public class MenuController implements Initializable
                 catch(Exception e)
                 {
                     e.printStackTrace();
+                    currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
                     alert.setHeaderText("Failed");
                     alert.setTitle("Error!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
 
                 if(isSuccess)
                 {
+                    currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.INFORMATION, "Item added Successfully", ButtonType.OK);
                     alert.setHeaderText("Success");
                     alert.setTitle("Information");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
 
                     //Clearing All fields after adding successfully
@@ -793,9 +884,11 @@ public class MenuController implements Initializable
                 }
                 else
                 {
+                    currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Item with same Name already Exists! If item does not already exist and you are still seeing this error, Contact customer Support!", ButtonType.OK);
                     alert.setHeaderText("Duplicate Item Entry");
                     alert.setTitle("Information");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
             }
@@ -807,9 +900,11 @@ public class MenuController implements Initializable
         //Checking if all field values are filled by the user (except price)
         if (itemNameTextField.getText().isEmpty() || itemCategoryComboBox.getSelectionModel().getSelectedItem() == null || itemAvailabilityComboBox.getSelectionModel().getSelectedItem() == null)
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
             alert.setHeaderText("Empty fields found!");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -818,9 +913,11 @@ public class MenuController implements Initializable
         //Checking if Price field value is entered or not. If not entered, only allow to proceed if variants are added.
         if(itemPriceTextField.getText().isEmpty() && (HBox)variantVbox.lookup("#variantHbox0") == null )
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.INFORMATION, "Fields Cannot be Empty, Select an item and modify values and click 'Update'", ButtonType.OK);
             alert.setHeaderText("Empty fields found!");
             alert.setTitle("Alert!");
+            alert.initOwner(currentStage);
             alert.showAndWait();
 
             return;
@@ -830,17 +927,22 @@ public class MenuController implements Initializable
         Menu selectedItem = menuTable.getSelectionModel().getSelectedItem();
         if(selectedItem == null)
         {
+            currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert updateAlert = new Alert(Alert.AlertType.WARNING, "Select an item from Menu to Update", ButtonType.OK);
             updateAlert.setHeaderText("No item selected to update.");
             updateAlert.setTitle("Warning!");
+            updateAlert.initOwner(currentStage);
             updateAlert.showAndWait();
 
             return;
         }
 
-        Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
-        updateAlert.setHeaderText("Item will be Updated");
+        //Update Confirmation
+        currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES , ButtonType.NO);
+        updateAlert.setHeaderText("Item will be Updated and Inventory tracking will be turned OFF. \n (Can be turned ON manually)");
         updateAlert.setTitle("Alert!");
+        updateAlert.initOwner(currentStage);
         updateAlert.showAndWait();
 
         if(updateAlert.getResult() == ButtonType.YES)
@@ -890,7 +992,7 @@ public class MenuController implements Initializable
             item.setFoodItemCategory(   itemCategory    );
             item.setFoodItemAvailability(   itemAvailability    );
             item.setVariantData(    variantData    );
-
+            item.setIsInventoryTracked("OFF");
 
             try {
                 if (!daoimpl.updateMenuItem(item))
@@ -919,9 +1021,11 @@ public class MenuController implements Initializable
     public void deleteItem(Menu selectedItem)
     {
 
+        currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
         Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         deleteAlert.setHeaderText("Item will be deleted");
         deleteAlert.setTitle("Alert!");
+        deleteAlert.initOwner(currentStage);
         deleteAlert.showAndWait();
 
         if(deleteAlert.getResult() == ButtonType.YES)
@@ -932,9 +1036,11 @@ public class MenuController implements Initializable
             try {
                 if (!daoimpl.deleteMenuItem(selectedItem.getId()))
                 {
+                    currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT DELETE ITEM. If this error keeps occuring contact customer support.", ButtonType.OK);
                     alert.setHeaderText("Item not deleted!");
                     alert.setTitle("Alert!");
+                    alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
                 else
@@ -966,9 +1072,11 @@ public class MenuController implements Initializable
             }
             catch (Exception ex)
             {
+                currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Database delete operation Exception - "+ex.getMessage(), ButtonType.OK);
                 alert.setHeaderText("Failed");
                 alert.setTitle("Error!");
+                alert.initOwner(currentStage);
                 alert.showAndWait();
             }
         }

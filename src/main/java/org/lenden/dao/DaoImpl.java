@@ -58,7 +58,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -85,7 +85,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -127,7 +127,7 @@ public class DaoImpl
         catch(SQLException e)
         {
 
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
         return 0;
@@ -162,7 +162,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -188,7 +188,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -228,7 +228,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -257,7 +257,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -294,7 +294,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -316,7 +316,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -343,7 +343,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -379,7 +379,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -404,7 +404,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -442,7 +442,7 @@ public class DaoImpl
                             String variantDataJson = objectMapper.writeValueAsString(item.getVariant());
                             stmt.setString(5, variantDataJson);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            e.getMessage();
                             throw e;
                         }
                     }
@@ -454,7 +454,7 @@ public class DaoImpl
         }
         catch(SQLException | JsonProcessingException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -502,7 +502,7 @@ public class DaoImpl
                                 variantData = objectMapper.readValue(variantDataJson, typeReference);
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            e.getMessage();
                             throw e;
                         }
 
@@ -520,7 +520,7 @@ public class DaoImpl
         }
         catch(SQLException | JsonProcessingException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -556,7 +556,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -578,7 +578,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -597,7 +597,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -623,7 +623,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -648,7 +648,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -839,7 +839,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     return false;
@@ -876,7 +876,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -908,7 +908,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -926,7 +926,7 @@ public class DaoImpl
             stmt.executeUpdate();
 
 
-            stmt = c.prepareStatement(String.format("INSERT INTO %s.variants (menuitemid, variantname, variantprice,stockquantity) VALUES (?, ?, ? .?)",tenantId));
+            stmt = c.prepareStatement(String.format("INSERT INTO %s.variants (menuitemid, variantname, variantprice,stockquantity) VALUES (?, ?, ? ,?)",tenantId));
             // Insert updated variants
             for (Variant variant : variants) {
 
@@ -976,7 +976,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1085,7 +1085,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1103,7 +1103,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1131,7 +1131,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1155,7 +1155,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1184,7 +1184,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1211,7 +1211,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1244,7 +1244,7 @@ public class DaoImpl
                             String variantDataJson = objectMapper.writeValueAsString(item.getVariant());
                             stmt.setString(6, variantDataJson);
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            e.getMessage();
                             throw e;
                         }
                     }
@@ -1256,7 +1256,7 @@ public class DaoImpl
         }
         catch(SQLException | JsonProcessingException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1302,7 +1302,7 @@ public class DaoImpl
                                     variantData = objectMapper.readValue(variantDataJson, typeReference);
                                 }
                             } catch (Exception e) {
-                                e.printStackTrace();
+                                e.getMessage();
                                 throw e;
                             }
 
@@ -1320,7 +1320,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1340,7 +1340,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1366,7 +1366,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1387,7 +1387,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1414,7 +1414,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1435,7 +1435,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1462,7 +1462,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1483,7 +1483,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1535,7 +1535,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1586,7 +1586,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1609,7 +1609,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1630,7 +1630,7 @@ public class DaoImpl
 
             return (rowsUpdated > 0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1650,7 +1650,7 @@ public class DaoImpl
 
             return (rowsInserted > 0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1678,6 +1678,7 @@ public class DaoImpl
             stmt.setInt(2,inventorypurchase.getInventoryItemId());
             stmt.executeUpdate();
 
+
             //UPDATING Avg Rate/Unit in Inventory Item
             stmt = c.prepareStatement(String.format("SELECT inventoryitemcost,inventoryitemquantity FROM %s.inventorypurchases WHERE inventoryitemid = ?",tenantId));
             stmt.setInt(1,inventorypurchase.getInventoryItemId());
@@ -1701,7 +1702,7 @@ public class DaoImpl
 
             return (rowsInserted > 0);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1759,30 +1760,51 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
         return null;
     }
 
-    public boolean updateInventoryPurchaseItem(InventoryPurchase inventoryItem) throws SQLException
+    public boolean updateInventoryPurchaseItem(InventoryPurchase inventoryPurchase) throws SQLException
     {
         PreparedStatement stmt;
 
         try (Connection c = ConnectionManager.getConnection()) {
             stmt = c.prepareStatement(String.format("UPDATE %s.inventorypurchases SET inventoryitemname=?, inventoryitemcost=?, inventoryitemunit=?, inventoryitemquantity=? WHERE purchaseid=?", tenantId));
-            stmt.setString(1, inventoryItem.getInventoryItemName());
-            stmt.setDouble(2, inventoryItem.getInventoryItemPrice());
-            stmt.setString(3, inventoryItem.getInventoryItemUnit());
-            stmt.setDouble(4, inventoryItem.getInventoryItemQuantity());
-            stmt.setLong(5, inventoryItem.getPurchaseId());
+            stmt.setString(1, inventoryPurchase.getInventoryItemName());
+            stmt.setDouble(2, inventoryPurchase.getInventoryItemPrice());
+            stmt.setString(3, inventoryPurchase.getInventoryItemUnit());
+            stmt.setDouble(4, inventoryPurchase.getInventoryItemQuantity());
+            stmt.setLong(5, inventoryPurchase.getPurchaseId());
+            int rowsUpdated1 = stmt.executeUpdate();
 
-            int rowsUpdated = stmt.executeUpdate();
+            //UPDATING QUANTITY & AVG Rate/Unit in INVENTORY TABLE
+            stmt = c.prepareStatement(String.format("SELECT inventoryitemcost,inventoryitemquantity FROM %s.inventorypurchases WHERE inventoryitemid = ? ",tenantId));
+            stmt.setInt(1,inventoryPurchase.getInventoryItemId());
+            ResultSet rs = stmt.executeQuery();
 
-            return (rowsUpdated > 0);
+            double updatedQuantity = 0.0;
+            double updatedCost = 0.0;
+            while (rs.next())
+             {
+                 updatedQuantity = updatedQuantity + rs.getDouble("inventoryitemquantity");
+                 updatedCost = updatedCost + rs.getDouble("inventoryitemcost");
+             }
+            double avgRatePerUnit = updatedCost/updatedQuantity;
+
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET quantity = ?, rate = ? WHERE id = ?",tenantId));
+            stmt.setDouble(1,updatedQuantity);
+            stmt.setDouble(2,avgRatePerUnit);
+            stmt.setInt(3,inventoryPurchase.getInventoryItemId());
+            int rowsUpdated2 = stmt.executeUpdate();
+
+
+            return (rowsUpdated1 > 0 && rowsUpdated2 > 0);
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1803,7 +1825,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1828,7 +1850,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1854,7 +1876,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
@@ -1897,10 +1919,10 @@ public class DaoImpl
                 throw new SQLException("Failed to insert recipe");
             }
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.getMessage(); // Handle the exception appropriately
             throw e;
         } catch (JsonProcessingException e) {
-            e.printStackTrace(); // Handle the exception appropriately
+            e.getMessage(); // Handle the exception appropriately
             throw new RuntimeException(e);
         }
     }
@@ -1953,7 +1975,7 @@ public class DaoImpl
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
     }
@@ -1991,7 +2013,7 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         } catch (JsonMappingException e) {
             throw new RuntimeException(e);
@@ -2000,7 +2022,7 @@ public class DaoImpl
         }
     }
 
-    public boolean changeTrackingStatus(int id,String status) throws SQLException
+    public boolean changeTrackingStatus(int menuItemId,String status) throws SQLException
     {
         PreparedStatement stmt;
 
@@ -2008,7 +2030,7 @@ public class DaoImpl
             stmt = c.prepareStatement(String.format("UPDATE %s.menu SET isinventorytracked = ? WHERE id = ?", tenantId));
 
             stmt.setString(1, status);
-            stmt.setInt(2, id);
+            stmt.setInt(2, menuItemId);
 
 
             int rowsUpdated = stmt.executeUpdate();
@@ -2065,15 +2087,15 @@ public class DaoImpl
         }
         catch(SQLException e)
         {
-            e.printStackTrace();
+            e.getMessage();
             throw e;
         }
 
     }
 
-    public Double calculateStockQuantity(Menu menuItem,int recipeId,String variant) throws Exception
+    public Integer calculateStockQuantity(Menu menuItem,String variant) throws Exception
     {
-        ArrayList<Double> stock = new ArrayList<Double>();
+        ArrayList<Integer> stock = new ArrayList<Integer>();
 
         Recipe recipe = fetchRecipe(menuItem.getId(), variant);
         ArrayList<Inventory> recipeRawMaterials = recipe.getRawMaterials();
@@ -2082,7 +2104,7 @@ public class DaoImpl
         {
             Inventory inventoryItem = fetchSpecificInventoryItem(recipeRawMaterial.getId());
 
-            double inventoryItemStockQuantity = (int)(inventoryItem.getInventoryItemQuantity() / recipeRawMaterial.getInventoryItemQuantity());
+            int inventoryItemStockQuantity = (int)(inventoryItem.getInventoryItemQuantity() / recipeRawMaterial.getInventoryItemQuantity());
             if( inventoryItemStockQuantity >= 0)
             {
                 stock.add(inventoryItemStockQuantity);
