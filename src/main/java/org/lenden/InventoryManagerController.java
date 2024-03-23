@@ -965,6 +965,7 @@ public class InventoryManagerController implements Initializable {
                                     selectedItem.setInventoryItemQuantity(newQuantity);
 
                                     updateInventoryPurchaseItem(selectedItem);
+                                    purchaseTable.refresh();
                                 }
                             }
                         });

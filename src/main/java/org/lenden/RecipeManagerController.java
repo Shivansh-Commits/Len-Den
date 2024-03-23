@@ -101,7 +101,8 @@ public class RecipeManagerController implements Initializable {
     }
 
 
-    private void addAlphabeticInputFieldValidation(TextField textField) {
+    private void addAlphabeticInputFieldValidation(TextField textField)
+    {
         // Event filter to allow only alphabetic characters and the hyphen "-"
         textField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
             String input = event.getCharacter();
@@ -112,13 +113,15 @@ public class RecipeManagerController implements Initializable {
             }
         });
     }
+
     /**
      *
      * For Input Validation.
      * Desc - Function adds event listener to the fields and uses regex to match input .
      * only allows " . " and nums 1-9
      * **/
-    private void addNumericInputFieldValidation(TextField textField) {
+    private void addNumericInputFieldValidation(TextField textField)
+    {
         // Event filter to allow only numeric characters and the decimal point "."
         textField.addEventFilter(KeyEvent.KEY_TYPED, event -> {
             String input = event.getCharacter();
@@ -129,13 +132,15 @@ public class RecipeManagerController implements Initializable {
             }
         });
     }
+
     /**
      *
      * For Input Validation.
      * Desc - Function adds event listener to the fields and uses regex to match input .
      * only allows Aplhabets , " - " and nums 1-9
      * **/
-    private void addAlphabeticInputFieldValidation(ComboBox comboBox) {
+    private void addAlphabeticInputFieldValidation(ComboBox comboBox)
+    {
         // Event filter to allow only alphabetic characters and the hyphen "-"
         comboBox.addEventFilter(KeyEvent.KEY_TYPED, event -> {
             String input = event.getCharacter();
@@ -147,7 +152,8 @@ public class RecipeManagerController implements Initializable {
         });
     }
 
-    private void makeComboBoxSearchable(ComboBox<String> comboBox, ObservableList<String> originalItems) {
+    private void makeComboBoxSearchable(ComboBox<String> comboBox, ObservableList<String> originalItems)
+    {
         //comboBox.setEditable(true);
 
         // Event listener for when the user types in the combo box editor
@@ -226,7 +232,37 @@ public class RecipeManagerController implements Initializable {
         stockCol.setCellValueFactory(new PropertyValueFactory<>("stockQuantity"));
         stockCol.setPrefWidth(100);
         stockCol.setStyle("-fx-alignment: CENTER;");
+        stockCol.setCellValueFactory(cellData ->
+        {
+            Menu menuItem = cellData.getValue();
+            ObservableList<Variant> variants = menuItem.getVariantData();
 
+            if (variants == null || variants.isEmpty()) {
+                // If variantData is null or empty, display default stock quantity
+                return new SimpleStringProperty(String.valueOf(menuItem.getStockQuantity()));
+            } else {
+
+                try {
+                    //Fetch variants stock
+                    String variantsAndQuantity = "";
+                    for(Variant variant:variants)
+                    {
+                        int quantity = 0;
+
+                        quantity = daoimpl.calculateStockQuantity( menuItem,variant.getVariantName());
+
+                        variantsAndQuantity = variantsAndQuantity + quantity + " , ";
+                        variant.setStockQuantity(String.valueOf(quantity));
+                    }
+
+                    return new SimpleStringProperty(variantsAndQuantity);
+                }
+                catch (Exception ex) {
+
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
         // Create a cell value factory for the Variant column
         TableColumn<Menu, String> variantCol = new TableColumn<>("Variants");
@@ -315,7 +351,7 @@ public class RecipeManagerController implements Initializable {
                                     daoimpl.changeTrackingStatus( selectedItem.getId(), "ON" );
 
                                     //Fetch Raw material Stock and Update menu item quantity in Table
-                                    Double quantity = daoimpl.calculateStockQuantity( selectedItem,recipeId,"N/A" );
+                                    int quantity = daoimpl.calculateStockQuantity( selectedItem,"N/A" );
                                     selectedItem.setStockQuantity(String.valueOf(quantity));
                                     menuItemsTable.refresh();
 
@@ -383,18 +419,15 @@ public class RecipeManagerController implements Initializable {
                                     {
                                         int recipeId = daoimpl.checkIfRecipeExists(selectedItem.getId(),variant.getVariantName());
 
-                                        Double quantity = daoimpl.calculateStockQuantity( selectedItem,recipeId,variant.getVariantName());
+                                        int quantity = daoimpl.calculateStockQuantity( selectedItem,variant.getVariantName());
                                         variantsAndQuantity = variantsAndQuantity + quantity + ", ";
+                                        variant.setStockQuantity(String.valueOf(quantity));
+
+                                        daoimpl.updateVariants(selectedItem.getId(),variants);
                                     }
                                     selectedItem.setStockQuantity(variantsAndQuantity);
                                     menuItemsTable.refresh();
 
-                                    //-------------PENDING HERE---------------
-
-                                    //Updating quantity in DB table
-
-
-                                    //-------------PENDING HERE---------------
 
                                     // UI CHANGES
                                     inventoryTrackingButton.getStyleClass().remove("tracking-off-button");
@@ -805,8 +838,6 @@ public class RecipeManagerController implements Initializable {
                                         HBox hBoxToRemove = (HBox) parent;
                                         rawMaterialVbox.getChildren().remove(hBoxToRemove);
                                     }
-
-                                    // UPDATE THE STYLE CLASS OF THE INVENTORYTRACKINGBUTTON IN INVENTORY TRACKING COLUMN OF MENU ITEMS CELL WHOSE RECIPE ITEM IS DELETED
 
                                 }
                                 else
