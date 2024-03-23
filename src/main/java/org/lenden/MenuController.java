@@ -77,7 +77,7 @@ public class MenuController implements Initializable
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
             alert.setHeaderText("Failed");
@@ -239,7 +239,7 @@ public class MenuController implements Initializable
         }
         catch(Exception e)
         {
-            e.printStackTrace();
+            e.getMessage();
             currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
             Alert exAlert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
             exAlert.setHeaderText("Failed");
@@ -324,31 +324,49 @@ public class MenuController implements Initializable
             Menu menuItem = cellData.getValue();
             ObservableList<Variant> variants = menuItem.getVariantData();
 
-            if (variants == null || variants.isEmpty()) {
+            if (variants == null || variants.isEmpty())
+            {
+
                 // If variantData is null or empty, display default stock quantity
                 return new SimpleStringProperty(String.valueOf(menuItem.getStockQuantity()));
-            } else {
-
+            }
+            else
+            {
                 try {
-                    //Fetch variants stock
-                    String variantsAndQuantity = "";
-                    for(Variant variant:variants)
+
+                    boolean doesAllVariantRecipeExists = true;
+                    for (Variant variant : variants)
                     {
-                        int quantity = 0;
-
-                        quantity = daoimpl.calculateStockQuantity( menuItem,variant.getVariantName());
-
-                        variantsAndQuantity = variantsAndQuantity + quantity + ", ";
-                        variant.setStockQuantity(String.valueOf(quantity));
+                        int recipeId = daoimpl.checkIfRecipeExists(menuItem.getId(),variant.getVariantName());
+                        if( recipeId <= 0)
+                        {
+                            doesAllVariantRecipeExists = false;
+                            return new SimpleStringProperty(String.valueOf("N/A"));
+                        }
                     }
 
-                    return new SimpleStringProperty(variantsAndQuantity);
+                    if(doesAllVariantRecipeExists)
+                    {
+                        //Fetch variants stock
+                        String variantsAndQuantity = "";
+                        for (Variant variant : variants) {
+                            int quantity = 0;
+
+                            quantity = daoimpl.calculateStockQuantity(menuItem, variant.getVariantName());
+
+                            variantsAndQuantity = variantsAndQuantity + quantity + ", ";
+                            variant.setStockQuantity(String.valueOf(quantity));
+                        }
+
+                        return new SimpleStringProperty(variantsAndQuantity);
+                    }
                 }
                 catch (Exception e) {
 
                     throw new RuntimeException(e);
                 }
             }
+            return new SimpleStringProperty(String.valueOf("N/A"));
         });
 
         // Create a cell value factory for the Variant column
@@ -440,6 +458,12 @@ public class MenuController implements Initializable
         }
 
         // Create a cell value factory for the Name column
+        TableColumn<Menu, Integer> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
+        idCol.setPrefWidth(80);
+        idCol.setStyle("-fx-alignment: CENTER;");
+
+        // Create a cell value factory for the Name column
         TableColumn<Menu, String> nameCol = new TableColumn<>("Name");
         nameCol.setCellValueFactory(new PropertyValueFactory<>("foodItemName"));
         nameCol.setPrefWidth(200);
@@ -499,31 +523,49 @@ public class MenuController implements Initializable
             Menu menuItem = cellData.getValue();
             ObservableList<Variant> variants = menuItem.getVariantData();
 
-            if (variants == null || variants.isEmpty()) {
+            if (variants == null || variants.isEmpty())
+            {
+
                 // If variantData is null or empty, display default stock quantity
                 return new SimpleStringProperty(String.valueOf(menuItem.getStockQuantity()));
-            } else {
-
+            }
+            else
+            {
                 try {
-                    //Fetch variants stock
-                    String variantsAndQuantity = "";
-                    for(Variant variant:variants)
+
+                    boolean doesAllVariantRecipeExists = true;
+                    for (Variant variant : variants)
                     {
-                        int quantity = 0;
-
-                        quantity = daoimpl.calculateStockQuantity( menuItem,variant.getVariantName());
-
-                        variantsAndQuantity = variantsAndQuantity + quantity + " , ";
-                        variant.setStockQuantity(String.valueOf(quantity));
+                        int recipeId = daoimpl.checkIfRecipeExists(menuItem.getId(),variant.getVariantName());
+                        if( recipeId <= 0)
+                        {
+                            doesAllVariantRecipeExists = false;
+                            return new SimpleStringProperty(String.valueOf("N/A"));
+                        }
                     }
 
-                    return new SimpleStringProperty(variantsAndQuantity);
+                    if(doesAllVariantRecipeExists)
+                    {
+                        //Fetch variants stock
+                        String variantsAndQuantity = "";
+                        for (Variant variant : variants) {
+                            int quantity = 0;
+
+                            quantity = daoimpl.calculateStockQuantity(menuItem, variant.getVariantName());
+
+                            variantsAndQuantity = variantsAndQuantity + quantity + ", ";
+                            variant.setStockQuantity(String.valueOf(quantity));
+                        }
+
+                        return new SimpleStringProperty(variantsAndQuantity);
+                    }
                 }
                 catch (Exception ex) {
 
                     throw new RuntimeException(ex);
                 }
             }
+            return new SimpleStringProperty(String.valueOf("N/A"));
         });
 
         // Create a cell value factory for the Variant column
@@ -547,8 +589,7 @@ public class MenuController implements Initializable
 
         //Create col for Buttons
         TableColumn<Menu,Void> buttonCol = new TableColumn<>("");
-        buttonCol.setCellFactory(param -> new TableCell<Menu, Void>()
-        {
+        buttonCol.setCellFactory(param -> new TableCell<Menu, Void>() {
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -589,7 +630,7 @@ public class MenuController implements Initializable
         });
 
         // Set the cell value factories for the table columns
-        menuTable.getColumns().setAll(nameCol, priceCol, availCol, stockCol, variantCol, buttonCol);
+        menuTable.getColumns().setAll(idCol, nameCol, priceCol, availCol, stockCol, variantCol, buttonCol);
         menuTable.setItems(menuTableItems);
 
     }
@@ -803,7 +844,7 @@ public class MenuController implements Initializable
             }
             catch(Exception e)
             {
-                e.printStackTrace();
+                e.getMessage();
                 currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
                 alert.setHeaderText("Failed");
@@ -857,7 +898,7 @@ public class MenuController implements Initializable
                 }
                 catch(Exception e)
                 {
-                    e.printStackTrace();
+                    e.getMessage();
                     currentStage = (Stage) menuTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Database operation Exception - "+e.getMessage(), ButtonType.OK);
                     alert.setHeaderText("Failed");

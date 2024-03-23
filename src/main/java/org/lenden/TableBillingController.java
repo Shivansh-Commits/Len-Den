@@ -521,7 +521,7 @@ public class TableBillingController implements Initializable {
 
 
     /**
-     * Adds food items to the bill table when use selects/clicks in the menu
+     * Adds food items to the bill table when user selects/clicks in the menu
      */
     public void addMenuItemtoBill()
     {

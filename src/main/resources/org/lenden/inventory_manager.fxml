@@ -17,19 +17,6 @@
 <BorderPane prefHeight="806.0" prefWidth="1222.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.lenden.InventoryManagerController">
    <center>
       <BorderPane BorderPane.alignment="CENTER">
-         <top>
-            <TableView fx:id="inventoryTable" prefHeight="407.0" prefWidth="1365.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
-               <columns>
-                  <TableColumn prefWidth="200.0" text="Raw Material" />
-                  <TableColumn prefWidth="173.0" text="Avg Rate/Unit" />
-                  <TableColumn minWidth="0.0" prefWidth="148.5" text="Units" />
-                  <TableColumn minWidth="0.0" prefWidth="160.5" text="Quantity" />
-               </columns>
-               <BorderPane.margin>
-                  <Insets bottom="5.0" left="10.0" right="10.0" top="10.0" />
-               </BorderPane.margin>
-            </TableView>
-         </top>
          <center>
             <BorderPane maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
                <center>
@@ -42,6 +29,19 @@
                <BorderPane.margin>
                   <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                </BorderPane.margin>
+               <top>
+                  <TableView fx:id="inventoryTable" prefHeight="407.0" prefWidth="1365.0" styleClass="menu-items-table" stylesheets="@../../menuStyleSheet.css" BorderPane.alignment="CENTER">
+                     <columns>
+                        <TableColumn prefWidth="200.0" text="Raw Material" />
+                        <TableColumn prefWidth="173.0" text="Avg Rate/Unit" />
+                        <TableColumn minWidth="0.0" prefWidth="148.5" text="Units" />
+                        <TableColumn minWidth="0.0" prefWidth="160.5" text="Quantity" />
+                     </columns>
+                     <BorderPane.margin>
+                        <Insets bottom="10.0" />
+                     </BorderPane.margin>
+                  </TableView>
+               </top>
             </BorderPane>
          </center>
          <bottom>

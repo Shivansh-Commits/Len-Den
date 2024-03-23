@@ -509,14 +509,34 @@ public class InventoryManagerController implements Initializable {
 
                         Inventory selectedItem = getTableView().getItems().get(getIndex());
 
-                        //Database Operation
-                        deleteInventoryItem(selectedItem);
+                        try {
+                             int menuItemIdInWhichRawMaterialIsUsed = daoimpl.checkIfRawMaterialIsUsedInRecipe(selectedItem.getId());
 
-                        //Remove deletes item from list
-                        inventoryTableItems.remove(selectedItem);
+                             if(menuItemIdInWhichRawMaterialIsUsed == -1)
+                             {
+                                //Database Operation
+                                deleteInventoryItem(selectedItem);
 
-                        //Refresh table
-                        inventoryTable.refresh();
+                                //Remove deletes item from list
+                                inventoryTableItems.remove(selectedItem);
+
+                                //Refresh table
+                                inventoryTable.refresh();
+                             }
+                             else
+                             {
+                                Alert deleteAlert = new Alert(Alert.AlertType.WARNING, "Inventory Item can not be deleted. ", ButtonType.OK);
+                                deleteAlert.setHeaderText(selectedItem.getInventoryItemName() + " could not be deleted , as it is being used in the recipe of \n one or more Menu Item (ID = "+ menuItemIdInWhichRawMaterialIsUsed +"). \n In order to delete a Inventory Item, remove it from the recipe");
+                                deleteAlert.setTitle("Alert!");
+                                currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                                deleteAlert.initOwner(currentStage);
+                                deleteAlert.showAndWait();
+                             }
+                        }
+                        catch (SQLException e) {
+
+                            throw new RuntimeException(e);
+                        }
                     });
 
 
@@ -750,12 +770,12 @@ public class InventoryManagerController implements Initializable {
         }
     }
 
-    public void updateInventoryPurchaseItem(InventoryPurchase selectedItem)
+    public void updateInventoryPurchaseItem(InventoryPurchase selectedItem,TableView<InventoryPurchase> purchaseTable)
     {
         Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
         updateAlert.setHeaderText("Item will be Updated");
         updateAlert.setTitle("Alert!");
-        currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+        currentStage = (Stage) purchaseTable.getScene().getWindow(); // For displaying alerts on top of current window.
         updateAlert.initOwner(currentStage);
         updateAlert.showAndWait();
 
@@ -771,7 +791,7 @@ public class InventoryManagerController implements Initializable {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occurring contact customer support.", ButtonType.OK);
                         alert.setHeaderText("Item not Update!");
                         alert.setTitle("Alert!");
-                        currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                        currentStage = (Stage) purchaseTable.getScene().getWindow(); // For displaying alerts on top of current window.
                         alert.initOwner(currentStage);
                         alert.showAndWait();
                     }
@@ -781,7 +801,7 @@ public class InventoryManagerController implements Initializable {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Database update operation Exception - "+ex.getMessage(), ButtonType.OK);
                     alert.setHeaderText("Failed");
                     alert.setTitle("Error!");
-                    currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
+                    currentStage = (Stage) purchaseTable.getScene().getWindow(); // For displaying alerts on top of current window.
                     alert.initOwner(currentStage);
                     alert.showAndWait();
                 }
@@ -964,7 +984,7 @@ public class InventoryManagerController implements Initializable {
                                     selectedItem.setInventoryItemUnit(selectedItem.getInventoryItemUnit());
                                     selectedItem.setInventoryItemQuantity(newQuantity);
 
-                                    updateInventoryPurchaseItem(selectedItem);
+                                    updateInventoryPurchaseItem(selectedItem,purchaseTable);
                                     purchaseTable.refresh();
                                 }
                             }

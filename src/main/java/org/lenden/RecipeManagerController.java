@@ -237,32 +237,50 @@ public class RecipeManagerController implements Initializable {
             Menu menuItem = cellData.getValue();
             ObservableList<Variant> variants = menuItem.getVariantData();
 
-            if (variants == null || variants.isEmpty()) {
+            if (variants == null || variants.isEmpty())
+            {
                 // If variantData is null or empty, display default stock quantity
                 return new SimpleStringProperty(String.valueOf(menuItem.getStockQuantity()));
-            } else {
-
+            }
+            else
+            {
                 try {
-                    //Fetch variants stock
-                    String variantsAndQuantity = "";
-                    for(Variant variant:variants)
+
+                    boolean doesAllVariantRecipeExists = true;
+                    for (Variant variant : variants)
                     {
-                        int quantity = 0;
-
-                        quantity = daoimpl.calculateStockQuantity( menuItem,variant.getVariantName());
-
-                        variantsAndQuantity = variantsAndQuantity + quantity + " , ";
-                        variant.setStockQuantity(String.valueOf(quantity));
+                        int recipeId = daoimpl.checkIfRecipeExists(menuItem.getId(),variant.getVariantName());
+                        if( recipeId <= 0)
+                        {
+                            doesAllVariantRecipeExists = false;
+                            return new SimpleStringProperty(String.valueOf("N/A"));
+                        }
                     }
 
-                    return new SimpleStringProperty(variantsAndQuantity);
-                }
-                catch (Exception ex) {
+                    if(doesAllVariantRecipeExists)
+                    {
+                        //Fetch variants stock
+                        String variantsAndQuantity = "";
+                        for (Variant variant : variants) {
+                            int quantity = 0;
 
-                    throw new RuntimeException(ex);
+                            quantity = daoimpl.calculateStockQuantity(menuItem, variant.getVariantName());
+
+                            variantsAndQuantity = variantsAndQuantity + quantity + ", ";
+                            variant.setStockQuantity(String.valueOf(quantity));
+                        }
+
+                        return new SimpleStringProperty(variantsAndQuantity);
+                    }
+                }
+                catch (Exception e) {
+
+                    throw new RuntimeException(e);
                 }
             }
+            return new SimpleStringProperty("N/A");
         });
+
 
         // Create a cell value factory for the Variant column
         TableColumn<Menu, String> variantCol = new TableColumn<>("Variants");
