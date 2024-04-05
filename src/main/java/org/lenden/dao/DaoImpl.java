@@ -1808,27 +1808,45 @@ public class DaoImpl
         }
     }
 
-    public boolean deleteInventoryPurchaseItem(int purchaseid) throws SQLException
-    {
-
+    public boolean deleteInventoryPurchaseItem(int purchaseid) throws SQLException {
         PreparedStatement stmt;
-
-        try(Connection c = ConnectionManager.getConnection())
-        {
-            stmt  = c.prepareStatement(String.format("DELETE FROM %s.inventorypurchases WHERE purchaseid = ? ", tenantId));
-            stmt.setInt(1,purchaseid);
-
+    
+        try (Connection c = ConnectionManager.getConnection()) {
+            // Retrieve the inventory purchase information before deletion
+            stmt = c.prepareStatement(String.format("SELECT inventoryitemid, inventoryitemcost, inventoryitemquantity FROM %s.inventorypurchases WHERE purchaseid = ?", tenantId));
+            stmt.setInt(1, purchaseid);
+            ResultSet rs = stmt.executeQuery();
+    
+            double updatedQuantity = 0.0;
+            double updatedCost = 0.0;
+            int inventoryItemId = 0;
+    
+            // Calculate the updated quantity and cost
+            while (rs.next()) {
+                updatedQuantity += rs.getDouble("inventoryitemquantity");
+                updatedCost += rs.getDouble("inventoryitemcost");
+                inventoryItemId = rs.getInt("inventoryitemid");
+            }
+            
+            // Delete the inventory purchase item
+            stmt = c.prepareStatement(String.format("DELETE FROM %s.inventorypurchases WHERE purchaseid = ?", tenantId));
+            stmt.setInt(1, purchaseid);
             int rowsDeleted = stmt.executeUpdate();
-
-            return (rowsDeleted > 0);
-        }
-        catch(Exception e)
-        {
+    
+            // Update the quantity and rate in the inventory table
+            stmt = c.prepareStatement(String.format("UPDATE %s.inventory SET quantity = ?, rate = ? WHERE id = ?", tenantId));
+            stmt.setDouble(1, updatedQuantity);
+            stmt.setDouble(2, updatedQuantity != 0 ? updatedCost / updatedQuantity : 0); // Avoid division by zero
+            stmt.setInt(3, inventoryItemId);
+            int rowsUpdated = stmt.executeUpdate();
+    
+            return (rowsDeleted > 0 && rowsUpdated > 0);
+        } catch (SQLException e) {
             e.getMessage();
             throw e;
         }
     }
-
+    
     public ObservableList<String> fetchUnits() throws SQLException
     {
         PreparedStatement stmt;

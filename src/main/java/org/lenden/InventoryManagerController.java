@@ -748,6 +748,14 @@ public class InventoryManagerController implements Initializable {
                 currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
                 alert.initOwner(currentStage);
                 alert.showAndWait();
+
+                //Changing Tracking Status to OFF when item is Update (as stock quantity can vary)
+                int menuItemId = daoimpl.checkIfRawMaterialIsUsedInRecipe(purchaseItem.getInventoryItemId());
+
+                if(menuItemId != -1)
+                {
+                    daoimpl.changeTrackingStatus(menuItemId, "OFF");
+                }
             }
             else
             {
@@ -772,8 +780,8 @@ public class InventoryManagerController implements Initializable {
 
     public void updateInventoryPurchaseItem(InventoryPurchase selectedItem,TableView<InventoryPurchase> purchaseTable)
     {
-        Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
-        updateAlert.setHeaderText("Item will be Updated");
+        Alert updateAlert = new Alert(Alert.AlertType.CONFIRMATION, "Item will be Updated & Stock Tracking will be turned OFF (Can be turned ON Manually in Recipe Manager.)", ButtonType.YES , ButtonType.NO);
+        updateAlert.setHeaderText("Are you Sure?");
         updateAlert.setTitle("Alert!");
         currentStage = (Stage) purchaseTable.getScene().getWindow(); // For displaying alerts on top of current window.
         updateAlert.initOwner(currentStage);
@@ -786,7 +794,17 @@ public class InventoryManagerController implements Initializable {
             else
             {
                 try {
-                    if (!daoimpl.updateInventoryPurchaseItem(selectedItem))
+                    if (daoimpl.updateInventoryPurchaseItem(selectedItem))
+                    {
+                        //Changing Tracking Status to OFF when item is Update (as stock quantity can vary)
+                        int menuItemId = daoimpl.checkIfRawMaterialIsUsedInRecipe(selectedItem.getInventoryItemId());
+
+                        if(menuItemId != -1)
+                        {
+                            daoimpl.changeTrackingStatus(menuItemId, "OFF");
+                        }
+                    }
+                    else
                     {
                         Alert alert = new Alert(Alert.AlertType.ERROR, "COULD NOT UPDATE ITEM. If this error keeps occurring contact customer support.", ButtonType.OK);
                         alert.setHeaderText("Item not Update!");
@@ -811,8 +829,8 @@ public class InventoryManagerController implements Initializable {
 
     public void deleteInventoryPurchaseItem(InventoryPurchase inventoryItem)
     {
-        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "ARE YOU SURE ?", ButtonType.YES , ButtonType.NO);
-        deleteAlert.setHeaderText("Item will be deleted");
+        Alert deleteAlert = new Alert(Alert.AlertType.CONFIRMATION, "Item will be Deleted & Stock Tracking will be turned OFF (Can be turned ON Manually in Recipe Manager.)", ButtonType.YES , ButtonType.NO);
+        deleteAlert.setHeaderText("Are you Sure?");
         deleteAlert.setTitle("Alert!");
         currentStage = (Stage) inventoryTable.getScene().getWindow(); // For displaying alerts on top of current window.
         deleteAlert.initOwner(currentStage);
@@ -825,7 +843,17 @@ public class InventoryManagerController implements Initializable {
                 return;
 
             try {
-                if (!daoimpl.deleteInventoryPurchaseItem(inventoryItem.getPurchaseId()))
+                if (daoimpl.deleteInventoryPurchaseItem(inventoryItem.getPurchaseId()))
+                {
+                    //Changing Tracking Status to OFF when item is Update (as stock quantity can vary)
+                    int menuItemId = daoimpl.checkIfRawMaterialIsUsedInRecipe(inventoryItem.getInventoryItemId());
+
+                    if(menuItemId != -1)
+                    {
+                        daoimpl.changeTrackingStatus(menuItemId, "OFF");
+                    }
+                }
+                else
                 {
                     Alert alert = new Alert(Alert.AlertType.ERROR, "Could not delete Purchase. If this error keeps occurring contact customer support.", ButtonType.OK);
                     alert.setHeaderText("Item not deleted!");
