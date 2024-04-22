@@ -6,6 +6,7 @@ public class BillItems {
 
 
     public int id;
+    
     public String foodItemName;
 
     public Double foodItemPrice;
