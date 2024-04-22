@@ -227,7 +227,8 @@ public class TableBillingController implements Initializable {
         //--------------------------------------------------------------------------------------------------------------
         //Setting Open Table & Reserved Table Details
 
-        try {
+        try 
+        {
             openTables = daoimpl.fetchOpenTableDetails();
 
             reservedTables = daoimpl.fetchReservedTables();
@@ -531,9 +532,8 @@ public class TableBillingController implements Initializable {
         BillItems selectedFoodItem = new BillItems();
         selectedFoodItem.setId(selectedMenuFoodItem.getId());
         selectedFoodItem.setFoodItemName(selectedMenuFoodItem.getFoodItemName());
-        //selectedFoodItem.setFoodItemQuantity(selectedMenuFoodItem.getStockQuantity());
         selectedFoodItem.setFoodItemPrice(selectedMenuFoodItem.getFoodItemPrice());
-
+        selectedFoodItem.setVariant(new HashMap<>());
 
         String tableNumber = tableNumberLabel.getText();
 
@@ -648,15 +648,10 @@ public class TableBillingController implements Initializable {
                         HBox hbox = new HBox(10);
 
                         Text txtQuantity = new Text(quantity.toString());
-
+                        
                         Button btnMinus = new Button("-");
                         btnMinus.getStyleClass().add("minus-button");
                         btnMinus.setCursor(Cursor.HAND);
-
-                        Button btnPlus = new Button("+");
-                        btnPlus.getStyleClass().add("plus-button");
-                        btnPlus.setCursor(Cursor.HAND);
-
                         btnMinus.setOnAction(event -> {
 
                             BillItems item = getTableView().getItems().get(getIndex());
@@ -706,6 +701,9 @@ public class TableBillingController implements Initializable {
 
                         });
 
+                        Button btnPlus = new Button("+");
+                        btnPlus.getStyleClass().add("plus-button");
+                        btnPlus.setCursor(Cursor.HAND);
                         btnPlus.setOnAction(event -> {
 
                             BillItems item = getTableView().getItems().get(getIndex());
@@ -734,22 +732,18 @@ public class TableBillingController implements Initializable {
             return cell;
         });
 
-        //billTableQuantityCol.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
-
-//----------------------------------------------------------------------------------------------------------------------
-
-        int selectedFoodItemId = selectedFoodItem.getId();
-        String selectedFoodItemName = selectedFoodItem.getFoodItemName();
-        Double selectedFoodItemprice = selectedFoodItem.getFoodItemPrice();
-
+        //----------------------------------------------------------------------------------------------------------------------
+       
         HashMap selectedVariant = selectedFoodItem.getVariant();
+        
         String selectedVariantName="";
         Double selectedVariantPrice;
-        if(selectedVariant != null)
+        if(!selectedVariant.isEmpty() )
         {
-             selectedVariantName = (String) selectedVariant.keySet().iterator().next();
-             selectedVariantPrice = (Double) selectedVariant.get(selectedVariantName);
+            selectedVariantName = (String) selectedVariant.keySet().iterator().next();
+            selectedVariantPrice = (Double) selectedVariant.get(selectedVariantName);
         }
+
 
 
         //Adding only if the Item in available in Menu
@@ -765,10 +759,12 @@ public class TableBillingController implements Initializable {
         else
         {
             boolean itemFound = false;
-            for (BillItems item : billTableItems) {
-                if (item.getFoodItemName().equals(selectedFoodItemName) &&
-                        (item.getVariant() == null ||
-                                (item.getVariant() != null && item.getVariant().containsKey(selectedVariantName)))) {
+
+            for (BillItems item : billTableItems) 
+            {
+              
+                if( (item.getFoodItemName().equals(selectedFoodItem.getFoodItemName()) && ( item.getVariant().isEmpty() )) || ( (item.getVariant().size() > 0 && item.getVariant().containsKey(selectedVariantName)) )) 
+                {
                     item.setFoodItemQuantity(item.getFoodItemQuantity() + 1);
                     updateTotals(billTableItems);
                     int index = billTableItems.indexOf(item);
@@ -782,10 +778,12 @@ public class TableBillingController implements Initializable {
             //IF ITEM BEING ADDED IS NEW i.e. NOT PREVIOUSLY PRESENT IN BILL TABLE
             if (!itemFound)
             {
-                BillItems newItem = new BillItems(selectedFoodItemId,selectedFoodItemName,selectedFoodItemprice,1,selectedVariant);
+                BillItems newItem = new BillItems(selectedFoodItem.getId(),selectedFoodItem.getFoodItemName(),selectedFoodItem.getFoodItemPrice(),1,selectedFoodItem.getVariant());
 
                 //add the item to the bill items list
                 billTableItems.add(newItem);
+
+                //openTables.put(tableNumberLabel.getText(), billTableItems);
 
                 //update Grand Total
                 updateTotals(billTableItems);
@@ -1449,8 +1447,6 @@ public class TableBillingController implements Initializable {
                 };
                 return cell;
             });
-            quantColB.setCellValueFactory(new PropertyValueFactory<>("foodItemQuantity"));
-
 
 
             //----------------------------------------------------------------------------------------------------------
