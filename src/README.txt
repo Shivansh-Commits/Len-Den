@@ -178,7 +178,7 @@ TABLES -
 
         [---NOTE---] : Mention GST Values and default Discount
 
-    9)takeawayorderdetails
+    9)takeawayordersdetails
         ordernumber [integer]---|
                                 |--> (Composite Primary Key)
         fooditemname [text] ----|
