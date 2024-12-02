@@ -118,7 +118,6 @@ TABLES -
         grandtotal [numeric]
         pax [integer]
         nextbillnumber [integer] (is incremented from code)
-        tablenumber [text]
         modeofpayment [text]
         status [text]
 
@@ -144,12 +143,14 @@ TABLES -
     4)menu
         id [Bigint] (Primary Key)
         fooditemname [text]
-        fooditemcateogry [text]
+        fooditemcategory [text]
         fooditemprice [integer]
-        fooditemavaiability [boolean]
+        fooditemavaialbility [boolean]
         stockquantity [integer]
         variants [text]
         istracked[text]
+        isVariantExists[text]
+        isInventoryTracked
 
     5)outletdetails
         outletname [text] (Primary Key)
