@@ -208,6 +208,18 @@ TABLES -
         variantname [text]
         variantprice [double precision]
 
+    13)recipe
+        menuitemid [bigint] (Primary key)
+        variant [text]
+        rawmaterials [text]
+
+    14)inventorypurchases
+        inventoryitemid [bigint] (Primary key)
+        inventoryitemname [text]
+        inventoryitemcost [numeric]
+        inventoryitemunit [text]
+        inventoryitemquantity [numeric]
+        purchasedate [text]
 
 
 
